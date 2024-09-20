@@ -1,0 +1,17 @@
+{
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-idiomatic-order",
+      "stylelint-config-recommended-vue"
+    ],
+    "rules": {
+      "no-descending-specificity": null,
+      "selector-class-pattern": [
+        "(^([_a-z][a-z0-9]*)(-[a-z0-9]+)*$|v-popper)",
+        {
+          "message": "Expected class selector to be kebab-case",
+          "resolveNestedSelectors": true
+        }
+      ]
+    }
+}
