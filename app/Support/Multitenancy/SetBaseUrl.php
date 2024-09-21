@@ -15,7 +15,7 @@ class SetBaseUrl implements SwitchTenantTask
     {
         /** @var Tenant $tenant */
         URL::formatHostUsing(function () use ($tenant) {
-            return URL::formatScheme().$tenant->getHost();
+            return URL::formatScheme() . $tenant->getHost();
         });
     }
 

@@ -88,7 +88,7 @@ trait EnumHelpers
             $value = $value->value;
         }
 
-        $values = array_map(fn ($v) => $v->value, self::cases());
+        $values = array_map(fn($v) => $v->value, self::cases());
 
         return in_array($value, $values);
     }

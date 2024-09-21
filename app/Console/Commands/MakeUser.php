@@ -39,7 +39,7 @@ class MakeUser extends Command
         $tenant->makeCurrent();
         $creator->create($data);
 
-        $this->info('Created user "'.$data['email'].'" with password "'.$data['password'].'".');
+        $this->info('Created user "' . $data['email'] . '" with password "' . $data['password'] . '".');
 
         return Command::SUCCESS;
     }
@@ -48,8 +48,8 @@ class MakeUser extends Command
     {
         $tenantID = search(
             label: 'For which tenant?',
-            options: fn (string $value) => strlen($value) > 0
-                ? Tenant::where('name', 'LIKE', $value.'%')->limit(10)->pluck('name', 'id')->all()
+            options: fn(string $value) => strlen($value) > 0
+                ? Tenant::where('name', 'LIKE', $value . '%')->limit(10)->pluck('name', 'id')->all()
                 : [],
         );
 
@@ -66,12 +66,12 @@ class MakeUser extends Command
         $email = text(
             label: 'Email',
             required: true,
-            validate: fn (string $v) => filter_var($v, FILTER_VALIDATE_EMAIL)
+            validate: fn(string $v) => filter_var($v, FILTER_VALIDATE_EMAIL)
                     ? null
                     : 'Please fill out a valid email address',
         );
 
-        $password = collect([1, 2, 3, 4])->map(fn () => Str::random(4))->join('-');
+        $password = collect([1, 2, 3, 4])->map(fn() => Str::random(4))->join('-');
 
         return [
             'name' => $name,

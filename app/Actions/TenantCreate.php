@@ -18,7 +18,7 @@ class TenantCreate
 
     public static function run(...$arguments)
     {
-        return (new self)->handle(...$arguments);
+        return (new self())->handle(...$arguments);
     }
 
     public function handle($name, $slug = null)

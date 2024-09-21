@@ -15,6 +15,6 @@ class TusUpload extends Upload
     {
         $tenantID = Tenant::current()?->id ?? 0;
 
-        return storage_path('uploads/'.$tenantID.'/'.$this->getBasenameAttribute());
+        return storage_path('uploads/' . $tenantID . '/' . $this->getBasenameAttribute());
     }
 }

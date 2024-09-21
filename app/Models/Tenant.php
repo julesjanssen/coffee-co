@@ -42,7 +42,7 @@ class Tenant extends Base
 
         $base = new Uri(config('app.url'));
 
-        return $this->slug.'.'.$base->getHost();
+        return $this->slug . '.' . $base->getHost();
     }
 
     public function getDatabaseName(): string
