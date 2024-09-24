@@ -24,3 +24,4 @@ yarn-error.log
 .DS_Store
 /public/vendor
 /storage/debugbar
+/public/hot-*
