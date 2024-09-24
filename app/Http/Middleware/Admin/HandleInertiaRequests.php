@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Admin;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -16,7 +16,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @var string
      */
-    protected $rootView = 'front';
+    protected $rootView = 'admin';
 
     /**
      * Determines the current asset version.
