@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Tenant;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Date;
 use Spatie\Backup\Config\Config;
 
 class AppBackup extends Command
@@ -66,6 +66,6 @@ class AppBackup extends Command
 
     private function getFilenameTimestamp(): string
     {
-        return Carbon::now()->format('Ymdhi');
+        return Date::now()->format('Ymdhi');
     }
 }
