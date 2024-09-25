@@ -9,9 +9,11 @@ $config = new Configuration();
 
 return $config
     ->ignoreErrorsOnPath(__DIR__ . '/app/Providers/TelescopeServiceProvider.php', [ErrorType::DEV_DEPENDENCY_IN_PROD])
-    ->ignoreErrorsOnPackage('league/flysystem-aws-s3-v3', [ErrorType::UNUSED_DEPENDENCY])
-    ->ignoreErrorsOnPackage('league/flysystem-path-prefixing', [ErrorType::UNUSED_DEPENDENCY])
-    ->ignoreErrorsOnPackage('symfony/postmark-mailer', [ErrorType::UNUSED_DEPENDENCY])
-    ->ignoreErrorsOnPackage('vagebond/aannemer', [ErrorType::UNUSED_DEPENDENCY])
-    ->ignoreErrorsOnPackage('vagebond/beeld', [ErrorType::UNUSED_DEPENDENCY])
+    ->ignoreErrorsOnPackages([
+        'league/flysystem-aws-s3-v3',
+        'league/flysystem-path-prefixing',
+        'symfony/postmark-mailer',
+        'vagebond/aannemer',
+        'vagebond/beeld',
+    ], [ErrorType::UNUSED_DEPENDENCY])
 ;
