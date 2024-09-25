@@ -14,12 +14,13 @@ const buildPrettierCommand = (filenames) =>
 const buildPhpLintCommand = () => `./vendor/bin/phplint ./app --no-interaction --no-cache`
 const buildPintCommand = () => `./vendor/bin/pint`
 const buildPhpStanCommand = () => `./vendor/bin/phpstan analyse --memory-limit=2G`
+const buildComposerDepAnalyserCommand = () => `./vendor/bin/composer-dependency-analyser`
 const buildComposerCommand = () => `composer validate --no-check-publish --strict`
 
 export default {
   '*.{js,ts,vue}': [buildTscCommand, buildEslintCommand],
   '*.{css,vue}': [buildStylelintCommand],
   '*.{css,yaml}': [buildPrettierCommand],
-  '*.php': [buildPhpLintCommand, buildPintCommand, buildPhpStanCommand],
+  '*.php': [buildPhpLintCommand, buildPintCommand, buildPhpStanCommand, buildComposerDepAnalyserCommand],
   'composer.json': [buildComposerCommand],
 }
