@@ -6,6 +6,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application title
+    |--------------------------------------------------------------------------
+    |
+    | This value is the title of your application, which will be used when the
+    | framework needs to place the application's title in a notification or
+    | other UI elements where an application title needs to be displayed.
+    |
+    */
+
+    'title' => env('APP_TITLE', 'Laravel'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
     |
