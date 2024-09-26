@@ -52,4 +52,13 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPassword($token));
     }
+
+    public function getAvatarAttribute()
+    {
+        $gravatarHash = hash('sha256', mb_strtolower($this->email));
+
+        return [
+            'url' => "https://gravatar.com/avatar/{$gravatarHash}?s=64&d=mp",
+        ];
+    }
 }
