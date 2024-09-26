@@ -27,6 +27,7 @@
     "spatie/laravel-notification-log": "^1.3",
     "spatie/laravel-permission": "^6.9",
     "symfony/postmark-mailer": "^7.1",
+    "symfony/yaml": "^7.1",
     "vagebond/aannemer": "^1.2",
     "vagebond/beeld": "^2.6",
     "vagebond/bijlagen": "^4.3",
