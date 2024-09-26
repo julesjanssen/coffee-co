@@ -1,0 +1,56 @@
+- name: zeus
+  title: 'Zeus'
+  level: 999
+  permissions:
+    - admin.tenants.view
+    - admin.tenants.create
+    - admin.tenants.update
+    - admin.tenants.delete
+    - admin.tenants.impersonate
+
+- name: tech-admin
+  title: 'Tech admin'
+  level: 250
+  permissions:
+    - admin.system.database.view
+    - admin.system.database.download
+    - admin.system.logs.view
+    - admin.system.code.view
+    - admin.system.server.view
+    - admin.accounts.logins
+    - admin.system.styleguide.view
+    - admin.system.jobs.view
+
+- name: admin
+  title: 'Administrator'
+  description: |
+    Can manage accounts.
+  level: 200
+  permissions:
+    - admin.accounts.view
+    - admin.accounts.create
+    - admin.accounts.update
+    - admin.accounts.delete
+    - admin.accounts.invite
+    - admin.system.changelog.view
+    - admin.send-feedback
+    - admin.tenants.switch
+
+- name: moderator
+  title: 'Moderator'
+  description: |
+    Can manage posts.
+  permissions:
+    - admin.posts.create
+    - admin.posts.view
+    - admin.posts.update
+    - admin.posts.delete
+
+- name: editor
+  title: 'Executive editor'
+  description: |
+    Can view & update existing posts.
+    Can not create or delete posts.
+  permissions:
+    - admin.posts.view
+    - admin.posts.update
