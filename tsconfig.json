@@ -14,10 +14,13 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "/@front/*": ["resources/front/*"],
-      "/@front:css/*": ["resources/assets/front/css/*"],
-      "/@front:shared/*": ["resources/front/ts/shared/*"],
-      "/@front:types/*": ["resources/front/ts/types/*"]
+      "/@admin/*": ["resources/admin/*"],
+      "/@admin:css/*": ["resources/admin/css/*"],
+      "/@admin:icons/*": ["resources/admin/icons/*"],
+      "/@admin:components/*": ["resources/admin/ts/components/*"],
+      "/@admin:layouts/*": ["resources/admin/ts/layouts/*"],
+      "/@admin:shared/*": ["resources/admin/ts/shared/*"],
+      "/@admin:types/*": ["resources/admin/ts/types/*"]
     }
   },
   "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.tsx", "resources/**/*.vue"]
