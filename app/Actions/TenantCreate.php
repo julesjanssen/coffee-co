@@ -21,7 +21,14 @@ class TenantCreate
         return (new self())->handle(...$arguments);
     }
 
-    public function handle($name, $slug = null)
+    public static function forceRun(string $name)
+    {
+        $slug = Str::slug($name);
+
+        return (new self())->createAndPrepare($name, $slug);
+    }
+
+    public function handle(string $name, ?string $slug = null)
     {
         if (Str::length($name) > 100) {
             throw new InvalidArgumentException('Tenant name should be shorter than 100 chars.');
@@ -45,6 +52,11 @@ class TenantCreate
             throw new InvalidArgumentException("The name '${name}' is not allowed ('{$slug}' appears on blocklist).");
         }
 
+        $this->createAndPrepare($name, $slug);
+    }
+
+    private function createAndPrepare(string $name, string $slug)
+    {
         $tenant = Tenant::create([
             'name' => $name,
             'slug' => $slug,
@@ -57,6 +69,8 @@ class TenantCreate
 
         $this->createDatabase($tenant);
         $this->migrateDatabase($tenant);
+
+        return $tenant;
     }
 
     private function createStoragePrefix()
