@@ -45,10 +45,10 @@ class AppPermissionSync extends Command
         collect($this->getRolesConfig())
             ->each(function ($item) {
                 $role = Role::updateOrCreate([
-                    'name' => $item['name'],
+                    'name' => trim($item['name']),
                 ], [
-                    'title' => $item['title'],
-                    'description' => $item['description'] ?? '',
+                    'title' => trim($item['title']),
+                    'description' => trim($item['description'] ?? ''),
                 ]);
 
                 $permissions = collect($item['permissions'])
