@@ -1,0 +1,104 @@
+.main-content {
+  padding: var(--viewport-padding-top, 4rem) var(--viewport-padding-inline) var(--viewport-padding-bottom, 1rem);
+  background: var(--white);
+
+  & > main {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  & a {
+    color: var(--accent-color);
+  }
+
+  & section {
+    & h2 {
+      margin: 1.5em 0 0.5em;
+      font-size: 1.1em;
+      font-weight: 700;
+    }
+
+    & > header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 0 1rem;
+      border-bottom: 1px solid var(--gray-200);
+      margin: 0 0 2rem;
+      gap: 1.5rem;
+
+      & > div {
+        flex: 1;
+      }
+
+      & a.back {
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        padding: 0 1em 0 0;
+        margin: 0 0 2em;
+        color: var(--gray-400);
+        gap: 0.5em;
+
+        &:hover {
+          color: var(--gray-700);
+        }
+
+        &::before {
+          display: block;
+          height: 1em;
+          flex: 0 0 1em;
+          background: currentcolor;
+          content: '';
+          mask: url('/@admin:icons/chevron-left.svg') center / contain no-repeat;
+        }
+      }
+
+      & h1,
+      & h2 {
+        line-height: 1.45;
+      }
+
+      & h1 {
+        font-size: 1.5em;
+        font-weight: 600;
+      }
+
+      & h2 {
+        margin: 0;
+        color: var(--gray-500);
+        font-size: 1.2em;
+        font-weight: 400;
+      }
+
+      & .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5em;
+      }
+    }
+  }
+}
+
+@media (width >= 1000px) {
+  .app > main {
+    & .wrapper {
+      position: relative;
+      padding: 0.5rem 0.5rem 0.5rem 0;
+      background: var(--sidebar-background);
+
+      & .main-content {
+        min-height: calc(100dvh - 1rem);
+        border-radius: 8px;
+
+        & > main {
+          max-width: 72rem;
+          margin: 0 auto;
+          gap: 4rem;
+        }
+      }
+    }
+  }
+}

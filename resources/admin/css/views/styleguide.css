@@ -1,0 +1,43 @@
+main.styleguide {
+  /* & .buttons,
+  & .badges {
+    display: flex;
+    gap: 0.75rem;
+  } */
+
+  & ul.badges {
+    display: flex;
+    gap: 0.5em;
+  }
+
+  & ul.buttons {
+    display: flex;
+    gap: 0.5em;
+  }
+
+  & .icons-list {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+
+    & > div {
+      padding: 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    & span {
+      display: block;
+
+      &.icon {
+        padding-bottom: 0.5rem;
+        font-size: 2rem;
+      }
+
+      &.name {
+        color: var(--gray-600);
+      }
+    }
+  }
+}

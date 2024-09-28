@@ -1,0 +1,56 @@
+:root {
+  /* stylelint-disable-next-line property-no-unknown */
+  interpolate-size: allow-keywords;
+
+  --viewport-padding-top: 6rem;
+  --viewport-padding-bottom: 1rem;
+  --viewport-padding-inline: 1rem;
+}
+
+@media (width >= 480px) {
+  :root {
+    --viewport-padding-inline: 2rem;
+  }
+}
+
+@media (width >= 1000px) {
+  :root {
+    --viewport-padding-top: 2.5rem;
+    --viewport-padding-bottom: 2.5rem;
+    --viewport-padding-inline: 2.5rem;
+  }
+}
+
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+}
+
+/* Baseline for default links */
+a:not([class]) {
+  /* Relatively sized thickness and offset */
+  text-decoration-thickness: max(0.08em, 1px);
+  text-underline-offset: 0.15em;
+}
+
+/* Scroll margin allowance above anchor links */
+:target {
+  scroll-margin-block-start: 2rem;
+}
+
+/* Scroll margin allowance below focused elements
+  to ensure they are clearly in view */
+:focus {
+  scroll-margin-block-end: 8vh;
+}
+
+html {
+  font-size: clamp(12px, 6.667px + 0.667vw, 16px);
+
+  /* font-size: clamp(12px, 0.43vw + 10px, 16px); */
+}
+
+body {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}

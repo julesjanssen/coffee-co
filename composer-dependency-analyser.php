@@ -15,5 +15,4 @@ return $config
         'symfony/postmark-mailer',
         'vagebond/aannemer',
         'vagebond/beeld',
-    ], [ErrorType::UNUSED_DEPENDENCY])
-;
+    ], [ErrorType::UNUSED_DEPENDENCY]);

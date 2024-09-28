@@ -1,0 +1,46 @@
+.badge {
+  box-sizing: border-box;
+  padding: 0.2em 0.5em;
+  border: 1px solid var(--gray-100);
+  border-radius: 0.25em;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  font-size: 0.9em;
+  transition:
+    color 0.3s,
+    background 0.3s;
+  vertical-align: baseline;
+
+  &.icon-only {
+    display: inline-flex;
+    padding: 0.4em;
+    border-radius: 50%;
+    line-height: 1em;
+
+    & .v-icon {
+      display: block;
+      flex: 1em;
+    }
+  }
+
+  &.warning {
+    background: var(--yellow-100);
+    color: var(--yellow-800);
+  }
+
+  &.success {
+    background: var(--green-100);
+    color: var(--green-800);
+  }
+
+  &.danger,
+  &.error {
+    background: var(--red-100);
+    color: var(--red-800);
+  }
+
+  &.primary {
+    background: var(--blue-100);
+    color: var(--blue-800);
+  }
+}

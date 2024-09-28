@@ -1,0 +1,13 @@
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabular-nums {
+  font-variant: tabular-nums;
+}
+
+.align-right {
+  text-align: right;
+}

@@ -1,0 +1,27 @@
+@import url('./layout/aside.css');
+@import url('./layout/main.css');
+
+html {
+  --background: var(--sidebar-background, oklch(25% 0.01 286deg));
+  --background-darker: oklch(from var(--background) calc(0.75 * l) calc(0.667 * c) h);
+  --background-lighter: oklch(from var(--background) calc(1.1 * l) calc(1.22 * c) h);
+
+  background-color: var(--background);
+  color: var(--gray-800);
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background-color: var(--white);
+  color: var(--gray-800);
+}
+
+.app {
+  min-height: 100dvh;
+  padding-left: 0;
+
+  @media (width > 1000px) {
+    padding-left: var(--sidebar-width);
+  }
+}
