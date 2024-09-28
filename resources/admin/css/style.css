@@ -5,6 +5,7 @@
 @import url('global.css') layer(global);
 @import url('layout.css') layer(layout);
 @import url('utilities.css') layer(utilities);
+@import url('prose.css') layer(components);
 @import url('components/dl.css') layer(components);
 @import url('components/badge.css') layer(components);
 @import url('components/env-badge.css') layer(components);

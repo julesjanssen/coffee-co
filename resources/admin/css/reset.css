@@ -8,19 +8,18 @@
 
 html,
 :host {
-  font-feature-settings:
-    'liga' 1,
-    'calt' 1,
-    'ss04' 1,
-    'dlig' 1;
+  font-kerning: normal;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-synthesis: none;
+  font-variant-ligatures: common-ligatures no-discretionary-ligatures no-historical-ligatures contextual;
   font-variation-settings: normal; /* 4 */
   font-weight: 400;
   line-height: 1.5; /* 1 */
   tab-size: 4; /* 3 */
   -webkit-tap-highlight-color: transparent; /* 5 */
+  text-decoration-skip-ink: auto;
   text-rendering: optimizelegibility;
   text-size-adjust: 100%; /* 2 */
 }

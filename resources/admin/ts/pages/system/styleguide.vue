@@ -467,6 +467,75 @@
         </div>
       </div>
     </section>
+
+    <section>
+      <header>
+        <div>
+          <h1>Prose</h1>
+        </div>
+      </header>
+
+      <article class="prose">
+        <h1>h1 title</h1>
+        <p>
+          Lorem ipsum dolor sit amet, <strong>consectetur</strong> adipisicing elit, sed do eiusmod tempor 1 2 3 4 5 6 7
+          8 9 0 incididunt ut labore et <a href="#">dolore magna aliqua</a>.
+        </p>
+
+        <h2>h2 title</h2>
+        <p>
+          Lorem ipsum dolor sit amet, <strong>consectetur</strong> adipisicing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua. Curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel
+          scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Etiam porta sem
+          malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas sed diam
+          eget risus varius blandit sit amet non magna.
+        </p>
+
+        <ul>
+          <li>Unordered list.</li>
+          <li>Malesuada Sit Parturient Pellentesque Sollicitudin.</li>
+          <li>
+            Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.<br /><strong
+              >Nullam id dolor id nibh ultricies</strong
+            >
+            vehicula ut id elit.
+          </li>
+          <li>Donec sed odio dui. Curabitur blandit tempus porttitor.</li>
+        </ul>
+
+        <h3>h3 title</h3>
+        <p>
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          <q>Duis aute irure dolor in reprehenderit</q> in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+
+        <blockquote>
+          <p>
+            Curabitur blandit tempus porttitor. Donec sed odio dui. Aenean eu leo quam. Pellentesque ornare sem lacinia
+            quam venenatis vestibulum.
+          </p>
+          <cite>Someone somewhere</cite>
+        </blockquote>
+
+        <ol>
+          <li>Ordered list.</li>
+          <li>Malesuada Sit Parturient Pellentesque Sollicitudin.</li>
+          <li>
+            Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+            <strong>Nullam id dolor id nibh ultricies</strong> vehicula ut id elit.
+          </li>
+          <li>Donec sed odio dui. Curabitur blandit tempus porttitor.</li>
+        </ol>
+
+        <h4>h4 title</h4>
+        <p>
+          Praesent commodo cursus magna, <span class="tabular-nums">1 2 3 4 5 6 7 8 9 0</span> vel scelerisque nisl
+          consectetur et. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut
+          id elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+        </p>
+      </article>
+    </section>
   </main>
 </template>
 

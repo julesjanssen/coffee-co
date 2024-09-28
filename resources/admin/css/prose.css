@@ -1,0 +1,129 @@
+/*
+Typographic adjustments taken from [TODS](https://clagnut.com/blog/2433/) / https://github.com/clagnut/TODS
+*/
+
+:lang(en) > * {
+  quotes: '“' '”' '‘' '’';
+} /* “Generic English ‘style’” */
+:lang(fr) > * {
+  quotes: '«\00202F' '\00202F»' '“' '”';
+} /* « French “style” » */
+:lang(en-GB) > * {
+  quotes: '‘' '’' '“' '”';
+} /* ‘British “style”’ */
+
+.prose {
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  -webkit-hyphenate-limit-after: 3;
+  -webkit-hyphenate-limit-before: 4;
+  hyphenate-limit-chars: 7 4 3;
+  hyphenate-limit-last: always;
+  -webkit-hyphenate-limit-lines: 2;
+  hyphenate-limit-lines: 2;
+  hyphenate-limit-zone: 8%;
+  hyphens: auto;
+  line-height: 1.5;
+  text-wrap: pretty;
+
+  & :is(strong, b, th) {
+    font-weight: bold;
+  }
+
+  & :is(h1, h2, h3, h4) {
+    margin: 2em 0 0.5em;
+    font-variant-ligatures: discretionary-ligatures;
+    font-variant-numeric: lining-nums;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  & h1 {
+    font-size: 1.2rem;
+
+    &:first-child {
+      margin-inline-start: 0;
+    }
+  }
+
+  & h2 {
+    margin: 2em 0 0.5em;
+    font-size: 1.1em;
+  }
+
+  & :is(ul, ol) {
+    margin-block: 1lh;
+    margin-inline-start: 2.5em;
+
+    & li + li {
+      margin-top: 0.45em;
+    }
+  }
+
+  & ul {
+    & li {
+      position: relative;
+
+      &::before {
+        position: absolute;
+        top: calc(0.5lh - 0.15em);
+        left: -1.2em;
+        display: block;
+        width: 0.4em;
+        height: 0.4em;
+        border-radius: 50%;
+        background: var(--accent-color);
+        content: '';
+      }
+    }
+  }
+
+  & ol {
+    & li {
+      list-style: numeral;
+
+      &::marker {
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  & a {
+    text-decoration: underline;
+  }
+
+  & blockquote {
+    margin-block-start: 1.5em;
+    margin-inline-start: 1lh;
+  }
+
+  & q::before {
+    content: open-quote;
+  }
+
+  & q::after {
+    content: close-quote;
+  }
+
+  & blockquote p:first-of-type::before {
+    content: '“';
+    margin-inline-start: -0.87ch;
+  }
+
+  & blockquote p:last-of-type::after {
+    content: '”';
+  }
+
+  & blockquote p {
+    hanging-punctuation: first last;
+  }
+
+  @supports (hanging-punctuation: first last) {
+    blockquote p:first-of-type::before {
+      margin-inline-start: 0;
+    }
+  }
+
+  & :is(pre, code, var, samp, kbd, h1, h2, h3, h4, h5, h6) {
+    hyphens: manual;
+  }
+}
