@@ -454,7 +454,6 @@
       <header>
         <div>
           <h1>A curated list of all our icons</h1>
-          <h2>Step 4</h2>
         </div>
       </header>
 
@@ -505,8 +504,9 @@
 
         <h3>h3 title</h3>
         <p>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          <q>Duis aute irure dolor in reprehenderit</q> in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.<br />
+          Nisi ut aliquip ex ea commodo consequat. <q>Duis aute irure dolor in reprehenderit</q> in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur.<br />
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
 
@@ -530,9 +530,9 @@
 
         <h4>h4 title</h4>
         <p>
-          Praesent commodo cursus magna, <span class="tabular-nums">1 2 3 4 5 6 7 8 9 0</span> vel scelerisque nisl
-          consectetur et. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut
-          id elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+          Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia
+          <strong>bibendum</strong> nulla sed consectetur. <em>Nullam id dolor</em> id nibh ultricies vehicula ut id
+          elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
         </p>
       </article>
     </section>

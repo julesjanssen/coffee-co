@@ -94,6 +94,15 @@ Typographic adjustments taken from [TODS](https://clagnut.com/blog/2433/) / http
   & blockquote {
     margin-block-start: 1.5em;
     margin-inline-start: 1lh;
+
+    & cite {
+      color: var(--gray-500);
+      padding-block-start: 0.25em;
+
+      &::before {
+        content: '– ';
+      }
+    }
   }
 
   & q::before {
