@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Auth\Role;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
+use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\search;
 use function Laravel\Prompts\text;
 
@@ -71,6 +73,21 @@ class MakeUser extends Command
                     : 'Please fill out a valid email address',
         );
 
+        Tenant::find(1)->makeCurrent();
+
+        $roleOptions = Role::query()
+            ->where('guard_name', '=', 'web')
+            ->orderBy('name')
+            ->pluck('name', 'id');
+
+        $roles = multiselect(
+            label: 'What roles should be assigned?',
+            options: $roleOptions,
+            required: true
+        );
+
+        $roles = $roleOptions->only($roles)->all();
+
         $password = collect([1, 2, 3, 4])->map(fn() => Str::random(4))->join('-');
 
         return [
@@ -78,6 +95,7 @@ class MakeUser extends Command
             'email' => Str::lower($email),
             'password' => $password,
             'password_confirmation' => $password,
+            'roles' => $roles,
         ];
     }
 }

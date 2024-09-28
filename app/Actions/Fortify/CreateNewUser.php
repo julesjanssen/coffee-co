@@ -26,12 +26,18 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'roles' => ['required', 'array', 'min:1'],
+            'roles.*' => ['string'],
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $user->syncRoles($input['roles']);
+
+        return $user;
     }
 }
