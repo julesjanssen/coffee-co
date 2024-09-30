@@ -55,9 +55,9 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
     Route::get('server/load', 'ServerController@load')->name('server.load');
     Route::get('server', 'ServerController@index')->name('server');
     Route::get('db', 'DatabaseController@index')->name('database');
-    Route::get('styleguide', 'StyleguideController@index')->name('styleguide');
     Route::get('db/download/{name}', 'DatabaseController@download')->name('database.download');
     Route::get('open-source', 'OpenSourceController@index')->name('open-source');
+    Route::get('styleguide', 'StyleguideController@index')->name('styleguide');
 
     Route::namespace('Logs')->prefix('logs/')->as('logs.')->group(function () {
         Route::get('/', 'IndexController@index')->name('index');

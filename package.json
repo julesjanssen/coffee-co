@@ -16,6 +16,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-vue": "^9.28.0",
+    "filesize.js": "^2.0.0",
     "floating-vue": "^5.2.2",
     "husky": "^9.1.6",
     "laravel-vite-plugin": "^1.0",
