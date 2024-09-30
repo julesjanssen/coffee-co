@@ -7,6 +7,7 @@
 @import url('utilities.css') layer(utilities);
 @import url('components/badge.css') layer(components);
 @import url('components/button.css') layer(components);
+@import url('components/details.css') layer(components);
 @import url('components/dl.css') layer(components);
 @import url('components/env-badge.css') layer(components);
 @import url('components/form.css') layer(components);

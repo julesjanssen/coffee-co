@@ -1,0 +1,42 @@
+details {
+  height: 1lh;
+  transition: all 0.4s ease;
+
+  & summary {
+    cursor: pointer;
+
+    &::marker {
+      content: '';
+    }
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      display: inline-block;
+      width: 1em;
+      height: 1.1ch;
+      margin-right: 0.1em;
+      background: var(--accent-color);
+      content: '';
+      mask: url("/@admin:icons/chevron-right.svg") center / contain no-repeat;
+      transition: all 0.25s ease;
+    }
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+
+  &[open] {
+    overflow: clip;
+    height: auto;
+
+    & summary {
+      &::before {
+        rotate: 90deg;
+      }
+    }
+  }
+}
