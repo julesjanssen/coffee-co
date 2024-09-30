@@ -224,7 +224,7 @@
               </div>
             </div>
             <div class="field">
-              <label>radonly email:</label>
+              <label>readonly email:</label>
               <div>
                 <input type="email" name="email[]" readonly value="test@example.net" />
                 <p class="help">
@@ -315,6 +315,14 @@
           </li>
           <li>
             <span class="badge primary">Primary</span>
+          </li>
+          <li>
+            <span class="badge primary"> <Icon name="nav-database" /> database </span>
+          </li>
+          <li>
+            <span class="badge primary icon-only">
+              <Icon name="nav-database" />
+            </span>
           </li>
         </ul>
 
