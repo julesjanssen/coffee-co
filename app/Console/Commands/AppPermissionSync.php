@@ -49,6 +49,7 @@ class AppPermissionSync extends Command
                 ], [
                     'title' => trim($item['title']),
                     'description' => trim($item['description'] ?? ''),
+                    'level' => (int) ($item['level'] ?? 0),
                 ]);
 
                 $permissions = collect($item['permissions'])
