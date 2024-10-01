@@ -35,10 +35,11 @@ class MakeUser extends Command
      */
     public function handle(CreatesNewUsers $creator)
     {
-        $data = $this->data();
         $tenant = $this->getTenant();
-
         $tenant->makeCurrent();
+
+        $data = $this->data();
+
         $creator->create($data);
 
         $this->info('Created user "' . $data['email'] . '" with password "' . $data['password'] . '".');
@@ -72,8 +73,6 @@ class MakeUser extends Command
                     ? null
                     : 'Please fill out a valid email address',
         );
-
-        Tenant::find(1)->makeCurrent();
 
         $roleOptions = Role::query()
             ->where('guard_name', '=', 'web')
