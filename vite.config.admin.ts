@@ -6,7 +6,7 @@ import laravel from 'laravel-vite-plugin'
 import { browserslistToTargets } from 'lightningcss'
 import { defineConfig } from 'vite'
 
-const customElementTags = []
+const customElementTags = ['relative-time']
 
 export default defineConfig(({ command }) => {
   const base = command === 'serve' ? undefined : '/assets/admin/'

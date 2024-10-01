@@ -1,5 +1,6 @@
 import '/@admin:css/style.css'
 import 'floating-vue/dist/style.css'
+import '@github/relative-time-element'
 
 import { createInertiaApp } from '@inertiajs/vue3'
 import type { DefineComponent } from 'vue'
