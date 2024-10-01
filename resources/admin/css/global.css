@@ -3,7 +3,7 @@
   interpolate-size: allow-keywords;
 
   --viewport-padding-top: 6rem;
-  --viewport-padding-bottom: 1rem;
+  --viewport-padding-bottom: 4rem;
   --viewport-padding-inline: 1rem;
 }
 
@@ -16,7 +16,7 @@
 @media (width >= 1000px) {
   :root {
     --viewport-padding-top: 4rem;
-    --viewport-padding-bottom: 2.5rem;
+    --viewport-padding-bottom: 4rem;
     --viewport-padding-inline: 2.5rem;
   }
 }

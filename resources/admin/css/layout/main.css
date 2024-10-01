@@ -1,5 +1,5 @@
 .main-content {
-  padding: var(--viewport-padding-top, 4rem) var(--viewport-padding-inline) var(--viewport-padding-bottom, 1rem);
+  padding: var(--viewport-padding-top, 4rem) var(--viewport-padding-inline) var(--viewport-padding-bottom, 4rem);
   background: var(--white);
 
   & > main {
