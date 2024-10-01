@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventAccessingMissingAttributes();
 
         $this->setHttpClientUserAgent();
+        JsonResource::withoutWrapping();
     }
 
     private function setHttpClientUserAgent()
