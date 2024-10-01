@@ -15,7 +15,7 @@
 
 @media (width >= 1000px) {
   :root {
-    --viewport-padding-top: 2.5rem;
+    --viewport-padding-top: 4rem;
     --viewport-padding-bottom: 2.5rem;
     --viewport-padding-inline: 2.5rem;
   }
