@@ -31,10 +31,6 @@ class AppPermissionSync extends Command
      */
     public function handle()
     {
-        if (Tenant::count() === 0) {
-            return;
-        }
-
         Tenant::all()->eachCurrent(function (Tenant $tenant) {
             $this->syncPermissionsForTenant($tenant);
         });
@@ -43,7 +39,7 @@ class AppPermissionSync extends Command
     private function syncPermissionsForTenant(Tenant $tenant)
     {
         collect($this->getRolesConfig())
-            ->each(function ($item) {
+            ->each(function ($item) use ($tenant) {
                 $role = Role::updateOrCreate([
                     'name' => trim($item['name']),
                 ], [
@@ -53,15 +49,16 @@ class AppPermissionSync extends Command
                 ]);
 
                 $permissions = collect($item['permissions'])
-                    ->map(fn($v) => $this->getPermission($v));
+                    ->map(fn($v) => $this->getPermission($tenant, $v));
 
                 $role->syncPermissions($permissions);
             });
     }
 
-    private function getPermission(string $name)
+    private function getPermission(Tenant $tenant, string $name)
     {
-        return once(function () use ($name) {
+        /** @phpstan-ignore closure.unusedUse */
+        return once(function () use ($tenant, $name) {
             return Permission::updateOrCreate(['name' => $name]);
         });
     }
