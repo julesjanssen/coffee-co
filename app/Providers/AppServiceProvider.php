@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +31,17 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventAccessingMissingAttributes();
+
+        $this->setHttpClientUserAgent();
+    }
+
+    private function setHttpClientUserAgent()
+    {
+        $userAgent = vsprintf('Mozilla/5.0 (KHTML, like Gecko) (compatible; %s; +%s)', [
+            config('app.title'),
+            config('app.url'),
+        ]);
+
+        Http::globalRequestMiddleware(fn($request) => $request->withHeader('User-Agent', $userAgent));
     }
 }
