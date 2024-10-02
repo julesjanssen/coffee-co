@@ -9,9 +9,9 @@
         </div>
 
         <div class="actions">
-          <Link v-if="accounts.can.logins" class="button" :href="accounts.links.logins">
+          <!-- <Link v-if="accounts.can.logins" class="button" :href="accounts.links.logins">
             {{ $t('Recent logins') }}
-          </Link>
+          </Link> -->
           <Link v-if="accounts.can.create" class="button success" :href="accounts.links.create">
             <Icon name="plus" />
             {{ $t('Add Account') }}
@@ -25,7 +25,7 @@
             <th class="avatar">&nbsp;</th>
             <th>{{ $t('name') }}</th>
             <th>{{ $t('email') }}</th>
-            <th>{{ $t('roles') }}</th>
+            <th style="width: 50%">{{ $t('roles') }}</th>
           </tr>
         </thead>
         <tbody>

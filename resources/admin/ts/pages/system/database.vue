@@ -12,17 +12,17 @@
 
       <dl>
         <div>
-          <dt>Records:</dt>
+          <dt>Records</dt>
           <dd><Number :value="dbRows" /></dd>
         </div>
 
         <div>
-          <dt>Size:</dt>
+          <dt>Size</dt>
           <dd>{{ filesize(dbSize) }}</dd>
         </div>
 
         <div>
-          <dt>Backup encryption</dt>
+          <dt>Encrypted backups</dt>
           <dd>
             <span class="badge" :class="{ danger: !hasEncryption, success: hasEncryption }">
               {{ hasEncryption ? 'yes' : 'no' }}
