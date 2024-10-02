@@ -95,6 +95,10 @@ main {
       color: var(--white);
       text-shadow: 0 1px 1px var(--text-shadow-color);
 
+      & .v-icon {
+        filter: drop-shadow(0 1px 1px var(--text-shadow-color));
+      }
+
       &::before {
         position: absolute;
         border-radius: inherit;
