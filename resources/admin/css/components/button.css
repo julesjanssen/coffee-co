@@ -37,15 +37,9 @@ main {
       line-height: 1.25;
     }
 
-    /* @media (width < 1000px) {
-      padding-top: .5em;
-      padding-bottom: .5em;
-    } */
-
     /* a regular button */
     &:where(:not(.primary, .success, .warning, .danger, .ghost)) {
-      --color: rgb(44 44 44);
-      --drop-shadow-color: oklch(from var(--color) calc(l * 0.64) calc(c * 0.75) h);
+      --color: var(--gray-700);
 
       box-shadow:
         rgb(from var(--color) r g b / 20%) 0 0 0 1px,

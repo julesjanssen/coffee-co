@@ -422,39 +422,34 @@
         </tbody>
       </table>
 
-      <div class="pagination">
-        <ul role="navigation">
-          <li class="page-item">
-            <a href="#" rel="prev" aria-label="vorige">&lsaquo;</a>
-          </li>
-          <li class="page-item">
-            <a href="#">1</a>
-          </li>
-          <li class="page-item">
-            <a href="#">2</a>
-          </li>
-          <li class="page-item active" aria-current="page">
-            <span>3</span>
-          </li>
-          <li class="page-item">
-            <a href="#">4</a>
-          </li>
-          <li class="page-item">
-            <a href="#">5</a>
-          </li>
-          <li class="page-item">
-            <a href="#">6</a>
-          </li>
-          <li class="page-item">
-            <a href="#">7</a>
-          </li>
-          <li class="page-item">
-            <a href="#">8</a>
-          </li>
-          <li class="page-item">
-            <a href="#" rel="next" aria-label="volgende">&rsaquo;</a>
-          </li>
-        </ul>
+      <Pagination :links="{ prev: null, next: '/' }" />
+    </section>
+
+    <section>
+      <header>
+        <div>
+          <h1>Dropdowns</h1>
+        </div>
+      </header>
+
+      <div>
+        <VDropdown>
+          <button type="button">dit gaat goed <Icon name="chevron-down" /></button>
+
+          <template #popper>
+            <ul>
+              <li>
+                <a href="#">Een link</a>
+              </li>
+              <li>
+                <Link href="#">Een InertiaJS link</Link>
+              </li>
+              <li>
+                <button type="button">En een knop</button>
+              </li>
+            </ul>
+          </template>
+        </VDropdown>
       </div>
     </section>
 
@@ -548,10 +543,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 
 import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
+import Pagination from '/@admin:components/Pagination.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 
 defineProps<{

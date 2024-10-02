@@ -24,8 +24,8 @@ import { computed } from 'vue'
 import Icon from '/@admin:components/Icon.vue'
 
 type Links = {
-  first: string | null
-  last: string | null
+  first?: string | null
+  last?: string | null
   prev: string | null
   next: string | null
 }
@@ -35,8 +35,8 @@ const props = defineProps<{
   links: Links
 }>()
 
-const hasPrev = computed(() => props.links.prev !== null)
-const hasNext = computed(() => props.links.next !== null)
+const hasPrev = computed(() => props.links.prev && props.links.prev !== null)
+const hasNext = computed(() => props.links.next && props.links.next !== null)
 const shouldDisplay = computed(() => hasPrev.value || hasNext.value)
 
 const paginate = (href: string) => {

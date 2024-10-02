@@ -9,6 +9,7 @@
 @import url('components/button.css') layer(components);
 @import url('components/details.css') layer(components);
 @import url('components/dl.css') layer(components);
+@import url('components/dropdown.css') layer(components);
 @import url('components/env-badge.css') layer(components);
 @import url('components/form.css') layer(components);
 @import url('components/pagination.css') layer(components);

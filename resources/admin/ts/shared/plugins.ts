@@ -8,8 +8,9 @@ export const registerPlugins = (app: App) => {
 
   app.use(FloatingVue, {
     themes: {
-      account: {
-        $extend: 'dropdown',
+      dropdown: {
+        placement: 'bottom-end',
+        distance: 10,
       },
     },
   })
