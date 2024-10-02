@@ -1,7 +1,7 @@
 <template>
   <div class="aside-nav">
     <nav>
-      <div v-for="(group, index) in navigation" :key="index" class="nav-block">
+      <div v-for="(group, index) in ($page.props as PageProps).app.navigation" :key="index" class="nav-block">
         <h4 v-if="group.title">{{ group.title }}</h4>
 
         <ul>
@@ -18,22 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Link, usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
 import Icon from '/@admin:components/Icon.vue'
-
-type Navigation = {
-  title: string
-  items: {
-    href: string
-    active: boolean
-    title: string
-    icon?: string
-  }[]
-}
-
-const page = usePage()
-
-const navigation = computed(() => page.props.navigation as Navigation[])
+import type { PageProps } from '/@admin:types'
 </script>

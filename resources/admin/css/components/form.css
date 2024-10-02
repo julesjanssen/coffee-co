@@ -140,6 +140,12 @@ label.checkbox {
     margin-top: 0.15lh;
   }
 
+  & .label {
+    & .help {
+      margin: 0 0 0.3875rem;
+    }
+  }
+
   &:has(input[disabled]) {
     & .label {
       color: var(--gray-400);

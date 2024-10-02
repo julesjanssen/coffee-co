@@ -1,3 +1,25 @@
+import type { ErrorBag, Errors } from '@inertiajs/core'
+
+export type PageProps = {
+  app: {
+    env: string
+    title: string
+    navigation: NavigationItem[]
+    tenant: any
+    account: any
+  }
+} & { errors: Errors & ErrorBag }
+
+export type NavigationItem = {
+  title: string
+  items: {
+    href: string
+    active: boolean
+    title: string
+    icon?: string
+  }[]
+}
+
 export type PaginatedData<T> = {
   data: T[]
   links: {
@@ -15,18 +37,45 @@ export type PaginatedData<T> = {
   }
 }
 
-export type Client = {
-  title: string
+export type Wrapped<T> = {
+  data: T
 }
 
-export type Project = {
-  hash: string
+type Authorizable = {
+  can: {
+    [key: string]: boolean
+  }
+}
+
+type SoftDeletable = {
+  trashed: boolean
+}
+
+export type UserRole = {
+  name: string
   title: string
-  client: Client
+  description: string
+}
+
+export type User = {
+  sqid: string
+  name: string
+  email: string
+  avatar: {
+    url: string
+  }
+  roles: UserRole[]
   links: Record<string, string>
 }
 
-export type Issue = {
-  hash: string
-  title: string
+export type Login = {
+  sqid: string
+  authenticatable: {
+    type: string
+    name: string
+  }
+  createdAt: string
+  ip: string
+  userAgent: string
+  links: Record<string, string>
 }

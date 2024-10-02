@@ -70,7 +70,7 @@ export default defineConfig(({ command }) => {
         },
         {
           find: /^\/@admin:types/,
-          replacement: resolve(__dirname, 'resources/admin/ts/types/'),
+          replacement: resolve(__dirname, 'resources/admin/ts/types.d.ts'),
         },
         {
           find: /^\/@admin/,

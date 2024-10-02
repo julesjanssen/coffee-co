@@ -1,3 +1,8 @@
+.badges {
+  display: flex;
+  gap: 0.5em;
+}
+
 .badge {
   display: inline-flex;
   box-sizing: border-box;

@@ -21,6 +21,16 @@
   }
 }
 
+@media (width >= 1700px) {
+  :root {
+    --viewport-padding-top: 6rem;
+
+    /* --viewport-padding-bottom: 4rem; */
+
+    /* --viewport-padding-inline: 2.5rem; */
+  }
+}
+
 :where(*, *::before, *::after) {
   box-sizing: border-box;
   overflow-wrap: break-word;

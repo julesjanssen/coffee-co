@@ -1,0 +1,22 @@
+main.accounts.index {
+  & th.avatar,
+  & td.avatar {
+    --size: 1.4em;
+
+    /* width includes padding */
+    width: calc(var(--size) + 0.75em);
+  }
+
+  & td.avatar {
+    & figure {
+      display: block;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background-color: var(--gray-300);
+      background-position: center;
+      background-size: cover;
+      box-shadow: 0 0 2px inset var(--gray-400);
+    }
+  }
+}

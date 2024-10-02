@@ -60,7 +60,7 @@
               <DateTime :datetime="backup.createdAt" />
             </td>
             <td class="align-right">
-              <span class="badge">
+              <span class="badge tabular-nums">
                 {{ filesize(backup.filesize) }}
               </span>
             </td>

@@ -1,8 +1,16 @@
 .pagination {
   text-align: center;
 
+  table + & {
+    & ul {
+      border-top: 1px solid var(--gray-200);
+      margin-block-start: 0;
+      padding-block-start: 0.5em;
+    }
+  }
+
   & ul {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 1em;
@@ -26,44 +34,13 @@
     }
   }
 
-  & .paxge-item {
-    margin: 0 -1px;
-
-    &:first-child > * {
-      border-radius: 4px 0 0 4px;
+  & .page-item {
+    &.prev {
+      margin-right: auto;
     }
 
-    &:last-child > * {
-      border-radius: 0 4px 4px 0;
-    }
-
-    & .v-icon {
-      margin: 0;
-    }
-
-    & > * {
-      display: block;
-      padding: 1rem 1.8rem;
-      border: 1px solid var(--gray-light);
-      background: var(--white);
-      transition:
-        color 0.3s,
-        background 0.3s;
-
-      &.disabled {
-        background: transparent;
-        color: var(--gray);
-      }
-
-      &.active {
-        position: relative;
-        border-color: var(--blue);
-        background: var(--blue-lightest);
-      }
-
-      &:not(.disabled, .active):hover {
-        background: var(--gray-lightest);
-      }
+    &.next {
+      margin-left: auto;
     }
   }
 }

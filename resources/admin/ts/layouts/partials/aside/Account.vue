@@ -37,20 +37,13 @@ import { router, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 import Icon from '/@admin:components/Icon.vue'
-
-type Account = {
-  name: string
-  email: string
-  avatar: {
-    url: string
-  }
-}
+import type { PageProps } from '/@admin:types'
 
 const isActive = ref(false)
 const toggleActive = () => (isActive.value = !isActive.value)
 
 const page = usePage()
-const account = computed(() => page.props.account as Account)
+const account = computed(() => (page.props as PageProps).app.account)
 
 const logout = () => {
   router.post('/auth/logout')

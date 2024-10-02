@@ -24,19 +24,13 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use UsesTenantConnection;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = ['name', 'email', 'password'];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = ['password', 'remember_token'];
+
+    protected $attributes = [
+        'password' => '',
+    ];
 
     /**
      * @return array{
@@ -52,6 +46,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function getMaxRoleLevelAttribute(): int
+    {
+        return (int) $this->roles()->max('level');
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
@@ -59,10 +58,12 @@ class User extends Authenticatable
 
     public function getAvatarAttribute()
     {
-        $gravatarHash = hash('sha256', mb_strtolower($this->email));
-
         return [
-            'url' => "https://gravatar.com/avatar/{$gravatarHash}?s=64&d=mp",
+            'url' => 'https://gardiaan.jules.nl/avatar?' . http_build_query([
+                'email' => $this->email,
+                'name' => $this->name,
+                'client' => config('app.name'),
+            ]),
         ];
     }
 }

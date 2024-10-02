@@ -51,11 +51,10 @@ class HandleInertiaRequests extends Middleware
                 'env' => config('app.env'),
                 'title' => config('app.title'),
                 'route' => route('admin.dashboard.index'),
+                'navigation' => fn() => $this->navigation($request),
+                'tenant' => fn() => $this->tenant($request),
+                'account' => fn() => $this->account($request),
             ],
-            'navigation' => fn() => $this->navigation($request),
-            'tenant' => fn() => $this->tenant($request),
-            'account' => fn() => $this->account($request),
-
         ]);
     }
 
