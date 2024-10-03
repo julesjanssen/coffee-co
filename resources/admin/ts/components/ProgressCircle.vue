@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -31,9 +31,17 @@ const props = withDefaults(
   },
 )
 
+const radius = ref(18)
 const strokeWidth = computed(() => (props.stroke === undefined ? props.size / 10 : props.stroke))
-const radius = computed(() => `calc(50% - ${strokeWidth.value / 2}px)`)
 const strokeDashoffset = computed(() => 100 - props.percentage)
+
+watch(
+  [() => props.size, () => strokeWidth.value],
+  () => {
+    radius.value = props.size / 2 - strokeWidth.value //`calc(50% - ${strokeWidth.value / 2}px)`
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped>
