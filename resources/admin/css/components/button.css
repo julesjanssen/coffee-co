@@ -37,6 +37,11 @@ main {
       line-height: 1.25;
     }
 
+    &.full,
+    &.full-width {
+      width: 100%;
+    }
+
     /* a regular button */
     &:where(:not(.primary, .success, .warning, .danger, .ghost)) {
       --color: var(--gray-700);
