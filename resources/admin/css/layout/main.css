@@ -10,6 +10,11 @@
 
   & a {
     color: var(--accent-color);
+
+    &:hover,
+    &:focus {
+      color: oklch(from var(--accent-color) calc(l * 0.84) c h);
+    }
   }
 
   & section {
