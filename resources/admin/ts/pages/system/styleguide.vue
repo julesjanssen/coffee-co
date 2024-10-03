@@ -452,8 +452,12 @@
           <ProgressCircle :percentage="45" />
         </span>
 
-        <span style="color: var(--yellow-500)">
-          <ProgressCircle :percentage="71" :strokeWidth="3" style="width: 20px; height: 20px" />
+        <span style="color: var(--gray-700)">
+          <ProgressCircle :percentage="71" :size="20" />
+        </span>
+
+        <span style="color: var(--blue-500)">
+          <ProgressCircle :percentage="37" :stroke="3" :size="20" />
         </span>
       </div>
     </section>

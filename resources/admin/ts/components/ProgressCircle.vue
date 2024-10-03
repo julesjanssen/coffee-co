@@ -1,5 +1,5 @@
 <template>
-  <svg width="40" height="40" fill="none">
+  <svg :width="size" :height="size" fill="none">
     <circle class="track" cx="50%" cy="50%" :r="radius" :stroke-width="strokeWidth" stroke="currentcolor" />
     <circle
       cx="50%"
@@ -23,14 +23,16 @@ import { computed } from 'vue'
 const props = withDefaults(
   defineProps<{
     percentage: number
-    strokeWidth?: number
+    size?: number
+    stroke?: number
   }>(),
   {
-    strokeWidth: 4,
+    size: 40,
   },
 )
 
-const radius = computed(() => `calc(50% - ${props.strokeWidth / 2}px)`)
+const strokeWidth = computed(() => (props.stroke === undefined ? props.size / 10 : props.stroke))
+const radius = computed(() => `calc(50% - ${strokeWidth.value / 2}px)`)
 const strokeDashoffset = computed(() => 100 - props.percentage)
 </script>
 
