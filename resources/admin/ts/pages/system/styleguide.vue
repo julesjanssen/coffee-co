@@ -449,7 +449,7 @@
           <ProgressCircle :percentage="80" />
         </span>
         <span style="color: var(--red-500)">
-          <ProgressCircle :percentage="45" />
+          <ProgressCircle :percentage="45" :stroke="6" />
         </span>
 
         <span style="color: var(--gray-700)">

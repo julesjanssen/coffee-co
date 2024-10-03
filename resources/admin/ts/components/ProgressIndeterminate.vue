@@ -13,12 +13,12 @@ const delta = ref(2)
 onMounted(() => {
   setInterval(() => {
     percentage.value = percentage.value + delta.value
-    if (percentage.value > 100) {
+    if (percentage.value > 90) {
       delta.value = -1
-    } else if (percentage.value < 0) {
+    } else if (percentage.value < 2) {
       delta.value = 2
     }
-  }, 20)
+  }, 25)
 })
 </script>
 
@@ -30,6 +30,6 @@ onMounted(() => {
 }
 
 svg {
-  animation: spin 0.75s linear infinite;
+  animation: spin 1s linear infinite;
 }
 </style>
