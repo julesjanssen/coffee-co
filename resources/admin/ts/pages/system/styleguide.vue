@@ -459,6 +459,13 @@
         <span style="color: var(--blue-500)">
           <ProgressCircle :percentage="37" :stroke="3" :size="20" />
         </span>
+
+        <span style="color: var(--blue-500)">
+          <ProgressIndeterminate />
+        </span>
+        <span style="color: var(--gray-400)">
+          <ProgressIndeterminate :size="18" />
+        </span>
       </div>
     </section>
 
@@ -616,6 +623,7 @@ import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'
 import ProgressCircle from '/@admin:components/ProgressCircle.vue'
+import ProgressIndeterminate from '/@admin:components/ProgressIndeterminate.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 
 defineProps<{
