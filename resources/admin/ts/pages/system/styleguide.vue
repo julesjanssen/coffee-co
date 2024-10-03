@@ -393,7 +393,9 @@
               <a href="#">Bram Jonkers</a>
             </td>
             <td>5 days ago</td>
-            <td class="align-right">yes</td>
+            <td class="align-right">
+              <span class="badge success">yes</span>
+            </td>
           </tr>
 
           <tr>
@@ -401,7 +403,9 @@
               <a href="#">Jules Janssen</a>
             </td>
             <td>3 seconds ago</td>
-            <td class="align-right">no</td>
+            <td class="align-right">
+              <span class="badge error">no</span>
+            </td>
           </tr>
 
           <tr class="trashed">
@@ -409,7 +413,9 @@
               <a href="#">Karin Vrij</a>
             </td>
             <td>5 days ago</td>
-            <td class="align-right">no</td>
+            <td class="align-right">
+              <span class="badge error">no</span>
+            </td>
           </tr>
 
           <tr>
@@ -417,7 +423,9 @@
               <a href="#">Gianluca Riggio</a>
             </td>
             <td>12 years ago</td>
-            <td class="align-right">no</td>
+            <td class="align-right">
+              <span class="badge error">no</span>
+            </td>
           </tr>
         </tbody>
       </table>
