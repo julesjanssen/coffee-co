@@ -1,12 +1,12 @@
 <template>
   <svg width="40" height="40" fill="none">
-    <circle cx="50%" cy="50%" :r="radius" :stroke-width="strokeWidth" stroke="lightgray" />
+    <circle class="track" cx="50%" cy="50%" :r="radius" :stroke-width="strokeWidth" stroke="currentcolor" />
     <circle
       cx="50%"
       cy="50%"
       :r="radius"
       :stroke-width="strokeWidth"
-      stroke="#f09"
+      stroke="currentcolor"
       :pathLength="100"
       stroke-dasharray="100 200"
       :stroke-dashoffset="strokeDashoffset"
@@ -33,3 +33,9 @@ const props = withDefaults(
 const radius = computed(() => `calc(50% - ${props.strokeWidth / 2}px)`)
 const strokeDashoffset = computed(() => 100 - props.percentage)
 </script>
+
+<style scoped>
+.track {
+  opacity: 0.22;
+}
+</style>

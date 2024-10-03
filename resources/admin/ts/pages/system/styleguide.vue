@@ -436,6 +436,31 @@
     <section>
       <header>
         <div>
+          <h2>rondjes</h2>
+          <h1>Progress</h1>
+        </div>
+      </header>
+
+      <div style="display: flex; gap: 1em">
+        <span style="color: var(--green-500)">
+          <ProgressCircle :percentage="20" />
+        </span>
+        <span style="color: var(--blue-500)">
+          <ProgressCircle :percentage="80" />
+        </span>
+        <span style="color: var(--red-500)">
+          <ProgressCircle :percentage="45" />
+        </span>
+
+        <span style="color: var(--yellow-500)">
+          <ProgressCircle :percentage="71" :strokeWidth="3" style="width: 20px; height: 20px" />
+        </span>
+      </div>
+    </section>
+
+    <section>
+      <header>
+        <div>
           <h1>Dropdowns</h1>
         </div>
       </header>
@@ -450,7 +475,7 @@
               <Link href="#">Een InertiaJS link</Link>
             </li>
             <li>
-              <button type="button">En een knop</button>
+              <button type="button" v-on:click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
             </li>
           </ul>
         </Dropdown>
@@ -482,7 +507,7 @@
               <Link href="#">Een hele lange link die gewoon maar door blijft gaan met tekst en van alles.</Link>
             </li>
             <li>
-              <button type="button">En een knop</button>
+              <button type="button" v-on:click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
             </li>
           </ul>
         </Dropdown>
@@ -580,11 +605,13 @@
 
 <script lang="ts" setup>
 import { Head, Link } from '@inertiajs/vue3'
+import { toast } from 'vue-sonner'
 
 import Dropdown from '/@admin:components/Dropdown.vue'
 import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'
+import ProgressCircle from '/@admin:components/ProgressCircle.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 
 defineProps<{
