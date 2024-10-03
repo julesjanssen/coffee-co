@@ -8,7 +8,7 @@
   --drop-shadow-color: oklch(from var(--color) calc(l * 0.64) calc(c * 0.75) h);
 
   & .v-popper__wrapper {
-    transform-origin: 50% 0;
+    transform-origin: top right;
 
     & .v-popper__arrow-container {
       display: none;
@@ -61,14 +61,12 @@
 
   &.v-popper__popper--show-from .v-popper__wrapper {
     opacity: 0;
-    transform: translate(0, -4px) scale(1, 0.85);
+    transform: translate(0, -4px) scale(0.95);
   }
 
   &.v-popper__popper--show-to .v-popper__wrapper {
     opacity: 1;
     transform: none;
-    transition: all 0.15s ease-out;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
-
-/* rgb(255, 255, 255) 0px 0px 0px 0px, rgba(9, 9, 11, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px */
