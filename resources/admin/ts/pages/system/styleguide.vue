@@ -440,9 +440,23 @@
         </div>
       </header>
 
-      <div>
-        <VDropdown>
-          <button type="button">dit gaat goed <Icon name="chevron-down" /></button>
+      <div style="display: flex; gap: 1em">
+        <Dropdown label="standard dropdown">
+          <ul>
+            <li>
+              <a href="#">Een link</a>
+            </li>
+            <li>
+              <Link href="#">Een InertiaJS link</Link>
+            </li>
+            <li>
+              <button type="button">En een knop</button>
+            </li>
+          </ul>
+        </Dropdown>
+
+        <VDropdown placement="bottom-start">
+          <button type="button"><Icon name="eye" /> custom dropdown</button>
 
           <template #popper>
             <ul>
@@ -458,6 +472,20 @@
             </ul>
           </template>
         </VDropdown>
+
+        <Dropdown>
+          <ul>
+            <li>
+              <a href="#">Een link</a>
+            </li>
+            <li>
+              <Link href="#">Een hele lange link die gewoon maar door blijft gaan met tekst en van alles.</Link>
+            </li>
+            <li>
+              <button type="button">En een knop</button>
+            </li>
+          </ul>
+        </Dropdown>
       </div>
     </section>
 
@@ -553,6 +581,7 @@
 <script lang="ts" setup>
 import { Head, Link } from '@inertiajs/vue3'
 
+import Dropdown from '/@admin:components/Dropdown.vue'
 import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'

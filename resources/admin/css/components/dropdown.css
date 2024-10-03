@@ -2,11 +2,16 @@
 
 .v-popper {
   display: inline-block;
+
+  & button.icon-only {
+    & .v-icon {
+      /* adjust for missing line height */
+      height: 1.5em;
+    }
+  }
 }
 
 .v-popper--theme-dropdown {
-  --drop-shadow-color: oklch(from var(--color) calc(l * 0.64) calc(c * 0.75) h);
-
   & .v-popper__wrapper {
     transform-origin: top right;
 
@@ -19,7 +24,7 @@
     --color: var(--gray-700);
 
     min-width: 12.5rem;
-    max-width: 40dvw;
+    max-width: 25rem;
     padding: 0.3em;
     border: 0;
     border-radius: 0.5rem;
