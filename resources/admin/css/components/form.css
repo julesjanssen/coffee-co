@@ -230,12 +230,13 @@ input:where([type='checkbox'], [type='radio']) {
   border: 1px solid var(--gray-300);
   border-radius: 0.25rem;
   appearance: none;
-  background-color: transparent;
+  background-color: var(--white);
   background-origin: border-box;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   box-shadow: none;
+  transition: background 0.25s ease;
   user-select: none;
   vertical-align: middle;
 
