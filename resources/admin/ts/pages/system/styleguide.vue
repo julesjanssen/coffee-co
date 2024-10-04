@@ -491,7 +491,7 @@
           </ul>
         </Dropdown>
 
-        <VDropdown placement="bottom-start">
+        <VDropdown placement="bottom-start" :distance="20">
           <button type="button"><Icon name="eye" /> custom dropdown</button>
 
           <template #popper>
@@ -503,7 +503,7 @@
                 <Link href="#">Een InertiaJS link</Link>
               </li>
               <li>
-                <button type="button">En een knop</button>
+                <button type="button" v-on:click.prevent="promiseToast('supermooi')">En een knop</button>
               </li>
             </ul>
           </template>
@@ -633,6 +633,14 @@ defineProps<{
 defineOptions({
   layout: [AuthLayout],
 })
+
+const promiseToast = (text: string) => {
+  toast.promise(() => new Promise((resolve) => setTimeout(resolve, 2500)), {
+    loading: 'Loading',
+    success: () => text,
+    error: () => 'Error',
+  })
+}
 </script>
 
 <style src="/@admin:css/views/styleguide.css"></style>
