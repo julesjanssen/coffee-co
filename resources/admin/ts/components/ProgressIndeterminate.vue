@@ -3,23 +3,22 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { useIntervalFn } from '@vueuse/core'
+import { ref } from 'vue'
 
 import ProgressCircle from './ProgressCircle.vue'
 
 const percentage = ref(0)
 const delta = ref(2)
 
-onMounted(() => {
-  setInterval(() => {
-    percentage.value = percentage.value + delta.value
-    if (percentage.value > 90) {
-      delta.value = -1
-    } else if (percentage.value < 2) {
-      delta.value = 2
-    }
-  }, 25)
-})
+useIntervalFn(() => {
+  percentage.value = percentage.value + delta.value
+  if (percentage.value > 90) {
+    delta.value = -1
+  } else if (percentage.value < 2) {
+    delta.value = 2
+  }
+}, 25)
 </script>
 
 <style scoped>
