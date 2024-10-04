@@ -5,6 +5,7 @@ import browserslist from 'browserslist'
 import laravel from 'laravel-vite-plugin'
 import { browserslistToTargets } from 'lightningcss'
 import { defineConfig } from 'vite'
+import { iconsSpritesheet } from 'vite-plugin-icons-spritesheet'
 
 const customElementTags = ['relative-time']
 
@@ -29,6 +30,12 @@ export default defineConfig(({ command }) => {
           },
         },
       }),
+      iconsSpritesheet({
+        inputDir: resolve(__dirname, 'resources/admin/icons/'),
+        outputDir: resolve(__dirname, 'public/assets/admin'),
+        fileName: 'sprite.svg',
+        iconNameTransformer: (iconName) => iconName,
+      }),
     ],
     css: {
       transformer: 'lightningcss',
@@ -44,6 +51,10 @@ export default defineConfig(({ command }) => {
     },
     resolve: {
       alias: [
+        {
+          find: '/@sprite.svg',
+          replacement: resolve(__dirname, 'public/assets/admin/sprite.svg'),
+        },
         {
           find: /^\/@admin:css/,
           replacement: resolve(__dirname, 'resources/admin/css/'),

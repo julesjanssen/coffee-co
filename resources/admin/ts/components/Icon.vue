@@ -1,27 +1,15 @@
 <template>
-  <i class="v-icon" aria-hidden="true" v-html="iconRaw"></i>
+  <svg class="v-icon" aria-hidden="true">
+    <use :href="`${spriteHref}#${name}`" />
+  </svg>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import url from '/@sprite.svg'
 
-const icons = import.meta.glob('../../icons/**/*.svg', { query: '?raw', import: 'default' })
+const spriteHref = import.meta.env.DEV ? '/assets/admin/sprite.svg' : url
 
-const iconRaw = ref<string>('')
-
-const props = defineProps<{
+defineProps<{
   name: string
 }>()
-
-const setIcon = async () => {
-  const path = `../../icons/${props.name}.svg`
-  const icon = icons[path]
-
-  if (icon) {
-    const svg = await icon()
-    iconRaw.value = svg as string
-  }
-}
-
-watch(props, () => setIcon(), { immediate: true })
 </script>
