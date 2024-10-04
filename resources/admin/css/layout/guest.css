@@ -30,10 +30,6 @@
       font-weight: 500;
     }
 
-    & input[type='checkbox'] {
-      background: var(--white);
-    }
-
     & footer {
       text-align: center;
 

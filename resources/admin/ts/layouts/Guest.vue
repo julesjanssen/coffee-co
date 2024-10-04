@@ -3,9 +3,7 @@
     <section>
       <div class="header">
         <div class="logo">
-          <h1>
-            <Link href="/">{{ appName }}</Link>
-          </h1>
+          <h1>{{ appName }}</h1>
         </div>
       </div>
 
@@ -17,7 +15,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Link } from '@inertiajs/vue3'
 import { Toaster } from 'vue-sonner'
 
 const appName = import.meta.env.VITE_APP_NAME
