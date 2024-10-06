@@ -78,7 +78,7 @@ class UpdateController
         }
 
         $details = Cache::rememberForever(__METHOD__ . ':' . $email, function () use ($email) {
-            $hash = md5(strtolower($email));
+            $hash = hash('sha256', strtolower($email));
             $url = sprintf('https://www.gravatar.com/%s.json', $hash);
 
             try {

@@ -101,7 +101,7 @@ class DatabaseController
                     $filesize = $file->fileSize();
                     $basename = basename($file->path());
                     $date = Date::createFromTimestamp($file->lastModified());
-                    $hash = substr(md5($file->path()), 0, 16);
+                    $hash = hash('xxh3', $file->path());
                     $extension = pathinfo($basename, PATHINFO_EXTENSION);
 
                     return (object) [
