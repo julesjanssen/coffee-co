@@ -15,7 +15,7 @@
     </main>
   </div>
 
-  <Toaster position="top-right" :expand="true" />
+  <Toaster position="top-right" :expand="true" offset="16px" />
 </template>
 
 <script lang="ts" setup>
