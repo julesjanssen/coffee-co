@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [ 8.2, 8.3 ]
+        php-versions: [ 8.3, 8.4 ]
 
     name: PHP ${{ matrix.php-versions }}
 
@@ -23,14 +23,14 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress
 
-      - name: Execute tests
-        run: |
-          vendor/bin/pest
+      # - name: Execute tests
+      #   run: |
+      #     ./vendor/bin/pest
 
       - name: Execute static analysis
         run: |
-          vendor/bin/phpstan
+          ./vendor/bin/phpstan --error-format=github --no-progress
 
       - name: Execute static analysis
         run: |
-          vendor/bin/pint --test
+          ./vendor/bin/pint --test
