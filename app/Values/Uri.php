@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Values;
 
+use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Uri as BaseUri;
 use GuzzleHttp\Psr7\UriNormalizer;
 use GuzzleHttp\Psr7\UriResolver;
@@ -62,11 +63,7 @@ class Uri extends BaseUri
             return $this;
         }
 
-        if (strstr($query, '%3D')) {
-            $query = urldecode($query);
-        }
-
-        parse_str($query, $params);
+        $params = Query::parse($query);
 
         $params = collect($params)
             ->filter(function ($value, $key) {
