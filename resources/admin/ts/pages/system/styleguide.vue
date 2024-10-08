@@ -488,6 +488,10 @@
             <li>
               <button type="button" v-on:click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
             </li>
+            <li class="divider"></li>
+            <li>
+              <button type="button" class="danger">remove project</button>
+            </li>
           </ul>
         </Dropdown>
 

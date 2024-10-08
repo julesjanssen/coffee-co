@@ -25,7 +25,7 @@
 
     min-width: 12.5rem;
     max-width: 25rem;
-    padding: 0.3em;
+    padding: 0.3em 0;
     border: 0;
     border-radius: 0.5rem;
     background: var(--white);
@@ -41,24 +41,45 @@
 
       & li {
         display: block;
+        margin: 0 0.3em;
+
+        &.divider {
+          border-bottom: 1px solid var(--gray-300);
+          margin: 0.3em 0;
+        }
       }
 
       & a,
       & button {
+        --color: var(--gray-700);
+
         display: block;
         width: 100%;
         padding: 0.5em 1em;
         border: 0;
         border-radius: 0.375rem;
         box-shadow: none;
+        color: var(--color);
         font: inherit;
         text-align: left;
         transition: background 0.25s ease;
 
         &:hover,
-        &:focus {
-          background: var(--accent-100);
+        &:focus-visible {
+          background: var(--gray-100);
           outline: none;
+        }
+
+        &.error,
+        &.danger {
+          --color: var(--red-500);
+
+          &:hover,
+          &:focus-visible {
+            background: var(--red-100);
+
+            --color: var(--red-600);
+          }
         }
       }
     }
