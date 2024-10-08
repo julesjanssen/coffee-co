@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\System;
 
+use App\Models\Tenant;
 use Aws\Exception\CredentialsException;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
@@ -93,13 +94,23 @@ class DatabaseController
                 return collect();
             }
 
+            $tenant = Tenant::current();
+
             $files = collect($files)
                 ->sortByDesc(fn($file) => $file->lastModified())
-                ->slice(0, 14)
-                ->map(function ($file) {
+                ->map(function ($file) use ($tenant) {
                     /** @var FileAttributes $file */
-                    $filesize = $file->fileSize();
                     $basename = basename($file->path());
+                    if (! preg_match('/^\d{12}-\d{4}-/', $basename)) {
+                        return;
+                    }
+
+                    $tenantID = (int) substr($basename, 13, 4);
+                    if ($tenantID !== $tenant->id) {
+                        return;
+                    }
+
+                    $filesize = $file->fileSize();
                     $date = Date::createFromTimestamp($file->lastModified());
                     $hash = hash('xxh3', $file->path());
                     $extension = pathinfo($basename, PATHINFO_EXTENSION);
@@ -113,6 +124,9 @@ class DatabaseController
                         'createdAt' => $date,
                     ];
                 })
+                ->filter()
+                ->values()
+                ->slice(0, 14)
                 ->keyBy('hash');
 
             return $files;
