@@ -57,7 +57,7 @@
         <tbody>
           <tr v-for="(backup, index) in backups" :key="`backup-${index}`">
             <td>
-              <DateTime :datetime="backup.createdAt" />
+              <DateTime :datetime="backup.createdAt" :time="true" />
             </td>
             <td class="align-right">
               <span class="badge tabular-nums">
