@@ -1,5 +1,5 @@
 <template>
-  <Head title="Styleguide" />
+  <Head title="Database" />
 
   <main class="system database">
     <section>
