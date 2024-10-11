@@ -20,17 +20,19 @@ class ViewController
 
         return Inertia::render('accounts/view', [
             'account' => UserResource::make($account),
-            'logins' => LoginResource::collection($this->listLogins($account)),
+            'logins' => Inertia::defer(fn() => $this->listLogins($account)),
         ]);
     }
 
     private function listLogins(User $account)
     {
-        return Login::query()
+        $results = Login::query()
             ->whereMorphedTo('authenticatable', $account)
             ->with('authenticatable')
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
+
+        return LoginResource::collection($results);
     }
 }

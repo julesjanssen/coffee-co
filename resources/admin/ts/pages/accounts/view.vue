@@ -50,44 +50,51 @@
       </dl>
     </section>
 
-    <section v-if="logins.length">
-      <header>
-        <div>
-          <h2>{{ $t('most recent') }}</h2>
-          <h1>{{ $t('logins') }}</h1>
-        </div>
-      </header>
+    <Deferred data="logins">
+      <template #fallback>
+        <Loader label="inloggegevens laden…" />
+      </template>
 
-      <table>
-        <thead>
-          <tr>
-            <th>date / time</th>
-            <th>ip</th>
-            <th>user-agent</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="login in logins" :key="login.sqid">
-            <td>
-              <relative-time :datetime="login.createdAt" prefix="" />
-            </td>
-            <td>
-              <code>{{ login.ip }}</code>
-            </td>
-            <td>
-              <small class="truncate">{{ login.userAgent }}</small>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+      <section v-if="logins!.length">
+        <header>
+          <div>
+            <h2>{{ $t('most recent') }}</h2>
+            <h1>{{ $t('logins') }}</h1>
+          </div>
+        </header>
+
+        <table>
+          <thead>
+            <tr>
+              <th>date / time</th>
+              <th>ip</th>
+              <th>user-agent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="login in logins" :key="login.sqid">
+              <td>
+                <relative-time :datetime="login.createdAt" prefix="" />
+              </td>
+              <td>
+                <code>{{ login.ip }}</code>
+              </td>
+              <td>
+                <small class="truncate">{{ login.userAgent }}</small>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </Deferred>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
 
 import Icon from '/@admin:components/Icon.vue'
+import Loader from '/@admin:components/Loader.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 import type { Authorizable, Login, User } from '/@admin:types'
 
@@ -97,6 +104,6 @@ defineOptions({
 
 defineProps<{
   account: Authorizable & User
-  logins: Login[]
+  logins?: Login[]
 }>()
 </script>
