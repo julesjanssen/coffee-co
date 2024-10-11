@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@github/relative-time-element": "^4.4.3",
-    "@inertiajs/vue3": "^1.2.0",
+    "@inertiajs/vue3": "^2.0.0-beta.1",
     "@types/node": "^22.5.5",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vueuse/core": "^11.1.0",
