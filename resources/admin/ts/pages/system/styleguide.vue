@@ -478,14 +478,14 @@
 
       <div style="display: flex; gap: 1em">
         <Dropdown label="standard dropdown">
-          <ul>
-            <li>
+          <ul role="menu" aria-hidden="true">
+            <li role="menuitem">
               <a href="#">Een link</a>
             </li>
-            <li>
+            <li role="menuitem">
               <Link href="#">Een InertiaJS link</Link>
             </li>
-            <li>
+            <li role="menuitem">
               <button type="button" v-on:click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
             </li>
             <li class="divider"></li>
