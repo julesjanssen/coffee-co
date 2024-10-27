@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\AttachmentType;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Vagebond\Bijlagen\Enums\AttachmentStatus;
@@ -14,7 +13,6 @@ use Vagebond\Bijlagen\Models\Attachment as Model;
 class Attachment extends Model
 {
     use HasSqids;
-    use SoftDeletes;
     use UsesTenantConnection;
 
     protected function casts(): array
