@@ -19,8 +19,6 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
-/composer.lock
-/yarn.lock
 .DS_Store
 /public/vendor
 /storage/debugbar
