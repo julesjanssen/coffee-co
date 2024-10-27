@@ -4,6 +4,7 @@ details {
 
   & summary {
     cursor: pointer;
+    font-weight: 550;
 
     &::marker {
       content: '';
@@ -15,12 +16,12 @@ details {
 
     &::before {
       display: inline-block;
-      width: 1em;
+      width: 1.1ch;
       height: 1.1ch;
-      margin-right: 0.1em;
+      margin-right: 0.35em;
       background: var(--accent-color);
       content: '';
-      mask: url("/@admin:icons/chevron-right.svg") center / contain no-repeat;
+      mask: url('/@admin:icons/chevron-right.svg') center / contain no-repeat;
       transition: all 0.25s ease;
     }
 
