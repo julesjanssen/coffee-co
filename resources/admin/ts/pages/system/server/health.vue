@@ -6,7 +6,7 @@
       </div>
     </header>
 
-    <dl>
+    <dl v-if="data">
       <div>
         <dt>Last cron exec:</dt>
         <dd>
@@ -17,9 +17,9 @@
         </dd>
       </div>
 
-      <div>
+      <div v-if="data.queue">
         <dt>Queued jobs:</dt>
-        <dd>{{ data.queue.jobs }}</dd>
+        <dd>{{ data.queue.jobs ?? 0 }}</dd>
       </div>
 
       <div>

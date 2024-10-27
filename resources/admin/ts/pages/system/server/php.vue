@@ -13,30 +13,32 @@
           <details :open="isPast(data.releaseInfo.activeUntil)">
             <summary>{{ data.version }}</summary>
             <table class="version-details">
-              <tr>
-                <th>active support:</th>
-                <td>
-                  <span class="badge" :class="{ warning: isPast(data.releaseInfo.activeUntil) }">
-                    <DateTime :datetime="data.releaseInfo.activeUntil" />
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <th>security support:</th>
-                <td>
-                  <span class="badge" :class="{ danger: isPast(data.releaseInfo.securityUntil) }">
-                    <DateTime :datetime="data.releaseInfo.securityUntil" />
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <th>patch available:</th>
-                <td>
-                  <span class="badge" :class="{ warning: data.releaseInfo.patchAvailable }">
-                    {{ data.releaseInfo.patchAvailable ? 'yes' : 'no ' }}
-                  </span>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>active support:</th>
+                  <td>
+                    <span class="badge" :class="{ warning: isPast(data.releaseInfo.activeUntil) }">
+                      <DateTime :datetime="data.releaseInfo.activeUntil" />
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>security support:</th>
+                  <td>
+                    <span class="badge" :class="{ danger: isPast(data.releaseInfo.securityUntil) }">
+                      <DateTime :datetime="data.releaseInfo.securityUntil" />
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>patch available:</th>
+                  <td>
+                    <span class="badge" :class="{ warning: data.releaseInfo.patchAvailable }">
+                      {{ data.releaseInfo.patchAvailable ? 'yes' : 'no ' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </details>
         </dd>

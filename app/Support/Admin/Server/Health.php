@@ -8,6 +8,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Queue;
+use Spatie\Multitenancy\Landlord;
 
 class Health implements Arrayable
 {
@@ -20,7 +21,7 @@ class Health implements Arrayable
 
     private function getLastScheduleRuntime()
     {
-        $timestamp = Cache::get('system:scheduler:timestamp');
+        $timestamp = Landlord::execute(fn() => Cache::get('system:scheduler:timestamp'));
 
         if (empty($timestamp)) {
             return;

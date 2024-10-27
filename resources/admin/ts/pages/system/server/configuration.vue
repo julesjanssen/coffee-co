@@ -15,7 +15,7 @@
         </dd>
       </div>
 
-      <div>
+      <div v-if="data.scheme">
         <dt>Scheme</dt>
         <dd>
           <span v-if="!data.scheme.match" class="badge danger">
@@ -59,7 +59,7 @@
         </dd>
       </div>
 
-      <div>
+      <div v-if="data.path">
         <dt>PATH setting</dt>
         <dd>
           <span class="badge danger" v-if="!data.path.length">PATH not set</span>

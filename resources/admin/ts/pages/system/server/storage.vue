@@ -6,7 +6,7 @@
       </div>
     </header>
 
-    <dl>
+    <dl v-if="data">
       <div>
         <dt>Total attachments size:</dt>
         <dd>{{ filesize(data.attachments.size) }} &mdash; {{ filesize(data.attachments.disk) }} on disk</dd>
