@@ -12,7 +12,7 @@
         <dd>
           <span class="badge warning" v-if="!data.cron">never</span>
           <template v-else>
-            <DateTime :datetime="data.cron" :time="true" />
+            <relative-time :datetime="data.cron" prefix="" />
           </template>
         </dd>
       </div>
