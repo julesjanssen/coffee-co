@@ -19,13 +19,8 @@ class LoginResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var User $authenticatable */
         $authenticatable = $this->authenticatable;
-
-        if ($authenticatable instanceof User) {
-            $viewLink = route('admin.accounts.view', [$authenticatable]);
-        } else {
-            $viewLink = null;
-        }
 
         return [
             'sqid' => $this->sqid,
@@ -37,7 +32,7 @@ class LoginResource extends JsonResource
             'ip' => $this->ip,
             'userAgent' => $this->user_agent,
             'links' => [
-                'view' => $viewLink,
+                'view' => route('admin.accounts.view', [$authenticatable]),
             ],
         ];
     }
