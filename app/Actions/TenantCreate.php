@@ -69,6 +69,7 @@ class TenantCreate
 
         $this->createDatabase($tenant);
         $this->migrateDatabase($tenant);
+        $this->syncPermissions($tenant);
 
         return $tenant;
     }
@@ -101,6 +102,11 @@ class TenantCreate
         ]);
 
         Artisan::call($command);
+    }
+
+    private function syncPermissions(Tenant $tenant)
+    {
+        Artisan::call('app:permission-sync');
     }
 
     private function isValidSubdomain($subdomain)
