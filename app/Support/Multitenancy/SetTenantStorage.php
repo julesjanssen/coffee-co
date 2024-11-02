@@ -15,7 +15,7 @@ class SetTenantStorage implements SwitchTenantTask
     {
         /** @var Tenant $tenant */
         $prefix = vsprintf('/%s/', [
-            $tenant->settings['storage']['prefix'],
+            $tenant->settings['storage-prefix'],
         ]);
 
         Storage::set('tenant', Storage::build([

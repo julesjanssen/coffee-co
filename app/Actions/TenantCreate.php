@@ -61,9 +61,7 @@ class TenantCreate
             'name' => $name,
             'slug' => $slug,
             'settings' => [
-                'storage' => [
-                    'prefix' => $this->createStoragePrefix(),
-                ],
+                'storage-prefix' => $this->createStoragePrefix(),
             ],
         ]);
 
