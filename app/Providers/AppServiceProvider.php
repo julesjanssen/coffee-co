@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (class_exists(BaseTelescopeServiceProvider::class)) {
+            $this->app->register(TelescopeServiceProvider::class);
+            $this->app->register(BaseTelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -27,21 +31,39 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Vite::prefetch(concurrency: 3);
+        $this->configureEloquent();
+        $this->configureJsonResources();
+        $this->configureVitePrefetching();
+        $this->configureEnvPath();
+        $this->configureHttpClientUserAgent();
+    }
 
+    private function configureEloquent()
+    {
         Relation::enforceMorphMap([
             'user' => User::class,
         ]);
 
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventAccessingMissingAttributes();
+    }
 
-        $this->setHttpClientUserAgent();
-
+    private function configureJsonResources()
+    {
         JsonResource::withoutWrapping();
     }
 
-    private function setHttpClientUserAgent()
+    private function configureVitePrefetching()
+    {
+        Vite::prefetch(concurrency: 3);
+    }
+
+    private function configureEnvPath()
+    {
+        \putenv('PATH=' . config('blauwdruk.path'));
+    }
+
+    private function configureHttpClientUserAgent()
     {
         $userAgent = vsprintf('Mozilla/5.0 (KHTML, like Gecko) (compatible; %s; +%s)', [
             config('app.title'),

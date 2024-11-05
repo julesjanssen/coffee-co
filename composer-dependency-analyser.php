@@ -8,6 +8,7 @@ use ShipMonk\ComposerDependencyAnalyser\Config\ErrorType;
 $config = new Configuration();
 
 return $config
+    ->ignoreErrorsOnPath(__DIR__ . '/app/Providers/AppServiceProvider.php', [ErrorType::DEV_DEPENDENCY_IN_PROD])
     ->ignoreErrorsOnPath(__DIR__ . '/app/Providers/TelescopeServiceProvider.php', [ErrorType::DEV_DEPENDENCY_IN_PROD])
     ->ignoreErrorsOnPath(__DIR__ . '/app/Http/Controllers/Admin/System/DatabaseController.php', [ErrorType::SHADOW_DEPENDENCY])
     ->ignoreErrorsOnPackages([
