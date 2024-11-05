@@ -61,14 +61,16 @@
 
       <div v-if="data.path">
         <dt>PATH setting</dt>
-        <dd>
+        <dd class="path">
           <span class="badge danger" v-if="!data.path.length">PATH not set</span>
           <details v-else>
             <summary>
               <span class="badge success">PATH set</span>
             </summary>
             <ul class="list">
-              <li v-for="(element, index) in data.path" :key="index">{{ element }}</li>
+              <li v-for="(element, index) in data.path" :key="index">
+                <code>{{ element }}</code>
+              </li>
             </ul>
           </details>
         </dd>
@@ -98,3 +100,27 @@ defineProps<{
   data: any
 }>()
 </script>
+
+<style scoped>
+dd.path {
+  & .badge {
+    font-weight: normal;
+  }
+
+  & ul li {
+    & code {
+      display: inline-block;
+      padding: 0.35em 0.5em;
+      border-radius: 3px;
+      background: var(--gray-800);
+      color: var(--green-400);
+      font-size: 0.9em;
+      line-height: 1;
+    }
+
+    & + li {
+      margin-top: 0.25em;
+    }
+  }
+}
+</style>
