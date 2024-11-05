@@ -7,7 +7,7 @@ details {
     font-weight: 550;
 
     /* make sure the chevron aligns nicely */
-    translate: -3px 0;
+    translate: -2px 0;
 
     &::marker {
       content: '';
