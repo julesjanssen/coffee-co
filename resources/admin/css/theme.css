@@ -75,6 +75,7 @@
   /* --sidebar-background: var(--gray-800); */
 
   --sidebar-width: 17.5rem;
+  --font-family: intervariable, system-ui;
 }
 
 @font-face {
@@ -96,7 +97,7 @@
 html {
   accent-color: var(--accent-color);
   color-scheme: light;
-  font-family: InterVariable, system-ui;
+  font-family: var(--font-family);
   font-feature-settings: 'calt', 'cv02', 'cv03', 'cv04', 'cv05', 'kern';
   font-optical-sizing: auto;
 }
