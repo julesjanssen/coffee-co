@@ -20,9 +20,9 @@ class ServerController extends Controller
         return Inertia::render('system/server', [
             'configuration' => fn() => (new Configuration())->toArray(),
             'health' => fn() => (new Health())->toArray(),
-            'osInternet' => fn() => (new OsInternet())->toArray(),
-            'php' => fn() => (new Php())->toArray(),
-            'storage' => fn() => (new Storage())->toArray(),
+            'osInternet' => Inertia::defer(fn() => (new OsInternet())->toArray()),
+            'php' => Inertia::defer(fn() => (new Php())->toArray()),
+            'storage' => Inertia::defer(fn() => (new Storage())->toArray()),
         ]);
     }
 }
