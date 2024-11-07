@@ -39,50 +39,58 @@
       </dl>
     </section>
 
-    <section v-if="backups.length > 0">
-      <header>
-        <div>
-          <h1>Backups</h1>
-        </div>
-      </header>
+    <Deferred data="backups">
+      <template #fallback>
+        <Loader label="loading backups…" />
+      </template>
 
-      <table>
-        <thead>
-          <tr>
-            <th>date / time</th>
-            <th class="align-right">size</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(backup, index) in backups" :key="`backup-${index}`">
-            <td>
-              <DateTime :datetime="backup.createdAt" :time="true" />
-            </td>
-            <td class="align-right">
-              <span class="badge tabular-nums">
-                {{ filesize(backup.filesize) }}
-              </span>
-            </td>
-            <td class="align-right">
-              <a class="button small" :href="backup.url">
-                <Icon name="download" />
-                download
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+      <section>
+        <header>
+          <div>
+            <h1>Backups</h1>
+          </div>
+        </header>
+
+        <table>
+          <thead>
+            <tr>
+              <th>date / time</th>
+              <th class="align-right">size</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(backup, index) in backups" :key="`backup-${index}`">
+              <td>
+                <DateTime :datetime="backup.createdAt" :time="true" />
+              </td>
+              <td class="align-right">
+                <span class="badge tabular-nums">
+                  {{ filesize(backup.filesize) }}
+                </span>
+              </td>
+              <td class="align-right">
+                <a class="button small" :href="backup.url">
+                  <Icon name="download" />
+                  download
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </Deferred>
   </main>
 </template>
 
 <script lang="ts" setup>
 import { Head } from '@inertiajs/vue3'
+import { Deferred } from '@inertiajs/vue3'
 import filesize from 'filesize.js'
 
 import DateTime from '/@admin:components/DateTime.vue'
 import Icon from '/@admin:components/Icon.vue'
+import Loader from '/@admin:components/Loader.vue'
 import Number from '/@admin:components/Number.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 

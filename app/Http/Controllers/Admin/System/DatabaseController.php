@@ -32,7 +32,7 @@ class DatabaseController
             'dbRows' => Arr::get($stats, 'rows', 0),
             'dbSize' => Arr::get($stats, 'size', 0),
             'hasEncryption' => ! empty($encryptionKey),
-            'backups' => $this->listBackups()->values(),
+            'backups' => Inertia::defer(fn() => $this->listBackups()->values()),
         ]);
     }
 

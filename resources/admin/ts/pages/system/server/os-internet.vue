@@ -19,7 +19,9 @@
 
       <div>
         <dt>public IP</dt>
-        <dd>{{ data.ip }}</dd>
+        <dd>
+          <code>{{ data.ip }}</code>
+        </dd>
       </div>
 
       <div v-if="data.certificate">
