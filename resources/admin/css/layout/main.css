@@ -18,6 +18,8 @@
   }
 
   & section {
+    container: main-section / inline-size;
+
     & h2 {
       margin: 1.5em 0 0.5em;
       font-size: 1.1em;
@@ -33,6 +35,12 @@
       border-bottom: 1px solid var(--gray-200);
       margin: 0 0 2rem;
       gap: 1.5rem;
+
+      @container main-section (width < 640px) {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 1rem;
+      }
 
       & > div {
         flex: 1;

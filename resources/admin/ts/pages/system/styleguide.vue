@@ -476,7 +476,7 @@
         </div>
       </header>
 
-      <div style="display: flex; gap: 1em">
+      <div style="display: flex; flex-wrap: wrap; gap: 1em">
         <Dropdown label="standard dropdown">
           <ul role="menu" aria-hidden="true">
             <li role="menuitem">

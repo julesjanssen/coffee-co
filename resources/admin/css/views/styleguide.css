@@ -1,17 +1,13 @@
 main.styleguide {
-  /* & .buttons,
-  & .badges {
-    display: flex;
-    gap: 0.75rem;
-  } */
-
   & ul.badges {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
   }
 
   & ul.buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
   }
 

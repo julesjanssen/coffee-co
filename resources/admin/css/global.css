@@ -55,9 +55,8 @@ a:not([class]) {
 }
 
 html {
-  font-size: clamp(12px, 6.667px + 0.667vw, 16px);
-
-  /* font-size: clamp(12px, 0.43vw + 10px, 16px); */
+  /* font-size: clamp(12px, 6.667px + 0.667vw, 16px); */
+  font-size: clamp(14px, 0.224vw + 13px, 16px);
 }
 
 body {
