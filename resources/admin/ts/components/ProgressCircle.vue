@@ -38,7 +38,7 @@ const strokeDashoffset = computed(() => 100 - props.percentage)
 watch(
   [() => props.size, () => strokeWidth.value],
   () => {
-    radius.value = props.size / 2 - strokeWidth.value //`calc(50% - ${strokeWidth.value / 2}px)`
+    radius.value = props.size / 2 - strokeWidth.value
   },
   { immediate: true },
 )

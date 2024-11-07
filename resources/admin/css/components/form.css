@@ -58,6 +58,7 @@ fieldset {
     max-inline-size: 42rem;
 
     & .field {
+      min-width: 0;
       flex: 1;
     }
 
@@ -160,7 +161,8 @@ label.checkbox {
 
 input:where(:not([type='checkbox'], [type='radio'])),
 select,
-textarea {
+textarea,
+.input-display {
   box-shadow: var(--input-box-shadow);
 }
 
@@ -187,7 +189,8 @@ input[type='url'],
 input[type='tel'],
 input[type='password'],
 select,
-textarea {
+textarea,
+.input-display {
   display: block;
   width: 100%;
   padding: 0.5em 0.75rem;

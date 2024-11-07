@@ -265,14 +265,14 @@
             <div class="field">
               <label>upload</label>
               <div>
-                <v-multifile-upload name="upload" />
+                <FileInput />
               </div>
             </div>
 
             <div class="field">
-              <label>image upload</label>
+              <label>images upload</label>
               <div>
-                <v-multifile-upload name="image-upload" accept="image/*" />
+                <FileInput :multiple="true" accept="image/*" />
               </div>
             </div>
           </div>
@@ -623,6 +623,7 @@ import { Head, Link } from '@inertiajs/vue3'
 import { toast } from 'vue-sonner'
 
 import Dropdown from '/@admin:components/Dropdown.vue'
+import FileInput from '/@admin:components/FileInput.vue'
 import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'

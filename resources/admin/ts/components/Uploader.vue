@@ -127,9 +127,10 @@ const getUploadIDFromUpload = (upload: Upload): string => {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 label {
   display: inline-block;
+  font-weight: normal;
 }
 
 input[type='file'] {
