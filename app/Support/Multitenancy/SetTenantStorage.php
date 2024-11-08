@@ -23,10 +23,16 @@ class SetTenantStorage implements SwitchTenantTask
             'disk' => 's3',
             'prefix' => $prefix,
         ]));
+
+        Storage::set('tenant-backup', Storage::build([
+            'driver' => 'scoped',
+            'disk' => 'backup',
+            'prefix' => $prefix,
+        ]));
     }
 
     public function forgetCurrent(): void
     {
-        Storage::forgetDisk(['tenant']);
+        Storage::forgetDisk(['tenant', 'tenant-backup']);
     }
 }

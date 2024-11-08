@@ -8,7 +8,6 @@ use App\Models\Tenant;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Date;
 use Spatie\Backup\Config\Config;
 
 class AppBackup extends Command
@@ -41,12 +40,11 @@ class AppBackup extends Command
     private function backupLandlord(Config $config)
     {
         $config->backup->source->databases = ['landlord'];
+        $config->backup->destination->filenamePrefix = 'landlord/';
 
         Tenant::first()->makeCurrent();
 
-        Artisan::call('backup:run', [
-            '--filename' => sprintf('%s-%s.zip', $this->getFilenameTimestamp(), 'landlord'),
-        ], $this->output);
+        Artisan::call('backup:run', [], $this->output);
     }
 
     private function backupTenants(Config $config)
@@ -57,15 +55,9 @@ class AppBackup extends Command
 
         Tenant::all()->eachCurrent(function (Tenant $tenant) use ($config) {
             $config->backup->source->databases = ['tenant'];
+            $config->backup->destination->disks = ['tenant-backup'];
 
-            Artisan::call('backup:run', [
-                '--filename' => sprintf('%s-%04d-%s.zip', $this->getFilenameTimestamp(), $tenant->id, $tenant->slug),
-            ], $this->output);
+            Artisan::call('backup:run', [], $this->output);
         });
-    }
-
-    private function getFilenameTimestamp(): string
-    {
-        return Date::now()->format('Ymdhi');
     }
 }
