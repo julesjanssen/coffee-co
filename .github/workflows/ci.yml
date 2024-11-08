@@ -49,6 +49,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          ini-values: error_reporting=E_ALL
+          tools: composer
           coverage: none
 
       - name: Create DB
@@ -92,6 +94,6 @@ jobs:
         run: |
           ./vendor/bin/phpstan --error-format=github --no-progress
 
-      - name: Execute static analysis
+      - name: Lint PHP
         run: |
           ./vendor/bin/pint --quiet --test
