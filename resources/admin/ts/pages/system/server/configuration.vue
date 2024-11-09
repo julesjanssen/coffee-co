@@ -67,7 +67,7 @@
             <summary>
               <span class="badge success">PATH set</span>
             </summary>
-            <ul class="list">
+            <ul>
               <li v-for="(element, index) in data.path" :key="index">
                 <code>{{ element }}</code>
               </li>
