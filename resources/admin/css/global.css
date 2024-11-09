@@ -5,6 +5,7 @@
   --viewport-padding-top: 6rem;
   --viewport-padding-bottom: 4rem;
   --viewport-padding-inline: 1rem;
+  --sidebar-width: 16rem;
 }
 
 @media (width >= 480px) {
@@ -21,13 +22,15 @@
   }
 }
 
+@media (width >= 1200px) {
+  :root {
+    --sidebar-width: 17.5rem;
+  }
+}
+
 @media (width >= 1700px) {
   :root {
     --viewport-padding-top: 6rem;
-
-    /* --viewport-padding-bottom: 4rem; */
-
-    /* --viewport-padding-inline: 2.5rem; */
   }
 }
 
