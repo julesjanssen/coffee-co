@@ -15,9 +15,7 @@ class SetTenantStorage implements SwitchTenantTask
     public function makeCurrent(IsTenant $tenant): void
     {
         /** @var Tenant $tenant */
-        $prefix = vsprintf('/%s/', [
-            $tenant->settings['storage-prefix'],
-        ]);
+        $prefix = $tenant->settings['storage-prefix'];
 
         Storage::set(Disk::TENANT->value, Storage::build([
             'driver' => 'scoped',
