@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\System;
 
-use App\Models\Tenant;
+use App\Enums\Disk;
 use Aws\Exception\CredentialsException;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
@@ -12,7 +12,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use InvalidArgumentException;
 use League\Flysystem\FileAttributes;
@@ -73,12 +72,8 @@ class DatabaseController
 
         return Cache::flexible($cachekey, $ttl, function () {
             try {
-                $disk = $this->getBackupDisk();
-                if (empty($disk)) {
-                    return collect();
-                }
-
-                $files = $disk->getDriver()->listContents(config('backup.backup.name'))
+                $files = $this->getBackupDisk()
+                    ->listContents(config('backup.backup.name'))
                     ->filter(function (StorageAttributes $attributes) {
                         return $attributes->isFile();
                     })
@@ -94,42 +89,27 @@ class DatabaseController
                 return collect();
             }
 
-            $tenant = Tenant::current();
-
-            $files = collect($files)
+            return collect($files)
                 ->sortByDesc(fn($file) => $file->lastModified())
-                ->map(function ($file) use ($tenant) {
+                ->map(function ($file) {
                     /** @var FileAttributes $file */
-                    $basename = basename($file->path());
-                    if (! preg_match('/^\d{12}-\d{4}-/', $basename)) {
-                        return;
-                    }
-
-                    $tenantID = (int) substr($basename, 13, 4);
-                    if ($tenantID !== $tenant->id) {
-                        return;
-                    }
-
-                    $filesize = $file->fileSize();
-                    $date = Date::createFromTimestamp($file->lastModified());
-                    $hash = hash('xxh3', $file->path());
-                    $extension = pathinfo($basename, PATHINFO_EXTENSION);
+                    $path = $file->path();
+                    $hash = hash('xxh3', $path);
+                    $extension = pathinfo($path, PATHINFO_EXTENSION);
 
                     return (object) [
                         'hash' => $hash,
-                        'path' => $file->path(),
-                        'filesize' => $filesize,
+                        'path' => $path,
+                        'filesize' => $file->fileSize(),
                         'url' => route('admin.system.database.download', [$hash . '.' . $extension]),
-                        'basename' => $basename,
-                        'createdAt' => $date,
+                        'basename' => basename($path),
+                        'createdAt' => Date::createFromTimestamp($file->lastModified()),
                     ];
                 })
                 ->filter()
                 ->values()
                 ->slice(0, 14)
                 ->keyBy('hash');
-
-            return $files;
         });
     }
 
@@ -189,15 +169,9 @@ class DatabaseController
         ];
     }
 
-    private function getBackupDisk(): ?FilesystemAdapter
+    private function getBackupDisk(): FilesystemAdapter
     {
-        $backupDisks = config('backup.backup.destination.disks', []);
-
-        if (! count($backupDisks)) {
-            return null;
-        }
-
-        return Storage::disk(head($backupDisks));
+        return Disk::TENANT_BACKUP->storage();
     }
 
     private function getDbConnection()

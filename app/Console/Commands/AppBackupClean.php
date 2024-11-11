@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\Disk;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -55,7 +56,7 @@ class AppBackupClean extends Command
 
         Tenant::all()->eachCurrent(function (Tenant $tenant) use ($config) {
             $config->backup->source->databases = ['tenant'];
-            $config->backup->destination->disks = ['tenant-backup'];
+            $config->backup->destination->disks = [Disk::TENANT_BACKUP->value];
 
             Artisan::call('backup:clean', [], $this->output);
         });

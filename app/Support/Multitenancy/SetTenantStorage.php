@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support\Multitenancy;
 
+use App\Enums\Disk;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Multitenancy\Contracts\IsTenant;
@@ -18,13 +19,13 @@ class SetTenantStorage implements SwitchTenantTask
             $tenant->settings['storage-prefix'],
         ]);
 
-        Storage::set('tenant', Storage::build([
+        Storage::set(Disk::TENANT->value, Storage::build([
             'driver' => 'scoped',
             'disk' => 's3',
             'prefix' => $prefix,
         ]));
 
-        Storage::set('tenant-backup', Storage::build([
+        Storage::set(Disk::TENANT_BACKUP->value, Storage::build([
             'driver' => 'scoped',
             'disk' => 'backup',
             'prefix' => $prefix,
