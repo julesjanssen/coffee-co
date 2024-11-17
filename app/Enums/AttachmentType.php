@@ -11,4 +11,6 @@ enum AttachmentType: string
     use EnumHelpers;
 
     case Avatar = 'avatar';
+
+    case Generic = 'generic';
 }
