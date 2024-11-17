@@ -123,7 +123,8 @@ class DatabaseController
             'version' => 'Version',
         ];
 
-        $results = DB::getPdo()
+        $results = DB::connection('tenant')
+            ->getPdo()
             ->query('SHOW VARIABLES')
             ->fetchAll();
 
@@ -149,7 +150,7 @@ class DatabaseController
 
     private function getDatabaseStats()
     {
-        $config = DB::getConfig();
+        $config = DB::connection('tenant')->getConfig();
 
         if ($config['driver'] !== 'mysql') {
             return [];
