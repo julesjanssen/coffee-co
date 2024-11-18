@@ -13,11 +13,11 @@ aside {
   background-color: var(--background);
   color: var(--link-highlight-color);
   inset: 0.5rem auto 0.5rem 0.5rem;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   translate: -110% 0;
 
   &.active {
-    transition: all 0.5s cubic-bezier(0, 0, 0.49, 1);
+    transition: all 0.3s cubic-bezier(0, 0, 0.49, 1);
     translate: 0 0;
   }
 }
@@ -33,6 +33,7 @@ button.aside-burger {
   box-shadow: none;
   color: var(--gray-500);
   font-size: 1.6rem;
+  line-height: 1;
 }
 
 @media (width > 1000px) {
@@ -61,21 +62,26 @@ button.aside-burger {
 
 .aside-top {
   position: relative;
-  padding: 4.5rem 1rem 1.25rem;
+  padding: 1rem 1rem 1.25rem 3.5rem;
 
   & h1 {
+    overflow: hidden;
+    padding: 0.25em 0 0;
     margin: 0;
     font-size: 0.9375rem;
     font-weight: 550;
-    line-height: 1.25rem;
+    line-height: 1.7rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @media (width > 1000px) {
     /* no need to make room for x button */
-    padding-top: 1.25rem;
+    padding: 1.5rem 1rem 1.25rem;
 
     & h1 {
       padding: 0 0.75rem;
+      line-height: 1.25rem;
     }
   }
 }
