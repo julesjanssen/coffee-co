@@ -96,7 +96,9 @@ fieldset {
   &::after {
     display: block;
     color: var(--gray-500);
+    font-size: 0.9em;
     transition: color 0.3s;
+    white-space: nowrap;
   }
 
   &:focus-within {
