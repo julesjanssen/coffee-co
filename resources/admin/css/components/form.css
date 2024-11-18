@@ -217,6 +217,11 @@ textarea,
   }
 }
 
+input[type='password'] {
+  font-family: Verdana, sans-serif;
+  letter-spacing: 0.125em;
+}
+
 select {
   padding-right: 2.5rem;
   appearance: none;
