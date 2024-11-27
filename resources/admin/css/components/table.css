@@ -17,10 +17,6 @@ table {
   }
 
   & tr {
-    &:hover {
-      background: var(--gray-lightest);
-    }
-
     & th,
     & td {
       padding: 0.75em;
