@@ -44,3 +44,36 @@ details {
     }
   }
 }
+
+@supports selector(::details-content) {
+  details {
+    --transition-duration: 0.25s;
+
+    transition: all var(--transition-duration) ease;
+  }
+
+  summary {
+    transition: all var(--transition-duration) ease;
+  }
+}
+
+/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+::details-content {
+  overflow: clip;
+  height: 0;
+  transition:
+    all var(--transition-duration) ease,
+    content-visibility var(--transition-duration) allow-discrete;
+}
+
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  [open]::details-content {
+    height: auto;
+    padding-bottom: 0.25em;
+  }
+}
