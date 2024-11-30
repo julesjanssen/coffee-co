@@ -78,7 +78,7 @@ class TenantCreate
             $prefix = Str::lower(Str::random(10));
 
             $exists = Tenant::query()
-                ->where('settings->storage->prefix', '=', $prefix)
+                ->where('settings->storage-prefix', '=', $prefix)
                 ->exists();
 
             if (! $exists) {

@@ -13,7 +13,7 @@ class TusUpload extends Upload
 
     public function getPathAttribute()
     {
-        $tenantID = Tenant::current()?->id ?? 0; /** @phpstan-ignore-line */
+        $tenantID = Tenant::current()?->id ?? 0;
 
         return storage_path('uploads/' . $tenantID . '/' . $this->getBasenameAttribute());
     }
