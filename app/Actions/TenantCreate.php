@@ -49,7 +49,7 @@ class TenantCreate
         }
 
         if (! $this->isValidSubdomain($slug)) {
-            throw new InvalidArgumentException("The name '${name}' is not allowed ('{$slug}' appears on blocklist).");
+            throw new InvalidArgumentException("The name '{$name}' is not allowed ('{$slug}' appears on blocklist).");
         }
 
         $this->createAndPrepare($name, $slug);
