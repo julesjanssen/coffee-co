@@ -27,6 +27,11 @@ fieldset {
     gap: 0.75rem;
   }
 
+  &.footer {
+    margin-bottom: 0;
+    background: var(--gray-100);
+  }
+
   & legend {
     margin: 0 0 1em;
     color: var(--accent-color);
@@ -69,6 +74,7 @@ fieldset {
   }
 }
 
+.input-addon,
 [data-prefix]:has(input),
 [data-suffix]:has(input) {
   position: relative;
@@ -82,6 +88,7 @@ fieldset {
     color 0.3s ease,
     border-color 0.3s ease;
 
+  & select,
   & input {
     flex-shrink: 1;
     border: none;
@@ -90,6 +97,15 @@ fieldset {
     &:focus {
       box-shadow: none;
     }
+  }
+
+  & input {
+    background: transparent;
+  }
+
+  & .prefix,
+  & .suffix {
+    flex-basis: 12rem;
   }
 
   &::before,
@@ -128,6 +144,19 @@ fieldset {
 
   & input {
     padding-right: 0.7em;
+  }
+}
+
+.field .input-addon {
+  & select,
+  & input {
+    border-left: 1px solid var(--input-border-color);
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+
+    &:first-child {
+      border-left: 0;
+    }
   }
 }
 
@@ -171,6 +200,7 @@ textarea,
 input[type],
 select,
 textarea,
+.input-addon,
 [data-prefix]:has(input),
 [data-suffix]:has(input) {
   &:hover {
@@ -186,6 +216,7 @@ textarea,
 }
 
 input[type='text'],
+input[type='date'],
 input[type='email'],
 input[type='url'],
 input[type='tel'],
@@ -271,10 +302,14 @@ input:where([type='checkbox'], [type='radio']) {
 
   &[disabled] {
     border-color: var(--gray-200);
-    background: var(--gray-100);
+    background-color: var(--gray-100);
 
     &:hover {
       border-color: var(--gray-200);
+    }
+
+    &:checked {
+      background-color: var(--gray-300);
     }
   }
 }
