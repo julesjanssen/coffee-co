@@ -6,6 +6,8 @@ namespace App\Http\Resources\Admin;
 
 use App\Models\Login;
 use App\Models\User;
+use App\Support\Login\IpInfo;
+use App\Support\Login\UserAgent;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin Login */
@@ -29,8 +31,8 @@ class LoginResource extends JsonResource
                 'name' => $authenticatable->name,
             ],
             'createdAt' => $this->created_at,
-            'ip' => $this->ip,
-            'userAgent' => $this->user_agent,
+            'ip' => IpInfo::getDetails($this->ip),
+            'userAgent' => UserAgent::getDetails($this->user_agent),
             'links' => [
                 'view' => route('admin.accounts.view', [$authenticatable]),
             ],

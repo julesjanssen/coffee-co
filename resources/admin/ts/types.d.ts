@@ -75,7 +75,24 @@ export type Login = {
     name: string
   }
   createdAt: string
-  ip: string
-  userAgent: string
+  ip: {
+    value: string
+    bogon: boolean
+    countryCode?: string
+    countryFlag?: string
+    countryFlagImage?: string
+    organization?: string
+    geoLocation?: Geolocation
+    timezone?: Geolocation
+  }
+  userAgent: {
+    value: string
+    deviceTypeIcon: string
+    clientFamily: string
+    clientVersion: string
+    osName: string
+    osVersion: string
+    isBot: boolean
+  }
   links: Record<string, string>
 }

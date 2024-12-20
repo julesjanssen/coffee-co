@@ -76,11 +76,24 @@
               <td>
                 <relative-time :datetime="login.createdAt" prefix="" />
               </td>
-              <td>
-                <code>{{ login.ip }}</code>
+              <td class="ip">
+                <span>
+                  <span v-if="login.ip.bogon" class="flag">🌏</span>
+                  <span v-else class="flag" :title="login.ip.countryCode">{{ login.ip.countryFlag }}</span>
+                  <code class="ip" :title="login.ip.organization">{{ login.ip.value }}</code>
+                </span>
               </td>
-              <td>
-                <small class="truncate">{{ login.userAgent }}</small>
+              <td class="ua">
+                <span>
+                  <Icon :name="`device-${login.userAgent.deviceTypeIcon}`" />
+                  <span v-if="login.userAgent.isBot" class="value">
+                    <div class="truncate" :title="login.userAgent.value">{{ login.userAgent.value }}</div>
+                  </span>
+                  <span v-else class="value" :title="login.userAgent.value">
+                    {{ login.userAgent.clientFamily }} {{ login.userAgent.clientVersion }} @
+                    {{ login.userAgent.osName }} {{ login.userAgent.osVersion }}
+                  </span>
+                </span>
               </td>
             </tr>
           </tbody>
@@ -107,3 +120,41 @@ defineProps<{
   logins?: Login[]
 }>()
 </script>
+
+<style scoped>
+td.ip {
+  & > span {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    & .flag {
+      font-size: 1.5em;
+      margin-block: -0.25em;
+    }
+  }
+
+  & code {
+    color: var(--gray-500);
+  }
+}
+
+td.ua {
+  & > span {
+    display: flex;
+    align-items: center;
+    gap: 0.65em;
+
+    & .v-icon {
+      font-size: 1.25em;
+      margin-block: -0.125em;
+    }
+
+    & .value {
+      max-width: 24em;
+      flex: 1;
+      color: var(--gray-500);
+    }
+  }
+}
+</style>
