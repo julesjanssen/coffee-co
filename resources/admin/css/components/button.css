@@ -25,6 +25,7 @@ main {
     font-weight: 550;
     gap: 0.5rem;
     line-height: 1.5;
+    text-box: cap alphabetic;
     transition: background 0.25s ease;
 
     &.small {
