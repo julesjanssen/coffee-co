@@ -13,7 +13,7 @@ class UserAgent
 
     public static function getDetails(string $userAgent)
     {
-        $key = 'useragent:details:' . $userAgent;
+        $key = 'useragent:details:' . hash('xxh3', $userAgent);
         $details = Cache::rememberForever($key, fn() => self::parseUserAgent($userAgent));
 
         return new UserAgentDetails($details);
