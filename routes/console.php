@@ -11,3 +11,4 @@ Schedule::call(function () {
 
 Schedule::command('app:backup')->dailyAt('04:00');
 Schedule::command('app:backup:clean')->dailyAt('04:30');
+Schedule::command('app:cleanup')->dailyAt('05:00');
