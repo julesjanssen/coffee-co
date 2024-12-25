@@ -25,6 +25,16 @@ Typographic adjustments taken from [TODS](https://clagnut.com/blog/2433/) / http
   line-height: 1.5;
   text-wrap: pretty;
 
+  &.pre {
+    white-space: preserve wrap;
+  }
+
+  & :is(p, ol, ul) {
+    & + :is(p, ol, ul) {
+      margin-top: 1em;
+    }
+  }
+
   & :is(strong, b, th) {
     font-weight: bold;
   }
