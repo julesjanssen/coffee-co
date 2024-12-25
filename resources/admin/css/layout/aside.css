@@ -148,9 +148,11 @@ button.aside-burger {
       gap: 0.75rem;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       background: var(--background-lighter);
       color: var(--link-highlight-color);
+      outline: none;
     }
   }
 
