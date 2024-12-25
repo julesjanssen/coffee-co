@@ -1,0 +1,92 @@
+main section {
+  container: main-section / inline-size;
+
+  & h2 {
+    margin: 1.5em 0 0.5em;
+    font-size: 1.1em;
+    font-weight: 700;
+  }
+
+  & > header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 0 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    margin: 0 0 2rem;
+    gap: 1.5rem;
+
+    @container main-section (width < 640px) {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    & > div {
+      flex: 1 1 auto;
+
+      &:has(h1, h2) {
+        flex-basis: 50%;
+      }
+    }
+
+    & a.back {
+      display: flex;
+      width: fit-content;
+      align-items: center;
+      padding: 0 1em 0 0;
+      margin: 0 0 2em;
+      color: var(--gray-400);
+      gap: 0.5em;
+
+      &:hover {
+        color: var(--gray-700);
+      }
+
+      &::before {
+        display: block;
+        height: 1em;
+        flex: 0 0 1em;
+        background: currentcolor;
+        content: '';
+        mask: url('/@admin:icons/chevron-left.svg') center / contain no-repeat;
+      }
+    }
+
+    & h1,
+    & h2 {
+      overflow: hidden;
+      line-height: 1.45;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    & h1 {
+      font-size: 1.5em;
+      font-weight: 600;
+    }
+
+    & h2 {
+      margin: 0;
+      color: var(--gray-500);
+      font-size: 1.2em;
+      font-weight: 400;
+    }
+
+    @container main-section (width < 640px) {
+      & h1 {
+        font-size: 1.3em;
+      }
+
+      & h2 {
+        font-size: 1.1em;
+      }
+    }
+
+    & .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5em;
+    }
+  }
+}

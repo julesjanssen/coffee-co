@@ -15,6 +15,7 @@
 @import url('components/pagination.css') layer(components);
 @import url('components/prose.css') layer(components);
 @import url('components/table.css') layer(components);
+@import url('components/section.css') layer(components);
 @import url('components/v-form-error.css') layer(components);
 @import url('components/v-icon.css') layer(components);
 @import url('components/vue-sonner.css') layer(components);
