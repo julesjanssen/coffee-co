@@ -46,6 +46,7 @@
     "nunomaduro/collision": "^8.0",
     "overtrue/phplint": "^9.4",
     "pestphp/pest": "^3.2",
+    "pestphp/pest-plugin-arch": "^3.0",
     "pestphp/pest-plugin-laravel": "^3.0",
     "shipmonk/composer-dependency-analyser": "^1.7"
   },
