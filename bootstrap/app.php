@@ -17,13 +17,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/health'
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->web(
-            append: [
-                \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
-                \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class,
-                HandleInertiaRequests::class,
-            ]
-        );
+        $middleware
+            ->web(
+                append: [
+                    \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
+                    \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class,
+                    HandleInertiaRequests::class,
+                ]
+            )
+            ->trustHosts(null, true);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         if (App::environment('local', 'testing')) {
