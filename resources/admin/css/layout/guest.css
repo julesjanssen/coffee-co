@@ -66,8 +66,8 @@
         margin: 0 0 1em 1em;
         background: rgb(from var(--gray-950) r g b / 80%);
         color: var(--white);
-        font-size: 0.875em;
-        opacity: 0.5;
+        font-size: 0.75em;
+        opacity: 0.6;
         transition: opacity 0.25s ease-out;
 
         &:hover {

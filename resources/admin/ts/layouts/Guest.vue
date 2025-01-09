@@ -16,8 +16,10 @@
       <figcaption>
         <p>
           Photo by
-          <a :href="guestImage.author.url" target="_blank" rel="noopener noreferrer">{{ guestImage.author.name }}</a> on
-          <a :href="guestImage.url" target="_blank" rel="noopener noreferrer">{{ guestImage.source }}</a>
+          <a :href="guestImage.author.url" target="_blank" rel="noopener noreferrer">{{ guestImage.author.name }}</a>
+          <template v-if="guestImage.source">
+            on <a :href="guestImage.url" target="_blank" rel="noopener noreferrer">{{ guestImage.source }}</a>
+          </template>
         </p>
       </figcaption>
     </figure>

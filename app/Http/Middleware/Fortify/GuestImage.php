@@ -25,6 +25,7 @@ class GuestImage
         $result = null;
 
         if ($results->isNotEmpty()) {
+            // different photo every hour
             $index = crc32(date('YmjH')) % $results->count();
             $result = $results->get($index);
         }
