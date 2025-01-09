@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Laravel\Fortify\Fortify;
 
@@ -29,6 +30,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Password::defaults(function () {
+            return Password::min(12)->max(72)->uncompromised(4);
+        });
+
         Fortify::loginView(fn() => Inertia::render('auth/login'));
         Fortify::requestPasswordResetLinkView(fn() => Inertia::render('auth/forgot-password'));
         Fortify::resetPasswordView(function (Request $request) {
