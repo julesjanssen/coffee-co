@@ -16,6 +16,5 @@ return $config
         'league/flysystem-path-prefixing',
         'symfony/postmark-mailer',
         'vagebond/aannemer',
-        'vagebond/beeld',
     ], [ErrorType::UNUSED_DEPENDENCY])
     ->disableExtensionsAnalysis();
