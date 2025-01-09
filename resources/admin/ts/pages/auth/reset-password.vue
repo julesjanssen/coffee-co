@@ -38,7 +38,7 @@
                 {{ $t('Use at least :t characters.', { t: String(minPassLength) }) }}
                 <br />
                 {{ $t('suggestion') }}
-                <!-- <code v-on:click="useSuggestion">{{ suggestion }}</code> -->
+                <code v-on:click="useSuggestion">{{ suggestion }}</code>
               </p>
             </div>
           </div>
@@ -63,6 +63,7 @@
 
 <script lang="ts" setup>
 import { Head, useForm } from '@inertiajs/vue3'
+import { toast } from 'vue-sonner'
 
 import FormError from '/@admin:components/FormError.vue'
 import GuestLayout from '/@admin:layouts/Guest.vue'
@@ -71,9 +72,9 @@ import { $t } from '/@admin:shared/i18n'
 const props = defineProps<{
   token: string
   email: string
+  minPassLength: number
+  suggestion: string
 }>()
-
-const minPassLength = 12
 
 const form = useForm({
   token: props.token,
@@ -85,7 +86,15 @@ const form = useForm({
 const submitForm = () => {
   form.post(location.pathname, {
     only: ['errors'],
+    onSuccess: () => {
+      toast($t('Password reset successfully.'))
+    },
   })
+}
+
+const useSuggestion = () => {
+  form.password = props.suggestion
+  form.password_confirmation = props.suggestion
 }
 
 defineOptions({

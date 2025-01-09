@@ -21,9 +21,7 @@
         </footer>
       </form>
 
-      <Link href="/auth/login">
-        {{ $t('back to login') }}
-      </Link>
+      <Link href="/auth/login"> <Icon name="chevron-left" /> {{ $t('back to login') }} </Link>
     </article>
   </main>
 </template>
@@ -33,6 +31,7 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { toast } from 'vue-sonner'
 
 import FormError from '/@admin:components/FormError.vue'
+import Icon from '/@admin:components/Icon.vue'
 import GuestLayout from '/@admin:layouts/Guest.vue'
 import { $t } from '/@admin:shared/i18n'
 
