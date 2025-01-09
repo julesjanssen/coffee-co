@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\Fortify\GuestImage;
 use Laravel\Fortify\Features;
 
 return [
@@ -103,7 +104,10 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    'middleware' => [
+        'web',
+        GuestImage::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------

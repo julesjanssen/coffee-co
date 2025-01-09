@@ -14,5 +14,9 @@
 </head>
 <body>
     @inertia
+
+@if (isset($guestImage))
+<script>var guestImage = @json($guestImage)</script>
+@endif
 </body>
 </html>
