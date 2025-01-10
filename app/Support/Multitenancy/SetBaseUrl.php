@@ -14,15 +14,11 @@ class SetBaseUrl implements SwitchTenantTask
     public function makeCurrent(IsTenant $tenant): void
     {
         /** @var Tenant $tenant */
-        URL::formatHostUsing(function () use ($tenant) {
-            return URL::formatScheme() . $tenant->getHost();
-        });
+        URL::formatHostUsing(fn() => URL::formatScheme() . $tenant->getHost());
     }
 
     public function forgetCurrent(): void
     {
-        URL::formatHostUsing(function () {
-            return config('app.url');
-        });
+        URL::formatHostUsing(fn() => config('app.url'));
     }
 }

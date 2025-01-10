@@ -40,7 +40,7 @@ class IpInfoDetails extends Fluent
         }
 
         if (isset($attributes['country'])) {
-            $this->attributes['countryCode'] = strtoupper($attributes['country']);
+            $this->attributes['countryCode'] = strtoupper((string) $attributes['country']);
             $this->attributes['countryFlag'] = $this->getCountryFlag($attributes['country']);
             $this->attributes['countryFlagImage'] = $this->getCountryFlagUrl($attributes['country']);
         }
@@ -53,7 +53,7 @@ class IpInfoDetails extends Fluent
         if (isset($attributes['loc'])) {
             $location = is_array($attributes['loc'])
                 ? $attributes['loc']
-                : explode(',', $attributes['loc']);
+                : explode(',', (string) $attributes['loc']);
 
             $this->attributes['geoLocation'] = [
                 'latitude' => (float) $location[0],
@@ -97,6 +97,6 @@ class IpInfoDetails extends Fluent
             return $value;
         }
 
-        return trim(substr($value, strlen($asn)));
+        return trim(substr($value, strlen((string) $asn)));
     }
 }

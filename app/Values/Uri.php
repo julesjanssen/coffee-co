@@ -67,7 +67,7 @@ class Uri extends BaseUri
 
         $params = collect($params)
             ->filter(function ($value, $key) {
-                if (substr($key, 0, 4) == 'utm_') {
+                if (str_starts_with($key, 'utm_')) {
                     return false;
                 }
 

@@ -29,7 +29,7 @@ class Php implements Arrayable
 
             try {
                 $response = Http::asJson()->get($url);
-            } catch (ConnectionException $e) {
+            } catch (ConnectionException) {
                 return;
             }
 
@@ -88,7 +88,7 @@ class Php implements Arrayable
 
     private function getBytes($str)
     {
-        $val = trim($str);
+        $val = trim((string) $str);
         $last = strtolower($val[strlen($val) - 1]);
         $val = (int) $val;
 

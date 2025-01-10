@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 class Navigation
 {
     private function __construct(
-        private Request $request,
+        private readonly Request $request,
     ) {}
 
     public static function build(Request $request)

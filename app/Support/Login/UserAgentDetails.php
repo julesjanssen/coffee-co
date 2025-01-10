@@ -48,16 +48,10 @@ class UserAgentDetails extends Fluent
             return 'desktop';
         }
 
-        switch ($this->attributes['deviceType']) {
-            case AbstractDeviceParser::DEVICE_TYPE_SMARTPHONE:
-            case AbstractDeviceParser::DEVICE_TYPE_FEATURE_PHONE:
-                return 'phone';
-
-            case AbstractDeviceParser::DEVICE_TYPE_TABLET:
-            case AbstractDeviceParser::DEVICE_TYPE_PHABLET:
-                return 'tablet';
-        }
-
-        return 'desktop';
+        return match ($this->attributes['deviceType']) {
+            AbstractDeviceParser::DEVICE_TYPE_SMARTPHONE, AbstractDeviceParser::DEVICE_TYPE_FEATURE_PHONE => 'phone',
+            AbstractDeviceParser::DEVICE_TYPE_TABLET, AbstractDeviceParser::DEVICE_TYPE_PHABLET => 'tablet',
+            default => 'desktop',
+        };
     }
 }

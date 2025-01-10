@@ -39,9 +39,7 @@ class AppLicensesList extends Command
             ->filter()
             ->sortBy('name')
             ->groupBy('license')
-            ->map(function ($packages, $license) {
-                return $this->groupByAuthor($packages);
-            });
+            ->map(fn($packages, $license) => $this->groupByAuthor($packages));
 
         $path = storage_path('app/open-source.json');
         file_put_contents($path, json_encode($packages, JSON_PRETTY_PRINT));
@@ -60,9 +58,7 @@ class AppLicensesList extends Command
 
                 return hash('xxh3', (string) $authorStr);
             })
-            ->map(function ($packages) {
-                return $packages->unique('name')->values();
-            })
+            ->map(fn($packages) => $packages->unique('name')->values())
             ->values();
     }
 
@@ -116,10 +112,7 @@ class AppLicensesList extends Command
         return collect()
             ->merge(Arr::get($data, 'require', []))
             ->merge(Arr::get($data, 'require-dev', []))
-            ->filter(function ($version, $name) {
-                // exclude PHP version & ext requirements
-                return strpos($name, '/') !== false;
-            })
+            ->filter(fn($version, $name) => str_contains((string) $name, '/'))
             ->keys()
             ->map(function ($name) {
                 $path = base_path('vendor/' . $name . '/composer.json');
@@ -201,9 +194,7 @@ class AppLicensesList extends Command
         if (empty($values)) {
             $values = Arr::get($config, 'licenses', []);
             $values = collect($values)
-                ->map(function ($value) {
-                    return Arr::get($value, 'type');
-                })
+                ->map(fn($value) => Arr::get($value, 'type'))
                 ->filter()
                 ->toArray();
         }

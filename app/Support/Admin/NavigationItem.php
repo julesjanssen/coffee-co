@@ -13,8 +13,8 @@ use Illuminate\Support\Str;
 class NavigationItem implements Arrayable
 {
     public function __construct(
-        private array $properties,
-        private Request $request
+        private readonly array $properties,
+        private readonly Request $request
     ) {}
 
     public function getTitle()

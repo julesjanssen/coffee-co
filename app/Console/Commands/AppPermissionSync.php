@@ -41,9 +41,9 @@ class AppPermissionSync extends Command
         collect($this->getRolesConfig())
             ->each(function ($item) use ($tenant) {
                 $role = Role::updateOrCreate([
-                    'name' => trim($item['name']),
+                    'name' => trim((string) $item['name']),
                 ], [
-                    'title' => trim($item['title']),
+                    'title' => trim((string) $item['title']),
                     'description' => trim($item['description'] ?? ''),
                     'level' => (int) ($item['level'] ?? 0),
                 ]);
@@ -57,10 +57,7 @@ class AppPermissionSync extends Command
 
     private function getPermission(Tenant $tenant, string $name)
     {
-        /** @phpstan-ignore closure.unusedUse */
-        return once(function () use ($tenant, $name) {
-            return Permission::updateOrCreate(['name' => $name]);
-        });
+        return once(fn() => Permission::updateOrCreate(['name' => $name]));
     }
 
     private function getRolesConfig()

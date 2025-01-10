@@ -74,17 +74,12 @@ class DatabaseController
             try {
                 $files = $this->getBackupDisk()
                     ->listContents(config('backup.backup.name'))
-                    ->filter(function (StorageAttributes $attributes) {
-                        return $attributes->isFile();
-                    })
+                    ->filter(fn(StorageAttributes $attributes) => $attributes->isFile())
                     ->sortByPath();
-            } catch (UnableToListContents $e) {
+            } catch (UnableToListContents) {
                 // backup disk not correctly configured
                 return collect();
-            } catch (CredentialsException $e) {
-                // backup disk not configured
-                return collect();
-            } catch (InvalidArgumentException $e) {
+            } catch (CredentialsException|InvalidArgumentException) {
                 // backup disk not configured
                 return collect();
             }
@@ -130,10 +125,9 @@ class DatabaseController
 
         $results = collect($results)
             ->pluck('Value', 'Variable_name')
-            ->filter(function ($item, $key) use ($list) {
+            ->filter(fn($item, $key) =>
                 /** @var string $key */
-                return array_key_exists($key, $list);
-            })
+                array_key_exists($key, $list))
             ->map(function ($item, $key) use ($list) {
                 if ($key == 'sql_mode') {
                     $item = collect(explode(',', $item))->implode(PHP_EOL);

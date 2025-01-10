@@ -134,7 +134,7 @@ trait EnumHelpers
      */
     protected static function getFriendlyName(string $name): string
     {
-        if (ctype_upper(preg_replace('/[^a-zA-Z]/', '', $name))) {
+        if (ctype_upper((string) preg_replace('/[^a-zA-Z]/', '', $name))) {
             $name = strtolower($name);
         }
 

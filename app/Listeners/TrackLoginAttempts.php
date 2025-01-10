@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 class TrackLoginAttempts
 {
     public function __construct(
-        private Request $request
+        private readonly Request $request
     ) {}
 
     public function handleLogin(LoginEvent $event)

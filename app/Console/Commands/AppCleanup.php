@@ -80,7 +80,7 @@ class AppCleanup extends Command
 
     private function cleanLogsDir()
     {
-        $path = dirname(config('logging.channels.daily.path'));
+        $path = dirname((string) config('logging.channels.daily.path'));
 
         $finder = new Finder();
         $finder->files()

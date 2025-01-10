@@ -27,17 +27,6 @@ class OpenSourceController extends Controller
 
         $data = json_decode(file_get_contents($path), true);
 
-        return collect($data)
-            ->map(function ($packages, $license) {
-                return collect($packages)
-                    ->map(function ($packages, $authorID) {
-                        return $packages;
-                        // return collect($packages)
-                        //     ->map(function ($package) {
-                        //         dd($package);
-                        //         return new($package);
-                        //     });
-                    });
-            });
+        return collect($data);
     }
 }

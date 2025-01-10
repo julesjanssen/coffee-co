@@ -30,20 +30,16 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Password::defaults(function () {
-            return Password::min(12)->max(72)->uncompromised(4);
-        });
+        Password::defaults(fn() => Password::min(12)->max(72)->uncompromised(4));
 
         Fortify::loginView(fn() => Inertia::render('auth/login'));
         Fortify::requestPasswordResetLinkView(fn() => Inertia::render('auth/forgot-password'));
-        Fortify::resetPasswordView(function (Request $request) {
-            return Inertia::render('auth/reset-password', [
-                'token' => $request->route('token'),
-                'email' => $request->input('email'),
-                'minPassLength' => 12,
-                'suggestion' => collect(range(1, 4))->map(fn() => Str::random(4))->join('-'),
-            ]);
-        });
+        Fortify::resetPasswordView(fn(Request $request) => Inertia::render('auth/reset-password', [
+            'token' => $request->route('token'),
+            'email' => $request->input('email'),
+            'minPassLength' => 12,
+            'suggestion' => collect(range(1, 4))->map(fn() => Str::random(4))->join('-'),
+        ]));
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
@@ -54,8 +50,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($throttleKey);
         });
 
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        });
+        RateLimiter::for('two-factor', fn(Request $request) => Limit::perMinute(5)->by($request->session()->get('login.id')));
     }
 }

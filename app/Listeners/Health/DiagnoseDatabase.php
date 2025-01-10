@@ -19,7 +19,7 @@ class DiagnoseDatabase
                 ->first();
         } catch (Exception $e) {
             $message = $e->getMessage();
-            $type = get_class($e);
+            $type = $e::class;
 
             throw new HealthException('Database: (' . $type . '): ' . $message, 0, $e);
         }

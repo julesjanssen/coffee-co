@@ -78,12 +78,12 @@ class UpdateController
         }
 
         $details = Cache::rememberForever(__METHOD__ . ':' . $email, function () use ($email) {
-            $hash = hash('sha256', strtolower($email));
+            $hash = hash('sha256', strtolower((string) $email));
             $url = sprintf('https://www.gravatar.com/%s.json', $hash);
 
             try {
                 $response = Http::asJson()->get($url);
-            } catch (ConnectionException $e) {
+            } catch (ConnectionException) {
                 return;
             }
 

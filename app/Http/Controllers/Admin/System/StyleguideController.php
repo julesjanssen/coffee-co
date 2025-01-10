@@ -18,8 +18,6 @@ class StyleguideController
     private function icons()
     {
         return collect(glob(resource_path('admin/icons/*.svg')))
-            ->map(function ($filename) {
-                return basename($filename, '.svg');
-            });
+            ->map(fn($filename) => basename((string) $filename, '.svg'));
     }
 }
