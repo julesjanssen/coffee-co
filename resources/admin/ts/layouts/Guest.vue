@@ -33,7 +33,7 @@
 import { Toaster } from 'vue-sonner'
 
 const guestImage = (window as any).guestImage ?? false
-const guestImageUrl = guestImage ? `https://static.jules.nl/img/blueprint/guest/${guestImage.basename}` : undefined
+const guestImageUrl = guestImage ? guestImage.img : undefined
 </script>
 
 <style src="/@admin:css/layout/guest.css"></style>

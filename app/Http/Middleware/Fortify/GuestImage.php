@@ -6,12 +6,15 @@ namespace App\Http\Middleware\Fortify;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
 
 class GuestImage
 {
+    private string $baseUrl = 'https://static.jules.nl/img/blueprint/guest/';
+
     /**
      * Handle an incoming request.
      *
@@ -31,8 +34,13 @@ class GuestImage
         }
 
         if (empty($result)) {
-            return;
+            return $next($request);
         }
+
+        $result['img'] = vsprintf('%s%s', [
+            $this->baseUrl,
+            Arr::pull($result, 'basename'),
+        ]);
 
         View::share('guestImage', $result);
 
@@ -44,7 +52,10 @@ class GuestImage
         $key = hash('xxh3', __METHOD__);
 
         $results = Cache::flexible($key, ['+1day', '+15 days'], function () {
-            $response = Http::get('https://static.jules.nl/img/blueprint/guest/photos.json');
+            $response = Http::timeout(5)
+                ->baseUrl($this->baseUrl)
+                ->get('photos.json');
+
             if (! $response->successful()) {
                 return [];
             }
