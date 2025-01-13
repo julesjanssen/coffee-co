@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
+use Inertia\Inertia;
 
 class GuestImage
 {
@@ -42,7 +43,7 @@ class GuestImage
             Arr::pull($result, 'basename'),
         ]);
 
-        View::share('guestImage', $result);
+        Inertia::share('app.guestImage', $result);
 
         return $next($request);
     }

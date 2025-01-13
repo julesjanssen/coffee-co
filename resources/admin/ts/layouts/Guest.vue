@@ -30,10 +30,13 @@
 </template>
 
 <script lang="ts" setup>
+import { usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import { Toaster } from 'vue-sonner'
 
-const guestImage = (window as any).guestImage ?? false
-const guestImageUrl = guestImage ? guestImage.img : undefined
+const page = usePage()
+const guestImage = computed(() => (page.props.app as any)?.guestImage)
+const guestImageUrl = computed(() => (guestImage.value ? guestImage.value.img : undefined))
 </script>
 
 <style src="/@admin:css/layout/guest.css"></style>
