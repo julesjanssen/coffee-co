@@ -34,42 +34,53 @@ class Storage implements Arrayable
     {
         $ttl = Date::parse('+30 minutes');
 
-        return Cache::remember(__METHOD__, $ttl, function () {
-            $folders = [
-                'framework/cache' => 'app cache',
-                'framework/views' => 'view cache',
-                'framework/sessions' => 'sessions',
-                'logs' => 'logs',
-                'tmp' => 'temporary files',
-            ];
+        return Cache::remember(__METHOD__, $ttl, fn() => collect([
+            $this->getDirectoryStats(storage_path('framework/views'), 'view cache'),
+            $this->getDatabaseSize('sessions', 'sessions'),
+            $this->getDatabaseSize('cache', 'cache'),
+            $this->getDirectoryStats(storage_path('logs'), 'logs'),
+            $this->getDirectoryStats(storage_path('tmp'), 'temporary files'),
+        ])->filter()->values());
+    }
 
-            $results = collect();
+    private function getDatabaseSize(string $dbName, string $name)
+    {
+        $config = config('database.connections.' . $dbName);
+        if (empty($config) || $config['driver'] !== 'sqlite') {
+            return;
+        }
 
-            foreach ($folders as $folder => $name) {
-                $path = storage_path($folder);
-                if (! file_exists($path)) {
-                    continue;
-                }
+        $path = $config['database'];
+        if (! file_exists($path)) {
+            return;
+        }
 
-                $finder = (new Finder())
-                    ->files()
-                    ->in($path);
+        return (object) [
+            'name' => $name,
+            'size' => filesize($path),
+        ];
+    }
 
-                $size = 0;
-                foreach ($finder as $file) {
-                    $size += $file->getSize();
-                }
+    private function getDirectoryStats(string $path, string $name)
+    {
+        if (! file_exists($path)) {
+            return;
+        }
 
-                $results->push((object) [
-                    'folder' => $folder,
-                    'size' => $size,
-                    'count' => count($finder),
-                    'name' => $name,
-                ]);
-            }
+        $finder = (new Finder())
+            ->files()
+            ->in($path);
 
-            return $results;
-        });
+        $size = 0;
+        foreach ($finder as $file) {
+            $size += $file->getSize();
+        }
+
+        return (object) [
+            'name' => $name,
+            'size' => $size,
+            'fileCount' => count($finder),
+        ];
     }
 
     public function toArray()

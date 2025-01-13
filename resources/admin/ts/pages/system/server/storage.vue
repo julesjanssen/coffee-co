@@ -8,7 +8,7 @@
 
     <dl v-if="data">
       <div>
-        <dt>Total attachments size:</dt>
+        <dt>total attachments size:</dt>
         <dd>{{ filesize(data.attachments.size) }} &mdash; {{ filesize(data.attachments.disk) }} on disk</dd>
       </div>
 
@@ -16,7 +16,7 @@
         <dt>{{ stat.name }}</dt>
         <dd>
           {{ filesize(stat.size) }} &nbsp;
-          <small>({{ stat.count }} files)</small>
+          <small v-if="stat.fileCount">({{ stat.fileCount }} files)</small>
         </dd>
       </div>
     </dl>
