@@ -78,6 +78,7 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'formatter' => Monolog\Formatter\JsonFormatter::class,
+            'formatter_with' => ['includeStacktraces' => true],
             'replace_placeholders' => true,
         ],
 
