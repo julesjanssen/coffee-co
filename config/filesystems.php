@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Enums\Disk;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -30,18 +32,26 @@ return [
     */
 
     'disks' => [
-        'local' => [
+        Disk::LOCAL->value => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
+            'url' => '/secure-storage/',
             'serve' => true,
             'throw' => true,
         ],
 
-        'public' => [
+        Disk::PUBLIC->value => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
+            'throw' => true,
+        ],
+
+        Disk::DOWNLOADS->value => [
+            'driver' => 'scoped',
+            'disk' => 'local',
+            'prefix' => 'downloads',
             'throw' => true,
         ],
 
@@ -51,6 +61,7 @@ return [
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
+            'root' => env('AWS_PREFIX'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env(

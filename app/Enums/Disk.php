@@ -14,7 +14,15 @@ enum Disk: string
 
     case TENANT = 'tenant';
 
+    case TENANT_CLOUD = 'tenant-cloud';
+
     case TENANT_BACKUP = 'tenant-backup';
+
+    case PUBLIC = 'public';
+
+    case LOCAL = 'local';
+
+    case DOWNLOADS = 'downloads';
 
     public function storage(): FilesystemAdapter
     {
