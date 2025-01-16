@@ -13,6 +13,8 @@ abstract class TestCase extends BaseTestCase
 {
     use DatabaseMigrations;
 
+    protected array $connectionsToTransact = [null, 'tenant'];
+
     protected function refreshTestDatabase()
     {
         $this->artisan('migrate:fresh', [
