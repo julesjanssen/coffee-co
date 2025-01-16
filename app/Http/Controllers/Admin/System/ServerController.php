@@ -11,7 +11,9 @@ use App\Support\Admin\Server\OsInternet;
 use App\Support\Admin\Server\Php;
 use App\Support\Admin\Server\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ServerController extends Controller
 {
@@ -24,5 +26,24 @@ class ServerController extends Controller
             'php' => Inertia::defer(fn() => (new Php())->toArray()),
             'storage' => Inertia::defer(fn() => (new Storage())->toArray()),
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'action' => ['required', 'string', Rule::in(['resetOpcache'])],
+        ]);
+
+        return match ($request->input('action')) {
+            'resetOpcache' => $this->resetOpcache(),
+            default => new BadRequestException(),
+        };
+    }
+
+    private function resetOpcache()
+    {
+        if (opcache_reset()) {
+            return response()->noContent();
+        }
     }
 }

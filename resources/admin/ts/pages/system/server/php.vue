@@ -51,8 +51,19 @@
       <div>
         <dt>OPcache</dt>
         <dd>
-          <template v-if="data.opcache.enabled === false"> disabled </template>
-          <template v-else> enabled (using {{ filesize(data.opcache.usedMemory) }}) </template>
+          <span v-if="data.opcache.enabled === false" class="badge danger">disabled</span>
+          <template v-else>
+            <span class="badge success">enabled</span> (using {{ filesize(data.opcache.usedMemory) }})
+            <button
+              v-if="data.opcache.usedMemory > 0"
+              v-on:click.prevent="resetOpcache"
+              type="button"
+              class="small inline"
+              style="margin-left: 1em"
+            >
+              reset
+            </button>
+          </template>
         </dd>
       </div>
 
@@ -75,9 +86,11 @@
 </template>
 
 <script lang="ts" setup>
+import { router } from '@inertiajs/vue3'
 import filesize from 'filesize.js'
 
 import DateTime from '/@admin:components/DateTime.vue'
+import { http } from '/@admin:shared/http'
 
 defineProps<{
   data: any
@@ -89,5 +102,15 @@ const isPast = (value: string) => {
   const date = new Date(value)
 
   return date.getTime() < now.getTime()
+}
+
+const resetOpcache = () => {
+  http
+    .post(location.pathname, {
+      action: 'resetOpcache',
+    })
+    .then(() => {
+      router.reload()
+    })
 }
 </script>

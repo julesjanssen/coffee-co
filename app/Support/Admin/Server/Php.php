@@ -57,6 +57,10 @@ class Php implements Arrayable
 
     private function getOPcacheDetails()
     {
+        if (! function_exists('opcache_get_status')) {
+            return false;
+        }
+
         $status = opcache_get_status(false);
         if ($status === false) {
             return $status;

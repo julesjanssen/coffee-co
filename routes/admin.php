@@ -53,6 +53,7 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
     Route::get('changelog', 'ChangelogController@index')->name('changelog');
     Route::get('code', 'CodeController@index')->name('code');
     Route::get('server/load', 'ServerController@load')->name('server.load');
+    Route::post('server', 'ServerController@store');
     Route::get('server', 'ServerController@index')->name('server');
     Route::get('database', 'DatabaseController@index')->name('database');
     Route::get('database/download/{name}', 'DatabaseController@download')->name('database.download');
