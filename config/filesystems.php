@@ -36,7 +36,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'url' => '/secure-storage/',
-            'serve' => true,
+            'serve' => false,
             'throw' => true,
         ],
 
