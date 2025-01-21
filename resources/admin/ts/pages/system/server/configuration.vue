@@ -67,11 +67,11 @@
             <summary>
               <span class="badge success">PATH set</span>
             </summary>
-            <ul>
+            <ol>
               <li v-for="(element, index) in data.path" :key="index">
                 <code>{{ element }}</code>
               </li>
-            </ul>
+            </ol>
           </details>
         </dd>
       </div>
@@ -107,19 +107,28 @@ dd.path {
     font-weight: normal;
   }
 
-  & ul li {
-    & code {
-      display: inline-block;
-      padding: 0.35em 0.5em;
-      border-radius: 3px;
-      background: var(--gray-800);
-      color: var(--green-400);
-      font-size: 0.9em;
-      line-height: 1;
-    }
+  & ol {
+    width: fit-content;
+    min-width: 20em;
+    padding: 0.45em 0;
+    padding-left: 2em;
+    border-radius: 3px;
+    background: var(--gray-800);
+    font-size: 0.9em;
+    list-style: decimal;
 
-    & + li {
-      margin-top: 0.25em;
+    li {
+      padding: 0.35em 0.5em;
+      color: var(--gray-500);
+      line-height: 1.2;
+
+      & code {
+        color: var(--gray-200);
+      }
+
+      &:first-child code {
+        color: var(--green-400);
+      }
     }
   }
 }
