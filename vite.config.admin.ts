@@ -48,6 +48,45 @@ export default defineConfig(({ command }) => {
       assetsDir: 'v',
       manifest: 'manifest.json',
       sourcemap: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id: string) {
+            if (id.includes('lodash')) {
+              return 'lodash'
+            }
+
+            if (id.includes('floating')) {
+              return 'floating'
+            }
+
+            if (id.includes('radix')) {
+              return 'radix'
+            }
+
+            if (id.includes('@inertiajs') || id.includes('nprogress')) {
+              return 'inertia'
+            }
+
+            if (id.includes('axios') || id.includes('qs')) {
+              return 'http'
+            }
+
+            if (
+              id.includes('tus-js') ||
+              id.includes('querystringify') ||
+              id.includes('js-base64') ||
+              id.includes('url-parse')
+            ) {
+              return 'tus'
+            }
+
+            // vue & vueuse
+            if (id.includes('@vue')) {
+              return 'vue'
+            }
+          },
+        },
+      },
     },
     resolve: {
       alias: [
