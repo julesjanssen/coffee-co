@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin\System;
 use App\Http\Controllers\Controller;
 use App\Support\Admin\Server\Configuration;
 use App\Support\Admin\Server\Health;
+use App\Support\Admin\Server\Load;
 use App\Support\Admin\Server\OsInternet;
 use App\Support\Admin\Server\Php;
 use App\Support\Admin\Server\Storage;
@@ -25,6 +26,7 @@ class ServerController extends Controller
             'osInternet' => Inertia::defer(fn() => (new OsInternet())->toArray()),
             'php' => Inertia::defer(fn() => (new Php())->toArray()),
             'storage' => Inertia::defer(fn() => (new Storage())->toArray()),
+            'load' => Inertia::defer(fn() => (new Load())->toArray()),
         ]);
     }
 

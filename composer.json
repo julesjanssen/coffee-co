@@ -30,6 +30,7 @@
     "symfony/finder": "^7.1",
     "symfony/http-foundation": "^7.2",
     "symfony/postmark-mailer": "^7.1",
+    "symfony/process": "^7.2",
     "symfony/yaml": "^7.1",
     "vagebond/aannemer": "^1.2",
     "vagebond/beeld": "^2.6",

@@ -36,6 +36,21 @@
       <OsInternet :data="osInternet" />
     </Deferred>
 
+    <Deferred data="load">
+      <template #fallback>
+        <section>
+          <header>
+            <div>
+              <h1>Server load</h1>
+            </div>
+          </header>
+          <Loader />
+        </section>
+      </template>
+
+      <Load :data="load" />
+    </Deferred>
+
     <Deferred data="storage">
       <template #fallback>
         <section>
@@ -62,6 +77,7 @@ import AuthLayout from '/@admin:layouts/Auth.vue'
 
 import Configuration from './server/configuration.vue'
 import Health from './server/health.vue'
+import Load from './server/load.vue'
 import OsInternet from './server/os-internet.vue'
 import Php from './server/php.vue'
 import Storage from './server/storage.vue'
@@ -72,6 +88,7 @@ defineProps<{
   osInternet?: any
   php?: any
   storage?: any
+  load?: any
 }>()
 
 defineOptions({
