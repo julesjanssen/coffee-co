@@ -8,7 +8,7 @@ use App\Models\Attachment;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
-use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Facades\File;
 
 class Storage implements Arrayable
 {
@@ -67,19 +67,13 @@ class Storage implements Arrayable
             return;
         }
 
-        $finder = (new Finder())
-            ->files()
-            ->in($path);
-
-        $size = 0;
-        foreach ($finder as $file) {
-            $size += $file->getSize();
-        }
+        $files = File::files($path, false);
+        $size = collect($files)->sum(fn($v) => $v->getSize());
 
         return (object) [
             'name' => $name,
             'size' => $size,
-            'fileCount' => count($finder),
+            'fileCount' => count($files),
         ];
     }
 
