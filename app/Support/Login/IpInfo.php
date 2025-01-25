@@ -37,7 +37,10 @@ class IpInfo
 
         $token = config('services.ipinfo.key');
         if (empty($token)) {
-            return [];
+            return [
+                'ip' => $ipAddress,
+                'bogon' => true,
+            ];
         }
 
         $cachekey = 'ipinfo:ip:' . $ipAddress;
