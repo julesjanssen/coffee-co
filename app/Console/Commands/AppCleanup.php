@@ -11,8 +11,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
-use Symfony\Component\Finder\Finder;
 
 class AppCleanup extends Command
 {
@@ -35,9 +35,9 @@ class AppCleanup extends Command
      */
     public function handle()
     {
-        $this->cleanTmpDir();
         $this->purgeExpiredPasswordResets();
         $this->cleanUserLogins();
+        $this->cleanTmpDir();
         $this->cleanLogsDir();
         $this->removeEmptyStorageDirs();
 
@@ -47,19 +47,28 @@ class AppCleanup extends Command
     protected function cleanTmpDir()
     {
         $path = storage_path('tmp');
+        $maxTime = Date::now()->subHours(12)->timestamp;
 
-        if (! file_exists($path)) {
+        $this->cleanDirectory($path, $maxTime);
+    }
+
+    private function cleanLogsDir()
+    {
+        $path = dirname((string) config('logging.channels.daily.path'));
+        $maxTime = Date::now()->subWeeks(2)->timestamp;
+
+        $this->cleanDirectory($path, $maxTime);
+    }
+
+    private function cleanDirectory(string $path, int $maxTimestamp)
+    {
+        if (! file_exists($path) || ! is_dir($path)) {
             return;
         }
 
-        $finder = new Finder();
-        $finder->files()
-            ->in($path)
-            ->date('before 12 hours ago');
-
-        foreach ($finder as $file) {
-            unlink($file->getPathname());
-        }
+        collect(File::files($path))
+            ->filter(fn($f) => $f->getMTime() < $maxTimestamp)
+            ->each(fn($f) => unlink($f->getPathname()));
     }
 
     private function purgeExpiredPasswordResets()
@@ -76,20 +85,6 @@ class AppCleanup extends Command
                 ->where('created_at', '<', Date::parse('12 months ago'))
                 ->delete();
         });
-    }
-
-    private function cleanLogsDir()
-    {
-        $path = dirname((string) config('logging.channels.daily.path'));
-
-        $finder = new Finder();
-        $finder->files()
-            ->in($path)
-            ->date('before 2 weeks ago');
-
-        foreach ($finder as $file) {
-            unlink($file->getPathname());
-        }
     }
 
     protected function removeEmptyStorageDirs()
