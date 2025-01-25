@@ -10,7 +10,10 @@
       </div>
     </header>
 
-    <div id="server-load-chart"></div>
+    <div v-if="data.results.length === 0" class="empty">
+      <p>No server load data available.</p>
+    </div>
+    <div v-else id="server-load-chart"></div>
   </section>
 </template>
 
@@ -100,6 +103,18 @@ const initChart = async () => {
 }
 
 onMounted(() => {
+  if (props.data.results.length === 0) {
+    return
+  }
+
   initChart()
 })
 </script>
+
+<style scoped>
+.empty {
+  padding: var(--viewport-padding-inline);
+  color: var(--gray-400);
+  text-align: center;
+}
+</style>
