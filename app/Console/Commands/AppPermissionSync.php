@@ -8,6 +8,7 @@ use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
+use Illuminate\Support\Once;
 use Symfony\Component\Yaml\Yaml;
 
 class AppPermissionSync extends Command
@@ -32,6 +33,8 @@ class AppPermissionSync extends Command
     public function handle()
     {
         Tenant::all()->eachCurrent(function (Tenant $tenant) {
+            Once::flush();
+
             $this->syncPermissionsForTenant($tenant);
         });
     }
