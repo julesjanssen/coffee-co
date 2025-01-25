@@ -18,6 +18,7 @@
       "/@admin:css/*": ["resources/admin/css/*"],
       "/@admin:icons/*": ["resources/admin/icons/*"],
       "/@admin:components/*": ["resources/admin/ts/components/*"],
+      "/@admin:composables/*": ["./resources/admin/ts/composables/*"],
       "/@admin:layouts/*": ["resources/admin/ts/layouts/*"],
       "/@admin:shared/*": ["resources/admin/ts/shared/*"],
       "/@admin:types": ["resources/admin/ts/types.d.ts"]

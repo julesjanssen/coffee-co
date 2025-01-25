@@ -111,6 +111,10 @@ export default defineConfig(({ command }) => {
           replacement: resolve(__dirname, 'resources/admin/ts/components/'),
         },
         {
+          find: /^\/@admin:composables/,
+          replacement: resolve(__dirname, 'resources/admin/ts/composables/'),
+        },
+        {
           find: /^\/@admin:layouts/,
           replacement: resolve(__dirname, 'resources/admin/ts/layouts/'),
         },
