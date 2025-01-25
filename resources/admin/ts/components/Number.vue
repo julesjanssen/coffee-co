@@ -1,5 +1,5 @@
 <template>
-  <span class="number-display tabular-num">
+  <span class="number-display tabular-nums">
     <span v-if="prefix" class="prefix">{{ prefix }}</span>
     {{ displayValue }}
   </span>
