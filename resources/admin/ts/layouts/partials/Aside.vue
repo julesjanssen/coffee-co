@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 import Icon from '/@admin:components/Icon.vue'
@@ -32,4 +33,8 @@ import Navigation from './aside/Navigation.vue'
 const showNavigation = ref(false)
 
 const toggleNavigation = () => (showNavigation.value = !showNavigation.value)
+
+router.on('finish', () => {
+  showNavigation.value = false
+})
 </script>
