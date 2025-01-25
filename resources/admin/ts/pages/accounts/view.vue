@@ -63,41 +63,45 @@
           </div>
         </header>
 
-        <table>
-          <thead>
-            <tr>
-              <th>date / time</th>
-              <th>ip</th>
-              <th>user-agent</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="login in logins" :key="login.sqid">
-              <td>
-                <relative-time :datetime="login.createdAt" prefix="" />
-              </td>
-              <td class="ip">
-                <span>
-                  <span v-if="login.ip.bogon" class="flag">🌏</span>
-                  <span v-else class="flag" :title="login.ip.countryCode">{{ login.ip.countryFlag }}</span>
-                  <code class="ip" :title="login.ip.organization">{{ login.ip.value }}</code>
-                </span>
-              </td>
-              <td class="ua">
-                <span>
-                  <Icon :name="`device-${login.userAgent.deviceTypeIcon}`" />
-                  <span v-if="login.userAgent.isBot" class="value">
-                    <div class="truncate" :title="login.userAgent.value">{{ login.userAgent.value }}</div>
-                  </span>
-                  <span v-else class="value" :title="login.userAgent.value">
-                    {{ login.userAgent.clientFamily }} {{ login.userAgent.clientVersion }} @
-                    {{ login.userAgent.osName }} {{ login.userAgent.osVersion }}
-                  </span>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrapper">
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>date / time</th>
+                  <th>ip</th>
+                  <th>user-agent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="login in logins" :key="login.sqid">
+                  <td>
+                    <relative-time :datetime="login.createdAt" prefix="" />
+                  </td>
+                  <td class="ip">
+                    <span>
+                      <span v-if="login.ip.bogon" class="flag">🌏</span>
+                      <span v-else class="flag" :title="login.ip.countryCode">{{ login.ip.countryFlag }}</span>
+                      <code class="ip" :title="login.ip.organization">{{ login.ip.value }}</code>
+                    </span>
+                  </td>
+                  <td class="ua">
+                    <span>
+                      <Icon :name="`device-${login.userAgent.deviceTypeIcon}`" />
+                      <span v-if="login.userAgent.isBot" class="value">
+                        <div class="truncate" :title="login.userAgent.value">{{ login.userAgent.value }}</div>
+                      </span>
+                      <span v-else class="value" :title="login.userAgent.value">
+                        {{ login.userAgent.clientFamily }} {{ login.userAgent.clientVersion }} @
+                        {{ login.userAgent.osName }} {{ login.userAgent.osVersion }}
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
     </Deferred>
   </main>

@@ -19,4 +19,9 @@ main.accounts.index {
       box-shadow: 0 0 2px inset var(--gray-400);
     }
   }
+
+  & .badges {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 }
