@@ -7,7 +7,7 @@ aside {
   position: fixed;
   z-index: 100;
   display: flex;
-  width: min(calc(100dvw - 1rem), 18rem);
+  width: var(--sidebar-width);
   flex-direction: column;
   border-radius: 8px;
   background-color: var(--background);
@@ -42,7 +42,6 @@ button.aside-burger {
   }
 
   aside {
-    width: var(--sidebar-width);
     border-radius: 0;
     inset: 0 auto 0 0;
     transition: none;

@@ -5,7 +5,7 @@
   --viewport-padding-top: 6rem;
   --viewport-padding-bottom: 4rem;
   --viewport-padding-inline: 1rem;
-  --sidebar-width: 16rem;
+  --sidebar-width: min(calc(100dvw - 1rem), 18rem);
 }
 
 @media (width >= 480px) {
@@ -19,6 +19,7 @@
     --viewport-padding-top: 4rem;
     --viewport-padding-bottom: 4rem;
     --viewport-padding-inline: 2.5rem;
+    --sidebar-width: 16rem;
   }
 }
 
