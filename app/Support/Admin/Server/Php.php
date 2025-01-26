@@ -20,39 +20,35 @@ class Php implements Arrayable
 
     private function getPhpReleaseInfo()
     {
-        $ttl = Date::tomorrow()->endOfDay();
+        $url = vsprintf('https://phpreleases.com/api/releases/%s', [
+            phpversion(),
+        ]);
 
-        return Cache::remember(__METHOD__, $ttl, function () {
-            $url = vsprintf('https://phpreleases.com/api/releases/%s', [
-                phpversion(),
-            ]);
+        try {
+            $response = Http::asJson()->get($url);
+        } catch (ConnectionException) {
+            return;
+        }
 
-            try {
-                $response = Http::asJson()->get($url);
-            } catch (ConnectionException) {
-                return;
-            }
+        if (! $response->successful()) {
+            return;
+        }
 
-            if (! $response->successful()) {
-                return;
-            }
+        $json = $response->json();
+        $data = Arr::get($json, 'provided', []);
 
-            $json = $response->json();
-            $data = Arr::get($json, 'provided', []);
+        if (! array_key_exists('active_support_until', $data)) {
+            return;
+        }
 
-            if (! array_key_exists('active_support_until', $data)) {
-                return;
-            }
+        $activeSupportUntil = Date::parse($data['active_support_until']);
+        $securitySupportUntil = Date::parse($data['security_support_until']);
 
-            $activeSupportUntil = Date::parse($data['active_support_until']);
-            $securitySupportUntil = Date::parse($data['security_support_until']);
-
-            return (object) [
-                'activeUntil' => $activeSupportUntil,
-                'securityUntil' => $securitySupportUntil,
-                'patchAvailable' => $data['needs_patch'],
-            ];
-        });
+        return (object) [
+            'activeUntil' => $activeSupportUntil,
+            'securityUntil' => $securitySupportUntil,
+            'patchAvailable' => $data['needs_patch'],
+        ];
     }
 
     private function getOPcacheDetails()
@@ -112,13 +108,17 @@ class Php implements Arrayable
 
     public function toArray()
     {
-        return [
-            'version' => $this->getPHPVersion(),
-            'releaseInfo' => $this->getPhpReleaseInfo(),
-            'opcache' => $this->getOPcacheDetails(),
-            'maxUpload' => $this->getMaxUploadSize(),
-            'maxExecution' => $this->getMaxExecutionTime(),
-            'memoryLimit' => $this->getMemoryLimit(),
-        ];
+        $ttl = Date::tomorrow()->endOfDay();
+
+        return Cache::remember(__METHOD__, $ttl, function () {
+            return [
+                'version' => $this->getPHPVersion(),
+                'releaseInfo' => $this->getPhpReleaseInfo(),
+                'opcache' => $this->getOPcacheDetails(),
+                'maxUpload' => $this->getMaxUploadSize(),
+                'maxExecution' => $this->getMaxExecutionTime(),
+                'memoryLimit' => $this->getMemoryLimit(),
+            ];
+        });
     }
 }
