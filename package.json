@@ -12,6 +12,7 @@
     "@types/node": "^22.5.5",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vueuse/core": "^11.1.0",
+    "axios-cache-interceptor": "^1.6.2",
     "browserslist": "^4.23.3",
     "eslint": "^9.11.0",
     "eslint-config-prettier": "^9.1.0",

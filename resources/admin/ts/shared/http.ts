@@ -1,5 +1,6 @@
 import { router } from '@inertiajs/vue3'
 import axios, { isAxiosError, isCancel } from 'axios'
+import { buildWebStorage, setupCache } from 'axios-cache-interceptor'
 import { toast } from 'vue-sonner'
 
 const instance = axios.create()
@@ -22,4 +23,8 @@ instance.interceptors.response.use(
   },
 )
 
-export { instance as http }
+const cachedInstance = setupCache(instance, {
+  storage: buildWebStorage(window.localStorage, 'axios-cache:'),
+})
+
+export { cachedInstance as cachedHttp, instance as http }
