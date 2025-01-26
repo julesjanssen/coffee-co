@@ -27,8 +27,9 @@ class ViewController
     private function listLogins(User $account)
     {
         $results = Login::query()
-            ->whereMorphedTo('authenticatable', $account)
             ->with('authenticatable')
+            ->whereMorphedTo('authenticatable', $account)
+            ->where('success', '=', true)
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
