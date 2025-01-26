@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware\Admin;
 
-use App\Models\Tenant;
 use App\Support\Admin\Navigation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -52,7 +51,6 @@ class HandleInertiaRequests extends Middleware
                 'title' => config('app.title'),
                 'route' => route('admin.dashboard.index'),
                 'navigation' => fn() => $this->navigation($request),
-                'tenant' => fn() => $this->tenant($request),
                 'account' => fn() => $this->account($request),
             ],
         ]);
@@ -61,18 +59,6 @@ class HandleInertiaRequests extends Middleware
     private function navigation(Request $request)
     {
         return Navigation::build($request);
-    }
-
-    private function tenant(Request $request)
-    {
-        $tenant = Tenant::current();
-        if (empty($tenant)) {
-            return;
-        }
-
-        return [
-            'title' => $tenant->name,
-        ];
     }
 
     private function account(Request $request)

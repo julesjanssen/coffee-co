@@ -5,7 +5,6 @@ export type PageProps = {
     env: string
     title: string
     navigation: NavigationItem[]
-    tenant: any
     account: any
   }
 } & { errors: Errors & ErrorBag }
