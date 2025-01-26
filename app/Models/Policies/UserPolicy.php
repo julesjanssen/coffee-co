@@ -63,7 +63,7 @@ class UserPolicy
             return false;
         }
 
-        if ($user->trashed()) {
+        if ($account->trashed()) {
             return false;
         }
 

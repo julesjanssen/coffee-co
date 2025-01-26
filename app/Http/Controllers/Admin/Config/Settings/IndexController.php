@@ -12,8 +12,6 @@ class IndexController
 {
     public function index(Request $request)
     {
-        sleep(2);
-
         return [
             'tenants' => $this->listTenants($request),
         ];

@@ -6,7 +6,7 @@
     - admin.tenants.create
     - admin.tenants.update
     - admin.tenants.delete
-    - admin.tenants.impersonate
+    - admin.tenants.switch
 
 - name: tech-admin
   title: 'Tech admin'

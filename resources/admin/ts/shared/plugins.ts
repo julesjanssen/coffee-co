@@ -12,6 +12,10 @@ export const registerPlugins = (app: App) => {
         placement: 'bottom-end',
         distance: 10,
       },
+      ['tenant-switch']: {
+        $extend: 'dropdown',
+        distance: 8,
+      },
     },
   })
 }

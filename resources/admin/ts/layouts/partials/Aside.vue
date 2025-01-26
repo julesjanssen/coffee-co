@@ -9,9 +9,7 @@
         <Icon name="x" />
       </button>
 
-      <h1>
-        <span>{{ ($page.props as PageProps).app.title }}</span>
-      </h1>
+      <TenantSwitch />
     </div>
 
     <Navigation />
@@ -25,7 +23,7 @@ import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 import Icon from '/@admin:components/Icon.vue'
-import type { PageProps } from '/@admin:types'
+import TenantSwitch from '/@admin:components/TenantSwitch.vue'
 
 import Account from './aside/Account.vue'
 import Navigation from './aside/Navigation.vue'

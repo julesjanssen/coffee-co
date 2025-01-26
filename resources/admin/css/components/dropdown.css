@@ -96,3 +96,37 @@
     transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+.v-popper--theme-tenant-switch {
+  --dropdown-background: oklch(from var(--background) calc(1.24 * l) calc(1.44 * c) h);
+  --link-color: oklch(from var(--background) calc(3.14 * l) calc(1.55 * c) min(h, calc(0.99 * h)));
+  --link-highlight-color: oklch(from var(--background) calc(3.8 * l) calc(0.33 * c) h);
+
+  & .v-popper__inner {
+    width: calc(var(--sidebar-width) - 2rem);
+    background-color: var(--dropdown-background);
+    box-shadow:
+      rgb(255 255 255 / 6%) 0 1px 0 0 inset,
+      rgb(255 255 255 / 2%) 0 0 0 1px inset,
+      rgb(from var(--background-darker) r g b / 20%) 0 0 0 1px,
+      rgb(from var(--background-darker) r g b / 20%) 0 2px 2px -1px,
+      rgb(from var(--background-darker) r g b / 20%) 0 4px 4px -2px;
+    color: var(--link-color);
+    text-shadow: 0 1px 0 rgb(from var(--background-darker) r g b / 90%);
+
+    & ul li {
+      padding: 0.25rem 0.5rem;
+      margin: 0;
+
+      & a {
+        padding: 0.5rem;
+        color: var(--link-color);
+
+        &:hover {
+          background: var(--background);
+          color: var(--link-color);
+        }
+      }
+    }
+  }
+}

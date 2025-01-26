@@ -26,6 +26,7 @@ button.aside-burger {
   position: absolute;
   top: 1rem;
   left: var(--viewport-padding-inline);
+  width: 1.5em;
   padding: 0.25em;
   border: 0;
   margin: -0.25em;
@@ -61,26 +62,64 @@ button.aside-burger {
 
 .aside-top {
   position: relative;
-  padding: 1rem 1rem 1.25rem 3.5rem;
+  padding: 1rem;
 
-  & h1 {
-    overflow: hidden;
-    padding: 0.25em 0 0;
-    margin: 0;
-    font-size: 0.9375rem;
-    font-weight: 550;
-    line-height: 1.7rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  & .tenant-switch {
+    color: var(--gray-300);
+    margin-inline-start: 2.4em;
+
+    &:has(.v-popper) {
+      margin-block-start: 3rem;
+      margin-inline-start: 0;
+    }
+  }
+
+  & .tenant-name {
+    position: relative;
+    justify-content: space-between;
+
+    .v-popper & {
+      &::after {
+        display: block;
+        width: 1em;
+        height: 1em;
+        flex: 0 0 1em;
+        background: var(--gray-500);
+        content: '';
+        mask: url('/@admin:icons/chevrons-up-down.svg') center no-repeat;
+        mask-size: contain;
+      }
+
+      &:hover::after {
+        background: var(--gray-400);
+      }
+    }
+
+    & h1 {
+      font-size: 1rem;
+      font-weight: 550;
+      line-height: 1.7rem;
+    }
+  }
+
+  & .v-popper {
+    width: 100%;
+
+    & .tenant-name:hover {
+      color: var(--gray-300);
+    }
   }
 
   @media (width > 1000px) {
     /* no need to make room for x button */
     padding: 1.5rem 1rem 1.25rem;
 
-    & h1 {
-      padding: 0 0.75rem;
-      line-height: 1.25rem;
+    & .tenant-switch {
+      margin: 0 0.75rem;
+
+      &:has(.v-popper) {
+        margin: -0.5rem 0;
+      }
     }
   }
 }
@@ -119,6 +158,7 @@ button.aside-burger {
   }
 }
 
+.aside-top,
 .aside-nav,
 .aside-account {
   & :where(a, button, [role='button']) {
@@ -158,6 +198,7 @@ button.aside-burger {
     }
   }
 
+  & .v-popper--shown [role='button'],
   & li.active :where(a, button) {
     background: var(--link-active-background);
     box-shadow:

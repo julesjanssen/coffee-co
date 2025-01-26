@@ -45,7 +45,7 @@ Route::namespace('Tenants')->prefix('tenants')->as('tenants.')->group(function (
     Route::get('{tenant}', 'ViewController@view')->name('view');
     Route::get('{tenant}/update', 'UpdateController@update')->name('update');
     Route::post('{tenant}/update', 'UpdateController@store');
-    Route::get('{tenant}/impersonate', 'ImpersonateController@impersonate')->name('impersonate');
+    Route::get('{tenant}/switch', 'SwitchController@switch')->name('switch');
     Route::delete('{tenant}', 'DeleteController@delete')->name('delete');
 });
 
