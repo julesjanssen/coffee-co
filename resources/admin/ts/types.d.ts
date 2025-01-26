@@ -50,6 +50,14 @@ type SoftDeletable = {
   trashed: boolean
 }
 
+export type Tenant = {
+  sqid: string
+  name: string
+  isCurrent: boolean
+  avatar?: { url: string }
+  links: Record<string, string>
+}
+
 export type UserRole = {
   name: string
   title: string

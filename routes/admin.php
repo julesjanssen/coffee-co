@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 
+//
+// config
+//
+Route::namespace('Config')
+    ->prefix('config')
+    ->as('config.')
+    ->middleware('cache.headers:public;max_age=1800;etag')
+    ->group(function () {
+        Route::get('settings', 'Settings\IndexController@index');
+    });
+
 Route::namespace('Dashboard')->prefix('/')->as('dashboard.')->group(function () {
     Route::get('/', 'IndexController@index')->name('index');
 });
