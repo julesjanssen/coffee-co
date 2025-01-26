@@ -12,6 +12,7 @@ use App\Support\Admin\Server\OsInternet;
 use App\Support\Admin\Server\Php;
 use App\Support\Admin\Server\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -45,6 +46,8 @@ class ServerController extends Controller
     private function resetOpcache()
     {
         if (opcache_reset()) {
+            Artisan::call('cache:clear');
+
             return response()->noContent();
         }
     }
