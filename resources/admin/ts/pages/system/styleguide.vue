@@ -214,6 +214,22 @@
 
           <div class="field-group">
             <div class="field">
+              <label>datum</label>
+              <div>
+                <input type="date" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>wachtwoord</label>
+              <div>
+                <input type="password" value="hunter2" />
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field">
               <label>disabled email:</label>
               <div>
                 <input type="email" name="email[]" disabled value="test@example.org" />
