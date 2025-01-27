@@ -218,9 +218,9 @@
             </div>
 
             <div class="field">
-              <label>wachtwoord</label>
+              <label>tijd</label>
               <div>
-                <input type="password" value="hunter2" />
+                <input type="time" />
               </div>
             </div>
           </div>
@@ -234,6 +234,13 @@
                   Dit is ook handig om te weten over
                   <strong>email</strong>
                 </p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>wachtwoord</label>
+              <div>
+                <input type="password" value="hunter2" />
               </div>
             </div>
           </div>
