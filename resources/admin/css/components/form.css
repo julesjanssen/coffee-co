@@ -264,8 +264,15 @@ select {
 }
 
 textarea {
-  min-height: 4lh;
+  min-height: calc(4lh + 1em);
   resize: vertical;
+
+  @supports (field-sizing: content) {
+    &.autosize {
+      field-sizing: content;
+      resize: none;
+    }
+  }
 }
 
 input:where([type='checkbox'], [type='radio']) {

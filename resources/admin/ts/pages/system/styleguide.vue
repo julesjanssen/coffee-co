@@ -196,18 +196,15 @@
             <div class="field">
               <label>textarea?</label>
               <div>
-                <textarea rows="4" cols="40"></textarea>
+                <textarea rows="3" cols="40"></textarea>
                 <p class="help">A piece of helptext for this input.</p>
               </div>
             </div>
+
             <div class="field">
-              <label>email:</label>
+              <label>textarea autosizing</label>
               <div>
-                <input type="email" />
-                <p class="help">
-                  Dit is ook handig om te weten over
-                  <strong>email</strong>
-                </p>
+                <textarea rows="3" cols="40" class="autosize"></textarea>
               </div>
             </div>
           </div>
@@ -224,6 +221,19 @@
               <label>wachtwoord</label>
               <div>
                 <input type="password" value="hunter2" />
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field">
+              <label>email:</label>
+              <div>
+                <input type="email" />
+                <p class="help">
+                  Dit is ook handig om te weten over
+                  <strong>email</strong>
+                </p>
               </div>
             </div>
           </div>
