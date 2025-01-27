@@ -253,6 +253,11 @@ input[type='password'] {
   letter-spacing: 0.125em;
 }
 
+input[type='date'] {
+  appearance: none;
+  background: transparent;
+}
+
 select {
   padding-right: 2.5rem;
   appearance: none;
