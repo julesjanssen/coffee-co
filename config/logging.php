@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -55,7 +56,7 @@ return [
         'deprecations' => [
             'driver' => 'single',
             'path' => storage_path('logs/php-deprecation-warnings.log'),
-            'formatter' => Monolog\Formatter\JsonFormatter::class,
+            'formatter' => JsonFormatter::class,
             'replace_placeholders' => true,
         ],
 
@@ -77,7 +78,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
-            'formatter' => Monolog\Formatter\JsonFormatter::class,
+            'formatter' => JsonFormatter::class,
             'formatter_with' => ['includeStacktraces' => true],
             'replace_placeholders' => true,
         ],

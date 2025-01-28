@@ -110,15 +110,13 @@ class Php implements Arrayable
     {
         $ttl = Date::tomorrow()->endOfDay();
 
-        return Cache::remember(__METHOD__, $ttl, function () {
-            return [
-                'version' => $this->getPHPVersion(),
-                'releaseInfo' => $this->getPhpReleaseInfo(),
-                'opcache' => $this->getOPcacheDetails(),
-                'maxUpload' => $this->getMaxUploadSize(),
-                'maxExecution' => $this->getMaxExecutionTime(),
-                'memoryLimit' => $this->getMemoryLimit(),
-            ];
-        });
+        return Cache::remember(__METHOD__, $ttl, fn() => [
+            'version' => $this->getPHPVersion(),
+            'releaseInfo' => $this->getPhpReleaseInfo(),
+            'opcache' => $this->getOPcacheDetails(),
+            'maxUpload' => $this->getMaxUploadSize(),
+            'maxExecution' => $this->getMaxExecutionTime(),
+            'memoryLimit' => $this->getMemoryLimit(),
+        ]);
     }
 }

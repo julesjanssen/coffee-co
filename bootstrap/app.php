@@ -9,6 +9,8 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession;
+use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,8 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware
             ->web(
                 append: [
-                    \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
-                    \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class,
+                    NeedsTenant::class,
+                    EnsureValidTenantSession::class,
                     HandleInertiaRequests::class,
                 ]
             )

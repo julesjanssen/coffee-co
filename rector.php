@@ -20,6 +20,7 @@ return RectorConfig::configure()
         AddClosureVoidReturnTypeWhereNoReturnRector::class,
         AddOverrideAttributeToOverriddenMethodsRector::class,
     ])
+    ->withImportNames()
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0);

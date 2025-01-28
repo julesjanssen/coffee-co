@@ -47,7 +47,7 @@ class AppPrepareGuestImages extends Command
         );
 
         $path = $this->prepareSourcePath($source);
-        $baseDir = dirname($path);
+        $baseDir = dirname((string) $path);
 
         $yaml = Yaml::parseFile($path);
 

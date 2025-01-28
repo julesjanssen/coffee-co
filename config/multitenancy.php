@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 use App\Models\Tenant as ModelsTenant;
 use App\Support\Multitenancy\DomainTenantFinder;
+use App\Support\Multitenancy\SetBaseUrl;
+use App\Support\Multitenancy\SetTenantStorage;
 use Spatie\Multitenancy\Actions\ForgetCurrentTenantAction;
 use Spatie\Multitenancy\Actions\MakeQueueTenantAwareAction;
 use Spatie\Multitenancy\Actions\MakeTenantCurrentAction;
 use Spatie\Multitenancy\Actions\MigrateTenantAction;
+use Spatie\Multitenancy\Tasks\PrefixCacheTask;
+use Spatie\Multitenancy\Tasks\SwitchTenantDatabaseTask;
 
 return [
     /*
@@ -30,10 +34,10 @@ return [
      * A valid task is any class that implements Spatie\Multitenancy\Tasks\SwitchTenantTask
      */
     'switch_tenant_tasks' => [
-        \Spatie\Multitenancy\Tasks\PrefixCacheTask::class,
-        \Spatie\Multitenancy\Tasks\SwitchTenantDatabaseTask::class,
-        \App\Support\Multitenancy\SetTenantStorage::class,
-        \App\Support\Multitenancy\SetBaseUrl::class,
+        PrefixCacheTask::class,
+        SwitchTenantDatabaseTask::class,
+        SetTenantStorage::class,
+        SetBaseUrl::class,
         // \Spatie\Multitenancy\Tasks\SwitchRouteCacheTask::class,
     ],
 

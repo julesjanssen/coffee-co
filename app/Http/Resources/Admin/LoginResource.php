@@ -8,7 +8,10 @@ use App\Models\Login;
 use App\Models\User;
 use App\Support\Login\IpInfo;
 use App\Support\Login\UserAgent;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 /** @mixin Login */
 class LoginResource extends JsonResource
@@ -16,8 +19,8 @@ class LoginResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
     {

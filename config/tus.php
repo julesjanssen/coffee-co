@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\TusUpload;
+use Spatie\Multitenancy\Http\Middleware\NeedsTenant;
 
 return [
     /*
@@ -36,7 +37,7 @@ return [
     | while processing requests for the tus endpoints.
     |
     */
-    'middleware' => [\Spatie\Multitenancy\Http\Middleware\NeedsTenant::class],
+    'middleware' => [NeedsTenant::class],
 
     /*
     |--------------------------------------------------------------------------

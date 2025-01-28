@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\NotificationLogItem;
+use Spatie\NotificationLog\Actions\ConvertNotificationSendingEventToLogItemAction;
+use Spatie\NotificationLog\NotificationEventSubscriber;
 
 return [
     /*
@@ -30,7 +32,7 @@ return [
      *
      */
     'actions' => [
-        'convertEventToModel' => Spatie\NotificationLog\Actions\ConvertNotificationSendingEventToLogItemAction::class,
+        'convertEventToModel' => ConvertNotificationSendingEventToLogItemAction::class,
     ],
 
     /*
@@ -38,5 +40,5 @@ return [
      * In most cases, you don't need to touch this. You could replace this by
      * a class of your own that extends the original.
      */
-    'event_subscriber' => Spatie\NotificationLog\NotificationEventSubscriber::class,
+    'event_subscriber' => NotificationEventSubscriber::class,
 ];
