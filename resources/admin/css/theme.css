@@ -59,21 +59,10 @@
 
   /* accent color */
 
-  /* --accent-color: #2563eb; */
-
-  /* --accent-color: #f90; */
-
-  --accent-color: hsl(260deg 90% 40%);
-
-  /* --accent-color: hsl(300deg, 90%, 40%); */
-  --accent-100: oklch(from var(--accent-color) l c h / 10%);
-  --accent-200: oklch(from var(--accent-color) l c h / 20%);
+  --accent-color: #2563eb;
 
   /* sidebar background */
   --sidebar-background: oklch(25% 0.025 253deg);
-
-  /* --sidebar-background: var(--gray-800); */
-
   --font-family: intervariable, system-ui;
 }
 
