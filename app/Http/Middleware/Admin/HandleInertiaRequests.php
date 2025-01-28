@@ -6,7 +6,6 @@ namespace App\Http\Middleware\Admin;
 
 use App\Support\Admin\Navigation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -27,9 +26,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function version(Request $request): ?string
     {
-        if (Str::startsWith($request->path(), ['admin'])) {
+        if (str_starts_with($request->path(), 'admin')) {
             if (file_exists($manifest = public_path('assets/admin/manifest.json'))) {
-                return md5_file($manifest);
+                return hash_file('xxh3', $manifest);
             }
         }
 
