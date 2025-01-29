@@ -16,9 +16,9 @@
         <div class="account-info" v-if="isActive">
           <ul>
             <li>
-              <a href="/">
+              <Link href="/admin/account/me">
                 {{ $t('my account') }}
-              </a>
+              </Link>
             </li>
             <li>
               <button type="button" @click.prevent="logout">
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { router, usePage } from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 import Icon from '/@admin:components/Icon.vue'
