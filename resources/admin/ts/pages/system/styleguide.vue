@@ -71,11 +71,15 @@
                 <tbody>
                   <tr>
                     <th>active support:</th>
-                    <td><span class="badge">23 November 2025</span></td>
+                    <td>
+                      <span class="badge"><DateTime datetime="2024-05-12" /></span>
+                    </td>
                   </tr>
                   <tr>
                     <th>security support:</th>
-                    <td><span class="badge">23 November 2026</span></td>
+                    <td>
+                      <span class="badge"><DateTime datetime="now" /></span>
+                    </td>
                   </tr>
                   <tr>
                     <th>patch available:</th>
@@ -655,6 +659,7 @@
 import { Head, Link } from '@inertiajs/vue3'
 import { toast } from 'vue-sonner'
 
+import DateTime from '/@admin:components/DateTime.vue'
 import Dropdown from '/@admin:components/Dropdown.vue'
 import FileInput from '/@admin:components/FileInput.vue'
 import FormError from '/@admin:components/FormError.vue'

@@ -3,7 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, type Ref } from 'vue'
+
+import { useSetting } from '/@admin:composables/settings'
 
 const props = withDefaults(
   defineProps<{
@@ -19,6 +21,7 @@ const props = withDefaults(
   {
     date: true,
     time: false,
+    weekday: undefined,
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -26,9 +29,11 @@ const props = withDefaults(
   },
 )
 
-const date = computed(() => new Date(props.datetime))
+const timezone: Ref<string | undefined> = useSetting('timezone')
+
+const date = computed(() => (props.datetime === 'now' ? new Date() : new Date(props.datetime)))
 const datetimeString = computed(() => date.value.toISOString())
-const locale = document.querySelector('html')?.getAttribute('lang') ?? 'en-US'
+const locale = document.querySelector('html')?.lang || 'en-US'
 
 const options: Intl.DateTimeFormatOptions = props.date
   ? {
@@ -44,14 +49,22 @@ if (props.time) {
   options.minute = '2-digit'
 }
 
-const formatter = new Intl.DateTimeFormat(locale, options)
+const dateDisplay = computed(() => {
+  const formatter = new Intl.DateTimeFormat(locale, {
+    ...options,
+    timeZone: timezone.value ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+  })
 
-const dateDisplay = computed(() => formatter.format(date.value))
+  return formatter.format(date.value)
+})
+
 const title = computed(() => {
   if (!props.useTitle) {
     return
   }
 
-  return date.value.toLocaleString()
+  return date.value.toLocaleString(locale, {
+    timeZone: timezone.value ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+  })
 })
 </script>
