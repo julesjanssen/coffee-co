@@ -4,7 +4,7 @@
       <div>
         <div class="header">
           <div class="logo">
-            <h1>{{ ($page.props.app as any).title }}</h1>
+            <h1>{{ title }}</h1>
           </div>
         </div>
 
@@ -35,6 +35,7 @@ import { computed } from 'vue'
 import { Toaster } from 'vue-sonner'
 
 const page = usePage()
+const title = computed(() => (page.props.app as any)?.title)
 const guestImage = computed(() => (page.props.app as any)?.guestImage)
 const guestImageUrl = computed(() => (guestImage.value ? guestImage.value.img : undefined))
 </script>

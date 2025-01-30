@@ -1,0 +1,37 @@
+.v-modal.delete-confirm {
+  & .v-modal-content {
+    &,
+    & main {
+      max-inline-size: 46ch;
+      min-inline-size: 0;
+    }
+
+    & figure {
+      display: flex;
+      justify-content: center;
+
+      & .v-icon {
+        margin: 1rem 0 0;
+        color: var(--red-400);
+        font-size: 4.2rem;
+      }
+    }
+
+    & .body {
+      padding: 1rem 1.5rem 1.5rem;
+      text-align: center;
+
+      & .question {
+        font-size: 1.2em;
+        font-weight: 550;
+        text-wrap: pretty;
+      }
+    }
+
+    & footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+  }
+}

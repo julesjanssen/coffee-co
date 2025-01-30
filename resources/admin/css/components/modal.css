@@ -1,0 +1,115 @@
+@layer components {
+  body.modal-open {
+    overflow-y: hidden;
+  }
+
+  .v-modal-wrapper {
+    position: fixed;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inset: 0;
+    pointer-events: none;
+
+    & .v-modal-backdrop {
+      position: absolute;
+      backdrop-filter: blur(3px) saturate(0.5);
+      background: rgb(from var(--sidebar-background) r g b / 50%);
+      background: radial-gradient(
+        circle,
+        rgb(from var(--sidebar-background) r g b / 30%),
+        rgb(from var(--sidebar-background) r g b / 50%)
+      );
+      inset: 0;
+      pointer-events: auto;
+
+      &.clickable {
+        cursor: pointer;
+      }
+    }
+
+    & .v-modal-content {
+      position: relative;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      background: var(--white);
+      box-shadow:
+        rgb(from var(--gray-900) r g b / 30%) 0 20px 25px -5px,
+        rgb(from var(--gray-900) r g b / 30%) 0 8px 10px -6px;
+      max-block-size: min(90vh, 100%);
+      max-block-size: min(90dvb, 100%);
+      max-inline-size: min(90vw, 60ch);
+      overflow-y: auto;
+      pointer-events: auto;
+    }
+
+    & main {
+      margin: 0;
+      min-inline-size: min(90vw, 60ch);
+
+      & header {
+        padding: 1rem;
+        margin: 0;
+      }
+
+      & fieldset {
+        padding: 1rem;
+
+        &:not([class]) {
+          margin-bottom: 1.5rem;
+        }
+      }
+    }
+
+    & button.close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.25em;
+      border: none;
+      appearance: none;
+      background: transparent;
+      box-shadow: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 2.4rem;
+
+      &:hover {
+        color: var(--gray-dark);
+        transform: none;
+      }
+    }
+  }
+
+  .modal-backdrop-enter-active,
+  .modal-backdrop-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-backdrop-enter-from,
+  .modal-backdrop-leave-to {
+    opacity: 0;
+  }
+
+  .modal-backdrop-leave-active {
+    transition-delay: 0.2s;
+  }
+
+  .modal-content-enter-active {
+    transition: all 0.4s 0.1s cubic-bezier(0.3, 1.5, 0.7, 1);
+  }
+
+  .modal-content-leave-active {
+    opacity: 0;
+    transition: all 0.3s ease;
+    translate: 0 10px;
+  }
+
+  .modal-content-enter-from {
+    opacity: 0;
+    scale: 0.95;
+    translate: 0 30px;
+  }
+}

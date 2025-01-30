@@ -10,6 +10,13 @@
           <h1>Definitie lijst</h1>
           <h2>step 1</h2>
         </div>
+
+        <div class="actions">
+          <button type="button" class="danger" v-on:click.prevent="deleteItem" v-close-popper>
+            <Icon name="trash" />
+            {{ $t('remove') }}
+          </button>
+        </div>
       </header>
 
       <dl>
@@ -667,7 +674,9 @@ import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'
 import ProgressCircle from '/@admin:components/ProgressCircle.vue'
 import ProgressIndeterminate from '/@admin:components/ProgressIndeterminate.vue'
+import { deleteConfirm } from '/@admin:composables/deleteConfirm'
 import AuthLayout from '/@admin:layouts/Auth.vue'
+import { wait } from '/@admin:shared/utils'
 
 defineProps<{
   icons: string[]
@@ -682,6 +691,13 @@ const promiseToast = (text: string) => {
     loading: 'Loading',
     success: () => text,
     error: () => 'Error',
+  })
+}
+
+const deleteItem = () => {
+  deleteConfirm(async () => {
+    await wait(1500)
+    toast.success('Item deleted.')
   })
 }
 </script>
