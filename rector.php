@@ -15,6 +15,7 @@ return RectorConfig::configure()
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
+    ->withSkipPath(__DIR__ . '/bootstrap/cache')
     ->withPhpSets()
     ->withSkip([
         AddClosureVoidReturnTypeWhereNoReturnRector::class,
