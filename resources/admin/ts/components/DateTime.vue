@@ -29,9 +29,30 @@ const props = withDefaults(
   },
 )
 
-const timezone: Ref<string | undefined> = useSetting('timezone')
+const tz: Ref<string | undefined> = useSetting('timezone')
+const timezone = computed(() => tz.value ?? Intl.DateTimeFormat().resolvedOptions().timeZone)
 
-const date = computed(() => (props.datetime === 'now' ? new Date() : new Date(props.datetime)))
+const getTimezoneOffset = (timeZone = 'UTC', date = new Date()) => {
+  const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }))
+  const tzDate = new Date(date.toLocaleString('en-US', { timeZone }))
+  return tzDate.getTime() - utcDate.getTime()
+}
+
+const date = computed(() => {
+  if (props.datetime === 'now') {
+    return new Date()
+  }
+
+  if (typeof props.datetime === 'string' && props.datetime.length === 10) {
+    // just a date, correct timezone offset
+    const d = new Date(props.datetime)
+
+    return new Date(d.getTime() - getTimezoneOffset(timezone.value))
+  }
+
+  return new Date(props.datetime)
+})
+
 const datetimeString = computed(() => date.value.toISOString())
 const locale = document.querySelector('html')?.lang || 'en-US'
 
@@ -52,7 +73,7 @@ if (props.time) {
 const dateDisplay = computed(() => {
   const formatter = new Intl.DateTimeFormat(locale, {
     ...options,
-    timeZone: timezone.value ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timeZone: timezone.value,
   })
 
   return formatter.format(date.value)
@@ -63,8 +84,14 @@ const title = computed(() => {
     return
   }
 
+  if (typeof props.datetime === 'string' && props.datetime.length === 10) {
+    return date.value.toLocaleDateString(locale, {
+      timeZone: timezone.value,
+    })
+  }
+
   return date.value.toLocaleString(locale, {
-    timeZone: timezone.value ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timeZone: timezone.value,
   })
 })
 </script>
