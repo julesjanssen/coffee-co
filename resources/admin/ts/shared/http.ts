@@ -27,4 +27,7 @@ const cachedInstance = setupCache(instance, {
   storage: buildWebStorage(window.localStorage, 'axios-cache:'),
 })
 
-export { cachedInstance as cachedHttp, instance as http }
+// todo: remove ! after axios-cache-adapter fix
+const clearCache = async () => await cachedInstance.storage.clear!()
+
+export { cachedInstance as cachedHttp, clearCache, instance as http }

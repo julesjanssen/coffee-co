@@ -37,6 +37,7 @@ import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 import Icon from '/@admin:components/Icon.vue'
+import { clearCache } from '/@admin:shared/http'
 import type { PageProps } from '/@admin:types'
 
 const isActive = ref(false)
@@ -45,8 +46,25 @@ const toggleActive = () => (isActive.value = !isActive.value)
 const page = usePage()
 const account = computed(() => (page.props as PageProps).app.account)
 
-const logout = () => {
-  router.post('/auth/logout')
+let logoutTries = 0
+const logout = async () => {
+  await clearCache()
+
+  try {
+    router.post('/auth/logout')
+  } catch (_) {
+    logoutTries++
+
+    if (logoutTries > 2) {
+      return
+    }
+
+    // stale session / CSRF issue
+    // reload & try again
+    router.reload({
+      onFinish: () => logout(),
+    })
+  }
 }
 </script>
 
