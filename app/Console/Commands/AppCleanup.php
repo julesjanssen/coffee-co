@@ -40,6 +40,7 @@ class AppCleanup extends Command
         $this->cleanTmpDir();
         $this->cleanLogsDir();
         $this->removeEmptyStorageDirs();
+        $this->pruneModels();
 
         Event::dispatch(new AppCleaningUp());
     }
@@ -103,5 +104,12 @@ class AppCleanup extends Command
         ];
 
         Process::run(implode(' ', $command))->throw();
+    }
+
+    private function pruneModels()
+    {
+        Tenant::all()->eachCurrent(function (Tenant $tenant) {
+            Artisan::call('model:prune', [], $this->output);
+        });
     }
 }
