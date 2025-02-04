@@ -6,7 +6,7 @@
       </div>
 
       <div class="actions">
-        <span class="badge">CPU count: {{ data.cpuCount }}</span>
+        <span class="badge">CPU cores: {{ data.cpuCount }}</span>
       </div>
     </header>
 
