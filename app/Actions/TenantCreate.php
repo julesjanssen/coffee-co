@@ -52,7 +52,7 @@ class TenantCreate
             throw new InvalidArgumentException("The name '{$name}' is not allowed ('{$slug}' appears on blocklist).");
         }
 
-        $this->createAndPrepare($name, $slug);
+        return $this->createAndPrepare($name, $slug);
     }
 
     private function createAndPrepare(string $name, string $slug)

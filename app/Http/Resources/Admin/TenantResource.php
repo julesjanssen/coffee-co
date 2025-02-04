@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin;
 
+use App\Models\Policies\TenantPolicy;
 use App\Models\Tenant;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
@@ -29,6 +30,10 @@ class TenantResource extends JsonResource
                 'view' => route('admin.tenants.view', $this->resource),
                 'switch' => route('admin.tenants.switch', $this->resource),
             ]),
+            'can' => $this->when(! is_null($request->user()), fn() => [
+                TenantPolicy::VIEW => $request->user()->can(TenantPolicy::VIEW, $this->resource),
+                TenantPolicy::UPDATE => $request->user()->can(TenantPolicy::UPDATE, $this->resource),
+            ], []),
         ];
     }
 }
