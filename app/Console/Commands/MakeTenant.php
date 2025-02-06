@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Actions\TenantCreate;
+use App\Models\Tenant;
 use Illuminate\Console\Command;
+use Illuminate\Validation\ValidationException;
 
 use function Laravel\Prompts\text;
+use function Laravel\Prompts\warning;
 
 class MakeTenant extends Command
 {
@@ -30,13 +32,25 @@ class MakeTenant extends Command
      */
     public function handle()
     {
-        $name = text(
-            label: 'Tenant name?',
-            required: true,
-        );
+        $tenant = null;
 
-        TenantCreate::run($name);
+        while (true) {
+            try {
+                $name = text(
+                    label: 'Tenant name?',
+                    required: true,
+                );
 
-        $this->info("Tenant '{$name}' created.");
+                $tenant = Tenant::create([
+                    'name' => $name,
+                ]);
+
+                break;
+            } catch (ValidationException $e) {
+                warning($e->getMessage());
+            }
+        }
+
+        $this->info("Tenant '{$tenant?->name}' created.");
     }
 }

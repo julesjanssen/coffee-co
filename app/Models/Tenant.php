@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Events\TenantCreated;
+use App\Events\TenantCreating;
 use App\Values\Uri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use RedExplosion\Sqids\Concerns\HasSqids;
@@ -20,6 +22,11 @@ class Tenant extends Base
 
     protected $attributes = [
         'settings' => '[]',
+    ];
+
+    protected $dispatchesEvents = [
+        'creating' => TenantCreating::class,
+        'created' => TenantCreated::class,
     ];
 
     /**

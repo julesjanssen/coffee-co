@@ -54,6 +54,7 @@ export type Tenant = {
   sqid: string
   name: string
   isCurrent: boolean
+  createdAt: string
   avatar?: { url: string }
   links: Record<string, string>
 }

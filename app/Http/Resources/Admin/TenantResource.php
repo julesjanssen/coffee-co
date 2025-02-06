@@ -26,8 +26,10 @@ class TenantResource extends JsonResource
             'sqid' => $this->sqid,
             'name' => $this->name,
             'isCurrent' => $this->resource->isCurrent(),
+            'createdAt' => $this->created_at,
             'links' => $this->when($this->resource->exists, fn() => [
                 'view' => route('admin.tenants.view', $this->resource),
+                'update' => route('admin.tenants.update', $this->resource),
                 'switch' => route('admin.tenants.switch', $this->resource),
             ]),
             'can' => $this->when(! is_null($request->user()), fn() => [

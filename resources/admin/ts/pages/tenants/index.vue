@@ -22,6 +22,7 @@
             <thead>
               <tr>
                 <th>{{ $t('name') }}</th>
+                <th>{{ $t('created') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -33,6 +34,9 @@
 
                     <span v-if="tenant.isCurrent" class="current">(current)</span>
                   </div>
+                </td>
+                <td>
+                  <DateTime :datetime="tenant.createdAt" month="short" />
                 </td>
               </tr>
             </tbody>
@@ -48,6 +52,7 @@
 <script lang="ts" setup>
 import { Head, Link } from '@inertiajs/vue3'
 
+import DateTime from '/@admin:components/DateTime.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'

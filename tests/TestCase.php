@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Actions\TenantCreate;
+use App\Models\Tenant;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Schema;
@@ -27,7 +27,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setup();
 
-        $tenant = TenantCreate::forceRun('testing');
+        $tenant = Tenant::create(['name' => 'bluetest']);
         $tenant->makeCurrent();
 
         $this->beforeApplicationDestroyed(function () use ($tenant) {
