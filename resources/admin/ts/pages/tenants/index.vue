@@ -9,7 +9,7 @@
         </div>
 
         <div class="actions">
-          <Link v-if="tenants.can.create" class="button success" :href="tenants.links.create">
+          <Link v-if="tenants.can.create" class="button" :href="tenants.links.create">
             <Icon name="plus" />
             {{ $t('add tenant') }}
           </Link>
