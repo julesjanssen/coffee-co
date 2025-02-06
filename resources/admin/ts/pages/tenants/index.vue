@@ -22,7 +22,7 @@
             <thead>
               <tr>
                 <th>{{ $t('name') }}</th>
-                <th>{{ $t('created') }}</th>
+                <th class="align-right">{{ $t('created') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                     <span v-if="tenant.isCurrent" class="current">(current)</span>
                   </div>
                 </td>
-                <td>
+                <td class="align-right">
                   <DateTime :datetime="tenant.createdAt" month="short" />
                 </td>
               </tr>

@@ -9,7 +9,10 @@
     <dl v-if="data">
       <div>
         <dt>total attachments size:</dt>
-        <dd>{{ filesize(data.attachments.size) }} &mdash; {{ filesize(data.attachments.disk) }} on disk</dd>
+        <dd>
+          {{ filesize(data.attachments.size) }}
+          <span v-if="data.attachments.size > 0">&mdash; {{ filesize(data.attachments.disk) }} on disk</span>
+        </dd>
       </div>
 
       <div v-for="(stat, index) in data.appStorage" :key="index">
