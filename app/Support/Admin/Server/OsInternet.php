@@ -4,52 +4,46 @@ declare(strict_types=1);
 
 namespace App\Support\Admin\Server;
 
-use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Uri;
 
 class OsInternet implements Arrayable
 {
     private function getOperatingSystem()
     {
-        return Cache::rememberForever(__METHOD__, function () {
-            if ($this->isDarwin()) {
-                $command = 'sw_vers -productVersion';
-                $prefix = 'MacOS';
-            } else {
-                $command = 'cat /etc/issue';
-                $prefix = '';
-            }
+        if ($this->isDarwin()) {
+            $command = 'sw_vers -productVersion';
+            $prefix = 'MacOS';
+        } else {
+            $command = 'cat /etc/issue';
+            $prefix = '';
+        }
 
-            $result = Process::run($command);
+        $result = Process::run($command);
 
-            if (! $result->successful()) {
-                return PHP_OS;
-            }
+        if (! $result->successful()) {
+            return PHP_OS;
+        }
 
-            $lines = explode(PHP_EOL, $result->output());
-            $info = array_shift($lines);
-            $info = strtok($info, '\\');
+        $lines = explode(PHP_EOL, $result->output());
+        $info = array_shift($lines);
+        $info = strtok($info, '\\');
 
-            return trim($prefix . ' ' . $info);
-        });
+        return trim($prefix . ' ' . $info);
     }
 
     private function getHostname()
     {
-        return Cache::rememberForever(__METHOD__, function () {
-            $result = Process::run('hostname');
-
-            return trim($result->output());
-        });
+        return trim(Process::run('hostname')->output());
     }
 
     private function getCertificateDetails()
     {
-        $domain = (new Uri(config('app.url')))->getHost();
+        $domain = Uri::to('/')->host();
 
         $sslOptions = [
             'capture_peer_cert' => true,
@@ -106,17 +100,13 @@ class OsInternet implements Arrayable
             'https://ipecho.net/plain',
         ];
 
-        $cachekey = 'system:server:ip';
+        foreach ($services as $service) {
+            $result = Process::run('curl -4 --silent --max-time 5 ' . escapeshellarg($service));
 
-        return Cache::rememberForever($cachekey, function () use ($services) {
-            foreach ($services as $service) {
-                $result = Process::run('curl -4 --silent --max-time 5 ' . escapeshellarg($service));
-
-                if ($result->successful()) {
-                    return trim($result->output());
-                }
+            if ($result->successful()) {
+                return trim($result->output());
             }
-        });
+        }
     }
 
     private function isDarwin()
@@ -126,11 +116,13 @@ class OsInternet implements Arrayable
 
     public function toArray()
     {
-        return [
-            'os' => $this->getOperatingSystem(),
-            'hostname' => $this->getHostname(),
-            'certificate' => $this->getCertificateDetails(),
-            'ip' => $this->getServerIP(),
-        ];
+        return Cache::flexible(__METHOD__, ['+1 day', '+15 days'], function () {
+            return [
+                'os' => $this->getOperatingSystem(),
+                'hostname' => $this->getHostname(),
+                'certificate' => $this->getCertificateDetails(),
+                'ip' => $this->getServerIP(),
+            ];
+        });
     }
 }
