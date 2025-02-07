@@ -16,7 +16,7 @@ class Configuration implements Arrayable
 
     private function checkSecureCookie()
     {
-        return config('session.secure') === true;
+        return in_array(config('session.secure'), [true, null], true);
     }
 
     private function checkSchemeMatch()
