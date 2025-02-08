@@ -36,11 +36,9 @@ class IndexController
             'accounts' => UserResource::collection($accounts)
                 ->additional([
                     'can' => [
-                        UserPolicy::LOGINS => $request->user()->can(UserPolicy::LOGINS, User::class),
                         UserPolicy::CREATE => $request->user()->can(UserPolicy::CREATE, User::class),
                     ],
                     'links' => [
-                        'logins' => route('admin.accounts.logins'),
                         'create' => route('admin.accounts.create'),
                     ],
                 ]),

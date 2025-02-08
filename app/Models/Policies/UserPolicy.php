@@ -21,8 +21,6 @@ class UserPolicy
 
     public const DELETE = 'delete';
 
-    public const LOGINS = 'logins';
-
     public const INVITE = 'invite';
 
     public function index(User $user)
@@ -72,11 +70,6 @@ class UserPolicy
         }
 
         return $user->can('admin.accounts.delete');
-    }
-
-    public function logins(User $user)
-    {
-        return $user->can('admin.accounts.logins');
     }
 
     public function invite(User $user, User $account)
