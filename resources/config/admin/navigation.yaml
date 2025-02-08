@@ -14,18 +14,6 @@
 
 - title: System
   items:
-    - route: admin.system.logs.index
-      permission: admin.system.logs.view
-      title: Logs
-      icon: nav-logs
-    - route: admin.system.changelog
-      permission: admin.system.changelog.view
-      title: Changelog
-      icon: nav-changelog
-    - route: admin.system.jobs.index
-      permission: admin.system.jobs.view
-      title: Failed jobs
-      icon: nav-failed-jobs
     - route: admin.system.database
       permission: admin.system.database.view
       title: Database
@@ -34,10 +22,6 @@
       permission: admin.system.server.view
       title: Server
       icon: nav-server
-    - route: admin.system.code
-      permission: admin.system.code.view
-      title: Code
-      icon: nav-code
     - route: admin.system.open-source
       title: Open source
       icon: nav-opensource
