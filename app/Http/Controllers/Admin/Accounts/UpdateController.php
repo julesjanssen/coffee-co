@@ -8,6 +8,7 @@ use App\Http\Resources\Admin\UserResource;
 use App\Http\Resources\Admin\UserRoleResource;
 use App\Models\Auth\Role;
 use App\Models\User;
+use App\Notifications\AccountInvitation;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -58,6 +59,10 @@ class UpdateController
 
         $account->syncRoles($request->input('roles', []));
         $account->save();
+
+        if ($account->wasRecentlyCreated) {
+            $account->notify(new AccountInvitation());
+        }
 
         return redirect()->route('admin.accounts.view', [$account]);
     }
