@@ -132,11 +132,17 @@
           </template>
 
           <table v-if="notifications!.length > 0">
+            <thead>
+              <tr>
+                <th>notification</th>
+                <th class="align-right">date / time</th>
+              </tr>
+            </thead>
             <tbody>
               <tr v-for="notification in notifications" :key="notification.sqid">
                 <td>{{ notification.name }}</td>
                 <td class="align-right">
-                  <DateTime :datetime="notification.createdAt" />
+                  <DateTime :datetime="notification.createdAt" :time="true" />
                 </td>
               </tr>
             </tbody>
