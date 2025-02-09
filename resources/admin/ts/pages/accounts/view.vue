@@ -15,7 +15,7 @@
             {{ $t('update') }}
           </Link>
 
-          <Dropdown>
+          <Dropdown v-if="account.can.invite || account.can.delete">
             <ul role="menu" aria-hidden="true">
               <li role="menuitem" v-if="account.can.invite">
                 <button type="button" v-on:click.prevent="inviteAccount" v-close-popper>
