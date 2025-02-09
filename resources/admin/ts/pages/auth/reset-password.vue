@@ -27,10 +27,6 @@
                   :minlength="minPassLength"
                   required
                 />
-                <!-- <span class="toggle" v-on:click="togglePasswordVisibility">
-                  <v-icon name="eye" v-if="isPasswordVisible"></v-icon>
-                  <v-icon name="eye-off" v-else></v-icon>
-                </span> -->
               </div>
               <FormError :error="form.errors.password" />
 
@@ -38,7 +34,7 @@
                 {{ $t('Use at least :t characters.', { t: String(minPassLength) }) }}
                 <br />
                 {{ $t('suggestion') }}
-                <code v-on:click="useSuggestion">{{ suggestion }}</code>
+                <code v-on:click="useSuggestion" style="cursor: pointer">{{ suggestion }}</code>
               </p>
             </div>
           </div>
