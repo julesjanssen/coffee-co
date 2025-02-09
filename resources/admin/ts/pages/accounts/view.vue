@@ -10,17 +10,27 @@
         </div>
 
         <div class="actions">
-          <button type="button" class="danger" v-if="account.can.delete" v-on:click.prevent="deleteAccount">
-            <Icon name="trash" />
-            {{ $t('archive') }}
-          </button>
-          <Link v-if="account.can.invite" as="button" type="button" method="post" :href="account.links.invite">
-            {{ $t('invite') }}
-          </Link>
           <Link v-if="account.can.update" class="button" :href="account.links.update">
             <Icon name="edit" />
             {{ $t('update') }}
           </Link>
+
+          <Dropdown>
+            <ul role="menu" aria-hidden="true">
+              <li role="menuitem" v-if="account.can.invite">
+                <button type="button" v-on:click.prevent="inviteAccount" v-close-popper>
+                  <Icon name="send" />
+                  {{ $t('invite') }}
+                </button>
+              </li>
+              <li role="menuitem" v-if="account.can.delete">
+                <button type="button" class="danger" v-on:click.prevent="deleteAccount" v-close-popper>
+                  <Icon name="trash" />
+                  {{ $t('archive') }}
+                </button>
+              </li>
+            </ul>
+          </Dropdown>
         </div>
       </header>
 
@@ -109,6 +119,7 @@
 import { Deferred, Head, Link, router } from '@inertiajs/vue3'
 import { toast } from 'vue-sonner'
 
+import Dropdown from '/@admin:components/Dropdown.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Loader from '/@admin:components/Loader.vue'
 import { deleteConfirm } from '/@admin:composables/deleteConfirm'
@@ -126,6 +137,12 @@ const props = defineProps<{
   logins?: Login[]
   links: Record<string, string>
 }>()
+
+const inviteAccount = () => {
+  http.post(props.account.links.invite).then(() => {
+    toast.success($t('Invitation sent.'))
+  })
+}
 
 const deleteAccount = () => {
   deleteConfirm(props.account.name, {

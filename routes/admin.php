@@ -26,6 +26,7 @@ Route::namespace('Accounts')->prefix('accounts/')->as('accounts.')->group(functi
     Route::get('create', 'UpdateController@update')->name('create');
     Route::post('create', 'UpdateController@store');
     Route::get('{account}/update', 'UpdateController@update')->name('update');
+    Route::post('{account}/invite', 'InviteController@store')->name('invite');
     Route::post('{account}/update', 'UpdateController@store');
     Route::get('{account}', 'ViewController@view')->name('view');
     Route::get('/', 'IndexController@index')->name('index');

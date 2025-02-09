@@ -32,10 +32,12 @@ class UserResource extends JsonResource
             'links' => $this->when($this->resource->exists, fn() => [
                 'view' => route('admin.accounts.view', $this->resource),
                 'update' => route('admin.accounts.update', $this->resource),
+                'invite' => route('admin.accounts.invite', $this->resource),
             ]),
             'can' => $this->when(! is_null($request->user()), fn() => [
                 UserPolicy::VIEW => $request->user()->can(UserPolicy::VIEW, $this->resource),
                 UserPolicy::UPDATE => $request->user()->can(UserPolicy::UPDATE, $this->resource),
+                UserPolicy::INVITE => $request->user()->can(UserPolicy::INVITE, $this->resource),
                 UserPolicy::DELETE => $request->user()->can(UserPolicy::DELETE, $this->resource),
             ], []),
         ];
