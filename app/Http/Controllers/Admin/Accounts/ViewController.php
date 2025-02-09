@@ -21,6 +21,9 @@ class ViewController
         return Inertia::render('accounts/view', [
             'account' => UserResource::make($account),
             'logins' => Inertia::defer(fn() => $this->listLogins($account)),
+            'links' => [
+                'index' => route('admin.accounts.index'),
+            ],
         ]);
     }
 

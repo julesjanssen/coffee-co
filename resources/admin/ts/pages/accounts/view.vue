@@ -10,12 +10,10 @@
         </div>
 
         <div class="actions">
-          <!-- <v-delete-confirm v-if="account.can.delete" :url="account.links.delete">
-            <button type="button" class="danger">
-              <Icon name="trash" />
-              {{ $t('archive') }}
-            </button>
-          </v-delete-confirm> -->
+          <button type="button" class="danger" v-if="account.can.delete" v-on:click.prevent="deleteAccount">
+            <Icon name="trash" />
+            {{ $t('archive') }}
+          </button>
           <Link v-if="account.can.invite" as="button" type="button" method="post" :href="account.links.invite">
             {{ $t('invite') }}
           </Link>
@@ -108,21 +106,43 @@
 </template>
 
 <script lang="ts" setup>
-import { Deferred, Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head, Link, router } from '@inertiajs/vue3'
+import { toast } from 'vue-sonner'
 
 import Icon from '/@admin:components/Icon.vue'
 import Loader from '/@admin:components/Loader.vue'
+import { deleteConfirm } from '/@admin:composables/deleteConfirm'
 import AuthLayout from '/@admin:layouts/Auth.vue'
+import { http } from '/@admin:shared/http'
+import { $t } from '/@admin:shared/i18n'
 import type { Authorizable, Login, User } from '/@admin:types'
 
 defineOptions({
   layout: [AuthLayout],
 })
 
-defineProps<{
+const props = defineProps<{
   account: Authorizable & User
   logins?: Login[]
+  links: Record<string, string>
 }>()
+
+const deleteAccount = () => {
+  deleteConfirm(props.account.name, {
+    icon: 'user',
+    action: async () => {
+      await http.delete(props.account.links.view)
+
+      toast.success(
+        $t('Deleted :name.', {
+          name: props.account.name,
+        }),
+      )
+
+      router.visit(props.links.index)
+    },
+  })
+}
 </script>
 
 <style scoped>

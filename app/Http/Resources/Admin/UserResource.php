@@ -36,6 +36,7 @@ class UserResource extends JsonResource
             'can' => $this->when(! is_null($request->user()), fn() => [
                 UserPolicy::VIEW => $request->user()->can(UserPolicy::VIEW, $this->resource),
                 UserPolicy::UPDATE => $request->user()->can(UserPolicy::UPDATE, $this->resource),
+                UserPolicy::DELETE => $request->user()->can(UserPolicy::DELETE, $this->resource),
             ], []),
         ];
     }

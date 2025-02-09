@@ -8,7 +8,7 @@ use App\Http\Resources\Admin\UserResource;
 use App\Http\Resources\Admin\UserRoleResource;
 use App\Models\Auth\Role;
 use App\Models\User;
-use Illuminate\Http\Client\ConnectionException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -82,12 +82,8 @@ class UpdateController
             $url = sprintf('https://www.gravatar.com/%s.json', $hash);
 
             try {
-                $response = Http::asJson()->get($url);
-            } catch (ConnectionException) {
-                return;
-            }
-
-            if (! $response->successful()) {
+                $response = Http::asJson()->throw()->get($url);
+            } catch (Exception) {
                 return;
             }
 
@@ -95,7 +91,7 @@ class UpdateController
             $first = Arr::first(Arr::get($json, 'entry', []), null, []);
 
             return [
-                'name' => Arr::get($first, 'name.formatted'),
+                'name' => Arr::get($first, 'name.formatted', Arr::get($first, 'displayName')),
             ];
         });
 

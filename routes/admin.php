@@ -29,6 +29,7 @@ Route::namespace('Accounts')->prefix('accounts/')->as('accounts.')->group(functi
     Route::post('{account}/update', 'UpdateController@store');
     Route::get('{account}', 'ViewController@view')->name('view');
     Route::get('/', 'IndexController@index')->name('index');
+    Route::delete('{account}', 'DeleteController@delete');
 });
 
 //

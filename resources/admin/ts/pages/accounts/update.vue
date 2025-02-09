@@ -36,7 +36,7 @@
                 <div class="label">
                   {{ role.title }}
                   <template v-if="role.description">
-                    <div class="help">{{ role.description }}</div>
+                    <div class="help prose pre">{{ role.description }}</div>
                   </template>
                 </div>
               </label>
