@@ -58,67 +58,105 @@
       </dl>
     </section>
 
-    <Deferred data="logins">
-      <template #fallback>
-        <Loader label="inloggegevens laden…" />
-      </template>
+    <TabsRoot class="tabs" v-model="activeTab">
+      <TabsList class="tabs-list">
+        <TabsIndicator class="tabs-indicator" />
 
-      <section v-if="logins!.length">
-        <header>
-          <div>
-            <h2>{{ $t('most recent') }}</h2>
-            <h1>{{ $t('logins') }}</h1>
-          </div>
-        </header>
+        <TabsTrigger class="tabs-trigger" value="logins">
+          <Icon name="key-round" />
+          <span>{{ $t('account:tab:logins') }}</span>
+        </TabsTrigger>
+        <TabsTrigger class="tabs-trigger" value="notifications">
+          <Icon name="message-square" />
+          <span>{{ $t('account:tab:notifications') }}</span>
+        </TabsTrigger>
+      </TabsList>
 
-        <div class="table-wrapper">
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>date / time</th>
-                  <th>ip</th>
-                  <th>user-agent</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="login in logins" :key="login.sqid">
-                  <td>
-                    <relative-time :datetime="login.createdAt" prefix="" />
-                  </td>
-                  <td class="ip">
-                    <span>
-                      <span v-if="login.ip.bogon" class="flag">🌏</span>
-                      <span v-else class="flag" :title="login.ip.countryCode">{{ login.ip.countryFlag }}</span>
-                      <code class="ip" :title="login.ip.organization">{{ login.ip.value }}</code>
-                    </span>
-                  </td>
-                  <td class="ua">
-                    <span>
-                      <Icon :name="`device-${login.userAgent.deviceTypeIcon}`" />
-                      <span v-if="login.userAgent.isBot" class="value">
-                        <div class="truncate" :title="login.userAgent.value">{{ login.userAgent.value }}</div>
-                      </span>
-                      <span v-else class="value" :title="login.userAgent.value">
-                        {{ login.userAgent.clientFamily }} {{ login.userAgent.clientVersion }} @
-                        {{ login.userAgent.osName }} {{ login.userAgent.osVersion }}
-                      </span>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-    </Deferred>
+      <TabsContent value="logins" class="logins">
+        <Deferred data="logins">
+          <template #fallback>
+            <Loader :label="$t('loading login details')" />
+          </template>
+
+          <section v-if="logins!.length">
+            <div class="table-wrapper">
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>date / time</th>
+                      <th>ip</th>
+                      <th>user-agent</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="login in logins" :key="login.sqid">
+                      <td>
+                        <relative-time :datetime="login.createdAt" prefix="" />
+                      </td>
+                      <td class="ip">
+                        <span>
+                          <span v-if="login.ip.bogon" class="flag">🌏</span>
+                          <span v-else class="flag" :title="login.ip.countryCode">{{ login.ip.countryFlag }}</span>
+                          <code class="ip" :title="login.ip.organization">{{ login.ip.value }}</code>
+                        </span>
+                      </td>
+                      <td class="ua">
+                        <span>
+                          <Icon :name="`device-${login.userAgent.deviceTypeIcon}`" />
+                          <span v-if="login.userAgent.isBot" class="value">
+                            <div class="truncate" :title="login.userAgent.value">{{ login.userAgent.value }}</div>
+                          </span>
+                          <span v-else class="value" :title="login.userAgent.value">
+                            {{ login.userAgent.clientFamily }} {{ login.userAgent.clientVersion }} @
+                            {{ login.userAgent.osName }} {{ login.userAgent.osVersion }}
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+          <article v-else class="empty">
+            <p>{{ $t('This account has not been logged in yet.') }}</p>
+          </article>
+        </Deferred>
+      </TabsContent>
+
+      <TabsContent value="notifications" class="notifications">
+        <WhenVisible data="notifications">
+          <template #fallback>
+            <Loader :label="$t('loading notification details')" />
+          </template>
+
+          <table v-if="notifications!.length > 0">
+            <tbody>
+              <tr v-for="notification in notifications" :key="notification.sqid">
+                <td>{{ notification.name }}</td>
+                <td class="align-right">
+                  <DateTime :datetime="notification.createdAt" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <article v-else class="empty">
+            <p>{{ $t('This account has received any notifications yet.') }}</p>
+          </article>
+        </WhenVisible>
+      </TabsContent>
+    </TabsRoot>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { Deferred, Head, Link, router } from '@inertiajs/vue3'
+import { Deferred, Head, Link, router, WhenVisible } from '@inertiajs/vue3'
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'radix-vue'
+import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 
+import DateTime from '/@admin:components/DateTime.vue'
 import Dropdown from '/@admin:components/Dropdown.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Loader from '/@admin:components/Loader.vue'
@@ -135,8 +173,11 @@ defineOptions({
 const props = defineProps<{
   account: Authorizable & User
   logins?: Login[]
+  notifications?: any[]
   links: Record<string, string>
 }>()
+
+const activeTab = ref('logins')
 
 const inviteAccount = () => {
   http.post(props.account.links.invite).then(() => {

@@ -1,0 +1,96 @@
+.tabs {
+  container: tabs / inline-size;
+
+  & .tabs-list {
+    position: relative;
+    display: flex;
+    border-bottom: 1px solid var(--gray-200);
+    gap: 1.5em;
+
+    & .tabs-indicator {
+      position: absolute;
+      bottom: 0;
+      left: var(--radix-tabs-indicator-position);
+      width: var(--radix-tabs-indicator-size);
+      height: 2px;
+      background: hsl(from var(--accent-color) h s l / 80%);
+      transition: all 0.25s ease;
+    }
+
+    & button {
+      all: unset;
+      display: flex;
+      align-items: center;
+      padding: 0.35em 0.5em;
+      margin: 0.25em 0;
+      color: var(--gray-500);
+      cursor: pointer;
+      font-weight: 550;
+      gap: 0.5em;
+      user-select: none;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        color: var(--accent-color);
+      }
+
+      &[data-active='true'] {
+        color: var(--accent-color);
+      }
+    }
+
+    @container tabs (width < 700px) {
+      &:has(button:nth-of-type(4)) {
+        gap: 1em;
+
+        & button {
+          & .v-icon {
+            display: none;
+          }
+        }
+      }
+    }
+
+    @container tabs (width < 420px) {
+      &:has(button:nth-of-type(3)) {
+        gap: 1em;
+
+        & button {
+          & .v-icon {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  & [role='tabpanel'] {
+    padding: 1.5rem 0;
+
+    & .section {
+      margin-bottom: 3rem;
+    }
+
+    & h3 {
+      font-weight: 550;
+    }
+  }
+
+  & .fetching {
+    display: flex;
+    min-height: 6lh;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-400);
+  }
+
+  & .empty {
+    padding: var(--viewport-padding-inline);
+    color: var(--gray-400);
+    text-align: center;
+  }
+}

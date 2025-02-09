@@ -110,11 +110,3 @@ onMounted(() => {
   initChart()
 })
 </script>
-
-<style scoped>
-.empty {
-  padding: var(--viewport-padding-inline);
-  color: var(--gray-400);
-  text-align: center;
-}
-</style>
