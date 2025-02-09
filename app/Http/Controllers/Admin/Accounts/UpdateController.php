@@ -40,7 +40,7 @@ class UpdateController
         $user = $request->user();
         $roles = $this->rolesForUser($user)->pluck('name');
 
-        $emailRule = Rule::unique('tenant.users', 'email')->withoutTrashed();
+        $emailRule = Rule::unique('tenant.users', 'email');
         if ($account->exists) {
             $emailRule->ignore($account);
         }
