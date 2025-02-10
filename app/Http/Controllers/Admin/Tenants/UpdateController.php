@@ -26,7 +26,7 @@ class UpdateController
         Gate::authorize('update', $tenant);
 
         $request->validate([
-            'name' => ['required', 'min:2', 'max:100'],
+            'name' => ['required', 'string', 'min:2', 'max:100'],
         ]);
 
         $tenant->fill([

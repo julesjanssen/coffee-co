@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Admin\Tenants;
 use App\Http\Resources\Admin\TenantResource;
 use App\Models\Policies\TenantPolicy;
 use App\Models\Tenant;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -26,7 +25,7 @@ class IndexController
             'tenants' => TenantResource::collection($tenants)
                 ->additional([
                     'can' => [
-                        TenantPolicy::CREATE => $request->user()->can(TenantPolicy::CREATE, User::class),
+                        TenantPolicy::CREATE => $request->user()->can(TenantPolicy::CREATE, Tenant::class),
                     ],
                     'links' => [
                         'create' => route('admin.tenants.create'),

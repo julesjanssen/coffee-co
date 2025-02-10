@@ -46,8 +46,8 @@ class UpdateController
         }
 
         $request->validate([
-            'name' => ['required', 'min:2', 'max:100'],
-            'email' => ['required', 'email', $emailRule],
+            'name' => ['required', 'string', 'min:2', 'max:100'],
+            'email' => ['required', 'email', 'max:200', $emailRule],
             'roles' => ['required', 'array', 'min:1'],
             'roles.*' => [Rule::in($roles)],
         ]);
