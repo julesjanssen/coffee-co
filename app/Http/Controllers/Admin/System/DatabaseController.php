@@ -67,7 +67,7 @@ class DatabaseController
 
         $ttl = [
             now()->addMinutes(15),
-            now()->addMinutes(20),
+            now()->addMinutes(60),
         ];
 
         return Cache::flexible($cachekey, $ttl, function () {
