@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware\Fortify;
 
 use Closure;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -52,9 +53,13 @@ class GuestImage
         $key = hash('xxh3', __METHOD__);
 
         $results = Cache::flexible($key, ['+1day', '+15 days'], function () {
-            $response = Http::timeout(5)
-                ->baseUrl($this->baseUrl)
-                ->get('photos.json');
+            try {
+                $response = Http::timeout(5)
+                    ->baseUrl($this->baseUrl)
+                    ->get('photos.json');
+            } catch (ConnectionException $e) {
+                return [];
+            }
 
             if (! $response->successful()) {
                 return [];
