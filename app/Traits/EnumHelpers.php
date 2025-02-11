@@ -94,6 +94,26 @@ trait EnumHelpers
     }
 
     /**
+     * Attempt to instantiate a new Enum using the given value or instance.
+     */
+    public static function coerce(mixed $value): ?self
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if ($value instanceof self) {
+            return $value;
+        }
+
+        if (self::hasValue($value)) {
+            return self::from($value);
+        }
+
+        return null;
+    }
+
+    /**
      * Get the enum as an array formatted for a select.
      *
      * @return array<array-key, string>
@@ -125,7 +145,7 @@ trait EnumHelpers
     {
         return [
             'value' => $this->value,
-            'description' => $this->description(),
+            'label' => $this->description(),
         ];
     }
 
