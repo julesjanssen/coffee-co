@@ -148,7 +148,7 @@
             </tbody>
           </table>
           <article v-else class="empty">
-            <p>{{ $t('This account has received any notifications yet.') }}</p>
+            <p>{{ $t('This account has not received any notifications yet.') }}</p>
           </article>
         </WhenVisible>
       </TabsContent>
