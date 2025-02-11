@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\System;
 
-use App\Http\Controllers\Controller;
 use App\Support\Admin\Server\Configuration;
 use App\Support\Admin\Server\Health;
 use App\Support\Admin\Server\Load;
@@ -17,7 +16,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class ServerController extends Controller
+class ServerController
 {
     public function index(Request $request)
     {
