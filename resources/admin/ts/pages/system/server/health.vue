@@ -10,7 +10,7 @@
       <div>
         <dt>Last cron exec:</dt>
         <dd>
-          <span class="badge warning" v-if="!data.cron">never</span>
+          <span v-if="!data.cron" class="badge warning">never</span>
           <template v-else>
             <relative-time :datetime="data.cron" prefix="" />
           </template>

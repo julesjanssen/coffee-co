@@ -35,7 +35,7 @@
                 {{ $t('Use at least :t characters.', { t: String(minPassLength) }) }}
                 <br />
                 {{ $t('suggestion') }}
-                <code v-on:click="useSuggestion" style="cursor: pointer">{{ suggestion }}</code>
+                <code style="cursor: pointer" @click="useSuggestion">{{ suggestion }}</code>
               </p>
             </div>
           </div>

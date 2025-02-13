@@ -1,7 +1,7 @@
 <template>
   <div v-if="account" class="aside-account">
     <div class="account-slide" :class="{ active: isActive }">
-      <div role="button" class="trigger" v-on:click="toggleActive">
+      <div role="button" class="trigger" @click="toggleActive">
         <figure v-if="account.avatar">
           <img :src="account.avatar.url" :alt="account.name" />
         </figure>
@@ -13,7 +13,7 @@
       </div>
 
       <Transition name="expand">
-        <div class="account-info" v-if="isActive">
+        <div v-if="isActive" class="account-info">
           <ul>
             <li>
               <Link href="/admin/account/me">

@@ -1,11 +1,11 @@
 <template>
-  <button type="button" class="aside-burger" v-on:click.prevent="toggleNavigation">
+  <button type="button" class="aside-burger" @click.prevent="toggleNavigation">
     <Icon name="menu" />
   </button>
 
   <aside :class="{ active: showNavigation }">
     <div class="aside-top">
-      <button class="aside-burger" type="button" v-on:click.prevent="toggleNavigation">
+      <button class="aside-burger" type="button" @click.prevent="toggleNavigation">
         <Icon name="x" />
       </button>
 

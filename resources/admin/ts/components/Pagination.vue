@@ -1,14 +1,14 @@
 <template>
-  <div class="pagination" v-if="shouldDisplay">
+  <div v-if="shouldDisplay" class="pagination">
     <ul role="navigation">
-      <li class="page-item prev" v-if="hasPrev">
-        <a :href="links.prev!" rel="prev" :ariaLabel="$t('previous')" v-on:click.prevent="paginate(links.prev!)">
+      <li v-if="hasPrev" class="page-item prev">
+        <a :href="links.prev!" rel="prev" :ariaLabel="$t('previous')" @click.prevent="paginate(links.prev!)">
           <Icon name="chevron-left" />
           {{ $t('previous page') }}
         </a>
       </li>
-      <li class="page-item next" v-if="hasNext">
-        <a :href="links.next!" rel="next" :ariaLabel="$t('next')" v-on:click.prevent="paginate(links.next!)">
+      <li v-if="hasNext" class="page-item next">
+        <a :href="links.next!" rel="next" :ariaLabel="$t('next')" @click.prevent="paginate(links.next!)">
           {{ $t('next page') }}
           <Icon name="chevron-right" />
         </a>

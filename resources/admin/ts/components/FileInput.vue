@@ -1,5 +1,5 @@
 <template>
-  <Uploader v-on:fileAdded="fileAdded" :multiple="multiple" :accept="accept">
+  <Uploader :multiple="multiple" :accept="accept" @file-added="fileAdded">
     <span class="input-display">
       <Icon :name="icon" />
       <span class="label truncate">{{ label }}</span>
@@ -8,7 +8,7 @@
         <span v-if="isUploading" class="progress">
           <ProgressCircle :percentage="progress" :size="14" />
         </span>
-        <span v-else-if="isDone" class="status" key="icon">
+        <span v-else-if="isDone" key="icon" class="status">
           <Icon name="check" />
         </span>
       </Transition>

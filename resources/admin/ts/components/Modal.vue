@@ -3,21 +3,21 @@
     <div class="v-modal v-modal-wrapper" v-bind="$attrs" :class="name">
       <transition appear name="modal-backdrop">
         <div
+          v-if="isModalShown"
           class="v-modal-backdrop"
           :class="{ clickable: clickToClose }"
-          v-if="isModalShown"
-          @click="handleBackdropClick"
           aria-hidden="true"
+          @click="handleBackdropClick"
         ></div>
       </transition>
       <transition appear name="modal-content">
         <div
+          v-if="isModalShown"
           class="v-modal-content"
           role="dialog"
           aria-modal="true"
           aria-label="Modal window"
           tabindex="-1"
-          v-if="isModalShown"
         >
           <slot />
         </div>

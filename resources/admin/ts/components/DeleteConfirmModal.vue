@@ -15,10 +15,10 @@
       </div>
 
       <footer class="actions">
-        <button type="button" v-on:click.prevent="cancelDelete">
+        <button type="button" @click.prevent="cancelDelete">
           {{ cancelLabel }}
         </button>
-        <button type="button" class="danger" v-on:click.prevent="confirmDelete" :disabled="isProcessing">
+        <button type="button" class="danger" :disabled="isProcessing" @click.prevent="confirmDelete">
           {{ deleteLabel }}
         </button>
       </footer>

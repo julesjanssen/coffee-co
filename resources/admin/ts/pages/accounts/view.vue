@@ -17,14 +17,14 @@
 
           <Dropdown v-if="account.can.invite || account.can.delete">
             <ul role="menu" aria-hidden="true">
-              <li role="menuitem" v-if="account.can.invite">
-                <button type="button" v-on:click.prevent="inviteAccount" v-close-popper>
+              <li v-if="account.can.invite" role="menuitem">
+                <button v-close-popper type="button" @click.prevent="inviteAccount">
                   <Icon name="send" />
                   {{ $t('invite') }}
                 </button>
               </li>
-              <li role="menuitem" v-if="account.can.delete">
-                <button type="button" class="danger" v-on:click.prevent="deleteAccount" v-close-popper>
+              <li v-if="account.can.delete" role="menuitem">
+                <button v-close-popper type="button" class="danger" @click.prevent="deleteAccount">
                   <Icon name="trash" />
                   {{ $t('archive') }}
                 </button>
@@ -58,7 +58,7 @@
       </dl>
     </section>
 
-    <TabsRoot class="tabs" v-model="activeTab">
+    <TabsRoot v-model="activeTab" class="tabs">
       <TabsList class="tabs-list">
         <TabsIndicator class="tabs-indicator" />
 

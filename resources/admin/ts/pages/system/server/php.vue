@@ -56,10 +56,10 @@
             <span class="badge success">enabled</span> (using {{ filesize(data.opcache.usedMemory) }})
             <button
               v-if="data.opcache.usedMemory > 0"
-              v-on:click.prevent="resetOpcache"
               type="button"
               class="small inline"
               style="margin-left: 1em"
+              @click.prevent="resetOpcache"
             >
               reset
             </button>

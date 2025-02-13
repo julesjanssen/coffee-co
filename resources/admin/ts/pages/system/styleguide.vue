@@ -12,7 +12,7 @@
         </div>
 
         <div class="actions">
-          <button type="button" class="danger" v-on:click.prevent="deleteItem" v-close-popper>
+          <button v-close-popper type="button" class="danger" @click.prevent="deleteItem">
             <Icon name="trash" />
             {{ $t('remove') }}
           </button>
@@ -530,7 +530,7 @@
               <Link href="#">Een InertiaJS link</Link>
             </li>
             <li role="menuitem">
-              <button type="button" v-on:click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
+              <button type="button" @click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
             </li>
             <li class="divider"></li>
             <li>
@@ -551,7 +551,7 @@
                 <Link href="#">Een InertiaJS link</Link>
               </li>
               <li>
-                <button type="button" v-on:click.prevent="promiseToast('supermooi')">En een knop</button>
+                <button type="button" @click.prevent="promiseToast('supermooi')">En een knop</button>
               </li>
             </ul>
           </template>
@@ -566,7 +566,7 @@
               <Link href="#">Een hele lange link die gewoon maar door blijft gaan met tekst en van alles.</Link>
             </li>
             <li>
-              <button type="button" v-on:click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
+              <button type="button" @click.prevent="toast.error('Dit gaat niet goed')">En een toast knop</button>
             </li>
           </ul>
         </Dropdown>

@@ -10,8 +10,8 @@
       <div>
         <dt>Debug mode</dt>
         <dd>
-          <span class="badge danger" v-if="data.debug">on</span>
-          <span class="badge" v-else>off</span>
+          <span v-if="data.debug" class="badge danger">on</span>
+          <span v-else class="badge">off</span>
         </dd>
       </div>
 
@@ -30,39 +30,39 @@
       <div>
         <dt>Cookie</dt>
         <dd>
-          <span class="badge warning" v-if="!data.secureCookie">not secure</span>
-          <span class="badge" v-else>secure</span>
+          <span v-if="!data.secureCookie" class="badge warning">not secure</span>
+          <span v-else class="badge">secure</span>
         </dd>
       </div>
 
       <div>
         <dt>Config cache</dt>
         <dd>
-          <span class="badge warning" v-if="!data.cachedConfig">not cached</span>
-          <span class="badge success" v-else>cached</span>
+          <span v-if="!data.cachedConfig" class="badge warning">not cached</span>
+          <span v-else class="badge success">cached</span>
         </dd>
       </div>
 
       <div>
         <dt>Routes cache</dt>
         <dd>
-          <span class="badge warning" v-if="!data.cachedRoutes">not cached</span>
-          <span class="badge success" v-else>cached</span>
+          <span v-if="!data.cachedRoutes" class="badge warning">not cached</span>
+          <span v-else class="badge success">cached</span>
         </dd>
       </div>
 
       <div>
         <dt>Events cache</dt>
         <dd>
-          <span class="badge warning" v-if="!data.cachedEvents">not cached</span>
-          <span class="badge success" v-else>cached</span>
+          <span v-if="!data.cachedEvents" class="badge warning">not cached</span>
+          <span v-else class="badge success">cached</span>
         </dd>
       </div>
 
       <div v-if="data.path">
         <dt>PATH setting</dt>
         <dd class="path">
-          <span class="badge danger" v-if="!data.path.length">PATH not set</span>
+          <span v-if="!data.path.length" class="badge danger">PATH not set</span>
           <details v-else>
             <summary>
               <span class="badge success">PATH set</span>
@@ -79,16 +79,16 @@
       <div>
         <dt>Composer dev</dt>
         <dd>
-          <span class="badge danger" v-if="data.composerDev">dev packages installed</span>
-          <span class="badge success" v-else>no dev</span>
+          <span v-if="data.composerDev" class="badge danger">dev packages installed</span>
+          <span v-else class="badge success">no dev</span>
         </dd>
       </div>
 
       <div>
         <dt>Backup encryption</dt>
         <dd>
-          <span class="badge success" v-if="data.backupEncryption">encrypted</span>
-          <span class="badge danger" v-else>not encrypted</span>
+          <span v-if="data.backupEncryption" class="badge success">encrypted</span>
+          <span v-else class="badge danger">not encrypted</span>
         </dd>
       </div>
     </dl>

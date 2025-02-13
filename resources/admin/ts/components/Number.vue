@@ -53,7 +53,6 @@ const displayValue = computed(() => {
       }
   }
 
-  // eslint-disable-next-line no-irregular-whitespace
   return formatter.format(value) + (suffix.length ? ` ${suffix}` : '')
 })
 </script>
