@@ -31,6 +31,17 @@ return Application::configure(basePath: dirname(__DIR__))
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        if (! App::runningInConsole()) {
+            $request = request();
+
+            $exceptions->context(fn() => array_filter([
+                'url' => $request->url(),
+                'ip' => $request->ip(),
+                'userId' => $request->user()?->id,
+                'userEmail' => $request->user()?->email,
+            ]));
+        }
+
         if (App::environment('local', 'testing')) {
             // Show full responses in development
             $exceptions->dontTruncateRequestExceptions();
