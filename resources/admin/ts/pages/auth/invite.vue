@@ -26,6 +26,7 @@
                   name="password"
                   autocomplete="new-password"
                   :minlength="minPassLength"
+                  :passwordrules="`minlength: ${minPassLength}; maxlength: 72;`"
                   required
                 />
               </div>
