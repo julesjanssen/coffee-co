@@ -11,11 +11,16 @@ const buildStylelintCommand = (filenames) =>
 const buildPrettierCommand = (filenames) =>
   `prettier --write ${filenames.map((f) => path.relative(process.cwd(), f)).join(' ')}`
 
-const buildPhpLintCommand = () => `./vendor/bin/phplint ./app --no-interaction --no-cache`
-const buildPintCommand = () => `./vendor/bin/pint`
-const buildPhpStanCommand = () => `./vendor/bin/phpstan analyse --memory-limit=2G`
-const buildComposerDepAnalyserCommand = () => `./vendor/bin/composer-dependency-analyser`
-const buildComposerCommand = () => `composer validate --no-check-publish --strict`
+const prefixWithHerd = (command) => {
+  const envPath = process.env.PATH
+  return envPath.includes('/Herd/') || envPath.includes('/herd/') ? `herd php ${command}` : command
+}
+
+const buildPhpLintCommand = () => prefixWithHerd('./vendor/bin/phplint ./app --no-interaction --no-cache')
+const buildPintCommand = () => prefixWithHerd('./vendor/bin/pint --config resources/config/pint.json')
+const buildPhpStanCommand = () => prefixWithHerd('./vendor/bin/phpstan analyse --memory-limit=2G')
+const buildComposerDepAnalyserCommand = () => prefixWithHerd('./vendor/bin/composer-dependency-analyser')
+const buildComposerCommand = () => 'composer validate --no-check-publish --strict'
 
 export default {
   '*.{js,ts,vue}': [buildTscCommand, buildEslintCommand],
