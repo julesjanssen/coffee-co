@@ -116,13 +116,11 @@ class OsInternet implements Arrayable
 
     public function toArray()
     {
-        return Cache::flexible(__METHOD__, ['+1 day', '+15 days'], function () {
-            return [
-                'os' => $this->getOperatingSystem(),
-                'hostname' => $this->getHostname(),
-                'certificate' => $this->getCertificateDetails(),
-                'ip' => $this->getServerIP(),
-            ];
-        });
+        return Cache::flexible(__METHOD__, ['+1 day', '+15 days'], fn() => [
+            'os' => $this->getOperatingSystem(),
+            'hostname' => $this->getHostname(),
+            'certificate' => $this->getCertificateDetails(),
+            'ip' => $this->getServerIP(),
+        ]);
     }
 }

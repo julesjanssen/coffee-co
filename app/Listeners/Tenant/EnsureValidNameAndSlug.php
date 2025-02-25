@@ -33,7 +33,7 @@ class EnsureValidNameAndSlug
             ]);
         }
 
-        $tenant->slug = mb_substr($tenant->slug, 0, 30);
+        $tenant->slug = mb_substr((string) $tenant->slug, 0, 30);
 
         $exists = Tenant::query()
             ->where('slug', '=', $tenant->slug)

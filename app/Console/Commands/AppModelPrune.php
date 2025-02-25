@@ -22,6 +22,7 @@ class AppModelPrune extends Command
                                 {--path=* : Absolute path(s) to directories where models are located}
                                 {--chunk=1000 : The number of models to retrieve per chunk of models to be deleted}
                                 {--pretend : Display the number of prunable records found instead of deleting them}';
+
     /**
      * The console command description.
      *

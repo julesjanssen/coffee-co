@@ -19,8 +19,7 @@ class GuestImage
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
+     * @param  Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -57,7 +56,7 @@ class GuestImage
                 $response = Http::timeout(5)
                     ->baseUrl($this->baseUrl)
                     ->get('photos.json');
-            } catch (ConnectionException $e) {
+            } catch (ConnectionException) {
                 return [];
             }
 

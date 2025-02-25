@@ -17,19 +17,16 @@ class AppTranslationsFind extends Command
 {
     /**
      * The name and signature of the console command.
-     *
      */
     protected $signature = 'app:translations:find';
 
     /**
      * The console command description.
-     *
      */
     protected $description = 'Find translatable strings.';
 
     /**
      * Options used to encode JSON
-     *
      */
     protected int $jsonOptions = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
 

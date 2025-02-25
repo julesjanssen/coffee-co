@@ -61,7 +61,7 @@ class IpInfo
     /**
      * Check if an IP address is a bogon.
      *
-     * @param string $ip The IP address to check
+     * @param  string  $ip  The IP address to check
      * @return bool True if the IP address is a bogon, false otherwise
      */
     public function isBogon($ip)
@@ -71,6 +71,7 @@ class IpInfo
 
     /**
      * List of bogon CIDRs.
+     *
      * @var string[]
      */
     protected $bogonNetworks = [
