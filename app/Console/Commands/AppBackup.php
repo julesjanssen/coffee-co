@@ -7,14 +7,11 @@ namespace App\Console\Commands;
 use App\Enums\Disk;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Config\Config;
 
 class AppBackup extends Command
 {
-    use ConfirmableTrait;
-
     /**
      * The name and signature of the console command.
      *

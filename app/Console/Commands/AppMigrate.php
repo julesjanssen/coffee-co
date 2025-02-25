@@ -18,7 +18,7 @@ class AppMigrate extends Command
      *
      * @var string
      */
-    protected $signature = 'app:migrate';
+    protected $signature = 'app:migrate {--force : Force the operation to run when in production}';
 
     /**
      * The console command description.
@@ -48,6 +48,7 @@ class AppMigrate extends Command
         Artisan::call('migrate', [
             '--path' => 'database/migrations/landlord',
             '--database' => 'landlord',
+            '--force' => true,
         ], $this->output);
     }
 
@@ -60,7 +61,7 @@ class AppMigrate extends Command
         $this->info('Migrate tenants');
 
         Tenant::all()->eachCurrent(function (Tenant $tenant) {
-            $command = vsprintf('tenants:artisan "migrate --database=tenant --path=%s" --tenant=%d', [
+            $command = vsprintf('tenants:artisan "migrate --database=tenant --force --path=%s" --tenant=%d', [
                 'database/migrations/tenant',
                 $tenant->id,
             ]);
