@@ -37,7 +37,7 @@ import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 import Icon from '/@admin:components/Icon.vue'
-import { clearCache } from '/@admin:shared/http'
+import { clearCache, http } from '/@admin:shared/http'
 import type { PageProps } from '/@admin:types'
 
 const isActive = ref(false)
@@ -51,19 +51,23 @@ const logout = async () => {
   await clearCache()
 
   try {
-    router.post('/auth/logout')
-  } catch (_) {
-    logoutTries++
+    await http.post('/auth/logout')
 
-    if (logoutTries > 2) {
-      return
+    router.reload()
+  } catch (e: any) {
+    if (e.response?.status === 419) {
+      // stale session / CSRF issue
+      // reload & try again
+      logoutTries++
+
+      if (logoutTries > 2) {
+        return
+      }
+
+      setTimeout(() => {
+        logout()
+      }, 1_000)
     }
-
-    // stale session / CSRF issue
-    // reload & try again
-    router.reload({
-      onFinish: () => logout(),
-    })
   }
 }
 </script>
