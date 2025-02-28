@@ -27,6 +27,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     HandleInertiaRequests::class,
                 ]
             )
+            ->validateCsrfTokens(except: [
+                '/auth/logout',
+            ])
             ->trustHosts(null, true);
 
     })
