@@ -17,6 +17,10 @@ abstract class TestCase extends BaseTestCase
 
     protected function refreshTestDatabase()
     {
+        // Drop the test tenant database if it exists (to avoid issues with previous test runs)
+        Schema::dropDatabaseIfExists('laravel-testing-bluetest');
+
+        // Migrate the landlord database
         $this->artisan('migrate:fresh', [
             '--path' => 'database/migrations/landlord',
             '--database' => 'landlord',
@@ -27,9 +31,11 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setup();
 
+        // Create a test tenant with a consistent name
         $tenant = Tenant::create(['name' => 'bluetest']);
         $tenant->makeCurrent();
 
+        // Ensure we clean up after the test
         $this->beforeApplicationDestroyed(function () use ($tenant) {
             Schema::dropDatabaseIfExists($tenant->getDatabaseName());
         });
