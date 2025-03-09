@@ -34,7 +34,7 @@ class Uri extends BaseUri
 
         $host = $this->getHost();
         if (filter_var($host, FILTER_VALIDATE_IP)) {
-            return filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+            return (bool) filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
         }
 
         return true;
@@ -51,7 +51,10 @@ class Uri extends BaseUri
         return $uri;
     }
 
-    public function strlen()
+    /**
+     * Get the length of the URI as a string
+     */
+    public function strlen(): int
     {
         return Str::length((string) $this);
     }
