@@ -40,13 +40,9 @@ test('tenant creation dispatches creating and created events', function () {
     $tenant = Tenant::create($attributes);
 
     // Assert
-    Event::assertDispatched(TenantCreating::class, function ($event) use ($tenant) {
-        return $event->tenant->is($tenant);
-    });
+    Event::assertDispatched(TenantCreating::class, fn($event) => $event->tenant->is($tenant));
 
-    Event::assertDispatched(TenantCreated::class, function ($event) use ($tenant) {
-        return $event->tenant->is($tenant);
-    });
+    Event::assertDispatched(TenantCreated::class, fn($event) => $event->tenant->is($tenant));
 });
 
 test('tenant is created with a unique storage prefix', function () {
@@ -65,8 +61,8 @@ test('tenant is created with a unique storage prefix', function () {
 
     // Assert
     expect($tenant1->settings['storage-prefix'])->not->toBe($tenant2->settings['storage-prefix'])
-        ->and(strlen($tenant1->settings['storage-prefix']))->toBe(10)
-        ->and(strlen($tenant2->settings['storage-prefix']))->toBe(10);
+        ->and(strlen((string) $tenant1->settings['storage-prefix']))->toBe(10)
+        ->and(strlen((string) $tenant2->settings['storage-prefix']))->toBe(10);
 });
 
 test('tenant slugs must be unique', function () {

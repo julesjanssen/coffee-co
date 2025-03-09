@@ -11,7 +11,7 @@ test('tenant generates correct subdomain-based host', function () {
 
     // Arrange
     $appUrl = config('app.url');
-    $baseHost = parse_url($appUrl, PHP_URL_HOST);
+    $baseHost = parse_url((string) $appUrl, PHP_URL_HOST);
 
     $tenant = Tenant::create([
         'name' => 'Domain Test',
