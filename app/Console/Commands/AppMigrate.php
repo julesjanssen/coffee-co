@@ -36,10 +36,10 @@ class AppMigrate extends Command
             return 1;
         }
 
-        $this->migrateLandlord();
-        $this->migrateTenants();
         $this->migrateSessions();
         $this->migrateCache();
+        $this->migrateLandlord();
+        $this->migrateTenants();
     }
 
     private function migrateLandlord()
