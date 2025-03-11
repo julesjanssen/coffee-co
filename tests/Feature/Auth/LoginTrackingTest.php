@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 
 beforeEach(function () {
-    // Create a user directly (bypassing factory to avoid missing column issues)
     $this->password = 'password123';
 
     // Create test user

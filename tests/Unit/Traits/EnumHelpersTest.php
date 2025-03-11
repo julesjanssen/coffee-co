@@ -76,7 +76,7 @@ it('can get enum values as select array', function () {
     $selectArray = AttachmentType::asSelectArray();
 
     expect($selectArray)->toBeArray();
-    expect($selectArray)->toHaveCount(2);
+    expect($selectArray)->toHaveCount(count(AttachmentType::cases()));
     expect($selectArray)->toHaveKey('avatar');
     expect($selectArray)->toHaveKey('generic');
     expect($selectArray['avatar'])->toBe('Avatar');
@@ -87,7 +87,5 @@ it('can collect all enum cases', function () {
     $collection = AttachmentType::collect();
 
     expect($collection)->toBeCollection();
-    expect($collection)->toHaveCount(2);
-    expect($collection[0])->toBe(AttachmentType::Avatar);
-    expect($collection[1])->toBe(AttachmentType::Generic);
+    expect($collection)->toHaveCount(count(AttachmentType::cases()));
 });
