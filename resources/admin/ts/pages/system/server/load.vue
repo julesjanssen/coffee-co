@@ -40,6 +40,21 @@ const props = defineProps<{
   data: LoadData
 }>()
 
+const timeToLocal = (originalTime: string) => {
+  const d = new Date(originalTime)
+  return (
+    Date.UTC(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      d.getHours(),
+      d.getMinutes(),
+      d.getSeconds(),
+      d.getMilliseconds(),
+    ) / 1000
+  )
+}
+
 const initChart = async () => {
   await loadScript('https://unpkg.com/lightweight-charts@4.0.0/dist/lightweight-charts.standalone.production.js')
 
@@ -91,7 +106,7 @@ const initChart = async () => {
 
     const sData = props.data.results.map((result: LoadDataResult) => {
       return {
-        time: new Date(result.timestamp).getTime() / 1000,
+        time: timeToLocal(result.timestamp),
         value: result.values[serie.index],
       }
     })
