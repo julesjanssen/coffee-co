@@ -6,7 +6,7 @@ declare module '*.vue' {
   export default component
 }
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   interface ComponentCustomProperties {
     $t: (key: string, replacements: ReplacementsInterface = {}) => string
     $tChoice: (key: string, number: number, replacements: ReplacementsInterface = {}) => string
