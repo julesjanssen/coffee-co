@@ -146,7 +146,7 @@ class DatabaseController
     {
         $config = DB::connection('tenant')->getConfig();
 
-        if ($config['driver'] !== 'mysql') {
+        if ($config['driver'] !== 'mysql' || empty($config['database'])) {
             return [];
         }
 
