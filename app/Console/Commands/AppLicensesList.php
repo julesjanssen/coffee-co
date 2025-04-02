@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Fluent;
 
@@ -32,6 +33,10 @@ class AppLicensesList extends Command
      */
     public function handle()
     {
+        if (App::environment(['ci'])) {
+            return;
+        }
+
         $packages = collect()
             ->merge($this->listJsPackages())
             ->merge($this->listPhpPackages())
@@ -39,7 +44,7 @@ class AppLicensesList extends Command
             ->filter()
             ->sortBy('name')
             ->groupBy('license')
-            ->map(fn($packages, $license) => $this->groupByAuthor($packages));
+            ->map(fn($packages) => $this->groupByAuthor($packages));
 
         $path = storage_path('app/open-source.json');
         file_put_contents($path, json_encode($packages, JSON_PRETTY_PRINT));
