@@ -17,14 +17,9 @@
   </section>
 </template>
 
-<script lang="ts">
-declare const LightweightCharts: any
-</script>
-
 <script lang="ts" setup>
+import type { UTCTimestamp } from 'lightweight-charts'
 import { nextTick, onMounted } from 'vue'
-
-import { loadScript } from '/@admin:shared/utils'
 
 type LoadDataResult = {
   timestamp: string
@@ -56,13 +51,13 @@ const timeToLocal = (originalTime: string) => {
 }
 
 const initChart = async () => {
-  await loadScript('https://unpkg.com/lightweight-charts@4.0.0/dist/lightweight-charts.standalone.production.js')
+  const { createChart } = await import('lightweight-charts')
 
   await nextTick()
 
   const element = document.querySelector('#server-load-chart') as HTMLElement
 
-  const chart = LightweightCharts.createChart(element, { width: element.offsetWidth, height: 240 })
+  const chart = createChart(element, { width: element.offsetWidth, height: 240 })
 
   chart.applyOptions({
     timeScale: {
@@ -106,7 +101,7 @@ const initChart = async () => {
 
     const sData = props.data.results.map((result: LoadDataResult) => {
       return {
-        time: timeToLocal(result.timestamp),
+        time: timeToLocal(result.timestamp) as UTCTimestamp,
         value: result.values[serie.index],
       }
     })

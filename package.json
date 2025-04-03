@@ -25,6 +25,7 @@
     "laravel-vite-plugin": "^1.0",
     "laravel-vue-i18n": "^2.7.7",
     "lightningcss": "^1.29.0",
+    "lightweight-charts": "4.0.0",
     "lint-staged": "^15.2.10",
     "postcss-html": "^1.7.0",
     "prettier": "^3.3.3",

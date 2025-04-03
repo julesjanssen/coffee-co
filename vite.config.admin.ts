@@ -59,16 +59,16 @@ export default defineConfig(({ command }) => {
               return 'floating'
             }
 
+            if (id.includes('lightweight-charts')) {
+              return 'lightweight-charts'
+            }
+
             if (id.includes('radix')) {
               return 'radix'
             }
 
             if (id.includes('@inertiajs') || id.includes('nprogress')) {
               return 'inertia'
-            }
-
-            if (id.includes('axios') || id.includes('qs')) {
-              return 'http'
             }
 
             if (
