@@ -5,6 +5,7 @@ details {
   & summary {
     cursor: pointer;
     font-weight: 550;
+    list-style: none;
 
     /* make sure the chevron aligns nicely */
     translate: -2px 0;
@@ -45,7 +46,20 @@ details {
   }
 }
 
-@supports selector(::details-content) {
+@supports selector(::details-content) and (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  ::details-content {
+    overflow: clip;
+    height: 0;
+    transition:
+      all var(--transition-duration) ease,
+      content-visibility var(--transition-duration) allow-discrete;
+  }
+
   details {
     --transition-duration: 0.25s;
 
@@ -54,21 +68,6 @@ details {
 
   summary {
     transition: all var(--transition-duration) ease;
-  }
-}
-
-/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-::details-content {
-  overflow: clip;
-  height: 0;
-  transition:
-    all var(--transition-duration) ease,
-    content-visibility var(--transition-duration) allow-discrete;
-}
-
-@supports (interpolate-size: allow-keywords) {
-  :root {
-    interpolate-size: allow-keywords;
   }
 
   /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
