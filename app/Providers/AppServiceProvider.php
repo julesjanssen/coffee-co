@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
 
@@ -33,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureEloquent();
         $this->configureJsonResources();
-        $this->configureVitePrefetching();
         $this->configureEnvPath();
         $this->configureHttpClientUserAgent();
     }
@@ -51,11 +49,6 @@ class AppServiceProvider extends ServiceProvider
     private function configureJsonResources()
     {
         JsonResource::withoutWrapping();
-    }
-
-    private function configureVitePrefetching()
-    {
-        Vite::prefetch(concurrency: 3);
     }
 
     private function configureEnvPath()
