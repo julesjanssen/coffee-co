@@ -48,7 +48,7 @@ const date = computed(() => {
 })
 
 const datetimeString = computed(() => date.value.toISOString())
-const locale = document.querySelector('html')?.lang || 'en-US'
+const locale = document.documentElement?.lang || 'en-US'
 
 const options: Intl.DateTimeFormatOptions = props.date
   ? {
