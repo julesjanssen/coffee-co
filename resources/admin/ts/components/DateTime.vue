@@ -32,12 +32,6 @@ const props = withDefaults(
 const tz: Ref<string | undefined> = useSetting('timezone')
 const timezone = computed(() => tz.value ?? Intl.DateTimeFormat().resolvedOptions().timeZone)
 
-const getTimezoneOffset = (timeZone = 'UTC', date = new Date()) => {
-  const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }))
-  const tzDate = new Date(date.toLocaleString('en-US', { timeZone }))
-  return tzDate.getTime() - utcDate.getTime()
-}
-
 const date = computed(() => {
   if (props.datetime === 'now') {
     return new Date()
@@ -45,9 +39,9 @@ const date = computed(() => {
 
   if (typeof props.datetime === 'string' && props.datetime.length === 10) {
     // just a date, correct timezone offset
-    const d = new Date(props.datetime)
+    const [year, month, day] = props.datetime.split('-').map(Number)
 
-    return new Date(d.getTime() - getTimezoneOffset(timezone.value))
+    return new Date(Date.UTC(year, month - 1, day))
   }
 
   return new Date(props.datetime)
