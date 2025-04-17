@@ -25,7 +25,8 @@
                   name="password"
                   autocomplete="new-password"
                   :minlength="minPassLength"
-                  :passwordrules="`minlength: ${minPassLength}; maxlength: 72;`"
+                  :maxlength="maxPassLength"
+                  :passwordrules="`minlength: ${minPassLength}; maxlength: ${maxPassLength};`"
                   required
                 />
               </div>
@@ -60,6 +61,7 @@
 
 <script lang="ts" setup>
 import { Head, useForm } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import { toast } from 'vue-sonner'
 
 import FormError from '/@admin:components/FormError.vue'
@@ -69,9 +71,12 @@ import { $t } from '/@admin:shared/i18n'
 const props = defineProps<{
   token: string
   email: string
-  minPassLength: number
+  passwordRules: Record<string, number | boolean>
   suggestion: string
 }>()
+
+const minPassLength = computed(() => props.passwordRules.min as number)
+const maxPassLength = computed(() => (props.passwordRules.max || 50) as number)
 
 const form = useForm({
   token: props.token,
