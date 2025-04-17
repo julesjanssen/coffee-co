@@ -12,8 +12,8 @@
 
       <article>
         <p>
-          <strong>{{ app.title }}</strong> wouldn’t be possible without the code written and freely shared by the open
-          source community. <br />This web application includes code from the following modules.
+          The <strong>{{ app.title }}</strong> app wouldn’t be possible without the code written and freely shared by
+          the open source community. <br />This web application includes code from the following modules.
         </p>
       </article>
 
