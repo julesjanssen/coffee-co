@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 
 import type { FileObject } from '/@admin:components/Uploader.vue'
 import { $t } from '/@admin:shared/i18n'
@@ -51,7 +51,7 @@ const props = withDefaults(
 const fileCount = computed(() => files.value.length)
 
 const completedFiles = computed(() => {
-  return files.value.filter((f) => f.value.status === 'completed')
+  return files.value.filter((f) => unref(f).status === 'completed')
 })
 
 const progress = computed(() => {
@@ -59,13 +59,13 @@ const progress = computed(() => {
     return 100
   }
 
-  const uploadingFiles = files.value.filter((v) => v.value.status === 'uploading')
+  const uploadingFiles = files.value.filter((file) => unref(file).status === 'uploading')
 
   if (uploadingFiles.length === 0) {
     return 100
   }
 
-  const total = uploadingFiles.reduce((c, v) => c + v.value.progress, 0)
+  const total = uploadingFiles.reduce((c, file) => c + unref(file).progress, 0)
 
   return Math.round(total / uploadingFiles.length)
 })
@@ -75,7 +75,7 @@ const isUploading = computed(() => {
     return false
   }
 
-  return files.value.some((v) => v.value.status === 'uploading')
+  return files.value.some((file) => unref(file).status === 'uploading')
 })
 
 const isDone = computed(() => !isUploading.value && fileCount.value > 0)
@@ -101,9 +101,7 @@ const label = computed(() => {
     if (fileCount.value > 1) {
       return $t(':num files', { num: String(fileCount.value) })
     } else {
-      const file = files.value[0]
-
-      return file.value.name
+      return unref(files.value[0]).name
     }
   }
 
@@ -125,10 +123,12 @@ const fileAdded = (fileObject: Ref<FileObject>) => {
 watch(
   () => completedFiles.value,
   () => {
-    const fileValues: FileValue[] = completedFiles.value.map((v) => {
+    const fileValues: FileValue[] = completedFiles.value.map((f) => {
+      const file = unref(f)
+
       return {
-        id: v.value.uploadID as string,
-        name: v.value.name,
+        id: file.uploadID as string,
+        name: file.name,
       }
     })
 
