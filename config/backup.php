@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Disk;
 use Spatie\Backup\Notifications\Notifiable;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification;
 use Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification;
@@ -161,9 +162,9 @@ return [
             /*
              * The disk names on which the backups will be stored.
              */
-            'disks' => [
-                'backup',
-            ],
+            'disks' => env('APP_ENV') === 'production'
+                ? ['backup']
+                : [Disk::LOCAL->value, 'xxx'],
         ],
 
         /*
