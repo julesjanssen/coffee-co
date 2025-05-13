@@ -94,7 +94,7 @@ class AppPrepareGuestImages extends Command
 
         Beeld::load($path)
             ->resize(2000, 2000)
-            ->autoOrient()
+            ->autoOrient(true)
             ->applyDefaultColorProfile()
             ->quality(88)
             ->save($dest);
