@@ -164,7 +164,7 @@ return [
              */
             'disks' => env('APP_ENV') === 'production'
                 ? ['backup']
-                : [Disk::LOCAL->value, 'xxx'],
+                : [Disk::LOCAL->value],
         ],
 
         /*
