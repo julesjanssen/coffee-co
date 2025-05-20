@@ -131,7 +131,7 @@
           <div class="field">
             <label>name:</label>
             <div>
-              <input type="text" placeholder="name" />
+              <input type="text" placeholder="name" minlength="5" />
             </div>
           </div>
 
