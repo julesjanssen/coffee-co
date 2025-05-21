@@ -52,6 +52,14 @@ Route::namespace('Tenants')->prefix('tenants')->as('tenants.')->group(function (
 Route::namespace('Accounts')->prefix('account/')->as('account.')->group(function () {
     Route::post('me', 'MeController@store');
     Route::get('me', 'MeController@update')->name('me.update');
+
+    Route::namespace('Passkeys')->prefix('passkeys/')->as('passkeys.')->group(function () {
+        Route::get('options/create', 'OptionsController@create');
+        // Route::get('create/options', 'CreateController@options');
+        // Route::get('create/options', 'CreateController@store')->name('create');
+        Route::post('create', 'CreateController@store')->name('create');
+        Route::delete('{passkey}', 'DeleteController@delete')->name('delete');
+    });
 });
 
 //

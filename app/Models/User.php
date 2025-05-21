@@ -11,14 +11,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use RedExplosion\Sqids\Concerns\HasSqids;
+use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
+use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasPasskeys
 {
     use HasFactory;
     use HasRoles;
     use HasSqids;
+    use InteractsWithPasskeys;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;

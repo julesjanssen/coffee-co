@@ -3,6 +3,8 @@
 
   <main>
     <article>
+      <button type="button" @click.prevent="useKey">use passkey</button>
+
       <form @submit.prevent="form.post('')">
         <fieldset>
           <div class="field">
@@ -48,10 +50,15 @@
 </template>
 
 <script lang="ts" setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import { Head, Link, router, useForm } from '@inertiajs/vue3'
+import {
+  // browserSupportsWebAuthn,
+  startAuthentication,
+} from '@simplewebauthn/browser'
 
 import FormError from '/@admin:components/FormError.vue'
 import GuestLayout from '/@admin:layouts/Guest.vue'
+import { http } from '/@admin:shared/http'
 
 const form = useForm({
   email: '',
@@ -62,4 +69,14 @@ const form = useForm({
 defineOptions({
   layout: [GuestLayout],
 })
+
+const useKey = async () => {
+  const { data: options } = await http.get('/auth/passkeys/options/auth')
+
+  const response = await startAuthentication({ optionsJSON: options })
+
+  router.post('/auth/passkeys/login', {
+    start_authentication_response: JSON.stringify(response),
+  })
+}
 </script>

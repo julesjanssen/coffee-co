@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Admin\Accounts\Passkeys;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
+use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;
+use Spatie\LaravelPasskeys\Support\Config;
+use Throwable;
+
+class CreateController
+{
+    public function store(Request $request)
+    {
+        $user = $request->user();
+
+        $storePasskeyAction = Config::getAction('store_passkey', StorePasskeyAction::class);
+
+        $request->validate([
+            'options' => ['required'],
+            'passkey' => ['required'],
+        ]);
+
+        try {
+            $storePasskeyAction->execute(
+                $user,
+                $request->input('passkey'),
+                $request->input('options'),
+                request()->getHost(),
+                ['name' => 'super mooie sleutel!'],
+            );
+        } catch (Throwable $e) {
+            throw ValidationException::withMessages([
+                'name' => ['Someting went wrong while storing the passkey'],
+            ]);
+        }
+
+        return response(null, Response::HTTP_ACCEPTED);
+    }
+
+    protected function previouslyGeneratedPasskeyOptions(): ?string
+    {
+        return session()->pull('passkey-registration-options');
+    }
+}
