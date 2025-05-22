@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\User;
+use App\Support\Multitenancy\DatabaseSessionManager;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDate();
         $this->configureEloquent();
+        $this->configureSessionHandler();
         $this->configureJsonResources();
         $this->configureEnvPath();
         $this->configureHttpClientUserAgent();
@@ -52,6 +55,22 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventAccessingMissingAttributes();
+    }
+
+    private function configureSessionHandler()
+    {
+        $this->app['session']->extend('database', function (Application $app) {
+            $connection = $app['db']->connection(config('session.connection'));
+            $table = config('session.table', 'sessions');
+            $minutes = config('session.lifetime');
+
+            return new DatabaseSessionManager(
+                $connection,
+                $table,
+                $minutes,
+                $app
+            );
+        });
     }
 
     private function configureJsonResources()
