@@ -21,6 +21,11 @@
               </Link>
             </li>
             <li>
+              <Link href="/admin/account/security">
+                {{ $t('security') }}
+              </Link>
+            </li>
+            <li>
               <button type="button" @click.prevent="logout">
                 {{ $t('log out') }}
               </button>

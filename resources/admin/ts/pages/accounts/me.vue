@@ -37,23 +37,17 @@
         </footer>
       </form>
     </section>
-
-    <button type="button" @click.prevent="addKey">voeg sleutel toe</button>
   </main>
 </template>
 
 <script lang="ts" setup>
 import { Head, useForm } from '@inertiajs/vue3'
-import {
-  // browserSupportsWebAuthn,
-  startRegistration,
-} from '@simplewebauthn/browser'
 import { toast } from 'vue-sonner'
 
 import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
-import { cachedHttp, http } from '/@admin:shared/http'
+import { cachedHttp } from '/@admin:shared/http'
 import { $t } from '/@admin:shared/i18n'
 import type { User } from '/@admin:types'
 
@@ -78,32 +72,5 @@ const submitForm = () => {
       toast.success($t('Account saved'))
     },
   })
-}
-
-const addKey = async () => {
-  const { data: options } = await http.get('/admin/account/passkeys/options/create')
-  let response
-
-  try {
-    response = await startRegistration({ optionsJSON: options })
-  } catch (error: any) {
-    if (error.name === 'NotAllowedError') {
-      toast.error('Passkey creation cancelled')
-      return
-    }
-
-    toast.error('Passkey registration failed.')
-
-    throw error
-  }
-
-  http
-    .post('/admin/account/passkeys/create', {
-      options: JSON.stringify(options),
-      passkey: JSON.stringify(response),
-    })
-    .then(() => {
-      toast.success('Passkey added succesfully.')
-    })
 }
 </script>

@@ -3,14 +3,12 @@
 
   <main>
     <article>
-      <button type="button" @click.prevent="useKey">use passkey</button>
-
-      <form @submit.prevent="form.post('')">
+      <form class="login" @submit.prevent="form.post('')">
         <fieldset>
           <div class="field">
             <label>{{ $t('email') }}</label>
             <div>
-              <input v-model="form.email" type="email" name="email" />
+              <input v-model="form.email" type="email" name="email" autofocus autocomplete="username webauthn" />
               <FormError :error="form.errors.email" />
             </div>
           </div>
@@ -18,12 +16,24 @@
           <div class="field">
             <label>{{ $t('password') }}</label>
             <div>
-              <input v-model="form.password" type="password" name="password" />
+              <input v-model="form.password" type="password" name="password" autocomplete="current-password webauthn" />
               <FormError :error="form.errors.password" />
             </div>
           </div>
+        </fieldset>
 
-          <div class="field remember-me">
+        <fieldset v-if="passKeysSupported" class="passkey">
+          <div class="divider">
+            <span>{{ $t('or') }}</span>
+          </div>
+
+          <button type="button" @click.prevent="useKey">
+            <Icon name="fingerprint" /> {{ $t('Log in using a passkey') }}
+          </button>
+        </fieldset>
+
+        <fieldset class="remember-me">
+          <div class="field">
             <label class="checkbox">
               <input id="remember" v-model="form.remember" type="checkbox" />
               <span class="label" for="remember">{{ $t('remember password') }}</span>
@@ -51,12 +61,12 @@
 
 <script lang="ts" setup>
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
-import {
-  // browserSupportsWebAuthn,
-  startAuthentication,
-} from '@simplewebauthn/browser'
+import { browserSupportsWebAuthn, startAuthentication } from '@simplewebauthn/browser'
+import { computed } from 'vue'
+import { toast } from 'vue-sonner'
 
 import FormError from '/@admin:components/FormError.vue'
+import Icon from '/@admin:components/Icon.vue'
 import GuestLayout from '/@admin:layouts/Guest.vue'
 import { http } from '/@admin:shared/http'
 
@@ -70,10 +80,18 @@ defineOptions({
   layout: [GuestLayout],
 })
 
+const passKeysSupported = computed(() => browserSupportsWebAuthn())
+
 const useKey = async () => {
   const { data: options } = await http.get('/auth/passkeys/options/auth')
+  let response
 
-  const response = await startAuthentication({ optionsJSON: options })
+  try {
+    response = await startAuthentication({ optionsJSON: options })
+  } catch {
+    toast.error('Passkey authentication failed.')
+    return
+  }
 
   router.post('/auth/passkeys/login', {
     start_authentication_response: JSON.stringify(response),

@@ -40,6 +40,38 @@
       }
     }
   }
+
+  & form.login {
+    & fieldset {
+      margin-block-end: 1.5rem;
+    }
+
+    & fieldset.passkey {
+      & .divider {
+        display: flex;
+        justify-content: space-between;
+        color: var(--gray-500);
+        gap: 0.75em;
+
+        &::before,
+        &::after {
+          height: 1px;
+          flex: 1;
+          background: var(--gray-200);
+          content: '';
+          translate: 0 0.55lh;
+        }
+      }
+
+      & button {
+        justify-content: center;
+      }
+    }
+
+    & fieldset.remember-me {
+      margin-block: 3rem 1em;
+    }
+  }
 }
 
 @media (width > 900px) {

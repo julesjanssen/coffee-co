@@ -22,6 +22,7 @@ class CreateController
         $request->validate([
             'options' => ['required'],
             'passkey' => ['required'],
+            'name' => ['required', 'string', 'min:3', 'max:100'],
         ]);
 
         try {
@@ -30,9 +31,9 @@ class CreateController
                 $request->input('passkey'),
                 $request->input('options'),
                 request()->getHost(),
-                ['name' => 'super mooie sleutel!'],
+                ['name' => $request->input('name')],
             );
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             throw ValidationException::withMessages([
                 'name' => ['Someting went wrong while storing the passkey'],
             ]);
