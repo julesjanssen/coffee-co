@@ -115,7 +115,9 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; /* 1 */
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; /* 1 */
+
   font-feature-settings: 'liga' 0;
   font-size: 1em; /* 3 */
   font-variation-settings: normal; /* 2 */
@@ -298,6 +300,7 @@ pre {
 fieldset {
   padding: 0;
   margin: 0;
+  min-inline-size: 0;
 }
 
 legend {
