@@ -48,10 +48,10 @@ return [
             'throw' => true,
         ],
 
-        Disk::DOWNLOADS->value => [
+        Disk::SYSTEM_TASKS->value => [
             'driver' => 'scoped',
             'disk' => 'local',
-            'prefix' => 'downloads',
+            'prefix' => 'system-tasks',
             'throw' => true,
         ],
 

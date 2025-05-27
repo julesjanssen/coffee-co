@@ -73,4 +73,9 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
     Route::get('database/download/{name}', 'DatabaseController@download')->name('database.download');
     Route::get('open-source', 'OpenSourceController@index')->name('open-source');
     Route::get('styleguide', 'StyleguideController@index')->name('styleguide');
+
+    Route::namespace('Tasks')->prefix('tasks/')->as('tasks.')->group(function () {
+        Route::get('{task}', 'ViewController@view')->name('view');
+        Route::get('{task}/download', 'DownloadController@download')->name('download');
+    });
 });

@@ -22,7 +22,7 @@ enum Disk: string
 
     case LOCAL = 'local';
 
-    case DOWNLOADS = 'downloads';
+    case SYSTEM_TASKS = 'system-tasks';
 
     public function storage(): FilesystemAdapter
     {
