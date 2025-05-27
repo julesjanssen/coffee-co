@@ -60,6 +60,7 @@ a:not([class]) {
 
 html {
   font-size: clamp(14px, 0.224vw + 13px, 16px);
+  scroll-padding-top: 40px;
   scrollbar-gutter: stable;
 }
 
