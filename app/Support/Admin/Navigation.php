@@ -18,7 +18,7 @@ class Navigation
 
     public static function build(Request $request)
     {
-        return (new self($request))->generate();
+        return new self($request)->generate();
     }
 
     protected function generate()

@@ -6,24 +6,24 @@ use App\Values\Uri;
 
 it('can determine if a URI is public', function () {
     // Public URIs with valid schemes and hosts
-    expect((new Uri('https://example.com'))->isPublic())->toBeTrue();
-    expect((new Uri('http://example.org/path'))->isPublic())->toBeTrue();
+    expect(new Uri('https://example.com')->isPublic())->toBeTrue();
+    expect(new Uri('http://example.org/path')->isPublic())->toBeTrue();
 
     // Non-HTTP schemes
-    expect((new Uri('ftp://example.com'))->isPublic())->toBeFalse();
-    expect((new Uri('file:///path/to/file'))->isPublic())->toBeFalse();
+    expect(new Uri('ftp://example.com')->isPublic())->toBeFalse();
+    expect(new Uri('file:///path/to/file')->isPublic())->toBeFalse();
 
     // Private IP ranges
-    expect((new Uri('http://192.168.1.1'))->isPublic())->toBeFalse();
-    expect((new Uri('https://10.0.0.1'))->isPublic())->toBeFalse();
-    expect((new Uri('http://172.16.0.1'))->isPublic())->toBeFalse();
+    expect(new Uri('http://192.168.1.1')->isPublic())->toBeFalse();
+    expect(new Uri('https://10.0.0.1')->isPublic())->toBeFalse();
+    expect(new Uri('http://172.16.0.1')->isPublic())->toBeFalse();
 
     // Public IP
-    expect((new Uri('http://8.8.8.8'))->isPublic())->toBeTrue();
+    expect(new Uri('http://8.8.8.8')->isPublic())->toBeTrue();
 
     // Additional tests
-    expect((new Uri('https://subdomain.example.com'))->isPublic())->toBeTrue();
-    expect((new Uri('https://example.com:8080'))->isPublic())->toBeTrue();
+    expect(new Uri('https://subdomain.example.com')->isPublic())->toBeTrue();
+    expect(new Uri('https://example.com:8080')->isPublic())->toBeTrue();
 
     // Note: The current implementation doesn't recognize IPv6 localhost as private
     // So we skip this test until the implementation is updated

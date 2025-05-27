@@ -171,7 +171,7 @@ class AppTranslationsFind extends Command
 
     private function findKeysInConfigs()
     {
-        $finder = (new Finder())
+        $finder = new Finder()
             ->in(resource_path('config/'))
             ->name('*.yaml')
             ->files();
@@ -241,7 +241,7 @@ class AppTranslationsFind extends Command
 
     private function listAssetDirectories()
     {
-        $finder = (new Finder())
+        $finder = new Finder()
             ->in(resource_path())
             ->exclude([
                 'config',

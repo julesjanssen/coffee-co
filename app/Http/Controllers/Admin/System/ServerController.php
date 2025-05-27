@@ -21,12 +21,12 @@ class ServerController
     public function index(Request $request)
     {
         return Inertia::render('system/server', [
-            'configuration' => fn() => (new Configuration())->toArray(),
-            'health' => fn() => (new Health())->toArray(),
-            'osInternet' => Inertia::defer(fn() => (new OsInternet())->toArray()),
-            'php' => Inertia::defer(fn() => (new Php())->toArray()),
-            'storage' => Inertia::defer(fn() => (new Storage())->toArray()),
-            'load' => Inertia::defer(fn() => (new Load())->toArray()),
+            'configuration' => fn() => new Configuration()->toArray(),
+            'health' => fn() => new Health()->toArray(),
+            'osInternet' => Inertia::defer(fn() => new OsInternet()->toArray()),
+            'php' => Inertia::defer(fn() => new Php()->toArray()),
+            'storage' => Inertia::defer(fn() => new Storage()->toArray()),
+            'load' => Inertia::defer(fn() => new Load()->toArray()),
         ]);
     }
 

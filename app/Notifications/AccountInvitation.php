@@ -28,7 +28,7 @@ class AccountInvitation extends Notification implements ShouldQueue
             'app' => config('app.title'),
         ]);
 
-        return (new MailMessage())
+        return new MailMessage()
             ->subject($subject)
             ->markdown('notifications.account.invitation', [
                 'user' => $notifiable,

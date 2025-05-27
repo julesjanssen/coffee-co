@@ -12,7 +12,7 @@ class Load implements Arrayable
 {
     private function getCpuCount()
     {
-        $command = (new ExecutableFinder())->find($this->isDarwin() ? 'sysctl' : 'nproc');
+        $command = new ExecutableFinder()->find($this->isDarwin() ? 'sysctl' : 'nproc');
 
         if ($this->isDarwin()) {
             $command .= ' -n hw.ncpu';
