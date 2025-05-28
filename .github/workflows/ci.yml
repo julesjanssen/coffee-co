@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      APP_ENV: ci
+      APP_ENV: testing
       MYSQL_ALLOW_EMPTY_PASSWORD: false
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: mysql_user
