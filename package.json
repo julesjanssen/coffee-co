@@ -29,7 +29,7 @@
     "lint-staged": "^15.2.10",
     "postcss-html": "^1.7.0",
     "prettier": "^3.3.3",
-    "radix-vue": "^1.9.13",
+    "reka-ui": "^2.3.0",
     "stylelint": "^16.9.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-recommended-vue": "^1.6.0",

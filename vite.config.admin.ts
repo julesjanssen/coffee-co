@@ -63,8 +63,8 @@ export default defineConfig(({ command }) => {
               return 'lightweight-charts'
             }
 
-            if (id.includes('radix')) {
-              return 'radix'
+            if (id.includes('reka')) {
+              return 'reka'
             }
 
             if (id.includes('@inertiajs') || id.includes('nprogress')) {

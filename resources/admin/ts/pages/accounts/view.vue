@@ -158,7 +158,7 @@
 
 <script lang="ts" setup>
 import { Deferred, Head, Link, router, WhenVisible } from '@inertiajs/vue3'
-import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'radix-vue'
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 
