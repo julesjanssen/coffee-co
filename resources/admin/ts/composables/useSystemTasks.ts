@@ -72,9 +72,27 @@ export function useTask() {
     document.body.removeChild(link)
   }
 
+  const executeTask = (
+    endpoint: string,
+    payload?: Record<string, any>,
+    options: SystemTaskOptions = {},
+  ): Promise<SystemTask> => {
+    return startTask(async () => {
+      const response = await http.post(endpoint, payload)
+      return response.data
+    }, options).then((task) => {
+      if (task.links?.download) {
+        downloadTaskResult(task)
+      }
+
+      return task
+    })
+  }
+
   return {
     isRunning,
     downloadTaskResult,
     startTask,
+    executeTask,
   }
 }

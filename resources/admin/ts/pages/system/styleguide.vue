@@ -682,7 +682,6 @@ import ProgressIndeterminate from '/@admin:components/ProgressIndeterminate.vue'
 import { deleteConfirm } from '/@admin:composables/deleteConfirm'
 import { useTask } from '/@admin:composables/useSystemTasks'
 import AuthLayout from '/@admin:layouts/Auth.vue'
-import { http } from '/@admin:shared/http'
 import { wait } from '/@admin:shared/utils'
 
 defineProps<{
@@ -693,7 +692,7 @@ defineOptions({
   layout: [AuthLayout],
 })
 
-const { startTask, isRunning, downloadTaskResult } = useTask()
+const { executeTask, isRunning } = useTask()
 
 const promiseToast = (text: string) => {
   toast.promise(() => new Promise((resolve) => setTimeout(resolve, 2500)), {
@@ -711,17 +710,12 @@ const deleteItem = () => {
 }
 
 const callLongRunningTask = () => {
-  startTask(async () => {
-    const { data } = await http.post(location.href, {
-      something: 1,
-      koe: 'blaat',
-    })
-
-    return data
+  executeTask(location.href, {
+    something: 1,
+    koe: 'blaat',
   })
-    .then((task) => {
-      toast.success('Te gek!')
-      setTimeout(() => downloadTaskResult(task), 1000)
+    .then(() => {
+      toast.success('WANNASDFASDF!')
     })
     .catch(() => {
       toast.error('long running task failed')
