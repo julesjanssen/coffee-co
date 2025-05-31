@@ -27,7 +27,7 @@
             <span>{{ $t('or') }}</span>
           </div>
 
-          <button type="button" @click.prevent="useKey">
+          <button type="button" @click.prevent="usePasskey">
             <Icon name="fingerprint" /> {{ $t('Log in using a passkey') }}
           </button>
         </fieldset>
@@ -82,7 +82,7 @@ defineOptions({
 
 const passKeysSupported = computed(() => browserSupportsWebAuthn())
 
-const useKey = async () => {
+const usePasskey = async () => {
   const { data: options } = await http.get('/auth/passkeys/options/auth')
   let response
 
@@ -93,8 +93,17 @@ const useKey = async () => {
     return
   }
 
-  router.post('/auth/passkeys/login', {
-    start_authentication_response: JSON.stringify(response),
-  })
+  http
+    .post('/auth/passkeys/login', {
+      start_authentication_response: JSON.stringify(response),
+      remember: form.remember,
+    })
+    .then((response) => {
+      router.visit(response.data.url)
+    })
+    .catch((error) => {
+      const message = error.response?.data?.error ?? 'Could not login using the given passkey.'
+      toast.error(message)
+    })
 }
 </script>

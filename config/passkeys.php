@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Actions\Passkeys\FindPasskeyToAuthenticateAction;
 use App\Models\Passkey;
 use App\Models\User;
-use Spatie\LaravelPasskeys\Actions\FindPasskeyToAuthenticateAction;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyAuthenticationOptionsAction;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction;
 use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;

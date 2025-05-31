@@ -39,7 +39,8 @@
     "vagebond/aannemer": "^1.2",
     "vagebond/beeld": "^3.0",
     "vagebond/bijlagen": "^4.3",
-    "vagebond/tus": "^2.3"
+    "vagebond/tus": "^2.3",
+    "web-auth/webauthn-lib": "^5.2"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.14",
