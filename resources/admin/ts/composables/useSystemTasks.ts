@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 
+import type { SystemTaskStatus } from '../shared/constants'
 import { http } from '../shared/http'
 
 interface SystemTaskOptions {
@@ -8,7 +9,7 @@ interface SystemTaskOptions {
 
 interface SystemTask {
   id: string
-  status: 'pending' | 'processing' | 'completed' | 'failed'
+  status: keyof typeof SystemTaskStatus
   startedAt?: string
   completedAt?: string
   links: Record<string, string>
