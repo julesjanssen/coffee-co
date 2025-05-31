@@ -72,6 +72,7 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
     Route::get('database', 'DatabaseController@index')->name('database');
     Route::get('database/download/{name}', 'DatabaseController@download')->name('database.download');
     Route::get('open-source', 'OpenSourceController@index')->name('open-source');
+    Route::post('styleguide', 'StyleguideController@store');
     Route::get('styleguide', 'StyleguideController@index')->name('styleguide');
 
     Route::namespace('Tasks')->prefix('tasks/')->as('tasks.')->group(function () {

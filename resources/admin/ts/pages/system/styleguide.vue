@@ -12,6 +12,11 @@
         </div>
 
         <div class="actions">
+          <button type="button" class="success" :disabled="isRunning" @click.prevent="callLongRunningTask">
+            <ProgressIndeterminate v-if="isRunning" :size="14" />
+            <Icon v-else name="device-bot" />
+            long running task
+          </button>
           <button v-close-popper type="button" class="danger" @click.prevent="deleteItem">
             <Icon name="trash" />
             {{ $t('remove') }}
@@ -675,7 +680,9 @@ import Pagination from '/@admin:components/Pagination.vue'
 import ProgressCircle from '/@admin:components/ProgressCircle.vue'
 import ProgressIndeterminate from '/@admin:components/ProgressIndeterminate.vue'
 import { deleteConfirm } from '/@admin:composables/deleteConfirm'
+import { useTask } from '/@admin:composables/useSystemTasks'
 import AuthLayout from '/@admin:layouts/Auth.vue'
+import { http } from '/@admin:shared/http'
 import { wait } from '/@admin:shared/utils'
 
 defineProps<{
@@ -685,6 +692,8 @@ defineProps<{
 defineOptions({
   layout: [AuthLayout],
 })
+
+const { startTask, isRunning, downloadTaskResult } = useTask()
 
 const promiseToast = (text: string) => {
   toast.promise(() => new Promise((resolve) => setTimeout(resolve, 2500)), {
@@ -699,6 +708,24 @@ const deleteItem = () => {
     await wait(1500)
     toast.success('Item deleted.')
   })
+}
+
+const callLongRunningTask = () => {
+  startTask(async () => {
+    const { data } = await http.post(location.href, {
+      something: 1,
+      koe: 'blaat',
+    })
+
+    return data
+  })
+    .then((task) => {
+      toast.success('Te gek!')
+      setTimeout(() => downloadTaskResult(task), 1000)
+    })
+    .catch(() => {
+      toast.error('long running task failed')
+    })
 }
 </script>
 
