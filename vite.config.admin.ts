@@ -50,40 +50,33 @@ export default defineConfig(({ command }) => {
       sourcemap: true,
       rollupOptions: {
         output: {
-          manualChunks(id: string) {
-            if (id.includes('lodash')) {
-              return 'lodash'
-            }
-
-            if (id.includes('floating')) {
-              return 'floating'
-            }
-
-            if (id.includes('lightweight-charts')) {
-              return 'lightweight-charts'
-            }
-
-            if (id.includes('reka')) {
-              return 'reka'
-            }
-
-            if (id.includes('@inertiajs') || id.includes('nprogress')) {
-              return 'inertia'
-            }
-
-            if (
-              id.includes('tus-js') ||
-              id.includes('querystringify') ||
-              id.includes('js-base64') ||
-              id.includes('url-parse')
-            ) {
-              return 'tus'
-            }
-
-            // vue & vueuse
-            if (id.includes('@vue')) {
-              return 'vue'
-            }
+          advancedChunks: {
+            groups: [
+              {
+                name: 'lodash',
+                test: /lodash/,
+              },
+              {
+                name: 'floating',
+                test: /floating/,
+              },
+              {
+                name: 'reka',
+                test: /reka/,
+              },
+              {
+                name: 'inertia',
+                test: /nprogress|inertia/,
+              },
+              {
+                name: 'tus',
+                test: /tus|querystringify|base64|url-parse/,
+              },
+              {
+                name: 'vue',
+                test: /vue/,
+              },
+            ],
           },
         },
       },
