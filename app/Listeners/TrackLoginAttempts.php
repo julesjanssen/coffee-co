@@ -34,6 +34,7 @@ class TrackLoginAttempts
             'ip' => $this->getIp(),
             'details' => [
                 'remember' => $event->remember,
+                'passkey' => $this->request->has('start_authentication_response'),
             ],
         ]);
     }
