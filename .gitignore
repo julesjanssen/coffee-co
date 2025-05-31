@@ -24,3 +24,4 @@ yarn-error.log
 /storage/debugbar
 /public/hot-*
 /public/assets
+/resources/*/ts/shared/constants.ts
