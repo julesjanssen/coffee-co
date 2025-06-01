@@ -9,11 +9,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Date;
 use InvalidArgumentException;
 use JsonException;
+use SplFileObject;
 
 class LogParser
 {
-    private const DEFAULT_PAGE_SIZE = 50;
-    private const MAX_PAGE_SIZE = 1000;
+    private const int DEFAULT_PAGE_SIZE = 50;
+    private const int MAX_PAGE_SIZE = 1000;
 
     public function __construct(
         private readonly string $logPath,
@@ -156,7 +157,7 @@ class LogParser
 
     public function getLatest(?int $limit = null): array
     {
-        $limit = $limit ?? $this->pageSize;
+        $limit ??= $this->pageSize;
 
         if ($limit <= 0 || $limit > self::MAX_PAGE_SIZE) {
             throw new InvalidArgumentException('Limit must be between 1 and ' . self::MAX_PAGE_SIZE);
@@ -233,7 +234,7 @@ class LogParser
 
     private function countTotalLines(): int
     {
-        $file = new \SplFileObject($this->logPath);
+        $file = new SplFileObject($this->logPath);
         $file->seek(PHP_INT_MAX);
 
         return $file->key() + 1;

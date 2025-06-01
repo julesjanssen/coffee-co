@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\System\Logs;
 
 use App\Http\Resources\Admin\LogEntryResource;
-use App\Http\Resources\Admin\LogResource;
 use App\Support\Logs\LogParser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;

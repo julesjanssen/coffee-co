@@ -45,7 +45,7 @@ function createLargeLogFile(string $path, int $entryCount): void
                     'user_id' => $i % 1000,
                 ],
                 'extra' => [
-                    'memory_usage' => rand(10000000, 50000000),
+                    'memory_usage' => random_int(10000000, 50000000),
                     'request_id' => 'req_' . uniqid(),
                 ],
             ];
