@@ -44,7 +44,7 @@ const paginate = (href: string) => {
     href,
     {},
     {
-      only: props.only,
+      only: props.only ?? [],
       preserveState: true,
     },
   )
