@@ -76,6 +76,14 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
     Route::post('styleguide', 'StyleguideController@store');
     Route::get('styleguide', 'StyleguideController@index')->name('styleguide');
 
+    Route::namespace('Logs')->prefix('logs/')->as('logs.')->group(function () {
+        Route::get('/', 'IndexController@index')->name('index');
+        Route::get('{filename}', 'ViewController@view')->name('view')->where('filename', '[^/]+\.log');
+        Route::get('{filename}/entry/{uniqueId}', 'EntryController@view')->name('entry')
+            ->where('filename', '[^/]+\.log')
+            ->where('uniqueId', '[a-fA-F0-9\-]+');
+    });
+
     Route::namespace('Tasks')->prefix('tasks/')->as('tasks.')->group(function () {
         Route::get('{task}', 'ViewController@view')->name('view');
         Route::get('{task}/download', 'DownloadController@download')->name('download');

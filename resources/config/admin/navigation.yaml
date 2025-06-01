@@ -26,6 +26,10 @@
       permission: admin.system.server.view
       title: Server
       icon: nav-server
+    - route: admin.system.logs.index
+      permission: admin.system.logs.view
+      title: Logs
+      icon: nav-logs
     - route: admin.system.open-source
       title: Open source
       icon: nav-opensource
