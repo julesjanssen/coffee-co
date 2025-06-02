@@ -12,6 +12,10 @@
 }
 
 .v-popper--theme-dropdown {
+  & > :where(button, a.button) {
+    height: 100%;
+  }
+
   & .v-popper__wrapper {
     transform-origin: top right;
 
