@@ -5,7 +5,7 @@
         <header>
           <div>
             <h2><DateTime :datetime="latestRelease.releasedAt" /></h2>
-            <h1>Application updates</h1>
+            <h1>{{ $t('Application updates') }}</h1>
           </div>
         </header>
 
@@ -29,7 +29,7 @@
         </div>
 
         <footer>
-          <button type="button" @click.prevent="showAll">Toon alle updates</button>
+          <button type="button" @click.prevent="showAll">{{ $t('show all updates') }}</button>
         </footer>
       </section>
     </main>
