@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Resources\Admin;
 
 use App\Support\Changelog\ChangelogVersion;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 /** @mixin ChangelogVersion */
 class ChangelogVersionResource extends JsonResource
@@ -13,8 +16,8 @@ class ChangelogVersionResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
     {
