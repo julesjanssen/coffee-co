@@ -692,7 +692,7 @@ defineOptions({
   layout: [AuthLayout],
 })
 
-const { executeTask, isRunning } = useTask()
+const { executeAndDownloadTask, isRunning } = useTask()
 
 const promiseToast = (text: string) => {
   toast.promise(() => new Promise((resolve) => setTimeout(resolve, 2500)), {
@@ -710,15 +710,22 @@ const deleteItem = () => {
 }
 
 const callLongRunningTask = () => {
-  executeTask(location.href, {
-    something: 1,
-    koe: 'blaat',
-  })
+  executeAndDownloadTask(
+    location.href,
+    {
+      something: 1,
+      koe: 'blaat',
+    },
+    {
+      maxTries: 10,
+      pollInterval: 1500,
+    },
+  )
     .then(() => {
-      toast.success('WANNASDFASDF!')
+      toast.success('Download ready!')
     })
     .catch(() => {
-      toast.error('long running task failed')
+      toast.error('Long running task failed.')
     })
 }
 </script>

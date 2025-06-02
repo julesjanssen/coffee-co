@@ -1,3 +1,4 @@
+import { hideAllPoppers } from 'floating-vue'
 import { ref } from 'vue'
 
 import type { SystemTaskStatus } from '../shared/constants'
@@ -5,6 +6,7 @@ import { http } from '../shared/http'
 
 interface SystemTaskOptions {
   pollInterval?: number
+  maxTries?: number
 }
 
 interface SystemTask {
@@ -22,7 +24,7 @@ export function useTask() {
     callback: () => Promise<SystemTask> | SystemTask,
     options: SystemTaskOptions = {},
   ): Promise<SystemTask> => {
-    const { pollInterval = 3_000 } = options
+    const { pollInterval = 3_000, maxTries = 30 } = options
     const { promise, resolve, reject } = Promise.withResolvers<SystemTask>()
 
     isRunning.value = true
@@ -30,8 +32,11 @@ export function useTask() {
     try {
       // Execute the callback to get the initial task
       const initialTask = await callback()
+      let tries = 0
 
       const pollTask = async (): Promise<void> => {
+        tries++
+
         try {
           const response = await http.get(initialTask.links.view)
           const task: SystemTask = response.data
@@ -41,9 +46,14 @@ export function useTask() {
             resolve(task)
           } else if (task.status === 'failed') {
             isRunning.value = false
-            const error = new Error('Task failed')
-            reject(error)
+            reject(new Error('Task failed'))
           } else {
+            if (tries >= maxTries) {
+              isRunning.value = false
+              reject(new Error('Task failed'))
+              return
+            }
+
             // Task still running, poll again
             setTimeout(pollTask, pollInterval)
           }
@@ -72,7 +82,7 @@ export function useTask() {
     document.body.removeChild(link)
   }
 
-  const executeTask = (
+  const executeAndDownloadTask = (
     endpoint: string,
     payload?: Record<string, any>,
     options: SystemTaskOptions = {},
@@ -82,6 +92,7 @@ export function useTask() {
       return response.data
     }, options).then((task) => {
       if (task.links?.download) {
+        hideAllPoppers()
         downloadTaskResult(task)
       }
 
@@ -93,6 +104,6 @@ export function useTask() {
     isRunning,
     downloadTaskResult,
     startTask,
-    executeTask,
+    executeAndDownloadTask,
   }
 }
