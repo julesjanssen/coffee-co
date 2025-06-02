@@ -18,6 +18,10 @@
       permission: admin.system.database.view
       title: Database
       icon: nav-database
+    - route: admin.system.changelog.index
+      permission: admin.system.changelog.view
+      title: Changelog
+      icon: nav-changelog
     - route: admin.system.server
       permission: admin.system.server.view
       title: Server

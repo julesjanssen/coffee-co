@@ -68,6 +68,8 @@ Route::namespace('Accounts')->prefix('account/')->as('account.')->group(function
 //
 Route::namespace('System')->prefix('system/')->as('system.')->group(function () {
     Route::post('server', 'ServerController@store');
+    Route::get('changelog', 'ChangelogController@index')->name('changelog.index');
+    Route::get('changelog/latest', 'ChangelogController@latest')->name('changelog.latest');
     Route::get('server', 'ServerController@index')->name('server');
     Route::get('database', 'DatabaseController@index')->name('database');
     Route::get('database/download/{name}', 'DatabaseController@download')->name('database.download');
