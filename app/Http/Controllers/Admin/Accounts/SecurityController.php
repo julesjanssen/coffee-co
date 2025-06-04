@@ -38,12 +38,15 @@ class SecurityController
     private function preparePasskeyDetails(Passkey $passkey)
     {
         return [
-            'id' => hash('xxh3', $passkey->credential_id),
+            'id' => $passkey->sqid,
             'name' => $passkey->name,
             'createdAt' => $passkey->created_at,
             'lastUsedAt' => $passkey->last_used_at,
             'backupEligible' => $passkey->data->backupEligible,
             'transports' => $passkey->data->transports,
+            'links' => [
+                'delete' => route('admin.account.passkeys.delete', [$passkey]),
+            ],
         ];
     }
 

@@ -30,6 +30,7 @@
             <th>Your passkey nickname</th>
             <th class="align-right">created</th>
             <th class="align-right">last used</th>
+            <th class="actions align-right"></th>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +52,11 @@
             <td class="align-right">
               <DateTime v-if="passkey.lastUsedAt" :datetime="passkey.lastUsedAt" />
               <span v-else class="never">never</span>
+            </td>
+            <td class="align-right actions">
+              <button type="button" class="danger" @click.prevent="deletePasskey(passkey)">
+                <Icon name="trash" />
+              </button>
             </td>
           </tr>
         </tbody>
@@ -76,7 +82,7 @@
             <th>location</th>
             <th>device</th>
             <th class="align-right">last activity</th>
-            <th>&nbsp;</th>
+            <th class="align-right actions"></th>
           </tr>
         </thead>
         <tbody>
@@ -176,6 +182,7 @@ import DateTime from '/@admin:components/DateTime.vue'
 import FormError from '/@admin:components/FormError.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Modal from '/@admin:components/Modal.vue'
+import { deleteConfirm } from '/@admin:composables/deleteConfirm'
 import { useModal } from '/@admin:composables/modal'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 import { http } from '/@admin:shared/http'
@@ -245,6 +252,12 @@ const generatePasskey = async () => {
       toast.success('Passkey added succesfully.')
     })
 }
+
+const deletePasskey = (passkey: any) => {
+  deleteConfirm(async () => {
+    http.delete(passkey.links.delete).then(() => router.reload())
+  })
+}
 </script>
 
 <style scoped>
@@ -252,6 +265,14 @@ const generatePasskey = async () => {
   display: flex;
   align-items: center;
   gap: 0.5em;
+}
+
+table {
+  table-layout: fixed;
+
+  & th.actions {
+    width: 6rem;
+  }
 }
 
 td.ip {
