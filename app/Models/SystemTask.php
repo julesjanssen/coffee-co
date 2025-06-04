@@ -17,11 +17,9 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
-use Vagebond\Bijlagen\Models\Traits\HasAttachments;
 
 class SystemTask extends Model
 {
-    use HasAttachments;
     use HasUuids;
     use UsesTenantConnection;
 
