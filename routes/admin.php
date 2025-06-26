@@ -53,6 +53,7 @@ Route::namespace('Accounts')->prefix('account/')->as('account.')->group(function
     Route::post('me', 'MeController@store');
     Route::get('me', 'MeController@update')->name('me.update');
     Route::get('security', 'SecurityController@view')->name('security');
+    Route::delete('security/sessions/{session}', 'SecurityController@sessionRevoke')->name('security.sessions.delete');
 
     Route::namespace('Passkeys')->prefix('passkeys/')->as('passkeys.')->group(function () {
         Route::get('options/create', 'OptionsController@create');

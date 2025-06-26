@@ -112,7 +112,7 @@
               <DateTime :datetime="session.lastActivity" />
             </td>
             <td class="align-right actions">
-              <button v-if="!session.isCurrent" type="button" class="danger">
+              <button v-if="!session.isCurrent" type="button" class="danger" @click.prevent="revokeSession(session)">
                 <Icon name="trash" />
               </button>
             </td>
@@ -254,8 +254,17 @@ const generatePasskey = async () => {
 }
 
 const deletePasskey = (passkey: any) => {
+  deleteConfirm(passkey.name, {
+    action: async () => {
+      http.delete(passkey.links.delete).then(() => router.reload())
+    },
+    icon: 'fingerprint',
+  })
+}
+
+const revokeSession = (session: any) => {
   deleteConfirm(async () => {
-    http.delete(passkey.links.delete).then(() => router.reload())
+    http.delete(session.links.delete).then(() => router.reload())
   })
 }
 </script>
