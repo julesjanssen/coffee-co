@@ -112,6 +112,6 @@ class SecurityController
 
     private function hashSessionID($sessionID)
     {
-        return hash('xxh3', $sessionID);
+        return hash('xxh3', (string) $sessionID);
     }
 }
