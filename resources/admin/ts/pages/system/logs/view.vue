@@ -11,10 +11,7 @@
           </h1>
         </div>
         <div class="actions">
-          <Link 
-            :href="links.index"
-            class="button"
-          >
+          <Link :href="links.index" class="button">
             <Icon name="chevron-left" />
             back
           </Link>
@@ -36,26 +33,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr 
-                v-for="(entry, index) in logs.data" 
-                :key="index"
-              >
+              <tr v-for="(entry, index) in logs.data" :key="index">
                 <td class="level">
-                  <span
-                    class="badge"
-                    :class="`level-${entry.levelName.toLowerCase()}`"
-                  >
+                  <span class="badge" :class="`level-${entry.levelName.toLowerCase()}`">
                     {{ entry.levelName }}
                   </span>
                 </td>
                 <td class="message">
                   <div class="message-text">{{ entry.message }}</div>
                 </td>
-                 <td class="time align-right">
-                  <Link
-                    :href="entry.links?.view"
-                  >
-                  <DateTime :datetime="entry.datetime" :date="false" :time="true" />
+                <td class="time align-right">
+                  <Link :href="entry.links?.view">
+                    <DateTime :datetime="entry.datetime" :date="false" :time="true" />
                   </Link>
                 </td>
               </tr>
@@ -71,9 +60,10 @@
 
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
+
+import DateTime from '/@admin:components/DateTime.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Pagination from '/@admin:components/Pagination.vue'
-import DateTime from '/@admin:components/DateTime.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 
 interface FileInfo {
@@ -92,3 +82,17 @@ defineProps<{
   links: Record<string, string>
 }>()
 </script>
+
+<style scoped>
+table {
+  & th,
+  & td {
+    vertical-align: top;
+  }
+
+  & td.time {
+    width: 10em;
+    white-space: nowrap;
+  }
+}
+</style>

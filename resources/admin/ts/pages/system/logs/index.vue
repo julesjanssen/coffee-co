@@ -20,23 +20,21 @@
             <thead>
               <tr>
                 <th>File</th>
-                <th>Size</th>
-                <th>Date</th>
+                <th class="align-right">Size</th>
+                <th class="align-right">Date</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="file in logFiles" :key="file.name">
                 <td>
-                  <Link
-                    :href="file.links.view"
-                  >
+                  <Link :href="file.links.view">
                     <code>{{ file.name }}</code>
                   </Link>
                 </td>
-                <td>
+                <td class="align-right">
                   <span class="size">{{ filesize(file.size) }}</span>
                 </td>
-                <td>
+                <td class="align-right">
                   <DateTime :datetime="file.modified" />
                 </td>
               </tr>
@@ -50,8 +48,9 @@
 
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
-import DateTime from '/@admin:components/DateTime.vue'
 import filesize from 'filesize.js'
+
+import DateTime from '/@admin:components/DateTime.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 
 type LogFile = {
