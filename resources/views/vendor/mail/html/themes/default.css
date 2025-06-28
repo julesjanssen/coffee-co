@@ -4,7 +4,8 @@ body,
 body *:not(html, style, br, tr, code) {
   position: relative;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
@@ -14,7 +15,7 @@ body {
   padding: 0;
   margin: 0;
   background-color: #fff;
-  color: #0f172a;
+  color: #191e24; /* cool-gray-800 */
   line-height: 1.4;
   text-size-adjust: none;
 }
@@ -28,7 +29,7 @@ blockquote {
 }
 
 a {
-  color: #1c64f2;
+  color: #1a56db; /* blue-700 */
 }
 
 a img {
@@ -39,7 +40,7 @@ a img {
 
 h1 {
   margin-top: 0;
-  color: #1e293b;
+  color: #191e24; /* cool-gray-800 */
   font-size: 18px;
   font-weight: bold;
   text-align: left;
@@ -81,7 +82,7 @@ img {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: #ebf5ff;
+  background-color: #fff;
   -premailer-cellpadding: 0;
   -premailer-cellspacing: 0;
 }
@@ -103,18 +104,20 @@ img {
 }
 
 .header a {
-  color: #1a56db;
+  width: 506px;
+  height: 89px;
+  border-bottom: 1px solid #dcdde1;
+  color: #1a56db; /* blue-700 */
   font-size: 19px;
   font-weight: bold;
   text-decoration: none;
 }
 
-/* Logo */
-
-.logo {
-  width: 75px;
-  height: 75px;
-  max-height: 75px;
+.header a img {
+  display: block;
+  width: 506px;
+  height: 89px;
+  max-height: 89px;
 }
 
 /* Body */
@@ -123,10 +126,10 @@ img {
   -premailer-width: 100%;
   width: 100%;
   padding: 0;
-  border-top: 1px solid #ebf5ff;
-  border-bottom: 1px solid #ebf5ff;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
   margin: 0;
-  background-color: #ebf5ff;
+  background-color: #fff;
   -premailer-cellpadding: 0;
   -premailer-cellspacing: 0;
 }
@@ -136,13 +139,10 @@ img {
   width: 570px;
   padding: 0;
   border-width: 1px;
-  border-color: #c3ddfd;
+  border-color: #fff;
   border-radius: 4px;
   margin: 0 auto;
   background-color: #fff;
-  box-shadow:
-    0 2px 4px -2px rgb(0 0 150 / 2.5%),
-    0 4px 8px -4px rgb(0 0 150 / 1.5%);
   -premailer-cellpadding: 0;
   -premailer-cellspacing: 0;
 }
@@ -155,7 +155,7 @@ img {
 
 .subcopy {
   padding-top: 25px;
-  border-top: 1px solid #c3ddfd;
+  border-top: 1px solid #eeeef2; /* cool-gray-50 */
   margin-top: 25px;
 }
 
@@ -172,17 +172,17 @@ img {
   margin: 0 auto;
   -premailer-cellpadding: 0;
   -premailer-cellspacing: 0;
-  text-align: center;
 }
 
 .footer p {
-  color: #64748b;
+  padding-top: 16px;
+  border-top: 1px solid #dcdde1;
+  color: #b5b9c5; /* cool-gray-300 */
   font-size: 12px;
-  text-align: center;
 }
 
 .footer a {
-  color: #64748b;
+  color: #b5b9c5; /* cool-gray-300 */
   text-decoration: underline;
 }
 
@@ -198,14 +198,14 @@ img {
 
 .table th {
   padding-bottom: 8px;
-  border-bottom: 1px solid #edeff2;
+  border-bottom: 1px solid #c8cad2; /* cool-gray-200 */
   margin: 0;
 }
 
 .table td {
   padding: 10px 0;
   margin: 0;
-  color: #0f172a;
+  color: #191e24; /* cool-gray-800 */
   font-size: 15px;
   line-height: 18px;
 }
@@ -225,13 +225,12 @@ img {
   -premailer-cellpadding: 0;
   -premailer-cellspacing: 0;
   float: unset;
-  text-align: center;
 }
 
 .button {
   display: inline-block;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 3px;
   color: #fff;
   text-decoration: none;
   text-size-adjust: none;
@@ -239,28 +238,34 @@ img {
 
 .button-blue,
 .button-primary {
-  border-top: 8px solid #2d3748;
-  border-right: 18px solid #2d3748;
-  border-bottom: 8px solid #2d3748;
-  border-left: 18px solid #2d3748;
-  background-color: #2d3748;
+  border-top: 8px solid #0050c7; /* blue-400 */
+  border-right: 18px solid #0050c7; /* blue-400 */
+  border-bottom: 8px solid #0050c7; /* blue-400 */
+  border-left: 18px solid #0050c7; /* blue-400 */
+  background-color: #0050c7; /* blue-400 */
+
+  &:hover,
+  &:focus {
+    border-color: #003aad; /* blue-500 */
+    background-color: #003aad; /* blue-500 */
+  }
 }
 
 /* Panels */
 
 .panel {
-  border-left: #2d3748 solid 4px;
+  border-left: #0050c7 solid 4px; /* blue-400 */
   margin: 21px 0;
 }
 
 .panel-content {
   padding: 16px;
-  background-color: #ebf5ff;
-  color: #0f172a;
+  background-color: #fff;
+  color: #191e24; /* cool-gray-800 */
 }
 
 .panel-content p {
-  color: #0f172a;
+  color: #191e24; /* cool-gray-800 */
 }
 
 .panel-item {
