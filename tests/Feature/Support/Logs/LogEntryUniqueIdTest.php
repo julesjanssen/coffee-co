@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Http\Resources\Admin\LogEntryResource;
 use App\Support\Logs\LogEntry;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Date;
 
 it('generates unique IDs for log entries', function () {
@@ -62,7 +65,7 @@ it('generates unique IDs for log entries', function () {
 });
 
 it('can convert log entry to array with unique identifiers', function () {
-    $datetime = Date::parse('2025-01-06 12:00:00');
+    $datetime = Date::parse('2025-01-06 12:10:20.789');
 
     $entry = new LogEntry(
         index: 5,
@@ -76,20 +79,38 @@ it('can convert log entry to array with unique identifiers', function () {
         raw: '{"message":"Test message","level":400}'
     );
 
-    $array = $entry->toArray();
+    $filename = 'laravel-2025-01-06.log';
+    $route = route('admin.system.logs.view', ['filename' => $filename]);
 
-    expect($array)->toHaveKeys([
-        'index', 'uniqueId', 'contentId', 'signatureId', 'message', 'level', 'levelName',
-        'channel', 'datetime', 'context', 'extra', 'hasException',
-        'isError', 'isCritical', 'userId', 'tenantId', 'url', 'ip',
-    ]);
+    $request = Request::create($route, 'GET');
+    $route = new Route(['GET'], str_replace($filename, '{filename}', $route), []);
+    $route->bind($request);
+    $route->setParameter('filename', $filename);
+    $request->setRouteResolver(function () use ($route) {
+        return $route;
+    });
 
+    $array = LogEntryResource::make($entry)->resolve($request);
+
+    // Test the array response properties
+    expect($array)->toBeArray();
     expect($array['index'])->toBe(5);
     expect($array['uniqueId'])->toBeString();
+    expect($array['uniqueId'])->toBe('1736165420-789000-a62d2ae0d0101627');
     expect($array['contentId'])->toBeString();
+    expect($array['contentId'])->toBe('a62d2ae0d0101627');
     expect($array['signatureId'])->toBeString();
+    expect($array['signatureId'])->toBe('32d343efca13ba14');
     expect($array['message'])->toBe('Test message');
+    expect($array['level'])->toBe(400);
+    expect($array['levelName'])->toBe('ERROR');
+    expect($array['channel'])->toBe('local');
+    expect($array['datetime'])->toBe('2025-01-06T12:10:20.789000Z');
+    expect($array['context'])->toBe(['user_id' => 123]);
+    expect($array['extra'])->toBe([]);
+    expect($array['hasException'])->toBeBool();
     expect($array['isError'])->toBeTrue();
+    expect($array['isCritical'])->toBeBool();
 
     // Verify all three ID types are different
     expect($array['uniqueId'])->not->toBe($array['contentId']);

@@ -47,7 +47,6 @@ class EntryController
             'entry' => LogEntryResource::make($entry),
             'links' => [
                 'view' => route('admin.system.logs.view', ['filename' => $filename]),
-                // 'entry' => fn(string $id) => route('admin.system.logs.entry', ['filename' => $filename, 'uniqueId' => $id]),
             ],
         ]);
     }
