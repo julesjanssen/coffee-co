@@ -37,9 +37,9 @@ class AppJsExport extends Command
         $js = $this->load([
             app_path('Enums'),
         ])
-            ->map($this->processClassContent(...))
-            ->filter()
-            ->map(fn($v, $k) => $this->buildConst($v, $k))
+            ->map(fn($v, $k) => $this->processClassContent($v, $k))
+            ->filter(fn($v) => ! empty($v))
+            ->flatten(1)
             ->join(PHP_EOL . PHP_EOL);
 
         foreach (['admin'] as $key) {
@@ -48,20 +48,15 @@ class AppJsExport extends Command
         }
     }
 
-    private function buildConst(string $content, string $constName)
-    {
-        return 'export const ' . $constName . ' = {' . PHP_EOL . $content . PHP_EOL . '} as const';
-    }
-
     /**
      * @param class-string $className
      */
-    private function processClassContent(string $className)
+    private function processClassContent(string $className, string $constName)
     {
         $reflection = new ReflectionClass($className);
 
         return match (true) {
-            $reflection->implementsInterface(BackedEnum::class) => $this->processBackedEnum($className),
+            $reflection->implementsInterface(BackedEnum::class) => $this->processBackedEnum($className, $constName),
             default => null,
         };
     }
@@ -69,7 +64,7 @@ class AppJsExport extends Command
     /**
      * @param class-string $className
      */
-    private function processBackedEnum(string $className)
+    private function processBackedEnum(string $className, string $constName)
     {
         $reflection = new ReflectionEnum($className);
         $cases = collect($reflection->getConstants());
@@ -80,12 +75,23 @@ class AppJsExport extends Command
             $values = $cases->mapWithKeys(fn($v) => [$v->value => $v->value]);
         }
 
-        return $values
+        $constContent = $values
             ->map(fn($value, $key) => vsprintf("\t%s: %s,", [
                 json_encode($key),
                 json_encode($value),
             ]))
             ->implode(PHP_EOL);
+
+        $typeContent = $values
+            ->map(fn($v) => json_encode($v))
+            ->join(' | ');
+
+        $exports = [
+            'export const ' . $constName . ' = {' . PHP_EOL . $constContent . PHP_EOL . '} as const',
+            'export type ' . $constName . 'Type = ' . $typeContent,
+        ];
+
+        return $exports;
     }
 
     /**
