@@ -13,7 +13,7 @@
       <dl>
         <div>
           <dt>Records</dt>
-          <dd><Number :value="dbRows" /></dd>
+          <dd><NumberDisplay :value="dbRows" /></dd>
         </div>
 
         <div>
@@ -91,7 +91,7 @@ import filesize from 'filesize.js'
 import DateTime from '/@admin:components/DateTime.vue'
 import Icon from '/@admin:components/Icon.vue'
 import Loader from '/@admin:components/Loader.vue'
-import Number from '/@admin:components/Number.vue'
+import NumberDisplay from '/@admin:components/NumberDisplay.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 
 type DatabaseVariable = {
