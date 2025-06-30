@@ -66,7 +66,7 @@ const filesSelected = async (event: Event) => {
       status: 'pending',
     })
 
-    emit('fileAdded', fileObject)
+    emit('fileAdded', fileObject.value)
 
     if (props.parallel) {
       startUpload(fileObject)
