@@ -12,7 +12,7 @@ Route::namespace('Config')
     ->as('config.')
     ->middleware('cache.headers:public;max_age=1800;etag')
     ->group(function () {
-        Route::get('settings', 'Settings\IndexController@index');
+        Route::get('settings', 'Settings\\IndexController@index');
     });
 
 Route::namespace('Dashboard')->prefix('/')->as('dashboard.')->group(function () {
@@ -77,10 +77,12 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
     Route::get('styleguide', 'StyleguideController@index')->name('styleguide');
 
     Route::namespace('Logs')->prefix('logs/')->as('logs.')->group(function () {
+        $filenameRegex = '[^/]+\\.log.*\\.gz|[^/]+\\.log';
+
         Route::get('/', 'IndexController@index')->name('index');
-        Route::get('{filename}', 'ViewController@view')->name('view')->where('filename', '[^/]+\.log(\.gz)?');
+        Route::get('{filename}', 'ViewController@view')->name('view')->where('filename', $filenameRegex);
         Route::get('{filename}/entry/{uniqueId}', 'EntryController@view')->name('entry')
-            ->where('filename', '[^/]+\.log(\.gz)?')
+            ->where('filename', $filenameRegex)
             ->where('uniqueId', '[a-fA-F0-9\-]+');
     });
 

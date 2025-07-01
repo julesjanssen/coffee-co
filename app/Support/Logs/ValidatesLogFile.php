@@ -16,7 +16,7 @@ trait ValidatesLogFile
             abort(404, 'Log file not found');
         }
 
-        if (! str_ends_with($filename, '.log') && ! str_ends_with($filename, '.log.gz')) {
+        if (! (str_ends_with($filename, '.log') || (str_ends_with($filename, '.gz') && str_contains($filename, '.log')))) {
             abort(400, 'Invalid log file');
         }
 
