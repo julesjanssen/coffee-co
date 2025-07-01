@@ -86,9 +86,7 @@ it('can convert log entry to array with unique identifiers', function () {
     $route = new Route(['GET'], str_replace($filename, '{filename}', $route), []);
     $route->bind($request);
     $route->setParameter('filename', $filename);
-    $request->setRouteResolver(function () use ($route) {
-        return $route;
-    });
+    $request->setRouteResolver(fn() => $route);
 
     $array = LogEntryResource::make($entry)->resolve($request);
 

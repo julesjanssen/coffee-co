@@ -28,7 +28,12 @@ class IndexController
         }
 
         return collect(File::files($logPath))
-            ->filter(fn($file) => str_ends_with($file->getFilename(), '.log'))
+            ->filter(function ($file) {
+                $name = $file->getFilename();
+
+                return str_ends_with($name, '.log') || str_ends_with($name, '.log.gz');
+            })
+            ->filter(fn($file) => $file->getSize() > 0)
             ->filter(fn($file) => str_contains($file->getFilename(), 'laravel-'))
             ->map(fn($file) => [
                 'name' => $file->getFilename(),

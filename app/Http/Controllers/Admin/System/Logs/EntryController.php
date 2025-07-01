@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin\System\Logs;
 
 use App\Http\Resources\Admin\LogEntryResource;
 use App\Support\Logs\LogParser;
+use App\Support\Logs\ValidatesLogFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
@@ -13,17 +14,11 @@ use Inertia\Inertia;
 
 class EntryController
 {
+    use ValidatesLogFile;
+
     public function view(Request $request, string $filename, string $uniqueId)
     {
-        $logPath = storage_path("logs/{$filename}");
-
-        if (! File::exists($logPath)) {
-            abort(404, 'Log file not found');
-        }
-
-        if (! str_ends_with($filename, '.log')) {
-            abort(400, 'Invalid log file');
-        }
+        $logPath = $this->validateLogFile($filename);
 
         $parser = new LogParser($logPath);
 

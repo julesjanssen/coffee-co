@@ -29,6 +29,23 @@ class LogParser
         }
     }
 
+    private function getFileHandle()
+    {
+        $path = $this->logPath;
+
+        if (str_ends_with($path, '.gz')) {
+            $path = 'compress.zlib://' . $path;
+        }
+
+        $handle = fopen($path, 'r');
+
+        if ($handle === false) {
+            throw new InvalidArgumentException("Cannot read log file: {$this->logPath}");
+        }
+
+        return $handle;
+    }
+
     public function getPage(int $page = 1): LengthAwarePaginator
     {
         if ($page < 1) {
@@ -186,13 +203,39 @@ class LogParser
 
     private function readLinesReverse(): Generator
     {
-        $file = fopen($this->logPath, 'r');
-        if (! $file) {
-            throw new InvalidArgumentException("Cannot read log file: {$this->logPath}");
+        if (str_ends_with($this->logPath, '.gz')) {
+            return $this->readGzLinesReverse();
         }
 
+        return $this->readRawLinesReverse();
+    }
+
+    private function readGzLinesReverse(): Generator
+    {
+        $lines = [];
+        $file = $this->getFileHandle();
         try {
-            // Get file size
+            while (($line = fgets($file)) !== false) {
+                $trimmedLine = trim($line);
+                if ($trimmedLine !== '') {
+                    $lines[] = $trimmedLine;
+                }
+            }
+        } finally {
+            fclose($file);
+        }
+
+        // yield lines in reverse order
+        foreach (array_reverse($lines) as $line) {
+            yield $line;
+        }
+    }
+
+    private function readRawLinesReverse(): Generator
+    {
+        $file = $this->getFileHandle();
+
+        try {
             fseek($file, 0, SEEK_END);
             $fileSize = ftell($file);
 
@@ -211,11 +254,9 @@ class LogParser
                 $chunk = fread($file, $readSize);
                 $buffer = $chunk . $buffer;
 
-                // Process complete lines
                 $lines = explode("\n", $buffer);
-                $buffer = array_shift($lines); // Keep incomplete line in buffer
+                $buffer = array_shift($lines);
 
-                // Yield lines in reverse order
                 foreach (array_reverse($lines) as $line) {
                     if (trim($line) !== '') {
                         yield trim($line);
@@ -223,7 +264,6 @@ class LogParser
                 }
             }
 
-            // Yield the last line if any
             if (trim($buffer) !== '') {
                 yield trim($buffer);
             }
@@ -234,7 +274,32 @@ class LogParser
 
     private function countTotalLines(): int
     {
-        $file = new SplFileObject($this->logPath);
+        if (str_ends_with($this->logPath, '.gz')) {
+            return $this->countGzTotalLines();
+        }
+
+        return $this->countRawTotalLines();
+    }
+
+    private function countGzTotalLines(): int
+    {
+        $lineCount = 0;
+        $file = $this->getFileHandle();
+        try {
+            while (fgets($file) !== false) {
+                $lineCount++;
+            }
+        } finally {
+            fclose($file);
+        }
+
+        return $lineCount;
+    }
+
+    private function countRawTotalLines(): int
+    {
+        $file = new SplFileObject($this->logPath, 'r');
+        $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
         $file->seek(PHP_INT_MAX);
 
         return $file->key() + 1;
