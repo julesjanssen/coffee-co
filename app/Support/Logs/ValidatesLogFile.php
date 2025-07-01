@@ -16,10 +16,15 @@ trait ValidatesLogFile
             abort(404, 'Log file not found');
         }
 
-        if (! (str_ends_with($filename, '.log') || (str_ends_with($filename, '.gz') && str_contains($filename, '.log')))) {
+        if (! self::isValidLogFilename($filename)) {
             abort(400, 'Invalid log file');
         }
 
         return $logPath;
+    }
+
+    public static function isValidLogFilename(string $filename): bool
+    {
+        return str_ends_with($filename, '.log') || (str_ends_with($filename, '.gz') && str_contains($filename, '.log'));
     }
 }
