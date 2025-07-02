@@ -81,7 +81,7 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
 
         Route::get('/', 'IndexController@index')->name('index');
         Route::get('{filename}', 'ViewController@view')->name('view')->where('filename', $filenameRegex);
-        Route::get('{filename}/entry/{uniqueId}', 'EntryController@view')->name('entry')
+        Route::get('{filename}/entry/{id}', 'EntryController@view')->name('entry')
             ->where('filename', $filenameRegex)
             ->where('uniqueId', '[a-fA-F0-9\-]+');
     });

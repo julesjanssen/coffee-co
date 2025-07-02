@@ -68,32 +68,10 @@ class LogEntry
     }
 
     /**
-     * Generate a unique identifier for this log entry based on its content and timestamp
-     */
-    public function getUniqueId(): string
-    {
-        // Use a combination of timestamp, content hash, and microseconds for uniqueness
-        $contentHash = hash('xxh3', $this->raw);
-        $timestamp = $this->datetime?->getTimestamp() ?? 0;
-        $microseconds = $this->datetime?->format('u') ?? '000000';
-
-        // Include more of the content hash since we're not using index
-        return sprintf('%d-%s-%s', $timestamp, $microseconds, substr($contentHash, 0, 16));
-    }
-
-    /**
-     * Generate a stable identifier based on line content (useful for referencing across file changes)
-     */
-    public function getContentId(): string
-    {
-        return hash('xxh3', $this->raw);
-    }
-
-    /**
      * Generate a signature-based identifier using multiple log entry properties
      * This is more collision-resistant than content-only hashing
      */
-    public function getSignatureId(): string
+    public function getId(): string
     {
         $signature = sprintf(
             '%s|%s|%d|%s|%s',

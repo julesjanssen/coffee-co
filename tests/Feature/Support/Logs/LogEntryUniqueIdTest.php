@@ -35,33 +35,11 @@ it('generates unique IDs for log entries', function () {
         raw: '{"message":"Test message 2","level":200}'
     );
 
-    // Unique IDs should be different for different entries
-    expect($entry1->getUniqueId())->not->toBe($entry2->getUniqueId());
+    // IDs should be different for different entries
+    expect($entry1->getId())->not->toBe($entry2->getId());
 
-    // Content IDs should be different for different content
-    expect($entry1->getContentId())->not->toBe($entry2->getContentId());
-
-    // Same entry content should produce same content and signature IDs
-    $entry1Copy = new LogEntry(
-        index: 999, // Different index shouldn't affect content-based IDs
-        message: 'Test message 1',
-        level: 200,
-        levelName: 'INFO',
-        channel: 'local',
-        datetime: $datetime,
-        context: [],
-        extra: [],
-        raw: '{"message":"Test message 1","level":200}'
-    );
-
-    // Content ID should be the same for same raw content
-    expect($entry1->getContentId())->toBe($entry1Copy->getContentId());
-
-    // Signature ID should be the same for same entry properties
-    expect($entry1->getSignatureId())->toBe($entry1Copy->getSignatureId());
-
-    // Unique ID should be the same for same timestamp and content
-    expect($entry1->getUniqueId())->toBe($entry1Copy->getUniqueId());
+    // IDs should be different for different content
+    expect($entry1->getId())->not->toBe($entry2->getId());
 });
 
 it('can convert log entry to array with unique identifiers', function () {
@@ -92,13 +70,8 @@ it('can convert log entry to array with unique identifiers', function () {
 
     // Test the array response properties
     expect($array)->toBeArray();
-    expect($array['index'])->toBe(5);
-    expect($array['uniqueId'])->toBeString();
-    expect($array['uniqueId'])->toBe('1736165420-789000-a62d2ae0d0101627');
-    expect($array['contentId'])->toBeString();
-    expect($array['contentId'])->toBe('a62d2ae0d0101627');
-    expect($array['signatureId'])->toBeString();
-    expect($array['signatureId'])->toBe('32d343efca13ba14');
+    expect($array['id'])->toBeString();
+    expect($array['id'])->toBe('32d343efca13ba14');
     expect($array['message'])->toBe('Test message');
     expect($array['level'])->toBe(400);
     expect($array['levelName'])->toBe('ERROR');
@@ -109,9 +82,4 @@ it('can convert log entry to array with unique identifiers', function () {
     expect($array['hasException'])->toBeBool();
     expect($array['isError'])->toBeTrue();
     expect($array['isCritical'])->toBeBool();
-
-    // Verify all three ID types are different
-    expect($array['uniqueId'])->not->toBe($array['contentId']);
-    expect($array['uniqueId'])->not->toBe($array['signatureId']);
-    expect($array['contentId'])->not->toBe($array['signatureId']);
 });

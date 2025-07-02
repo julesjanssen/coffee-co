@@ -14,16 +14,13 @@ use Inertia\Inertia;
 
 class EntryController
 {
-    public function view(Request $request, string $filename, string $uniqueId)
+    public function view(Request $request, string $filename, string $id)
     {
         $logPath = LogFilenameValidator::validateLogFile($filename);
 
         $parser = new LogParser($logPath);
 
-        // Try to find entry by unique ID first, then fall back to other methods
-        $entry = $parser->findByUniqueId($uniqueId)
-            ?? $parser->findByContentId($uniqueId)
-            ?? $parser->findBySignatureId($uniqueId);
+        $entry = $parser->findById($id);
 
         if (! $entry) {
             abort(404, 'Log entry not found');

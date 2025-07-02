@@ -100,31 +100,12 @@ class LogParser
     /**
      * Find a log entry by its unique ID
      */
-    public function findByUniqueId(string $uniqueId): ?LogEntry
+    public function findById(string $id): ?LogEntry
     {
         foreach ($this->readLinesReverse() as $index => $line) {
             try {
                 $entry = $this->parseLogEntry($line, $index);
-                if ($entry->getUniqueId() === $uniqueId) {
-                    return $entry;
-                }
-            } catch (JsonException) {
-                continue;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Find a log entry by its content ID
-     */
-    public function findByContentId(string $contentId): ?LogEntry
-    {
-        foreach ($this->readLinesReverse() as $index => $line) {
-            try {
-                $entry = $this->parseLogEntry($line, $index);
-                if ($entry->getContentId() === $contentId) {
+                if ($entry->getId() === $id) {
                     return $entry;
                 }
             } catch (JsonException) {
@@ -147,25 +128,6 @@ class LogParser
                 } catch (JsonException) {
                     return null;
                 }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Find a log entry by its signature ID
-     */
-    public function findBySignatureId(string $signatureId): ?LogEntry
-    {
-        foreach ($this->readLinesReverse() as $index => $line) {
-            try {
-                $entry = $this->parseLogEntry($line, $index);
-                if ($entry->getSignatureId() === $signatureId) {
-                    return $entry;
-                }
-            } catch (JsonException) {
-                continue;
             }
         }
 

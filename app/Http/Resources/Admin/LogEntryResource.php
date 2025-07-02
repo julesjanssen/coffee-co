@@ -22,10 +22,7 @@ class LogEntryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'index' => $this->index,
-            'uniqueId' => $this->getUniqueId(),
-            'contentId' => $this->getContentId(),
-            'signatureId' => $this->getSignatureId(),
+            'id' => $this->getId(),
             'message' => $this->message,
             'level' => $this->level,
             'levelName' => $this->levelName,
@@ -43,7 +40,7 @@ class LogEntryResource extends JsonResource
             'links' => [
                 'view' => route('admin.system.logs.entry', [
                     'filename' => basename($request->route('filename')),
-                    'uniqueId' => $this->getUniqueId(),
+                    'id' => $this->getId(),
                 ]),
             ],
         ];

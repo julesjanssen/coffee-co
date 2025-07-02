@@ -348,7 +348,7 @@ it('can paginate gzipped log files', function () {
     expect($page->items()[0]->message)->toBe('Gzip pagination message 7');
 });
 
-it('can find entry by unique ID in gzipped log files', function () {
+it('can find entry by ID in gzipped log files', function () {
     $entryData = [
         'message' => 'Entry with unique ID',
         'level' => 200,
@@ -365,13 +365,13 @@ it('can find entry by unique ID in gzipped log files', function () {
     // Parse the file to get the actual LogEntry object and its generated unique ID
     $parser = new LogParser($this->testLogPath);
     $parsedEntry = $parser->getPage(1)->items()[0];
-    $uniqueId = $parsedEntry->getUniqueId();
+    $id = $parsedEntry->getId();
 
-    $foundEntry = $parser->findByUniqueId($uniqueId);
+    $foundEntry = $parser->findById($id);
 
     expect($foundEntry)->not->toBeNull();
     expect($foundEntry->message)->toBe('Entry with unique ID');
-    expect($foundEntry->getUniqueId())->toBe($uniqueId);
+    expect($foundEntry->getId())->toBe($id);
 });
 
 it('returns empty page for empty gzipped log file', function () {
