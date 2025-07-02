@@ -5,7 +5,7 @@
     <section>
       <header>
         <div>
-          <h2>System / Logs / {{ file.name }}</h2>
+          <h2>Logs / {{ file.name }}</h2>
           <h1>
             <DateTime :datetime="entry.datetime" :time="true" />
           </h1>

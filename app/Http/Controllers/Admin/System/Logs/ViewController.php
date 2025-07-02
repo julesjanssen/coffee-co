@@ -37,6 +37,7 @@ class ViewController
             'file' => $fileInfo,
             'logs' => LogEntryResource::collection($logPaginator),
             'links' => [
+                'download' => route('admin.system.logs.download', [$filename]),
                 'index' => route('admin.system.logs.index'),
             ],
         ]);

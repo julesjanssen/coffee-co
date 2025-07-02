@@ -5,12 +5,16 @@
     <section>
       <header>
         <div>
-          <h2>System / Logs</h2>
+          <h2>Logs</h2>
           <h1>
             <DateTime :datetime="file.modified" />
           </h1>
         </div>
         <div class="actions">
+          <a :href="links.download" class="button">
+            <Icon name="download" />
+            download
+          </a>
           <Link :href="links.index" class="button">
             <Icon name="chevron-left" />
             back

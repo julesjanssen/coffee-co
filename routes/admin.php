@@ -80,6 +80,7 @@ Route::namespace('System')->prefix('system/')->as('system.')->group(function () 
         $filenameRegex = '[^/]+\\.log.*\\.gz|[^/]+\\.log';
 
         Route::get('/', 'IndexController@index')->name('index');
+        Route::get('{filename}/download', 'ViewController@download')->name('download')->where('filename', $filenameRegex);
         Route::get('{filename}', 'ViewController@view')->name('view')->where('filename', $filenameRegex);
         Route::get('{filename}/entry/{id}', 'EntryController@view')->name('entry')
             ->where('filename', $filenameRegex)
