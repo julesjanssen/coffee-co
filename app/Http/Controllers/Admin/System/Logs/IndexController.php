@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\System\Logs;
 
-use App\Support\Logs\ValidatesLogFile;
+use App\Support\Logs\LogFilenameValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
@@ -31,7 +31,7 @@ class IndexController
         return collect(File::files($logPath))
             ->filter(fn($file) => $file->getSize() > 0)
             ->filter(fn($file) => str_contains($file->getFilename(), 'laravel-'))
-            ->filter(fn($file) => ValidatesLogFile::isValidLogFilename($file->getFilename()))
+            ->filter(fn($file) => LogFilenameValidator::isValidLogFilename($file->getFilename()))
             ->map(fn($file) => [
                 'name' => $file->getFilename(),
                 'path' => $file->getPathname(),

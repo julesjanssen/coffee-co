@@ -26,6 +26,16 @@ function createTestLogFile(string $path, array $entries): void
     file_put_contents($path, $content);
 }
 
+function createGzipTestLogFile(string $path, array $entries): void
+{
+    $content = '';
+    foreach ($entries as $entry) {
+        $content .= json_encode($entry) . "\n";
+    }
+    $content = rtrim($content, "\n");
+    file_put_contents('compress.zlib://' . $path, $content);
+}
+
 function createLargeLogFile(string $path, int $entryCount): void
 {
     $file = fopen($path, 'w');
@@ -269,3 +279,109 @@ it('efficiently gets latest entries from very large files', function () {
     expect($latest[1]->message)->toBe('Test message 99999');
     expect($latest[99]->message)->toBe('Test message 99901');
 })->group('large-files');
+
+it('can parse gzipped log files', function () {
+    $entries = [
+        [
+            'message' => 'Gzip test message 1',
+            'level' => 200,
+            'level_name' => 'INFO',
+            'channel' => 'local',
+            'datetime' => Carbon::now()->addMinutes(1)->toISOString(),
+            'context' => [],
+            'extra' => [],
+        ],
+        [
+            'message' => 'Gzip test message 2',
+            'level' => 200,
+            'level_name' => 'INFO',
+            'channel' => 'local',
+            'datetime' => Carbon::now()->addMinutes(2)->toISOString(),
+            'context' => [],
+            'extra' => [],
+        ],
+    ];
+
+    $this->testLogPath = sys_get_temp_dir() . '/test_log_' . uniqid() . '.log.gz';
+    createGzipTestLogFile($this->testLogPath, $entries);
+
+    $parser = new LogParser($this->testLogPath);
+    $page = $parser->getPage(1);
+
+    expect($page->total())->toBe(2);
+    expect($page->items())->toHaveCount(2);
+    expect($page->items()[0]->message)->toBe('Gzip test message 2');
+    expect($page->items()[1]->message)->toBe('Gzip test message 1');
+});
+
+it('can paginate gzipped log files', function () {
+    $entries = [];
+    for ($i = 1; $i <= 10; $i++) {
+        $entries[] = [
+            'message' => "Gzip pagination message {$i}",
+            'level' => 200,
+            'level_name' => 'INFO',
+            'channel' => 'local',
+            'datetime' => Carbon::now()->addMinutes($i)->toISOString(),
+            'context' => [],
+            'extra' => [],
+        ];
+    }
+
+    $this->testLogPath = sys_get_temp_dir() . '/test_log_' . uniqid() . '.log.gz';
+    createGzipTestLogFile($this->testLogPath, $entries);
+    $parser = new LogParser($this->testLogPath, 3);
+
+    // Test first page
+    $page = $parser->getPage(1);
+    expect($page->currentPage())->toBe(1);
+    expect($page->lastPage())->toBe(4);
+    expect($page->perPage())->toBe(3);
+    expect($page->total())->toBe(10);
+    expect($page->items())->toHaveCount(3);
+    expect($page->items()[0]->message)->toBe('Gzip pagination message 10');
+
+    // Test middle page
+    $page = $parser->getPage(2);
+    expect($page->currentPage())->toBe(2);
+    expect($page->items())->toHaveCount(3);
+    expect($page->items()[0]->message)->toBe('Gzip pagination message 7');
+});
+
+it('can find entry by unique ID in gzipped log files', function () {
+    $entryData = [
+        'message' => 'Entry with unique ID',
+        'level' => 200,
+        'level_name' => 'INFO',
+        'channel' => 'local',
+        'datetime' => Carbon::now()->addMinute()->toISOString(),
+        'context' => [],
+        'extra' => [],
+    ];
+
+    $this->testLogPath = sys_get_temp_dir() . '/test_log_' . uniqid() . '.log.gz';
+    createGzipTestLogFile($this->testLogPath, [$entryData]);
+
+    // Parse the file to get the actual LogEntry object and its generated unique ID
+    $parser = new LogParser($this->testLogPath);
+    $parsedEntry = $parser->getPage(1)->items()[0];
+    $uniqueId = $parsedEntry->getUniqueId();
+
+    $foundEntry = $parser->findByUniqueId($uniqueId);
+
+    expect($foundEntry)->not->toBeNull();
+    expect($foundEntry->message)->toBe('Entry with unique ID');
+    expect($foundEntry->getUniqueId())->toBe($uniqueId);
+});
+
+it('returns empty page for empty gzipped log file', function () {
+    $this->testLogPath = sys_get_temp_dir() . '/empty_log_' . uniqid() . '.log.gz';
+    file_put_contents('compress.zlib://' . $this->testLogPath, '');
+
+    $parser = new LogParser($this->testLogPath);
+    $page = $parser->getPage(1);
+
+    expect($page->isEmpty())->toBeTrue();
+    expect($page->total())->toBe(0);
+    expect($page->items())->toHaveCount(0);
+});
