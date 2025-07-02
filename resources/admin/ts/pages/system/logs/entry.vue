@@ -22,7 +22,12 @@
       <dl class="entry-details">
         <div>
           <dt>Level</dt>
-          <dd>{{ entry.levelName }} ({{ entry.level }})</dd>
+          <dd>
+            <span class="badge" :class="`level-${entry.levelName.toLowerCase()}`">
+              {{ entry.levelName }}
+            </span>
+            ({{ entry.level }})
+          </dd>
         </div>
 
         <div>
@@ -168,35 +173,32 @@ function formatStackTrace(trace: string[]): string {
 </script>
 
 <style scoped>
-.level-badge.debug {
-  background: var(--color-debug, #6b7280);
+& .badge {
+  border-color: transparent;
+  font-size: 0.75rem;
 }
 
-.level-badge.info {
-  background: var(--color-info, #3b82f6);
+.badge.level-emergency,
+.badge.level-alert,
+.badge.level-critical,
+.badge.level-error {
+  background-color: var(--red-200);
+  color: var(--red-800);
 }
 
-.level-badge.notice {
-  background: var(--color-notice, #06b6d4);
+.badge.level-warning {
+  background-color: var(--yellow-200);
+  color: var(--yellow-800);
 }
 
-.level-badge.warning {
-  background: var(--color-warning, #f59e0b);
+.badge.level-notice,
+.badge.level-info {
+  background-color: var(--blue-200);
+  color: var(--blue-800);
 }
 
-.level-badge.error {
-  background: var(--color-error, #ef4444);
-}
-
-.level-badge.critical {
-  background: var(--color-critical, #dc2626);
-}
-
-.level-badge.alert {
-  background: var(--color-alert, #dc2626);
-}
-
-.level-badge.emergency {
-  background: var(--color-emergency, #991b1b);
+.badge.level-debug {
+  background-color: var(--gray-200);
+  color: var(--gray-800);
 }
 </style>

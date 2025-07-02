@@ -94,5 +94,43 @@ table {
     width: 10em;
     white-space: nowrap;
   }
+
+  & .message-text {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    text-overflow: ellipsis;
+  }
+
+  & .badge {
+    border-color: transparent;
+    font-size: 0.75rem;
+  }
+
+  & .badge.level-emergency,
+  & .badge.level-alert,
+  & .badge.level-critical,
+  & .badge.level-error {
+    background-color: var(--red-200);
+    color: var(--red-800);
+  }
+
+  & .badge.level-warning {
+    background-color: var(--yellow-200);
+    color: var(--yellow-800);
+  }
+
+  & .badge.level-notice,
+  & .badge.level-info {
+    background-color: var(--blue-200);
+    color: var(--blue-800);
+  }
+
+  & .badge.level-debug {
+    background-color: var(--gray-200);
+    color: var(--gray-800);
+  }
 }
 </style>
