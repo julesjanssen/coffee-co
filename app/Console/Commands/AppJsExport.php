@@ -83,7 +83,7 @@ class AppJsExport extends Command
             ->implode(PHP_EOL);
 
         $typeContent = $values
-            ->map(fn($v) => json_encode($v))
+            ->map(fn($v, $k) => json_encode($k))
             ->join(' | ');
 
         $exports = [
