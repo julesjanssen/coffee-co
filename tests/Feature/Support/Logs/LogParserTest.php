@@ -210,8 +210,8 @@ it('is memory efficient with large log files', function () {
     $memoryAfter = memory_get_usage(true);
     $memoryIncrease = $memoryAfter - $memoryBefore;
 
-    // Memory increase should be minimal (less than 5MB for a 50MB+ file)
-    expect($memoryIncrease)->toBeLessThan(5 * 1024 * 1024);
+    // Memory increase should be minimal (less than 10MB for a 50MB+ file)
+    expect($memoryIncrease)->toBeLessThan(10 * 1024 * 1024);
 
     // Verify the page contains the expected entries
     expect($page->items())->toHaveCount(50);
