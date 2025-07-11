@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\AuthenticateUsingPasskeyController;
 use Illuminate\Support\Facades\Route;
+use Inertia\EncryptHistoryMiddleware;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
 
 Route::namespace('\App\Http\Controllers\Admin')
     ->prefix('admin/')
     ->as('admin.')
-    ->middleware(['auth'])
+    ->middleware([
+        'auth',
+        EncryptHistoryMiddleware::class,
+    ])
     ->group(function () {
         require __DIR__ . '/admin.php';
     });
