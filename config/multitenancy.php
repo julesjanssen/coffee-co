@@ -37,7 +37,7 @@ return [
         PrefixCacheTask::class,
         SwitchTenantDatabaseTask::class,
         SetTenantStorage::class,
-        SetBaseUrl::class,
+        // SetBaseUrl::class,
         // \Spatie\Multitenancy\Tasks\SwitchRouteCacheTask::class,
     ],
 
