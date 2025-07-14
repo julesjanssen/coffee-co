@@ -74,6 +74,8 @@ Unlike a standard Laravel installation, Blauwdruk provides:
    ```bash
    git clone <repository-url> your-project-name
    cd your-project-name
+   git remote set-url --push origin no_push
+   git remote rename origin blauwdruk
    ```
 
 2. **Install PHP dependencies**
