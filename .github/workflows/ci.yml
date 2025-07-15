@@ -1,4 +1,4 @@
-name: Blauwdruk
+name: CoffeeCo
 
 on: [ push, workflow_dispatch ]
 
@@ -89,7 +89,7 @@ jobs:
 
       - name: Execute tests
         run: |
-          ./vendor/bin/pest
+          ./vendor/bin/pest --parallel --disallow-test-output --no-progress --no-coverage --bail
 
       - name: Execute static analysis
         run: |
