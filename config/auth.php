@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\GameFacilitator;
+use App\Models\GameParticipant;
 use App\Models\User;
 
 return [
@@ -44,6 +46,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'participant' => [
+            'driver' => 'session',
+            'provider' => 'participants',
+        ],
+        'facilitator' => [
+            'driver' => 'session',
+            'provider' => 'facilitators',
+        ],
     ],
 
     /*
@@ -69,10 +79,15 @@ return [
             'model' => env('AUTH_MODEL', User::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'participants' => [
+            'driver' => 'eloquent',
+            'model' => GameParticipant::class,
+        ],
+
+        'facilitators' => [
+            'driver' => 'eloquent',
+            'model' => GameFacilitator::class,
+        ],
     ],
 
     /*
