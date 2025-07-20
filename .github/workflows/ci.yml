@@ -87,6 +87,10 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
+      - name: Lint PHP
+        run: |
+          ./vendor/bin/pint --parallel --quiet --test --help
+
       - name: Execute tests
         run: |
           ./vendor/bin/pest --parallel --disallow-test-output --no-progress --no-coverage --bail
@@ -94,7 +98,3 @@ jobs:
       - name: Execute static analysis
         run: |
           ./vendor/bin/phpstan --error-format=github --no-progress
-
-      - name: Lint PHP
-        run: |
-          ./vendor/bin/pint --quiet --test
