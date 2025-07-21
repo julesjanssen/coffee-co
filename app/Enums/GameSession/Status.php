@@ -15,4 +15,6 @@ enum Status: string
     case PLAYING = 'playing';
 
     case FINISHED = 'finished';
+
+    case CLOSED = 'closed';
 }
