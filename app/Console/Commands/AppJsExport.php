@@ -42,7 +42,7 @@ class AppJsExport extends Command
             ->flatten(1)
             ->join(PHP_EOL . PHP_EOL);
 
-        foreach (['admin'] as $key) {
+        foreach (['admin', 'front'] as $key) {
             $path = resource_path($key . '/ts/shared/constants.ts');
             file_put_contents($path, $js);
         }
