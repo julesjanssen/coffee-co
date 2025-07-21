@@ -7,7 +7,12 @@ namespace App\Models;
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
 use App\Events\GameSessionCreated;
+use App\Models\Traits\Reservable;
+use App\Values\GameRound;
+use App\Values\GameSessionSettings;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,6 +22,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 class GameSession extends Model
 {
     use HasSqids;
+    use Reservable;
     use SoftDeletes;
     use UsesTenantConnection;
 
@@ -26,7 +32,7 @@ class GameSession extends Model
         'current_round_id' => 'integer',
         'round_status' => RoundStatus::class,
         'status' => Status::class,
-        'settings' => 'array',
+        'settings' => GameSessionSettings::class,
         'started_at' => 'timestamp',
         'finished_at' => 'timestamp',
     ];
@@ -42,6 +48,14 @@ class GameSession extends Model
     ];
 
     /**
+     * @return BelongsTo<Scenario, $this>
+     */
+    public function scenario(): BelongsTo
+    {
+        return $this->belongsTo(Scenario::class, 'scenario_id', 'id');
+    }
+
+    /**
      * @return HasMany<GameParticipant, $this>
      */
     public function participants(): HasMany
@@ -55,5 +69,31 @@ class GameSession extends Model
     public function facilitator(): HasOne
     {
         return $this->hasOne(GameFacilitator::class);
+    }
+
+    /** @return Attribute<GameRound, never> */
+    protected function currentRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => new GameRound($this->scenario, $this->current_round_id)
+        )->shouldCache();
+    }
+
+    public function pickRelevantScenario(): ?Scenario
+    {
+        if (! empty($this->scenario_id)) {
+            return $this->scenario;
+        }
+
+        return Scenario::query()
+            ->where('group_id', '=', $this->scenario_group_id)
+            ->whereActive()
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+
+    public function topicUrl()
+    {
+        return url('/topics/' . hash('xxh3', 'session:' . $this->id));
     }
 }

@@ -14,5 +14,7 @@ enum RoundStatus: string
 
     case PROCESSING = 'processing';
 
+    case PROCESSED = 'processed';
+
     case PAUSED = 'paused';
 }

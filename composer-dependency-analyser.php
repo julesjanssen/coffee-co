@@ -14,6 +14,7 @@ return $config
     ->ignoreErrorsOnPackages([
         'league/flysystem-aws-s3-v3',
         'league/flysystem-path-prefixing',
+        'staudenmeir/laravel-cte',
         'symfony/http-client',
         'symfony/postmark-mailer',
         'vagebond/aannemer',

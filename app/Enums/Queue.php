@@ -6,6 +6,8 @@ namespace App\Enums;
 
 enum Queue: string
 {
+    case GAME = 'game';
+
     case DEFAULT = 'default';
 
     case FILE_PROCESSING = 'file-processing';
