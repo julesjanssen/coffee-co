@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\GameFacilitator;
+use App\Models\GameParticipant;
 use App\Models\User;
 use App\Support\Multitenancy\DatabaseSessionManager;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
+use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureJsonResources();
         $this->configureEnvPath();
         $this->configureHttpClientUserAgent();
+        $this->configureRequestParticipantMacro();
+        $this->configureRequestFacilitatorMacro();
     }
 
     private function configureDate()
@@ -51,6 +57,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::enforceMorphMap([
             'user' => User::class,
+            'game-participant' => GameParticipant::class,
+            'game-facilitator' => GameFacilitator::class,
         ]);
 
         Model::preventLazyLoading(! $this->app->isProduction());
@@ -91,5 +99,33 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Http::globalRequestMiddleware(fn($request) => $request->withHeader('User-Agent', $userAgent));
+    }
+
+    private function configureRequestParticipantMacro()
+    {
+        Request::macro('participant', function (): GameParticipant {
+            /** @var Request $this */
+            /** @var User|GameParticipant $user */
+            $user = $this->user();
+            if ($user instanceof GameParticipant) {
+                return $user;
+            }
+
+            throw new RuntimeException('Authenticated entity is not a GameParticipant');
+        });
+    }
+
+    private function configureRequestFacilitatorMacro()
+    {
+        Request::macro('participant', function (): GameFacilitator {
+            /** @var Request $this */
+            /** @var User|GameFacilitator $user */
+            $user = $this->user();
+            if ($user instanceof GameFacilitator) {
+                return $user;
+            }
+
+            throw new RuntimeException('Authenticated entity is not a GameFacilitator');
+        });
     }
 }
