@@ -1,0 +1,36 @@
+:root {
+  /* stylelint-disable-next-line property-no-unknown */
+  interpolate-size: allow-keywords;
+}
+
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+}
+
+/* Baseline for default links */
+a:not([class]) {
+  /* Relatively sized thickness and offset */
+  text-decoration-thickness: max(0.08em, 1px);
+  text-underline-offset: 0.15em;
+}
+
+/* Scroll margin allowance above anchor links */
+:target {
+  scroll-margin-block-start: 2rem;
+}
+
+/* Scroll margin allowance below focused elements
+  to ensure they are clearly in view */
+:focus {
+  scroll-margin-block-end: 8vh;
+}
+
+html {
+  font-size: clamp(16px, 0.224vw + 13px, 16px);
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.5;
+}

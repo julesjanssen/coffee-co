@@ -41,7 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 'url' => $request->url(),
                 'ip' => $request->ip(),
                 'userId' => $request->user()?->id,
-                'userEmail' => $request->user()?->email,
+                // 'userEmail' => $request->user()?->email,
             ]));
         }
 

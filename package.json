@@ -4,6 +4,8 @@
   "scripts": {
     "admin:watch": "vite --config ./vite.config.admin.ts",
     "admin:build": "vite build --config ./vite.config.admin.ts",
+    "front:watch": "vite --config ./vite.config.front.ts",
+    "front:build": "vite build --config ./vite.config.front.ts",
     "prepare": "husky"
   },
   "devDependencies": {

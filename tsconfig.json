@@ -21,7 +21,15 @@
       "/@admin:composables/*": ["./resources/admin/ts/composables/*"],
       "/@admin:layouts/*": ["resources/admin/ts/layouts/*"],
       "/@admin:shared/*": ["resources/admin/ts/shared/*"],
-      "/@admin:types": ["resources/admin/ts/types.d.ts"]
+      "/@admin:types": ["resources/admin/ts/types.d.ts"],
+      "/@front/*": ["resources/front/*"],
+      "/@front:css/*": ["resources/front/css/*"],
+      "/@front:icons/*": ["resources/front/icons/*"],
+      "/@front:components/*": ["resources/front/ts/components/*"],
+      "/@front:composables/*": ["./resources/front/ts/composables/*"],
+      "/@front:layouts/*": ["resources/front/ts/layouts/*"],
+      "/@front:shared/*": ["resources/front/ts/shared/*"],
+      "/@front:types/*": ["resources/front/ts/types/*"],
     }
   },
   "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.tsx", "resources/**/*.vue"]

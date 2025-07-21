@@ -3,9 +3,31 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\AuthenticateUsingPasskeyController;
+use App\Http\Middleware\Game\HandleInertiaRequests;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Inertia\EncryptHistoryMiddleware;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
+
+Authenticate::redirectUsing(function (Request $request) {
+    if (Str::startsWith($request->uri()->path(), 'game')) {
+        return '/';
+    }
+
+    return '/';
+});
+
+Route::namespace('\App\Http\Controllers\Game')
+    ->prefix('game/')
+    ->as('game.')
+    ->middleware([
+        HandleInertiaRequests::class,
+        // Delay::class,
+    ])->group(function () {
+        require __DIR__ . '/game.php';
+    });
 
 Route::namespace('\App\Http\Controllers\Admin')
     ->prefix('admin/')

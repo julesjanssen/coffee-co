@@ -1,0 +1,13 @@
+@layer reset, theme, global, components, layout, utilities;
+
+@import url('reset.css') layer(reset);
+
+/* @import url('fonts.css') layer(theme); */
+
+/* @import url('theme.css') layer(theme); */
+@import url('global.css') layer(global);
+
+/* @import url('layout.css') layer(layout); */
+
+/* @import url('transitions.css') layer(utilities); */
+@import url('utilities.css') layer(utilities);
