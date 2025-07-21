@@ -29,4 +29,20 @@ enum Role: string
     case BACKOFFICE_1 = 'backoffice-1';
 
     case MATERIALS_1 = 'materials-1';
+
+    public function description(): string
+    {
+        return match ($this) {
+            self::SALES_1 => __('participants-role:sales-1'),
+            self::SALES_2 => __('participants-role:sales-2'),
+            self::SALES_3 => __('participants-role:sales-3'),
+            self::SALES_SCREEN => __('participants-role:sales-screen'),
+            self::TECHNICAL_1 => __('participants-role:technical-1'),
+            self::TECHNICAL_2 => __('participants-role:technical-2'),
+            self::TECHNICAL_SCREEN => __('participants-role:technical-screen'),
+            self::MARKETING_1 => __('participants-role:marketing-1'),
+            self::BACKOFFICE_1 => __('participants-role:backoffice-1'),
+            self::MATERIALS_1 => __('participants-role:material-1'),
+        };
+    }
 }
