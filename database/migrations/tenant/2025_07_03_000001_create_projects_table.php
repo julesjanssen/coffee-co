@@ -23,7 +23,8 @@ return new class extends Migration {
             $table->unsignedTinyInteger('failure_chance');
             $table->unsignedTinyInteger('downtime');
             $table->unsignedTinyInteger('location');
-            $table->unsignedTinyInteger('decision_round_id')->nullable();
+            $table->unsignedTinyInteger('request_round_id')->nullable();
+            $table->unsignedTinyInteger('quote_round_id')->nullable();
             $table->unsignedTinyInteger('delivery_round_id')->nullable();
             $table->unsignedTinyInteger('down_round_id')->nullable();
             $table->timestamps();

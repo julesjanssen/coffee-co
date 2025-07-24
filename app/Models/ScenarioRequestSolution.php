@@ -44,4 +44,11 @@ class ScenarioRequestSolution extends Model
     {
         return $this->belongsTo(ScenarioRequest::class, 'request_id', 'id');
     }
+
+    public function products()
+    {
+        return ScenarioProduct::query()
+            ->whereIn('id', $this->product_ids)
+            ->get();
+    }
 }

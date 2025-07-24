@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Enums\GameSession\RoundStatus;
+use App\Enums\GameSession\Status;
 use App\Enums\Queue;
+use App\Events\GameSessionRoundStatusUpdated;
 use App\Models\GameSession;
 use App\Values\GameRound;
 use Illuminate\Bus\Queueable;
@@ -34,7 +36,7 @@ class HandleRoundEnd implements ShouldQueue
             return;
         }
 
-        if ($this->session->round_status->isNot(RoundStatus::PROCESSING)) {
+        if ($this->session->round_status->isNot(RoundStatus::ACTIVE)) {
             return;
         }
 
@@ -44,9 +46,20 @@ class HandleRoundEnd implements ShouldQueue
             return;
         }
 
+        $this->preProcessing();
         $this->process();
+        $this->postProcessing();
 
         $this->session->release($this->getReservationKey());
+    }
+
+    private function preProcessing()
+    {
+        $this->session->update([
+            'round_status' => RoundStatus::PROCESSING,
+        ]);
+
+        GameSessionRoundStatusUpdated::dispatch($this->session);
     }
 
     private function process()
@@ -62,10 +75,24 @@ class HandleRoundEnd implements ShouldQueue
         if ($this->round->isLastRoundOfYear()) {
             $this->trackMarketShare();
         }
+    }
+
+    private function postProcessing()
+    {
+        $this->session->round_status = RoundStatus::PROCESSED;
+
+        if ($this->round->roundID >= $this->session->scenario->numberOfRounds()) {
+            $this->session->status = Status::FINISHED;
+        }
 
         if ($this->session->settings->shouldPauseAfterCurrentRound) {
-            // init pause
+            $this->session->round_status = RoundStatus::PAUSED;
+        } else {
+            // start new round
+            HandleRoundStart::dispatch($this->session, $this->round->next());
         }
+
+        GameSessionRoundStatusUpdated::dispatch($this->session);
     }
 
     private function processProjects()

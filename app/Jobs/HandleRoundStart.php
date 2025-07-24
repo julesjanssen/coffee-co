@@ -57,7 +57,16 @@ class HandleRoundStart implements ShouldQueue
 
     private function process()
     {
-        // process operational cost per year on first month of year
+        if ($this->round->isFirstRoundOfYear()) {
+            // TODO: process operational cost per year on first month of year
+        }
+
+        if ($this->round->isLastRoundOfYear()) {
+            $this->session->settings->shouldPauseAfterCurrentRound = true;
+        }
+
+        $this->session->current_round_id = $this->round->roundID;
+        $this->session->save();
 
         HandleRoundEnd::dispatch($this->session, $this->round)->delay($this->session->settings->secondsPerRound);
     }

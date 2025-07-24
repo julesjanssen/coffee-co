@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
@@ -36,5 +37,13 @@ class ScenarioRequest extends Model
     public function scenario(): BelongsTo
     {
         return $this->belongsTo(Scenario::class, 'scenario_id', 'id');
+    }
+
+    /** @return Attribute<string, never> */
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => 'test title',
+        );
     }
 }
