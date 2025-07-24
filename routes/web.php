@@ -13,10 +13,10 @@ use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptions
 
 Authenticate::redirectUsing(function (Request $request) {
     if (Str::startsWith($request->uri()->path(), 'game')) {
-        return '/';
+        return '/game/sessions';
     }
 
-    return '/';
+    return '/auth/login';
 });
 
 Route::namespace('\App\Http\Controllers\Game')
