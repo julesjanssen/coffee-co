@@ -22,5 +22,5 @@ enum Material: string
 
     case TITANIUM = 'titanium';
 
-    case UNOBTANIUM = 'unobtanium';
+    case UNOBTAINIUM = 'unobtainium';
 }

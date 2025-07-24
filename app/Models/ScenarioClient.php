@@ -4,27 +4,28 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Client\Segment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class ScenarioRequest extends Model
+class ScenarioClient extends Model
 {
     use HasSqids;
     use UsesTenantConnection;
 
-    protected $table = 'scenario_requests';
+    protected $table = 'scenario_clients';
 
     protected $guarded = [];
 
     protected $casts = [
-        'requirements' => 'array',
+        'player_id' => 'int',
+        'segment' => Segment::class,
         'settings' => 'array',
     ];
 
     protected $attributes = [
-        'requirements' => '[]',
         'settings' => '[]',
     ];
 

@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class ScenarioRequestSolution extends Model
 {
     use HasSqids;
-    use UsesLandlordConnection;
+    use UsesTenantConnection;
 
     protected $table = 'scenario_request_solutions';
 

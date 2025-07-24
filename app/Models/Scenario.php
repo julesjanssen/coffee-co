@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\Locale;
 use App\Enums\Scenario\Status;
 use App\Values\GameRound;
+use App\Values\ScenarioSettings;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,20 +15,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use RedExplosion\Sqids\Concerns\HasSqids;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Scenario extends Model
 {
     use HasFactory;
     use HasSqids;
-    use UsesLandlordConnection;
+    use UsesTenantConnection;
 
     protected $guarded = [];
 
     protected $casts = [
         'group_id' => 'integer',
         'locale' => Locale::class,
-        'settings' => 'array',
+        'settings' => ScenarioSettings::class,
         'status' => Status::class,
     ];
 
