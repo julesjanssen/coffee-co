@@ -1,4 +1,4 @@
-import '/@front:css/style.css'
+// import '/@front:css/style.css'
 
 import { createInertiaApp } from '@inertiajs/vue3'
 import type { DefineComponent } from 'vue'
