@@ -1,0 +1,207 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Console\Commands;
+
+use App\Enums\Client\CarBrand;
+use App\Enums\Client\Market;
+use App\Enums\Client\Segment;
+use App\Enums\Locale;
+use App\Enums\Product\Color;
+use App\Enums\Product\Material;
+use App\Enums\Product\Type;
+use App\Enums\Scenario\Status;
+use App\Models\Scenario;
+use App\Models\ScenarioClient;
+use App\Models\ScenarioProduct;
+use App\Models\ScenarioRequest;
+use App\Models\ScenarioRequestSolution;
+use App\Models\Tenant;
+use App\Values\ScenarioSettings;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class AppMigrateScenario extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'app:migrate-scenario';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = '';
+
+    private Locale $locale = Locale::IT;
+
+    private array $clientIdMap = [];
+
+    private array $productIdMap = [];
+
+    private array $requestIdMap = [];
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        Tenant::find(1)->makeCurrent();
+
+        $scenario = Scenario::create([
+            'group_id' => 1,
+            'title' => 'Original',
+            'locale' => $this->locale,
+            'settings' => ScenarioSettings::fromArray([]),
+            'status' => Status::ACTIVE,
+        ]);
+
+        $this->clientIdMap = [];
+        $this->productIdMap = [];
+        $this->requestIdMap = [];
+
+        $this->migrateClients($scenario);
+        $this->migrateProducts($scenario);
+        $this->migrateRequests($scenario);
+        $this->migrateSolutions($scenario);
+    }
+
+    private function migrateClients(Scenario $scenario)
+    {
+        $this->oldDB()
+            ->table('clients')
+            ->get()
+            ->each(fn($v) => $this->migrateClient($scenario, $v));
+    }
+
+    private function migrateClient(Scenario $scenario, object $record)
+    {
+        $segment = Segment::from($record->segment);
+
+        $client = ScenarioClient::create([
+            'scenario_id' => $scenario->id,
+            'player_id' => $record->player_id,
+            'title' => $record->title,
+            'segment' => $segment,
+            'settings' => [
+                'carbrand' => CarBrand::collect()->random(),
+                'market' => Market::collect()->random(),
+                'years' => random_int(1, 10),
+            ],
+            'sortorder' => 1,
+        ]);
+
+        $this->clientIdMap[$record->id] = $client->id;
+    }
+
+    private function migrateProducts(Scenario $scenario)
+    {
+        $this->oldDB()
+            ->table('products')
+            ->where('id', '<=', 800)
+            ->get()
+            ->each(fn($v) => $this->migrateProduct($scenario, $v));
+    }
+
+    private function migrateProduct(Scenario $scenario, object $record)
+    {
+        if ($record->material === 'aluminum') {
+            $record->material = Material::ALUMINIUM->value;
+        }
+
+        $type = Str::replace('-and-', '-', Str::slug($record->description));
+        $type = Type::from($type);
+
+        $material = empty($record->material) ? null : Material::from($record->material);
+        $color = empty($record->color) ? null : Color::from($record->color);
+
+        $product = ScenarioProduct::create([
+            'scenario_id' => $scenario->id,
+            'public_id' => $record->external_id,
+            'type' => $type,
+            'material' => $material,
+            'color' => $color,
+        ]);
+
+        $this->productIdMap[$record->id] = $product->id;
+    }
+
+    private function migrateRequests(Scenario $scenario)
+    {
+        $this->oldDB()
+            ->table('requests')
+            ->get()
+            ->each(fn($v) => $this->migrateRequest($scenario, $v));
+    }
+
+    private function migrateRequest(Scenario $scenario, object $record)
+    {
+        $clientID = $this->clientIdMap[$record->client_id];
+        $description = json_decode($record->description, true);
+        $requirements = collect(json_decode($record->requirements, true))
+            ->mapWithKeys(function ($v, $k) {
+                return [Str::camel($k) => $v];
+            })
+            ->toArray();
+        $data = collect(json_decode($record->data, true))
+            ->mapWithKeys(function ($v, $k) {
+                return [Str::camel($k) => $v];
+            })
+            ->toArray();
+
+        $request = ScenarioRequest::create([
+            'scenario_id' => $scenario->id,
+            'client_id' => $clientID,
+            'description' => $description[$this->locale->value],
+            'delay' => $record->delay,
+            'duration' => $record->duration,
+            'requirements' => $requirements,
+            'settings' => $data,
+        ]);
+
+        $this->requestIdMap[$record->id] = $request->id;
+    }
+
+    private function migrateSolutions(Scenario $scenario)
+    {
+        $this->oldDB()
+            ->table('solutions')
+            ->get()
+            ->each(fn($v) => $this->migrateSolution($scenario, $v));
+    }
+
+    private function migrateSolution(Scenario $scenario, object $record)
+    {
+        $requestID = $this->requestIdMap[$record->request_id];
+        $productIDs = collect(explode('|', $record->product_ids))
+            ->map(fn($v) => $this->productIdMap[$v])
+            ->sort()
+            ->toArray();
+
+        $info = json_decode($record->info, true);
+        $isOptimal = ! str_contains((string) $info['en']['dealwon'], 'you did not offer');
+
+        ScenarioRequestSolution::create([
+            'scenario_id' => $scenario->id,
+            'request_id' => $requestID,
+            'product_ids' => $productIDs,
+            'score' => $record->customerdecisionpoints,
+            'is_optimal' => $isOptimal,
+        ]);
+    }
+
+    protected function oldDB()
+    {
+        return once(fn() => DB::connectUsing('old', [
+            ...config('database.connections.landlord'),
+            'database' => 'incontext-roche-generic',
+            'prefix' => '',
+        ]));
+    }
+}
