@@ -14,11 +14,8 @@ class IndexController
 {
     public function index(Request $request)
     {
-        $logPath = storage_path('logs');
-
         return Inertia::render('system/logs/index', [
-            'logFiles' => $this->listFiles($logPath),
-            'logPath' => $logPath,
+            'logFiles' => $this->listFiles(storage_path('logs')),
         ]);
     }
 
