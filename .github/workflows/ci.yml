@@ -89,7 +89,7 @@ jobs:
 
       - name: Lint PHP
         run: |
-          ./vendor/bin/pint --parallel --quiet --test --help
+          ./vendor/bin/pint --parallel --quiet --test
 
       - name: Execute tests
         run: |
