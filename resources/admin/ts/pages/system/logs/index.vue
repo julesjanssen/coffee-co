@@ -11,7 +11,7 @@
       </header>
 
       <div v-if="logFiles.length === 0" class="empty-state">
-        <p>No log files found in {{ logPath }}</p>
+        <p>No log files found.</p>
       </div>
 
       <div v-else class="log-files">
@@ -69,6 +69,5 @@ defineOptions({
 
 defineProps<{
   logFiles: LogFile[]
-  logPath: string
 }>()
 </script>

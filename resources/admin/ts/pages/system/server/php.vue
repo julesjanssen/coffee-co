@@ -51,7 +51,7 @@
       <div>
         <dt>OPcache</dt>
         <dd>
-          <span v-if="data.opcache.enabled === false" class="badge danger">disabled</span>
+          <span v-if="data.opcache === false" class="badge danger">disabled</span>
           <template v-else>
             <span class="badge success">enabled</span> (using {{ filesize(data.opcache.usedMemory) }})
             <button
