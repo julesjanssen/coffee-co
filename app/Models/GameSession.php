@@ -39,6 +39,7 @@ class GameSession extends Model
 
     protected $attributes = [
         'current_round_id' => 0,
+        'round_status' => RoundStatus::PAUSED,
         'status' => Status::PENDING,
         'settings' => '[]',
     ];
@@ -75,7 +76,7 @@ class GameSession extends Model
     protected function currentRound(): Attribute
     {
         return Attribute::make(
-            get: fn() => new GameRound($this->scenario, $this->current_round_id)
+            get: fn() => empty($this->scenario_id) ? null : new GameRound($this->scenario, $this->current_round_id)
         )->shouldCache();
     }
 

@@ -3,6 +3,10 @@
     - route: admin.dashboard.index
       title: Dashboard
       icon: nav-dashboard
+    - route: admin.game-sessions.index
+      permission: admin.game-sessions.view
+      title: Sessions
+      icon: nav-sessions
     - route: admin.accounts.index
       permission: admin.accounts.view
       title: Accounts

@@ -20,6 +20,19 @@ Route::namespace('Dashboard')->prefix('/')->as('dashboard.')->group(function () 
 });
 
 //
+// game-sessions
+//
+Route::namespace('GameSessions')->prefix('game-sessions/')->as('game-sessions.')->group(function () {
+    Route::get('create', 'UpdateController@update')->name('create');
+    Route::post('create', 'UpdateController@store');
+    Route::get('{session}/update', 'UpdateController@update')->name('update');
+    Route::post('{session}/update', 'UpdateController@store');
+    Route::get('{session}', 'ViewController@view')->name('view');
+    Route::get('/', 'IndexController@index')->name('index');
+    Route::delete('{session}', 'DeleteController@delete');
+});
+
+//
 // accounts
 //
 Route::namespace('Accounts')->prefix('accounts/')->as('accounts.')->group(function () {

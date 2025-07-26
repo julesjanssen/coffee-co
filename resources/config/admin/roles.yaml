@@ -39,18 +39,9 @@
 - name: moderator
   title: 'Moderator'
   description: |
-    Can manage posts.
+    Can manage sessions.
   permissions:
-    - admin.posts.create
-    - admin.posts.view
-    - admin.posts.update
-    - admin.posts.delete
-
-- name: editor
-  title: 'Executive editor'
-  description: |
-    Can view & update existing posts.
-    Can not create or delete posts.
-  permissions:
-    - admin.posts.view
-    - admin.posts.update
+    - admin.game-sessions.create
+    - admin.game-sessions.view
+    - admin.game-sessions.update
+    - admin.game-sessions.delete
