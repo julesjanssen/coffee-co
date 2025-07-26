@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\GameSessions;
 
 use App\Http\Resources\Admin\GameSessionIndexResource;
-use App\Http\Resources\Admin\UserResource;
-use App\Models\Auth\Role;
 use App\Models\GameSession;
 use App\Models\Policies\GameSessionPolicy;
-use App\Models\Policies\UserPolicy;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -22,6 +18,7 @@ class IndexController
     {
         Gate::authorize(GameSessionPolicy::INDEX, GameSession::class);
 
+        /** @phpstan-ignore method.notFound */
         $results = GameSession::query()
             ->with(['scenario'])
             ->withExpression('scenario_groups', function ($query) {
