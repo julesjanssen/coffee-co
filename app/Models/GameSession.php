@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -48,6 +49,24 @@ class GameSession extends Model
         'created' => GameSessionCreated::class,
     ];
 
+    public static function booted()
+    {
+        self::creating(function ($model) {
+            if (empty($model->public_id)) {
+                while (true) {
+                    $model->public_id = Str::lower(Str::random());
+                    $exists = self::query()
+                        ->where('public_id', '=', $model->public_id)
+                        ->exists();
+
+                    if (! $exists) {
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
     /**
      * @return BelongsTo<Scenario, $this>
      */
@@ -72,7 +91,7 @@ class GameSession extends Model
         return $this->hasOne(GameFacilitator::class);
     }
 
-    /** @return Attribute<GameRound, never> */
+    /** @return Attribute<GameRound | null, never> */
     protected function currentRound(): Attribute
     {
         return Attribute::make(

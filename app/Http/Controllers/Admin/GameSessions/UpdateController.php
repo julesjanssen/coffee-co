@@ -5,21 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\GameSessions;
 
 use App\Http\Resources\Admin\GameSessionUpdateResource;
-use App\Http\Resources\Admin\UserResource;
-use App\Http\Resources\Admin\UserRoleResource;
-use App\Models\Auth\Role;
 use App\Models\GameSession;
 use App\Models\Policies\GameSessionPolicy;
 use App\Models\Scenario;
-use App\Models\User;
-use App\Notifications\AccountInvitation;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -52,12 +42,6 @@ class UpdateController
             'scenario_group_id' => $scenarioGroupID,
             'title' => $request->input('title'),
         ]);
-
-        if (! $session->exists) {
-            $session->fill([
-                'public_id' => Str::lower(Str::random()),
-            ]);
-        }
 
         $session->save();
 
