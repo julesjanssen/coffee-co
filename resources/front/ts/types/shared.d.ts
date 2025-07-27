@@ -1,22 +1,51 @@
 import type { ErrorBag, Errors } from '@inertiajs/core'
 
-// import type { NotificationType, RoundStatus, TeamStatus } from '/@front:shared/constants'
+import type { GameSessionRoundStatusType, GameSessionStatusType } from '/@front:shared/constants'
+
+type EnumObject = {
+  value: string
+  label: string
+}
 
 export type GameSession = {
-  currentRound: {
-    id: number
+  title: string
+  roundStatus: {
+    value: GameSessionRoundStatusType
+    label: string
   }
+  status: {
+    value: GameSessionStatusType
+    label: string
+  }
+  currentRound: {
+    display: string
+    isLastRoundOfYear: boolean
+  }
+  pausesAfterRound: boolean
   sse: {
     topic: string
   }
+}
+
+export type NavigationItem = {
+  label: string
+  href: string
+  disabled?: boolean
+  icon?: string
 }
 
 export type PageProps = {
   app: {
     env: string
     title: string
+    auth: {
+      type: 'facilitator' | 'participant'
+      sqid: string
+      role?: EnumObject
+    }
+    navigation: NavigationItem[]
   }
-  gameSession: GameSession
+  session: GameSession
 } & { errors: Errors & ErrorBag } & {
   notifications: Notification[]
 }

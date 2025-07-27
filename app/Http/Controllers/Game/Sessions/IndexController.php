@@ -15,6 +15,7 @@ class IndexController
     public function index(Request $request)
     {
         $sessions = GameSession::query()
+            ->with(['scenario'])
             ->whereIn('status', [
                 Status::PENDING,
                 Status::PLAYING,

@@ -91,12 +91,27 @@ class GameSession extends Model
         return $this->hasOne(GameFacilitator::class);
     }
 
+    /**
+     * @return HasMany<Project, $this>
+     */
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class)->chaperone('session');
+    }
+
     /** @return Attribute<GameRound | null, never> */
     protected function currentRound(): Attribute
     {
         return Attribute::make(
             get: fn() => empty($this->scenario_id) ? null : new GameRound($this->scenario, $this->current_round_id)
         )->shouldCache();
+    }
+
+    public function pause()
+    {
+        $this->settings->shouldPauseAfterCurrentRound = false;
+        $this->round_status = RoundStatus::PAUSED;
+        $this->save();
     }
 
     public function pickRelevantScenario(): ?Scenario

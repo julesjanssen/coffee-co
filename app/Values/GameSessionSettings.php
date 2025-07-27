@@ -18,7 +18,7 @@ final class GameSessionSettings implements Castable
 
     public int $maxProjectsPerClientPerYear = 2;
 
-    public int $secondsPerRound = 60;
+    public int $secondsPerRound = 10;
 
     public int $roundsToSubmitOffer = 10;
 
@@ -40,10 +40,6 @@ final class GameSessionSettings implements Castable
 
             $this->clientNpsStart = $clientNpsStart;
         }
-    }
-
-    public int $startYear {
-        get => $this->startYear ?? (int) date('Y') + 1;
     }
 
     // limit properties to explicitly defined set

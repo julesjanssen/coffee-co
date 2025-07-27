@@ -4,6 +4,7 @@
       <header>{{ title }}</header>
       <p v-if="description">{{ description }}</p>
     </div>
+
     <div class="actions">
       <template v-if="actions.length">
         <button
@@ -18,12 +19,14 @@
         </button>
       </template>
     </div>
-    <button type="button" class="close small link" @click="close()">
+
+    <button type="button" class="dismiss" @click="close()">
       <Icon name="x" />
       <span class="visually-hidden">{{ $t('Dismiss') }}</span>
     </button>
   </aside>
 </template>
+
 <script setup lang="ts">
 import type { ToastT } from 'vue-sonner'
 

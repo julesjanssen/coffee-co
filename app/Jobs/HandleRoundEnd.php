@@ -75,18 +75,26 @@ class HandleRoundEnd implements ShouldQueue
         if ($this->round->isLastRoundOfYear()) {
             $this->trackMarketShare();
         }
+
+        $this->session->update([
+            'round_status' => RoundStatus::PROCESSED,
+        ]);
     }
 
     private function postProcessing()
     {
-        $this->session->round_status = RoundStatus::PROCESSED;
+        $this->session->update([
+            'round_status' => RoundStatus::PROCESSED,
+        ]);
 
         if ($this->round->roundID >= $this->session->scenario->numberOfRounds()) {
-            $this->session->status = Status::FINISHED;
+            $this->session->update([
+                'status' => Status::FINISHED,
+            ]);
         }
 
         if ($this->session->settings->shouldPauseAfterCurrentRound) {
-            $this->session->round_status = RoundStatus::PAUSED;
+            $this->session->pause();
         } else {
             // start new round
             HandleRoundStart::dispatch($this->session, $this->round->next());

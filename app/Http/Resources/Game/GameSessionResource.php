@@ -25,10 +25,15 @@ class GameSessionResource extends JsonResource
             'sqid' => $this->sqid,
             'publicID' => $this->public_id,
             'title' => $this->title,
+            'roundStatus' => $this->round_status->toArray(),
             'status' => $this->status->toArray(),
-            'currentRoundID' => $this->current_round_id,
+            'currentRound' => $this->currentRound?->toArray(),
+            'pausesAfterRound' => $this->settings->shouldPauseAfterCurrentRound,
             'links' => [
                 'view' => route('game.sessions.view', [$this->public_id]),
+            ],
+            'sse' => [
+                'topic' => $this->topicUrl(),
             ],
         ];
     }

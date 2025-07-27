@@ -83,7 +83,7 @@ class Scenario extends Model
 
     public function years(): int
     {
-        return (int) $this->settings['years'];
+        return $this->settings->years;
     }
 
     public function numberOfRounds(): int

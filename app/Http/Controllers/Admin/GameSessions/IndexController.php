@@ -40,8 +40,6 @@ class IndexController
             ->simplePaginate(20)
             ->withQueryString();
 
-        // return GameSessionIndexResource::collection($results);
-
         return Inertia::render('game-sessions/index', [
             'results' => GameSessionIndexResource::collection($results)
                 ->additional([

@@ -12,6 +12,10 @@ use InvalidArgumentException;
 
 final class ScenarioSettings implements Castable
 {
+    public int $startYear {
+        get => $this->startYear ?? (int) date('Y') + 1;
+    }
+
     public int $years = 6;
 
     // limit properties to explicitly defined set

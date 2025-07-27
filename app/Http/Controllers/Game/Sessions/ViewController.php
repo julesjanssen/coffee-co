@@ -26,7 +26,7 @@ class ViewController
 
         $facilitator = Auth::guard('facilitator')->user();
         if (! empty($facilitator)) {
-            return redirect()->route('game.base');
+            return redirect()->route('game.facilitator.status');
         }
 
         return Inertia::render('game/sessions/view', [

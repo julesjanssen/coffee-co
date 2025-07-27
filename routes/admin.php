@@ -29,7 +29,7 @@ Route::namespace('GameSessions')->prefix('game-sessions/')->as('game-sessions.')
     Route::post('{session}/update', 'UpdateController@store');
     Route::get('{session}', 'ViewController@view')->name('view');
     Route::get('/', 'IndexController@index')->name('index');
-    Route::delete('{session}', 'DeleteController@delete');
+    // Route::delete('{session}', 'DeleteController@delete');
 });
 
 //

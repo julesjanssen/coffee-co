@@ -6,6 +6,7 @@ namespace App\Values;
 
 use App\Models\Scenario;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Facades\Date;
 
 class GameRound implements Arrayable
 {
@@ -59,7 +60,9 @@ class GameRound implements Arrayable
 
     public function year()
     {
-        return (int) ceil($this->roundID / self::ROUNDS_PER_YEAR);
+        $startYear = $this->scenario->settings->startYear - 1;
+
+        return $startYear + (int) ceil($this->roundID / self::ROUNDS_PER_YEAR);
     }
 
     public function previous()
@@ -82,21 +85,16 @@ class GameRound implements Arrayable
 
     public function display()
     {
-        return vsprintf('Y%d M%d', [
-            $this->year(),
-            $this->month(),
-        ]);
+        $date = Date::createFromDate($this->year(), $this->month(), 1);
+
+        return $date->isoFormat('MMM YYYY');
     }
 
     public function toArray()
     {
         return [
-            'id' => $this->roundID,
-            'month' => $this->month(),
-            'year' => $this->year(),
             'display' => $this->display(),
-            'isFirstRound' => $this->isFirstRound(),
-            'isFirstRoundOfYear' => $this->isFirstRoundOfYear(),
+            'isLastRoundOfYear' => $this->isLastRoundOfYear(),
         ];
     }
 }

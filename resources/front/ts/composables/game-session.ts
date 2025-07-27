@@ -5,11 +5,12 @@ import type { PageProps } from '/@front:types/shared'
 
 export function useGameSession() {
   const props = computed(() => usePage<PageProps>().props)
-  const session = computed(() => props.value?.gameSession)
-  const participant = computed(() => props.value?.participant)
+  const session = computed(() => props.value?.session)
+  const auth = computed(() => props.value?.app.auth)
 
   return {
-    participant,
+    auth,
+    session,
     currentRound: computed(() => session.value?.currentRound),
   }
 }

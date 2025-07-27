@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
 use App\Enums\Queue;
+use App\Events\GameSessionRoundStatusUpdated;
 use App\Models\GameSession;
 use App\Values\GameRound;
 use Illuminate\Bus\Queueable;
@@ -65,8 +66,11 @@ class HandleRoundStart implements ShouldQueue
             $this->session->settings->shouldPauseAfterCurrentRound = true;
         }
 
+        $this->session->round_status = RoundStatus::ACTIVE;
         $this->session->current_round_id = $this->round->roundID;
         $this->session->save();
+
+        GameSessionRoundStatusUpdated::dispatch($this->session);
 
         HandleRoundEnd::dispatch($this->session, $this->round)->delay($this->session->settings->secondsPerRound);
     }

@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware\Game;
 
+use App\Http\Resources\Game\GameFacilitatorResource;
+use App\Http\Resources\Game\GameParticipantResource;
+use App\Models\GameFacilitator;
+use App\Models\GameParticipant;
+use App\Support\Game\Navigation\Navigation;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -46,18 +52,41 @@ class HandleInertiaRequests extends Middleware
                 'env' => config('app.env'),
                 'title' => config('app.title'),
                 'navigation' => fn() => $this->navigation($request),
-                'account' => fn() => $this->account($request),
+                'auth' => fn() => $this->auth($request),
             ],
         ]);
     }
 
     private function navigation(Request $request)
     {
-        return [];
+        $user = $request->user();
+        if (! $this->isGameAuthenticatable($user)) {
+            return [];
+        }
+
+        return Navigation::forAuthenticatable($user);
     }
 
-    private function account(Request $request)
+    private function auth(Request $request)
     {
-        return [];
+        $user = $request->user();
+        if (! $this->isGameAuthenticatable($user)) {
+            return [];
+        }
+
+        if ($user instanceof GameParticipant) {
+            return GameParticipantResource::make($user);
+        }
+
+        return GameFacilitatorResource::make($user);
+    }
+
+    private function isGameAuthenticatable(?Authenticatable $user = null)
+    {
+        if (is_null($user)) {
+            return false;
+        }
+
+        return ($user instanceof GameParticipant || $user instanceof GameFacilitator);
     }
 }

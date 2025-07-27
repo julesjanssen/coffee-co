@@ -46,9 +46,18 @@ class HandleGameSessionStart implements ShouldQueue
 
     private function process()
     {
+        $scenario = $this->session->pickRelevantScenario();
+
+        $this->session->update([
+            'status' => Status::PLAYING,
+            'scenario_id' => $scenario->id,
+        ]);
+
+        $this->session->refresh();
+
         $round = new GameRound($this->session->scenario, 1);
 
-        HandleRoundStart::dispatch($this->session, $round);
+        HandleRoundStart::dispatchSync($this->session, $round);
     }
 
     private function getReservationKey()

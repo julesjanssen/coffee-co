@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
+use App\Models\GameSession;
 use App\Models\User;
 use App\Support\Multitenancy\DatabaseSessionManager;
 use Carbon\CarbonImmutable;
@@ -59,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
             'user' => User::class,
             'game-participant' => GameParticipant::class,
             'game-facilitator' => GameFacilitator::class,
+            'game-session' => GameSession::class,
         ]);
 
         Model::preventLazyLoading(! $this->app->isProduction());
@@ -117,7 +119,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureRequestFacilitatorMacro()
     {
-        Request::macro('participant', function (): GameFacilitator {
+        Request::macro('facilitator', function (): GameFacilitator {
             /** @var Request $this */
             /** @var User|GameFacilitator $user */
             $user = $this->user();
