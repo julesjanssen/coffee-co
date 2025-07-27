@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([
     Authenticate::using('participant,facilitator'),
-])->get('logout', [LogoutController::class, 'store'])->name('logout');
+])->post('logout', [LogoutController::class, 'store'])->name('logout');
 
 Route::get('sessions', [IndexController::class, 'index'])->name('sessions.index');
 Route::get('sessions/{session}', [ViewController::class, 'view'])->name('sessions.view');

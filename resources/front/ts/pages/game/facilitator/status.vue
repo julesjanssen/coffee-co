@@ -1,7 +1,7 @@
 <template>
   <Head :title="session?.title" />
 
-  <div>
+  <main class="facilitator status">
     <div v-if="isSessionPending">
       <button type="button" @click.prevent="startSession">start session</button>
     </div>
@@ -23,7 +23,7 @@
     </div>
     <!-- <pre>{{ session }}</pre> -->
     <!-- <pre>{{ links }}</pre> -->
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
