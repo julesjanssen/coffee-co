@@ -6,7 +6,7 @@
       <h1>{{ appTitle }}</h1>
 
       <div class="round">
-        <span v-if="session.roundStatus.value === 'paused'">
+        <span v-if="isPaused">
           {{ session.roundStatus.label }}
         </span>
         {{ session.currentRound?.display }}
@@ -25,7 +25,7 @@
       </div>
     </header>
 
-    <div class="navigation">
+    <div v-if="!isPausedNotFacilitator" class="navigation">
       <nav>
         <ul>
           <li v-for="item in navigation" :key="`nav-${item.href}`">
@@ -41,7 +41,12 @@
     </div>
 
     <div class="main-wrapper">
-      <slot />
+      <div v-if="isPausedNotFacilitator">
+        <strong>PAUSED</strong>
+        <PauseMessage />
+      </div>
+
+      <slot v-else />
       <!-- <pre>{{ auth }}</pre> -->
     </div>
   </div>
@@ -54,6 +59,7 @@ import { computed } from 'vue'
 import { Toaster } from 'vue-sonner'
 
 import Dropdown from '/@front:components/Dropdown.vue'
+import PauseMessage from '/@front:components/PauseMessage.vue'
 import { useServerSentEvents } from '/@front:composables/server-sent-events'
 import { $t } from '/@front:shared/i18n'
 import type { PageProps } from '/@front:types/shared'
@@ -66,6 +72,11 @@ const auth = computed(() => page.props.app.auth)
 const appTitle = computed(() => appProps.value.title)
 const navigation = computed(() => appProps.value.navigation || [])
 const session = computed(() => page.props.session)
+
+const isPaused = computed(() => session.value.roundStatus.value === 'paused')
+const isFacilitator = computed(() => auth.value.type === 'facilitator')
+const isPausedNotFacilitator = computed(() => isPaused.value && !isFacilitator.value)
+
 const authLabel = computed(() => {
   if (auth.value.type === 'facilitator') {
     return $t('facilitator')

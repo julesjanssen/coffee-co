@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
-
 import GameLayout from '/@front:layouts/game.vue'
 
 defineOptions({

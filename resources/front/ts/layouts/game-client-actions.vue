@@ -26,7 +26,8 @@
     </header>
 
     <div class="main-wrapper">
-      <slot />
+      <div v-if="session.roundStatus.value === 'paused'">paused</div>
+      <slot v-else />
     </div>
   </div>
 
