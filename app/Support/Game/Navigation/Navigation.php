@@ -4,21 +4,40 @@ declare(strict_types=1);
 
 namespace App\Support\Game\Navigation;
 
+use App\Enums\Participant\Role;
 use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
+use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 
-class Navigation implements Arrayable
+abstract class Navigation implements Arrayable
 {
     protected function __construct(
         protected Request $request,
         protected GameParticipant|GameFacilitator $auth,
     ) {}
 
-    public static function forAuthenticatable(GameParticipant|GameFacilitator $auth): self
+    public static function forAuthenticatable(Request $request, GameParticipant|GameFacilitator $auth): self
     {
-        return new self(request(), $auth);
+        if ($auth instanceof GameFacilitator) {
+            return new Facilitator($request, $auth);
+        }
+
+        switch ($auth->role) {
+            case Role::SALES_1:
+            case Role::SALES_2:
+            case Role::SALES_3:
+            case Role::TECHNICAL_1:
+            case Role::TECHNICAL_2:
+                return new EmptyNav($request, $auth);
+
+            case Role::BACKOFFICE_1:
+                return new BackOffice($request, $auth);
+
+            default:
+                throw new Exception('not implemented');
+        }
     }
 
     /**
@@ -29,19 +48,5 @@ class Navigation implements Arrayable
      *     icon?: string
      * }>
      */
-    public function toArray()
-    {
-        return [
-            [
-                'disabled' => false,
-                'label' => __('navigation:status'),
-                'href' => route('game.facilitator.status'),
-            ],
-            [
-                'disabled' => true,
-                'label' => __('navigation:mmma'),
-                'href' => route('game.facilitator.mmma'),
-            ],
-        ];
-    }
+    abstract public function toArray(): array;
 }

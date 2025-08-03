@@ -64,7 +64,7 @@ class HandleInertiaRequests extends Middleware
             return [];
         }
 
-        return Navigation::forAuthenticatable($user);
+        return Navigation::forAuthenticatable($request, $user);
     }
 
     private function auth(Request $request)
