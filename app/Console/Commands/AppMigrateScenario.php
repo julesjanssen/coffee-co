@@ -147,14 +147,10 @@ class AppMigrateScenario extends Command
         $clientID = $this->clientIdMap[$record->client_id];
         $description = json_decode($record->description, true);
         $requirements = collect(json_decode($record->requirements, true))
-            ->mapWithKeys(function ($v, $k) {
-                return [Str::camel($k) => $v];
-            })
+            ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
         $data = collect(json_decode($record->data, true))
-            ->mapWithKeys(function ($v, $k) {
-                return [Str::camel($k) => $v];
-            })
+            ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
 
         $request = ScenarioRequest::create([
