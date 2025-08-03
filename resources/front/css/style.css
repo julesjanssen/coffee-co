@@ -1,16 +1,22 @@
 @layer reset, theme, global, components, layout, utilities;
 
-/*@import url('reset.css') layer(reset);*/
+/* @import url('reset.css') layer(reset); */
 
 @import url('fonts.css') layer(theme);
 
-/*@import url('theme.css') layer(theme);*/
- /*@import url('global.css') layer(global);*/
+/* @import url('theme.css') layer(theme); */
 
- /*@import url('layout.css') layer(layout);*/
+/* @import url('global.css') layer(global); */
+
+/* @import url('layout.css') layer(layout); */
 
 /* @import url('transitions.css') layer(utilities); */
- /*@import url('utilities.css') layer(utilities);*/
+
+/* @import url('utilities.css') layer(utilities); */
+
+::view-transition-group(root) {
+  animation-duration: 0.0001s;
+}
 
 html {
   font-family: 'Departure Mono', system-ui;
