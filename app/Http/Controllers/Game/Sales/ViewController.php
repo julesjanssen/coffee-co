@@ -11,12 +11,10 @@ class ViewController
 {
     public function view(Request $request)
     {
-        $participant = $request->participant();
-
         $actions = [
             [
                 'label' => 'sales relation visit',
-                'href' => route('game.sales.relation-visit'),
+                'href' => route('game.sales.relation-visit.view'),
             ],
             [
                 'label' => 'sales request visit',

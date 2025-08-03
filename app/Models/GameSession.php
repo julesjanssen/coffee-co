@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\GameSession\Flow;
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
 use App\Events\GameSessionCreated;
@@ -104,7 +105,23 @@ class GameSession extends Model
     {
         return Attribute::make(
             get: fn() => empty($this->scenario_id) ? null : new GameRound($this->scenario, $this->current_round_id)
-        )->shouldCache();
+        );
+    }
+
+    /** @return Attribute<int | null, never> */
+    protected function currentYear(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->currentRound?->year()
+        );
+    }
+
+    /** @return Attribute<Flow, never> */
+    protected function flow(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->settings->flow
+        );
     }
 
     public function pause()

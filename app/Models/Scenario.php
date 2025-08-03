@@ -63,6 +63,14 @@ class Scenario extends Model
         return $this->hasMany(ScenarioRequest::class, 'scenario_id', 'id');
     }
 
+    /**
+     * @return HasMany<ScenarioTip, $this>
+     */
+    public function tips(): HasMany
+    {
+        return $this->hasMany(ScenarioTip::class, 'scenario_id', 'id');
+    }
+
     public static function selectByGroup()
     {
         /** @phpstan-ignore method.notFound */

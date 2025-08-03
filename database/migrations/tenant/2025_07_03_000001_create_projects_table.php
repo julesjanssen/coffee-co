@@ -16,13 +16,14 @@ return new class extends Migration {
             $table->id();
             $table->unsignedInteger('game_session_id')->index();
             $table->unsignedInteger('request_id')->index();
-            $table->unsignedInteger('solution_id')->index();
+            $table->unsignedInteger('solution_id')->index()->nullable();
             $table->unsignedInteger('client_id')->index();
             $table->string('status', 20)->index();
             $table->unsignedInteger('price');
             $table->unsignedTinyInteger('failure_chance');
             $table->unsignedTinyInteger('downtime');
-            $table->unsignedTinyInteger('location');
+            $table->string('location', 20);
+            $table->json('settings');
             $table->unsignedTinyInteger('request_round_id')->nullable();
             $table->unsignedTinyInteger('quote_round_id')->nullable();
             $table->unsignedTinyInteger('delivery_round_id')->nullable();

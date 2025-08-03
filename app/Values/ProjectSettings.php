@@ -4,54 +4,17 @@ declare(strict_types=1);
 
 namespace App\Values;
 
-use App\Enums\GameSession\Flow;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
-final class GameSessionSettings implements Castable
+final class ProjectSettings implements Castable
 {
-    public bool $shouldPauseAfterCurrentRound = false;
+    public bool $labConsultingApplied = false;
 
-    public int $failChanceIncreasePerRound = 2;
-
-    public int $maxProjectsPerClientPerYear = 2;
-
-    public int $secondsPerRound = 10;
-
-    public int $roundsToSubmitOffer = 10;
-
-    public int $roundsToDeliverProject = 6;
-
-    public int $costLabconsultingRequestVisit = 5;
-
-    public int $costLabconsultingOffer = 25;
-
-    public Flow $flow {
-        set(string|Flow $value) {
-            $this->flow = Flow::coerce($value);
-        }
-
-        get => $this->flow ?? Flow::MEDIUM;
-    }
-
-    public int $clientNpsStart {
-        set(?int $clientNpsStart) {
-            if (is_null($clientNpsStart)) {
-                $clientNpsStart = 60;
-            }
-
-            if ($clientNpsStart < 0 || $clientNpsStart > 100) {
-                throw new InvalidArgumentException('Client NPS start should be between 0 & 100');
-            }
-
-            $this->clientNpsStart = $clientNpsStart;
-        }
-
-        get => $this->clientNpsStart ?? 60;
-    }
+    public bool $labConsultingIncluded = false;
 
     // limit properties to explicitly defined set
     public function __set(string $name, mixed $value): void
@@ -78,7 +41,7 @@ final class GameSessionSettings implements Castable
                 string $key,
                 mixed $value,
                 array $attributes,
-            ): ?GameSessionSettings {
+            ): ?ProjectSettings {
                 if (! isset($attributes[$key])) {
                     return null;
                 }
@@ -89,7 +52,7 @@ final class GameSessionSettings implements Castable
                     return null;
                 }
 
-                return GameSessionSettings::fromArray($data);
+                return ProjectSettings::fromArray($data);
             }
 
             public function set(

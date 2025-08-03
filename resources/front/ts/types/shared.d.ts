@@ -27,6 +27,13 @@ export type GameSession = {
   }
 }
 
+export type Project = any
+
+export type ScenarioClient = {
+  href: string
+  title: string
+}
+
 export type NavigationItem = {
   label: string
   href: string

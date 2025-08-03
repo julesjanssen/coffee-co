@@ -33,7 +33,7 @@
   <Toaster :expand="true" />
 </template>
 <script setup lang="ts">
-import { Head, Link, router, usePage } from '@inertiajs/vue3'
+import { Head, router, usePage } from '@inertiajs/vue3'
 import { computed, onUnmounted } from 'vue'
 import { Toaster } from 'vue-sonner'
 
@@ -62,19 +62,23 @@ const logout = () => {
 }
 
 if (document.startViewTransition) {
-    function handleInertiaStart() {
-        document.startViewTransition(async () => {
-            return new Promise((resolve) => {
-                document.addEventListener("inertia:finish", () => {
-                  resolve();
-                }, { once: true })
-            });
-        });
-    }
+  function handleInertiaStart() {
+    document.startViewTransition(async (): Promise<void> => {
+      return new Promise((resolve) => {
+        document.addEventListener(
+          'inertia:finish',
+          () => {
+            resolve()
+          },
+          { once: true },
+        )
+      })
+    })
+  }
 
-    document.addEventListener("inertia:start", handleInertiaStart);
-    onUnmounted(() => {
-        document.removeEventListener("inertia:start", handleInertiaStart);
-    });
+  document.addEventListener('inertia:start', handleInertiaStart)
+  onUnmounted(() => {
+    document.removeEventListener('inertia:start', handleInertiaStart)
+  })
 }
 </script>

@@ -27,7 +27,7 @@ enum Flow: string
         };
     }
 
-    public function mazeIdForScore(int $score)
+    public function mazeIdForScore(int $score = 100)
     {
         return match ($this) {
             self::LOW => 2,

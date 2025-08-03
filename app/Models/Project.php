@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Project\Location;
 use App\Enums\Project\Status;
 use App\Values\GameRound;
+use App\Values\ProjectSettings;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -26,12 +28,16 @@ class Project extends Model
         'price' => 'int',
         'failure_chance' => 'int',
         'downtime' => 'int',
-        'location' => 'int',
+        'location' => Location::class,
+        'settings' => ProjectSettings::class,
     ];
 
-    protected $attributes = [];
-
-    public $timestamps = false;
+    protected $attributes = [
+        'status' => Status::PENDING,
+        'failure_chance' => 0,
+        'downtime' => 0,
+        'settings' => '[]',
+    ];
 
     /**
      * @return BelongsTo<GameSession, $this>
@@ -66,9 +72,15 @@ class Project extends Model
     }
 
     #[Scope]
-    protected function whereInYear(Builder $query, int $year)
+    protected function whereRequestedInYear(Builder $query, int $year)
     {
-        $query->whereIn('round_id', GameRound::getRangeForYear($year));
+        $query->whereIn('request_round_id', GameRound::getRangeForYear($year));
+    }
+
+    #[Scope]
+    protected function whereClient(Builder $query, ScenarioClient $client)
+    {
+        $query->where('client_id', '=', $client->id);
     }
 
     /** @return Attribute<string, never> */

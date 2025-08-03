@@ -1,6 +1,10 @@
 <template>
   <Head :title="$t('sessions')" />
 
+  <div v-if="sessions.length === 0" class="empty">
+    <p>No active games available</p>
+  </div>
+
   <div>
     <ul>
       <li v-for="session in sessions" :key="session.sqid">

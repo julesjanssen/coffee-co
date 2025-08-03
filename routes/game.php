@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
+use App\Enums\Participant\Role;
 use App\Http\Controllers\Game\BackOffice\ViewController as BackOfficeViewController;
 use App\Http\Controllers\Game\Facilitator\Round\StatusController as FacilitatorRoundStatusController;
 use App\Http\Controllers\Game\Facilitator\Session\SettingsController;
 use App\Http\Controllers\Game\Facilitator\Session\StatusController as SessionStatusController;
 use App\Http\Controllers\Game\Facilitator\StatusController;
 use App\Http\Controllers\Game\LogoutController;
-use App\Http\Controllers\Game\Sales\RequestVisitController;
-use App\Http\Controllers\Game\Sales\ViewController as SalesViewController;
 use App\Http\Controllers\Game\Sessions\IndexController;
 use App\Http\Controllers\Game\Sessions\ViewController;
 use App\Http\Controllers\Game\ViewController as GameViewController;
 use App\Http\Middleware\Game\GameSession;
+use App\Http\Middleware\Game\ParticipantRole;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -35,14 +35,34 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
-])->prefix('sales/')->as('sales.')->group(function () {
-    Route::get('/', [SalesViewController::class, 'view'])->name('view');
-    Route::get('/relation-visit', [])->name('relation-visit');
+    ParticipantRole::roles([Role::SALES_1, Role::SALES_2, Role::SALES_3]),
+])->namespace('Sales')->prefix('sales/')->as('sales.')->group(function () {
+    Route::get('/', 'ViewController@view')->name('view');
 
-    Route::prefix('request-visit/')->as('request-visit.')->group(function() {
-        Route::get('/', [RequestVisitController::class, 'view'])->name('view');
-        Route::get('{client}', [RequestVisitController::class, 'client'])->name('client');
-    });
+    Route::prefix('relation-visit/')
+        ->namespace('RelationVisit')
+        ->as('relation-visit.')->group(function () {
+            Route::get('/', 'ViewController@view')->name('view');
+            Route::post('{client}', 'ClientController@store');
+            Route::get('{client}', 'ClientController@view')->name('client');
+        });
+
+    Route::prefix('request-visit/')
+        ->namespace('RequestVisit')
+        ->as('request-visit.')->group(function () {
+            Route::get('/', 'ViewController@view')->name('view');
+            Route::post('{client}', 'ClientController@store');
+            Route::get('{client}', 'ClientController@view')->name('client');
+            Route::post('{client}/quiz', 'QuizController@store');
+            Route::get('{client}/quiz', 'QuizController@view')->name('quiz');
+            Route::get('{client}/no-requests', 'NoRequestsController@view')->name('no-requests');
+        });
+
+    Route::prefix('projects/')
+        ->namespace('Projects')
+        ->as('projects.')->group(function () {
+            Route::get('{project}', 'ViewController@view')->name('view');
+        });
 });
 
 Route::middleware([
