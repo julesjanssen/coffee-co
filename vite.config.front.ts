@@ -18,6 +18,7 @@ export default defineConfig(({ command }) => {
         hotFile: 'public/hot-front',
         buildDirectory: base,
         input: [resolve(__dirname, 'resources/front/ts/app.ts')],
+        detectTls: 'incontext-coffeeco.test',
       }),
       vue({
         template: {
