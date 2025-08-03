@@ -1,6 +1,4 @@
 <template>
-  <Head :title="session.title" />
-
   <div>
     <p>
       Lorem ipsum dolor sit amet, <strong>{{ session.title }}</strong> consectetur adipisicing elit, sed do eiusmod
@@ -15,11 +13,11 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 
-// import GameLayout from '/@front:layouts/game.vue'
+import GameLayout from '/@front:layouts/game.vue'
 
-// defineOptions({
-//   layout: [GameLayout],
-// })
+defineOptions({
+  layout: [GameLayout],
+})
 
 defineProps<{
   authenticatable: any

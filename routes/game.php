@@ -8,6 +8,8 @@ use App\Http\Controllers\Game\Facilitator\Session\SettingsController;
 use App\Http\Controllers\Game\Facilitator\Session\StatusController as SessionStatusController;
 use App\Http\Controllers\Game\Facilitator\StatusController;
 use App\Http\Controllers\Game\LogoutController;
+use App\Http\Controllers\Game\Sales\RequestVisitController;
+use App\Http\Controllers\Game\Sales\ViewController as SalesViewController;
 use App\Http\Controllers\Game\Sessions\IndexController;
 use App\Http\Controllers\Game\Sessions\ViewController;
 use App\Http\Controllers\Game\ViewController as GameViewController;
@@ -28,6 +30,15 @@ Route::middleware([
     GameSession::class,
 ])->group(function () {
     Route::get('/', [GameViewController::class, 'view'])->name('base');
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
+])->prefix('sales/')->as('sales.')->group(function () {
+    Route::get('/', [SalesViewController::class, 'view'])->name('view');
+    Route::get('/relation-visit', [])->name('relation-visit');
+    Route::get('/request-visit', [RequestVisitController::class, 'view'])->name('request-visit');
 });
 
 Route::middleware([
