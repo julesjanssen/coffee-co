@@ -17,6 +17,7 @@ use App\Models\ScenarioClient;
 use App\Models\ScenarioProduct;
 use App\Models\ScenarioRequest;
 use App\Models\ScenarioRequestSolution;
+use App\Models\ScenarioTip;
 use App\Models\Tenant;
 use App\Values\ScenarioSettings;
 use Illuminate\Console\Command;
@@ -39,7 +40,7 @@ class AppMigrateScenario extends Command
      */
     protected $description = '';
 
-    private Locale $locale = Locale::IT;
+    private Locale $locale = Locale::EN;
 
     private array $clientIdMap = [];
 
@@ -55,7 +56,7 @@ class AppMigrateScenario extends Command
         Tenant::find(1)->makeCurrent();
 
         $scenario = Scenario::create([
-            'group_id' => 1,
+            'group_id' => $this->locale->is(Locale::EN) ? 1 : 2,
             'title' => 'Original',
             'locale' => $this->locale,
             'settings' => ScenarioSettings::fromArray([]),
@@ -70,6 +71,7 @@ class AppMigrateScenario extends Command
         $this->migrateProducts($scenario);
         $this->migrateRequests($scenario);
         $this->migrateSolutions($scenario);
+        $this->migrateTips($scenario);
     }
 
     private function migrateClients(Scenario $scenario)
@@ -193,6 +195,24 @@ class AppMigrateScenario extends Command
             'product_ids' => $productIDs,
             'score' => $record->customerdecisionpoints,
             'is_optimal' => $isOptimal,
+        ]);
+    }
+
+    private function migrateTips(Scenario $scenario)
+    {
+        $this->oldDB()
+            ->table('tips')
+            ->get()
+            ->each(fn($v) => $this->migrateTip($scenario, $v));
+    }
+
+    private function migrateTip(Scenario $scenario, object $record)
+    {
+        $text = json_decode($record->text, true);
+
+        ScenarioTip::create([
+            'scenario_id' => $scenario->id,
+            'content' => $text[$this->locale->value],
         ]);
     }
 
