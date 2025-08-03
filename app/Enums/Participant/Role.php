@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\Participant;
 
 use App\Traits\EnumHelpers;
+use Illuminate\Support\Str;
 
 enum Role: string
 {
@@ -44,5 +45,10 @@ enum Role: string
             self::BACKOFFICE_1 => __('participants-role:backoffice-1'),
             self::MATERIALS_1 => __('participants-role:material-1'),
         };
+    }
+
+    public function playerID(): int
+    {
+        return (int) Str::afterLast($this->value, '-') ?: 1;
     }
 }
