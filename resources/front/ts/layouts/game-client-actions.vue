@@ -34,7 +34,7 @@
 </template>
 <script setup lang="ts">
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { computed, onUnmounted } from 'vue'
 import { Toaster } from 'vue-sonner'
 
 import Dropdown from '/@front:components/Dropdown.vue'
@@ -59,5 +59,22 @@ const authLabel = computed(() => {
 
 const logout = () => {
   router.post('/game/logout')
+}
+
+if (document.startViewTransition) {
+    function handleInertiaStart() {
+        document.startViewTransition(async () => {
+            return new Promise((resolve) => {
+                document.addEventListener("inertia:finish", () => {
+                  resolve();
+                }, { once: true })
+            });
+        });
+    }
+
+    document.addEventListener("inertia:start", handleInertiaStart);
+    onUnmounted(() => {
+        document.removeEventListener("inertia:start", handleInertiaStart);
+    });
 }
 </script>

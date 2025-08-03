@@ -38,7 +38,11 @@ Route::middleware([
 ])->prefix('sales/')->as('sales.')->group(function () {
     Route::get('/', [SalesViewController::class, 'view'])->name('view');
     Route::get('/relation-visit', [])->name('relation-visit');
-    Route::get('/request-visit', [RequestVisitController::class, 'view'])->name('request-visit');
+
+    Route::prefix('request-visit/')->as('request-visit.')->group(function() {
+        Route::get('/', [RequestVisitController::class, 'view'])->name('view');
+        Route::get('{client}', [RequestVisitController::class, 'client'])->name('client');
+    });
 });
 
 Route::middleware([

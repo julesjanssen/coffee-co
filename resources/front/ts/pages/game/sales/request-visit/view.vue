@@ -1,14 +1,12 @@
 <template>
-  <div v-if="noClientSelected" class="select-client">
+  <div class="select-client">
     <ul>
-      <li v-for="client in clients" :key="client.sqid" v-on:click.prevent="selectClient(client)">
-        {{ client.title }}
+      <li v-for="client in clients" :key="client.href" >
+        <Link :href="client.href">
+          {{ client.title }}
+        </Link>
       </li>
     </ul>
-  </div>
-
-  <div v-else-if="true">
-    <pre>{{ client }}</pre>
   </div>
 </template>
 
@@ -20,7 +18,7 @@ import GameLayout from '/@front:layouts/game-client-actions.vue'
 import { http } from '/@front:shared/http'
 
 type Client = {
-  sqid: string
+  href: string
   title: string
 }
 
@@ -33,9 +31,9 @@ defineProps<{
 }>()
 
 const client = ref<Client | undefined>()
-const noClientSelected = computed(() => ! client.value)
+// const noClientSelected = computed(() => ! client.value)
 
-const selectClient = (c: Client) => {
-  client.value = c
-}
+// const selectClient = (c: Client) => {
+//   client.value = c
+// }
 </script>

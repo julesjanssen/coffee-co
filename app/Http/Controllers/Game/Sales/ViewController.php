@@ -20,7 +20,7 @@ class ViewController
             ],
             [
                 'label' => 'sales request visit',
-                'href' => route('game.sales.request-visit'),
+                'href' => route('game.sales.request-visit.view'),
             ],
         ];
 

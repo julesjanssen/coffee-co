@@ -6,39 +6,42 @@ namespace App\Http\Controllers\Game\Sales;
 
 use App\Http\Resources\Game\ScenarioClientResource;
 use App\Models\GameParticipant;
+use App\Models\ScenarioClient;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RequestVisitController
 {
     public function view(Request $request)
     {
         $participant = $request->participant();
-        $clients = $this->listClients($participant);
+        $clients = $this->listClients($participant)
+            ->map(fn($client) => [
+                'title' => $client->title,
+                'href' => route('game.sales.request-visit.client', [$client->sqid]),
+            ]);
 
-        // $requests = $clients->first()->listAvailableRequestForGameSession($participant->session);
-
-        return Inertia::render('game/sales/request-visit', [
-            'clients' => ScenarioClientResource::collection($clients),
+        return Inertia::render('game/sales/request-visit/view', [
+            'clients' => $clients,
         ]);
     }
 
-    public function details(Request $request)
-    {
-        if ($request->filled('client')) {
-            return $this->getClientDetails($request);
-        }
-    }
-
-    public function getClientDetails(Request $request)
+    public function client(Request $request, ScenarioClient $client)
     {
         $participant = $request->participant();
+        $clients = $this->listClients($participant);
 
-        $client = $participant
-            ->session->scenario->clients()
-            ->whereSqid($request->input('client'));
+        if (! $clients->contains($client)) {
+            throw new BadRequestHttpException;
+        }
 
-        dd($client);
+        $requests = $client->listAvailableRequestForGameSession($participant->session);
+
+        return Inertia::render('game/sales/request-visit/client', [
+            'client' => $client,
+            'requests' => $requests,
+        ]);
     }
 
     private function listClients(GameParticipant $participant)

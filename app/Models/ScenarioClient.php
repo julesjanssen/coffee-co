@@ -55,7 +55,7 @@ class ScenarioClient extends Model
             ->whereColumn('projects.request_id', 'scenario_requests.id')
             ->getQuery();
 
-        $session->scenario->requests()
+        return $session->scenario->requests()
             ->whereNotExists($projects)
             ->where('client_id', '=', $this->id)
             ->where('delay', '<=', $session->current_round_id)
