@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -45,14 +46,22 @@ class ScenarioRequest extends Model
      */
     public function client(): HasOne
     {
-        return $this->hasOne(ScenarioClient::class, 'client_id', 'id');
+        return $this->hasOne(ScenarioClient::class, 'id', 'client_id');
+    }
+
+    /**
+     * @return HasMany<ScenarioRequestSolution, $this>
+     */
+    public function solutions(): HasMany
+    {
+        return $this->hasMany(ScenarioRequestSolution::class, 'request_id', 'id');
     }
 
     /** @return Attribute<string, never> */
     protected function title(): Attribute
     {
         return Attribute::make(
-            get: fn() => 'test title',
+            get: fn() => $this->description,
         );
     }
 }

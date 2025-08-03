@@ -96,4 +96,12 @@ class Project extends Model
             }
         )->shouldCache();
     }
+
+    public function shouldBeQuotedBy()
+    {
+        $requestedRoundID = $this->request_round_id;
+        $roundsToSubmitOffer = $this->session->settings->roundsToSubmitOffer;
+
+        return new GameRound($this->session->scenario, ($requestedRoundID + $roundsToSubmitOffer));
+    }
 }
