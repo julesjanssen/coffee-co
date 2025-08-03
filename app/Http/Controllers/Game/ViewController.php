@@ -32,6 +32,12 @@ class ViewController
             return redirect()->route('game.sales.view');
         }
 
+        if ($participant->role->in([
+            Role::BACKOFFICE_1,
+        ])) {
+            return redirect()->route('game.backoffice.view');
+        }
+
         $session = $participant->session;
         // dd($session->settings);
 

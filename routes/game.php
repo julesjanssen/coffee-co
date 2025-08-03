@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Enums\Participant\Role;
-use App\Http\Controllers\Game\BackOffice\ViewController as BackOfficeViewController;
 use App\Http\Controllers\Game\Facilitator\Round\StatusController as FacilitatorRoundStatusController;
 use App\Http\Controllers\Game\Facilitator\Session\SettingsController;
 use App\Http\Controllers\Game\Facilitator\Session\StatusController as SessionStatusController;
@@ -68,8 +67,17 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
-])->prefix('backoffice/')->as('backoffice.')->group(function () {
-    Route::get('/', [BackOfficeViewController::class, 'view'])->name('view');
+    ParticipantRole::roles([Role::BACKOFFICE_1]),
+])->namespace('BackOffice')->prefix('backoffice/')->as('backoffice.')->group(function () {
+    Route::get('/', 'ViewController@view')->name('view');
+    Route::get('results', 'ResultsController@view')->name('results');
+
+    Route::prefix('projects/')
+        ->namespace('Projects')
+        ->as('projects.')->group(function () {
+            Route::get('/', 'IndexController@index')->name('index');
+            Route::get('{project}', 'ViewController@view')->name('view');
+        });
 });
 
 Route::middleware([

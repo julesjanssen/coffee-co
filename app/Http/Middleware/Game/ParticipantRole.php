@@ -24,8 +24,8 @@ class ParticipantRole
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @param  string  ...$roles
      * @return mixed
      *
