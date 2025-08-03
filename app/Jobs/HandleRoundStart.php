@@ -32,24 +32,24 @@ class HandleRoundStart implements ShouldQueue
 
     public function handle()
     {
-        if ($this->session->current_round_id >= $this->round->roundID) {
-            return;
-        }
+        // if ($this->session->current_round_id >= $this->round->roundID) {
+        //     return;
+        // }
 
-        if ($this->session->status->isNot(Status::PENDING)) {
-            if ($this->session->round_status->notIn([
-                RoundStatus::PROCESSED,
-                RoundStatus::PAUSED,
-            ])) {
-                return;
-            }
-        }
+        // if ($this->session->status->isNot(Status::PENDING)) {
+        //     if ($this->session->round_status->notIn([
+        //         RoundStatus::PROCESSED,
+        //         RoundStatus::PAUSED,
+        //     ])) {
+        //         return;
+        //     }
+        // }
 
-        if (! $this->session->reserve($this->getReservationKey(), '+30 seconds')) {
-            $this->release(10);
+        // if (! $this->session->reserve($this->getReservationKey(), '+30 seconds')) {
+        //     $this->release(10);
 
-            return;
-        }
+        //     return;
+        // }
 
         $this->process();
 

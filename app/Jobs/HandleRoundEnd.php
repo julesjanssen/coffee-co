@@ -6,9 +6,11 @@ namespace App\Jobs;
 
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
+use App\Enums\Project\Status as ProjectStatus;
 use App\Enums\Queue;
 use App\Events\GameSessionRoundStatusUpdated;
 use App\Models\GameSession;
+use App\Models\Project;
 use App\Values\GameRound;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -66,8 +68,6 @@ class HandleRoundEnd implements ShouldQueue
     {
         $this->processProjects();
 
-        // track uptime, actions etc
-        // schedule round-start or pause
         if ($this->round->isLastRoundOfQuarter()) {
             $this->processNpsDeltasForUptime();
         }
@@ -105,7 +105,67 @@ class HandleRoundEnd implements ShouldQueue
 
     private function processProjects()
     {
-        return random_int(0, 10);
+        $this->updateProjectFailureChances();
+        $this->updateProjectStates();
+    }
+
+    private function updateProjectFailureChances()
+    {
+        $this->session->projects()
+            ->where('status', '=', ProjectStatus::ACTIVE)
+            ->increment('failure_chance', $this->session->settings->failChanceIncreasePerRound);
+    }
+
+    private function updateProjectStates()
+    {
+        $this->session->projects()
+            ->with(['request'])
+            ->whereNotIn('status', [
+                ProjectStatus::FINISHED,
+                ProjectStatus::LOST,
+            ])
+            ->get()
+            ->each($this->updateProjectState(...))
+            // ->each($this->calcUptime(...))
+            ->each($this->handleProjectLifetime(...));
+    }
+
+    private function updateProjectState(Project $project)
+    {
+        switch ($project->status) {
+            case ProjectStatus::ACTIVE:
+                if (random_int(0, 100) < $project->failure_chance) {
+                    $project->update([
+                        'status' => ProjectStatus::DOWN,
+                        'down_round_id' => $this->round->roundID,
+                    ]);
+                }
+                break;
+
+            case ProjectStatus::DOWN:
+                $project->increment('downtime');
+                break;
+
+            case ProjectStatus::WON:
+                // TODO: check if project is delivered in time
+                break;
+
+            case ProjectStatus::PENDING:
+                // TODO: check if offer is submitted in time
+                break;
+        }
+    }
+
+    private function handleProjectLifetime(Project $project)
+    {
+        if ($project->status->notIn([
+            ProjectStatus::DOWN,
+            ProjectStatus::DOWN,
+        ])) {
+            return;
+        }
+
+        // TODO: check lifetime, calc bonus & set to finished
     }
 
     private function processNpsDeltasForUptime()
