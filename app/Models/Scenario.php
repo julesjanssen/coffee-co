@@ -64,6 +64,14 @@ class Scenario extends Model
     }
 
     /**
+     * @return HasMany<ScenarioProduct, $this>
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(ScenarioProduct::class, 'scenario_id', 'id');
+    }
+
+    /**
      * @return HasMany<ScenarioTip, $this>
      */
     public function tips(): HasMany

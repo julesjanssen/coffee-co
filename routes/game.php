@@ -34,6 +34,13 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
+])->namespace('Products')->prefix('products/')->as('products.')->group(function () {
+    Route::get('{product}', 'ViewController@view')->name('view');
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
     ParticipantRole::roles([Role::SALES_1, Role::SALES_2, Role::SALES_3]),
 ])->namespace('Sales')->prefix('sales/')->as('sales.')->group(function () {
     Route::get('/', 'ViewController@view')->name('view');
