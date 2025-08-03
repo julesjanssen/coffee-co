@@ -48,6 +48,14 @@ class Scenario extends Model
     }
 
     /**
+     * @return HasMany<ScenarioClient, $this>
+     */
+    public function clients(): HasMany
+    {
+        return $this->hasMany(ScenarioClient::class, 'scenario_id', 'id');
+    }
+
+    /**
      * @return HasMany<ScenarioRequest, $this>
      */
     public function requests(): HasMany

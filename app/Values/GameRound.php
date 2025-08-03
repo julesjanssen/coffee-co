@@ -12,6 +12,16 @@ class GameRound implements Arrayable
 {
     public const ROUNDS_PER_YEAR = 12;
 
+    /**
+     * @return array<array-key, int>
+     */
+    public static function getRangeForYear(int $year): array
+    {
+        $min = ($year - 1) * self::ROUNDS_PER_YEAR + 1;
+
+        return range($min, $min + (self::ROUNDS_PER_YEAR - 1));
+    }
+
     public function __construct(
         public readonly Scenario $scenario,
         public readonly int $roundID,
@@ -60,9 +70,14 @@ class GameRound implements Arrayable
 
     public function year()
     {
-        $startYear = $this->scenario->settings->startYear - 1;
+        return (int) ceil($this->roundID / self::ROUNDS_PER_YEAR);
+    }
 
-        return $startYear + (int) ceil($this->roundID / self::ROUNDS_PER_YEAR);
+    public function displayYear()
+    {
+        $startYear = $this->scenario->settings->startYear ;
+
+        return $startYear + $this->year() - 1;
     }
 
     public function previous()
@@ -85,7 +100,7 @@ class GameRound implements Arrayable
 
     public function display()
     {
-        $date = Date::createFromDate($this->year(), $this->month(), 1);
+        $date = Date::createFromDate($this->displayYear(), $this->month(), 1);
 
         return $date->isoFormat('MMM YYYY');
     }

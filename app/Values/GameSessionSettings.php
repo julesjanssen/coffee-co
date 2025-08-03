@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Values;
 
+use App\Enums\GameSession\Flow;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Casts\Json;
@@ -27,6 +28,8 @@ final class GameSessionSettings implements Castable
     public int $costLabconsultingRequestVisit = 5;
 
     public int $costLabconsultingOffer = 25;
+
+    public Flow $flow = Flow::MEDIUM;
 
     public int $clientNpsStart {
         set(?int $clientNpsStart) {

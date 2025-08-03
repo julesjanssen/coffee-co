@@ -38,4 +38,37 @@ class ScenarioClient extends Model
     {
         return $this->belongsTo(Scenario::class, 'scenario_id', 'id');
     }
+
+    public function netPromotorScoreForGameSession(GameSession $session)
+    {
+        // TODO: implement calc
+        return 60;
+    }
+
+    public function listAvailableRequestForGameSession(GameSession $session, bool $includeLabConsoluting = false)
+    {
+        $mmmaActive = $session->isMMMAActive();
+        $nps = $session->netPromotorScore();
+        $marketingTresholdScore = $session->marketingTresholdScore();
+
+        $projects = $session->projects()
+            ->whereColumn('projects.request_id', 'scenario_requests.id')
+            ->getQuery();
+
+        $session->scenario->requests()
+            ->whereNotExists($projects)
+            ->where('client_id', '=', $this->id)
+            ->where('delay', '<=', $session->current_round_id)
+            ->when(! $mmmaActive, function ($q) {
+                $q->where('requirements->mmma', '=', false);
+            })
+            ->when(! $includeLabConsoluting, function ($q) {
+                $q->where('requirements->labconsulting', '=', false);
+            })
+            ->where('requirements->tresholdNps', '<=', $nps)
+            ->where('requirements->tresholdMarketing', '<=', $marketingTresholdScore)
+            ->get()
+            ->sortByDesc(fn($v) => (int) $v->settings['value'])
+            ->values();
+    }
 }

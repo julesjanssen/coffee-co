@@ -114,6 +114,29 @@ class GameSession extends Model
         $this->save();
     }
 
+    public function isMMMAActive()
+    {
+        return ($this->mmmaLevel() > 12);
+    }
+
+    public function mmmaLevel()
+    {
+        // TODO: implement calc
+        return 0;
+    }
+
+    public function netPromotorScore()
+    {
+        return $this->scenario->clients
+            ->map(fn($client) => $client->netPromotorScoreForGameSession($this))
+            ->avg();
+    }
+
+    public function marketingTresholdScore()
+    {
+        return 10;
+    }
+
     public function pickRelevantScenario(): ?Scenario
     {
         if (! empty($this->scenario_id)) {
