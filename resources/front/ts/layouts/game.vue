@@ -54,7 +54,7 @@
   <Toaster :expand="true" />
 </template>
 <script setup lang="ts">
-import { Link, router, usePage } from '@inertiajs/vue3'
+import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { Toaster } from 'vue-sonner'
 

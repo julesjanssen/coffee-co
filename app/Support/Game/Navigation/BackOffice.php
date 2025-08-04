@@ -11,12 +11,12 @@ class BackOffice extends Navigation
         return [
             [
                 'disabled' => false,
-                'label' => __('navigation.backoffice.results'),
+                'label' => __('navigation:backoffice:results'),
                 'href' => route('game.backoffice.results'),
             ],
             [
                 'disabled' => true,
-                'label' => __('navigation.backoffice.projects'),
+                'label' => __('navigation:backoffice:projects'),
                 'href' => route('game.backoffice.projects.index'),
             ],
         ];

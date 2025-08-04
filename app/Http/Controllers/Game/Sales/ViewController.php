@@ -13,11 +13,11 @@ class ViewController
     {
         $actions = [
             [
-                'label' => 'sales relation visit',
+                'label' => __('navigation:sales:relation-visit'),
                 'href' => route('game.sales.relation-visit.view'),
             ],
             [
-                'label' => 'sales request visit',
+                'label' => __('navigation:sales:request-visit'),
                 'href' => route('game.sales.request-visit.view'),
             ],
         ];
