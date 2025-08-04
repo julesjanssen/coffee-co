@@ -83,6 +83,7 @@ Route::middleware([
         ->namespace('Projects')
         ->as('projects.')->group(function () {
             Route::get('/', 'IndexController@index')->name('index');
+            Route::post('{project}', 'ViewController@store');
             Route::get('{project}', 'ViewController@view')->name('view');
         });
 });
