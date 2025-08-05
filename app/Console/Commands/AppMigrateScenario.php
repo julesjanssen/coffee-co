@@ -12,6 +12,7 @@ use App\Enums\Locale;
 use App\Enums\Product\Color;
 use App\Enums\Product\Material;
 use App\Enums\Product\Type;
+use App\Enums\Request\CompetitionLevel;
 use App\Enums\Scenario\Status;
 use App\Models\Scenario;
 use App\Models\ScenarioClient;
@@ -184,7 +185,12 @@ class AppMigrateScenario extends Command
             ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
 
-        Arr::forget($data, 'initialstatus');
+        $competitionLevel = Str::lower(Arr::get($data, 'info.en.deallost', 'medium'));
+        if ($competitionLevel === 'competitionLevel') {
+            $competitionLevel = CompetitionLevel::MEDIUM->value;
+        }
+        $data['competitionlevel'] = CompetitionLevel::from($competitionLevel);
+
         Arr::forget($data, 'info');
 
         $request = ScenarioRequest::create([
