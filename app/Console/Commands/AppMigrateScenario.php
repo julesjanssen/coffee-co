@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Enums\Client\CarBrand;
 use App\Enums\Client\Market;
 use App\Enums\Client\Segment;
+use App\Enums\Client\YearsInBusiness;
 use App\Enums\Locale;
 use App\Enums\Product\Color;
 use App\Enums\Product\Material;
@@ -20,6 +21,8 @@ use App\Models\ScenarioRequestSolution;
 use App\Models\ScenarioTip;
 use App\Models\Tenant;
 use App\Values\ScenarioSettings;
+use BackedEnum;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -92,14 +95,41 @@ class AppMigrateScenario extends Command
             'title' => $record->title,
             'segment' => $segment,
             'settings' => [
-                'carbrand' => CarBrand::collect()->random(),
-                'market' => Market::collect()->random(),
-                'years' => random_int(1, 10),
+                'carbrand' => $this->findClientDetail(CarBrand::class, $record, 1),
+                'market' => $this->findClientDetail(Market::class, $record, 0),
+                'years' => $this->findClientDetail(YearsInBusiness::class, $record, 2),
             ],
             'sortorder' => 1,
         ]);
 
         $this->clientIdMap[$record->id] = $client->id;
+    }
+
+    /**
+     * @param class-string<BackedEnum> $enum
+     */
+    private function findClientDetail(string $enum, object $record, int $index)
+    {
+        /** @phpstan-ignore-next-line */
+        $cases = $enum::collect();
+
+        $info = json_decode($record->info, true)['en']['general'];
+        $statement = Str::ascii(Str::lower($info[$index]));
+
+        foreach ($cases as $case) {
+            $value = $case->value;
+            if ($case instanceof YearsInBusiness) {
+                $value = $case->years();
+            } else {
+                $value = str_replace('-', ' ', $value);
+            }
+
+            if (Str::contains($statement, $value)) {
+                return $case;
+            }
+        }
+
+        throw new Exception('Details not found for ' . $statement);
     }
 
     private function migrateProducts(Scenario $scenario)

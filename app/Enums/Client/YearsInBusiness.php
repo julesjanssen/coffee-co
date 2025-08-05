@@ -20,15 +20,20 @@ enum YearsInBusiness: string
 
     case Y10 = 'y10';
 
-    public function description(): string
+    public function years(): int
     {
         return match ($this) {
-            self::Y2 => __(':years years', ['years' => 2]),
-            self::Y4 => __(':years years', ['years' => 4]),
-            self::Y6 => __(':years years', ['years' => 6]),
-            self::Y8 => __(':years years', ['years' => 8]),
-            self::Y10 => __(':years years', ['years' => 10]),
+            self::Y2 => 2,
+            self::Y4 => 4,
+            self::Y6 => 6,
+            self::Y8 => 8,
+            self::Y10 => 10,
         };
+    }
+
+    public function description(): string
+    {
+        return __(':years years', ['years' => $this->years()]);
     }
 
     public static function fromInteger(int $years)
