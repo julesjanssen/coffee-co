@@ -16,6 +16,9 @@ final class ProjectSettings implements Castable
 
     public bool $labConsultingIncluded = false;
 
+    /** @var array<array-key, string> $wonLostReasons */
+    public array $wonLostReasons = [];
+
     // limit properties to explicitly defined set
     public function __set(string $name, mixed $value): void
     {
