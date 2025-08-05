@@ -3,10 +3,7 @@
   level: 999
   permissions:
     - admin.tenants.view
-    - admin.tenants.create
     - admin.tenants.update
-    - admin.tenants.delete
-    - admin.tenants.switch
 
 - name: tech-admin
   title: 'Tech admin'
