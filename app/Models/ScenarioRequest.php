@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Values\ScenarioRequestRequirements;
+use App\Values\ScenarioRequestSettings;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,8 +24,8 @@ class ScenarioRequest extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'requirements' => 'array',
-        'settings' => 'array',
+        'requirements' => ScenarioRequestRequirements::class,
+        'settings' => ScenarioRequestSettings::class,
     ];
 
     protected $attributes = [

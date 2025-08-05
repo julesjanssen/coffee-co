@@ -123,7 +123,7 @@ class ScenarioClient extends Model
             ->where('requirements->tresholdNps', '<=', $nps)
             ->where('requirements->tresholdMarketing', '<=', $marketingTresholdScore)
             ->get()
-            ->sortByDesc(fn($v) => (int) $v->settings['value'])
+            ->sortByDesc(fn($v) => (int) $v->settings->value)
             ->values();
     }
 }

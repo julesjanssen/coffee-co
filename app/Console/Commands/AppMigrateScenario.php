@@ -24,6 +24,7 @@ use App\Values\ScenarioSettings;
 use BackedEnum;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -182,6 +183,9 @@ class AppMigrateScenario extends Command
         $data = collect(json_decode($record->data, true))
             ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
+
+        Arr::forget($data, 'initialstatus');
+        Arr::forget($data, 'info');
 
         $request = ScenarioRequest::create([
             'scenario_id' => $scenario->id,

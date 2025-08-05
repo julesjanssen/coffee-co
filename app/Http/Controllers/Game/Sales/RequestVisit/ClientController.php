@@ -69,8 +69,8 @@ class ClientController
                 'request_id' => $projectRequest->id,
                 'client_id' => $client->id,
                 'status' => Status::PENDING,
-                'price' => $projectRequest->settings['value'] ?? 0,
-                'failure_chance' => $projectRequest->settings['initialfailurechance'] ?? 0,
+                'price' => $projectRequest->settings->value,
+                'failure_chance' => $projectRequest->settings->initialfailurechance,
                 'location' => Location::collect()->random(),
                 'request_round_id' => $participant->session->currentRound->roundID,
                 'settings' => ProjectSettings::fromArray([
