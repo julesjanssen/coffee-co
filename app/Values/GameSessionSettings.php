@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Values;
 
 use App\Enums\GameSession\Flow;
-use Illuminate\Contracts\Database\Eloquent\Castable;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Database\Eloquent\Casts\Json;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
-final class GameSessionSettings implements Castable
+final class GameSessionSettings extends CastableValueObject
 {
     public bool $shouldPauseAfterCurrentRound = false;
 
@@ -51,55 +47,5 @@ final class GameSessionSettings implements Castable
         }
 
         get => $this->clientNpsStart ?? 60;
-    }
-
-    // limit properties to explicitly defined set
-    public function __set(string $name, mixed $value): void
-    {
-        throw new InvalidArgumentException("Property '{$name}' is not defined");
-    }
-
-    public static function fromArray(array $array)
-    {
-        $obj = new self();
-
-        foreach ($array as $key => $value) {
-            $obj->{$key} = $value;
-        }
-
-        return $obj;
-    }
-
-    public static function castUsing(array $arguments): CastsAttributes
-    {
-        return new class implements CastsAttributes {
-            public function get(
-                Model $model,
-                string $key,
-                mixed $value,
-                array $attributes,
-            ): ?GameSessionSettings {
-                if (! isset($attributes[$key])) {
-                    return null;
-                }
-
-                $data = Json::decode($attributes[$key]);
-
-                if (! is_array($data)) {
-                    return null;
-                }
-
-                return GameSessionSettings::fromArray($data);
-            }
-
-            public function set(
-                Model $model,
-                string $key,
-                mixed $value,
-                array $attributes,
-            ): array {
-                return [$key => Json::encode($value)];
-            }
-        };
     }
 }
