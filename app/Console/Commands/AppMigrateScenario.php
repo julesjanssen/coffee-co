@@ -185,6 +185,12 @@ class AppMigrateScenario extends Command
             ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
 
+        $labConsultingInformation = Arr::get($data, 'info.en.labconsulting');
+        if ($labConsultingInformation === 'There is no information we can help you with. Try again later.') {
+            $labConsultingInformation = null;
+        }
+        $data['labconsultinginformation'] = $labConsultingInformation;
+
         $competitionLevel = Str::lower(Arr::get($data, 'info.en.deallost') ?? CompetitionLevel::MEDIUM->value);
         if ($competitionLevel === 'moderate') {
             $competitionLevel = CompetitionLevel::MEDIUM->value;
@@ -200,7 +206,7 @@ class AppMigrateScenario extends Command
             'delay' => $record->delay,
             'duration' => $record->duration,
             'requirements' => $requirements,
-            'settings' => $data,
+            'settings' => array_filter($data),
         ]);
 
         $this->requestIdMap[$record->id] = $request->id;

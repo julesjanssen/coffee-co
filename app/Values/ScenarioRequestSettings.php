@@ -17,6 +17,8 @@ final class ScenarioRequestSettings extends CastableValueObject
 
     public int $initialfailurechance = 0;
 
+    public ?string $labConsultingInformation = null;
+
     /**
      * only applicable for requests with delay = 0
      */
