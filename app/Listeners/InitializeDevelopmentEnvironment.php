@@ -8,6 +8,7 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Schema;
@@ -25,17 +26,15 @@ class InitializeDevelopmentEnvironment
             return;
         }
 
-        if (Tenant::checkCurrent()) {
-            return;
-        }
-
-        if (! Schema::hasTable('tenants')) {
+        if (! Schema::connection('landlord')->hasTable('tenants')) {
             return;
         }
 
         $tenant = Tenant::findOrFail(1);
 
         $tenant->makeCurrent();
+
+        Artisan::call('app:permission-sync');
 
         $user = User::firstOrCreate([
             'email' => $this->getGitConfig('user.email'),
