@@ -25,6 +25,7 @@
           </span>
         </div>
       </div>
+      <FormError :error="form.errors.products" />
     </fieldset>
 
     <fieldset>
@@ -51,6 +52,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { computed, ref, watchEffect } from 'vue'
 
+import FormError from '/@front:components/FormError.vue'
 import Icon from '/@front:components/Icon.vue'
 import GameLayout from '/@front:layouts/game.vue'
 import { http } from '/@front:shared/http'
