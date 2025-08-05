@@ -51,4 +51,15 @@ enum Role: string
     {
         return (int) Str::afterLast($this->value, '-') ?: 1;
     }
+
+    public function isActiveDuringBreak()
+    {
+        return $this->in([
+            self::SALES_SCREEN,
+            self::TECHNICAL_SCREEN,
+            self::MARKETING_1,
+            self::BACKOFFICE_1,
+            self::MATERIALS_1,
+        ]);
+    }
 }

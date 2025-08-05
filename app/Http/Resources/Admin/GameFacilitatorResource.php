@@ -24,6 +24,7 @@ class GameFacilitatorResource extends JsonResource
         return [
             'sqid' => $this->sqid,
             'code' => $this->code,
+            'activeDuringBreak' => true,
         ];
     }
 }

@@ -25,6 +25,7 @@ class GameParticipantResource extends JsonResource
             'sqid' => $this->sqid,
             'type' => 'participant',
             'role' => $this->role->toArray(),
+            'activeDuringBreak' => $this->role->isActiveDuringBreak(),
         ];
     }
 }
