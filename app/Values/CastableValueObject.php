@@ -9,6 +9,8 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionNamedType;
 
 class CastableValueObject implements Castable
 {
@@ -23,8 +25,27 @@ class CastableValueObject implements Castable
         /** @phpstan-ignore new.static */
         $obj = new static();
 
+        $reflector = new ReflectionClass($obj);
+
         foreach ($array as $key => $value) {
+            /** @var ReflectionNamedType $type */
+            $type = $reflector->getProperty($key)->getType();
+            if ($type->isBuiltin()) {
+                $obj->{$key} = $value;
+
+                continue;
+            }
+
+            $typeName = $type->getName();
+            if (is_subclass_of($typeName, 'BackedEnum')) {
+                if (! $value instanceof $typeName) {
+                    $value = $typeName::from($value);
+                }
+            }
+
             $obj->{$key} = $value;
+            // if ($type->getName())
+            // dd($type);
         }
 
         return $obj;
