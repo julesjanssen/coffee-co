@@ -51,4 +51,9 @@ class ScenarioRequestSolution extends Model
             ->whereIn('id', $this->product_ids)
             ->get();
     }
+
+    public function isOptimal()
+    {
+        return $this->is_optimal;
+    }
 }

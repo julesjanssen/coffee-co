@@ -25,13 +25,7 @@ final class GameSessionSettings extends CastableValueObject
 
     public int $costLabconsultingOffer = 25;
 
-    public Flow $flow {
-        set(string|Flow $value) {
-            $this->flow = Flow::coerce($value);
-        }
-
-        get => $this->flow ?? Flow::MEDIUM;
-    }
+    public Flow $flow = Flow::MEDIUM;
 
     public int $clientNpsStart {
         set(?int $clientNpsStart) {
