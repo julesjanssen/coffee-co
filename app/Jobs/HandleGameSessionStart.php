@@ -92,6 +92,19 @@ class HandleGameSessionStart implements ShouldQueue
             ]),
         ]);
 
+        if ($status->in([
+            ProjectStatus::ACTIVE,
+            ProjectStatus::WON,
+            ProjectStatus::DOWN,
+            ProjectStatus::FINISHED,
+        ])) {
+            $solution = $request->solutions()->first();
+
+            $project->fill([
+                'solution_id' => $solution->id,
+            ]);
+        }
+
         if ($status->is(ProjectStatus::WON)) {
             $project->fill([
                 'quote_round_id' => 1,
