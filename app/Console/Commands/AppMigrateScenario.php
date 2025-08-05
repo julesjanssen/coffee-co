@@ -185,8 +185,8 @@ class AppMigrateScenario extends Command
             ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
 
-        $competitionLevel = Str::lower(Arr::get($data, 'info.en.deallost', 'medium'));
-        if ($competitionLevel === 'competitionLevel') {
+        $competitionLevel = Str::lower(Arr::get($data, 'info.en.deallost') ?? CompetitionLevel::MEDIUM->value);
+        if ($competitionLevel === 'moderate') {
             $competitionLevel = CompetitionLevel::MEDIUM->value;
         }
         $data['competitionlevel'] = CompetitionLevel::from($competitionLevel);

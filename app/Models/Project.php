@@ -104,4 +104,16 @@ class Project extends Model
 
         return new GameRound($this->session->scenario, ($requestedRoundID + $roundsToSubmitOffer));
     }
+
+    public static function fromRequest(ScenarioRequest $request)
+    {
+        return self::make([
+            'request_id' => $request->id,
+            'client_id' => $request->client->id,
+            'status' => Status::PENDING,
+            'price' => $request->settings->value,
+            'failure_chance' => $request->settings->initialfailurechance,
+            'location' => Location::collect()->random(),
+        ]);
+    }
 }

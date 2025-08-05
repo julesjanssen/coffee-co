@@ -7,8 +7,7 @@ namespace App\Http\Controllers\Game\Sales\RequestVisit;
 use App\Enums\Client\CarBrand;
 use App\Enums\Client\Market;
 use App\Enums\Client\YearsInBusiness;
-use App\Enums\Project\Location;
-use App\Enums\Project\Status;
+use App\Models\Project;
 use App\Models\ScenarioClient;
 use App\Traits\ListAndValidateClientForParticipant;
 use App\Values\ProjectSettings;
@@ -49,20 +48,16 @@ class QuizController
 
         $projectRequest = $requests->first();
 
-        $project = $participant->session->projects()
-            ->create([
-                'request_id' => $projectRequest->id,
-                'client_id' => $client->id,
-                'status' => Status::PENDING,
-                'price' => $projectRequest->settings->value,
-                'failure_chance' => $projectRequest->settings->initialfailurechance,
-                'location' => Location::collect()->random(),
-                'request_round_id' => $participant->session->currentRound->roundID,
-                'settings' => ProjectSettings::fromArray([
-                    'labConsultingApplied' => true,
-                    'labConsultingIncluded' => $includeLabConsulting,
-                ]),
-            ]);
+        $project = Project::fromRequest($projectRequest);
+
+        $project->fill([
+            'game_session_id' => $participant->session->id,
+            'request_round_id' => $participant->session->currentRound->roundID,
+            'settings' => ProjectSettings::fromArray([
+                'labConsultingApplied' => true,
+                'labConsultingIncluded' => $includeLabConsulting,
+            ]),
+        ])->save();
 
         return redirect()->route('game.sales.projects.view', [$project]);
     }

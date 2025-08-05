@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Enums\GameSession\Status;
+use App\Enums\Project\Status as ProjectStatus;
 use App\Enums\Queue;
 use App\Models\GameSession;
+use App\Models\Project;
+use App\Models\Scenario;
+use App\Models\ScenarioRequest;
 use App\Values\GameRound;
+use App\Values\ProjectSettings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -48,6 +53,8 @@ class HandleGameSessionStart implements ShouldQueue
     {
         $scenario = $this->session->pickRelevantScenario();
 
+        $this->processInitialProjects($scenario);
+
         $this->session->update([
             'status' => Status::PLAYING,
             'scenario_id' => $scenario->id,
@@ -58,6 +65,49 @@ class HandleGameSessionStart implements ShouldQueue
         $round = new GameRound($this->session->scenario, 1);
 
         HandleRoundStart::dispatchSync($this->session, $round);
+    }
+
+    private function processInitialProjects(Scenario $scenario)
+    {
+        $scenario->requests()
+            ->with(['client'])
+            ->where('delay', '=', 0)
+            ->get()
+            ->each($this->handleInitialProject(...));
+    }
+
+    private function handleInitialProject(ScenarioRequest $request)
+    {
+        $status = $request->settings->initialstatus;
+        $project = Project::fromRequest($request);
+
+        $project->fill([
+            'game_session_id' => $this->session->id,
+            'failure_chance' => $request->settings->initialfailurechance,
+            'status' => $status,
+            'request_round_id' => 1,
+            'settings' => ProjectSettings::fromArray([
+                'labConsultingApplied' => false,
+                'labConsultingIncluded' => false,
+            ]),
+        ]);
+
+        if ($status->is(ProjectStatus::WON)) {
+            $project->fill([
+                'quote_round_id' => 1,
+            ]);
+        }
+
+        if ($status->is(ProjectStatus::ACTIVE)) {
+            $project->fill([
+                'quote_round_id' => 1,
+                'delivery_round_id' => 1,
+            ]);
+        }
+
+        $project->save();
+
+        // TODO: write revenue (90%)
     }
 
     private function getReservationKey()
