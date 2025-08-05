@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 
 import type { GameSessionRoundStatusType } from '/@front:shared/constants'
 import type { PageProps, ServerEvent, ServerEventData } from '/@front:types/shared'
@@ -28,6 +28,7 @@ function handleGameSessionRoundStatusUpdated(eventData: ServerEventData) {
 
 export function useServerSentEvents() {
   const page = usePage<PageProps>()
+  let eventSource: EventSource | undefined
 
   const handleMessage = (messageEvent: MessageEvent<string>) => {
     const eventData = JSON.parse(messageEvent.data) as ServerEvent
@@ -44,8 +45,8 @@ export function useServerSentEvents() {
     const url = new URL(import.meta.env.VITE_MERCURE_URL)
     url.searchParams.append('topic', page.props.session.sse.topic)
 
-    const es = new EventSource(url)
-    es.addEventListener('message', handleMessage)
+    eventSource = new EventSource(url)
+    eventSource.addEventListener('message', handleMessage)
 
     initialized.value = true
   }
@@ -54,4 +55,11 @@ export function useServerSentEvents() {
   if (!initialized.value) {
     init()
   }
+
+  onUnmounted(() => {
+    if (eventSource) {
+      eventSource.close()
+      eventSource = undefined
+    }
+  })
 }
