@@ -105,6 +105,15 @@ class Project extends Model
         return new GameRound($this->session->scenario, ($requestedRoundID + $roundsToSubmitOffer));
     }
 
+    public function currentStateHash(string $salt = '')
+    {
+        return hash('xxh3', implode(':', [
+            $this->id,
+            $this->updated_at,
+            $salt,
+        ]));
+    }
+
     public static function fromRequest(ScenarioRequest $request)
     {
         return self::make([
