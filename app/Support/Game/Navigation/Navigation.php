@@ -32,6 +32,9 @@ abstract class Navigation implements Arrayable
             case Role::TECHNICAL_2:
                 return new EmptyNav($request, $auth);
 
+            case Role::MARKETING_1:
+                return new Marketing($request, $auth);
+
             case Role::BACKOFFICE_1:
                 return new BackOffice($request, $auth);
 
