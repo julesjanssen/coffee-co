@@ -99,6 +99,43 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
+    ParticipantRole::roles([Role::MARKETING_1]),
+])->namespace('Marketing')->prefix('marketing/')->as('marketing.')->group(function () {
+    Route::get('/', 'ViewController@view')->name('view');
+    Route::get('results', 'ResultsController@view')->name('results');
+    Route::get('info', 'InfoController@view')->name('info');
+
+    Route::prefix('campaign/')
+        ->namespace('Campaign')
+        ->as('campaign.')->group(function () {
+            Route::post('/', 'ViewController@store');
+            Route::get('/', 'ViewController@view')->name('view');
+            Route::get('{numbers}/{code}', 'CodeController@view')->name('codes.view');
+        });
+
+    Route::prefix('training/')
+        ->namespace('Training')
+        ->as('training.')->group(function () {
+            Route::get('{training}', 'ViewController@view')->name('view');
+        });
+
+    Route::prefix('mmma/')
+        ->namespace('Mmma')
+        ->as('mmma.')->group(function () {
+            Route::get('/', 'ViewController@view')->name('view');
+        });
+
+    // Route::prefix('installation/')
+    //     ->namespace('Installation')
+    //     ->as('installation.')->group(function () {
+    //         Route::get('/', 'ViewController@view')->name('view');
+    //         Route::post('{project}', 'Projects\UpdateController@store')->name('projects.update');
+    //     });
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
     ParticipantRole::roles([Role::BACKOFFICE_1]),
 ])->namespace('BackOffice')->prefix('backoffice/')->as('backoffice.')->group(function () {
     Route::get('/', 'ViewController@view')->name('view');
