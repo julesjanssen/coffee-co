@@ -64,7 +64,7 @@ class ScenarioClient extends Model
     protected function yearsInBusiness(): Attribute
     {
         return Attribute::make(
-            get: fn() => YearsInBusiness::fromInteger($this->settings['years']),
+            get: fn() => YearsInBusiness::from($this->settings['years']),
         );
     }
 

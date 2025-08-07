@@ -33,6 +33,13 @@ class ViewController
         }
 
         if ($participant->role->in([
+            Role::TECHNICAL_1,
+            Role::TECHNICAL_2,
+        ])) {
+            return redirect()->route('game.technical.view');
+        }
+
+        if ($participant->role->in([
             Role::BACKOFFICE_1,
         ])) {
             return redirect()->route('game.backoffice.view');

@@ -7,6 +7,8 @@ namespace App\Providers;
 use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
 use App\Models\GameSession;
+use App\Models\Project;
+use App\Models\ProjectAction;
 use App\Models\User;
 use App\Support\Multitenancy\DatabaseSessionManager;
 use Carbon\CarbonImmutable;
@@ -61,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
             'game-participant' => GameParticipant::class,
             'game-facilitator' => GameFacilitator::class,
             'game-session' => GameSession::class,
+            'project' => Project::class,
+            'project-action' => ProjectAction::class,
         ]);
 
         Model::preventLazyLoading(! $this->app->isProduction());

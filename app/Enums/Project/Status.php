@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Enums\Project;
 
+use App\Support\Attributes\JsExportable;
 use App\Traits\EnumHelpers;
 
+#[JsExportable(name: 'ProjectStatus')]
 enum Status: string
 {
     use EnumHelpers;

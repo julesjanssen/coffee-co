@@ -1,6 +1,6 @@
 import type { ErrorBag, Errors } from '@inertiajs/core'
 
-import type { GameSessionRoundStatusType, GameSessionStatusType } from '/@front:shared/constants'
+import type { GameSessionRoundStatusType, GameSessionStatusType, ProjectStatusType } from '/@front:shared/constants'
 
 type EnumObject = {
   value: string
@@ -27,7 +27,17 @@ export type GameSession = {
   }
 }
 
-export type Project = any
+export type Project = {
+  title: string
+  client: ScenarioClient
+  failureChance: number
+  price: number
+  labConsultingApplied: boolean
+  labConsultingIncluded: boolean
+  status: Omit<EnumObject, 'value'> & {
+    value: ProjectStatusType
+  }
+}
 
 export type ScenarioClient = {
   href: string

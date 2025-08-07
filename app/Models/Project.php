@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -69,6 +70,14 @@ class Project extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(ScenarioClient::class, 'client_id', 'id');
+    }
+
+    /**
+     * @return HasMany<ProjectAction, $this>
+     */
+    public function actions(): HasMany
+    {
+        return $this->hasMany(ProjectAction::class, 'project_id', 'id');
     }
 
     #[Scope]

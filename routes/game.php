@@ -74,6 +74,31 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
+    ParticipantRole::roles([Role::TECHNICAL_1, Role::TECHNICAL_2]),
+])->namespace('Technical')->prefix('technical/')->as('technical.')->group(function () {
+    Route::get('/', 'ViewController@view')->name('view');
+
+    Route::prefix('maintenance/')
+        ->namespace('Maintenance')
+        ->as('maintenance.')->group(function () {
+            Route::get('/', 'ViewController@view')->name('view');
+            Route::post('{project}', 'Projects\UpdateController@store')->name('projects.update');
+            Route::get('{project}/{action}', 'Projects\ActionController@view')->name('projects.action.view');
+            Route::post('{project}/{action}/extra-service', 'Projects\ExtraServiceController@store');
+            Route::get('{project}/{action}/extra-service', 'Projects\ExtraServiceController@view')->name('projects.action.extra-service');
+        });
+
+    Route::prefix('installation/')
+        ->namespace('Installation')
+        ->as('installation.')->group(function () {
+            Route::get('/', 'ViewController@view')->name('view');
+
+        });
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
     ParticipantRole::roles([Role::BACKOFFICE_1]),
 ])->namespace('BackOffice')->prefix('backoffice/')->as('backoffice.')->group(function () {
     Route::get('/', 'ViewController@view')->name('view');
