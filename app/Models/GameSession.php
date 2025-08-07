@@ -141,13 +141,19 @@ class GameSession extends Model
 
     public function isMMMAActive()
     {
-        return ($this->mmmaLevel() > 12);
+        return GameMmmaActivation::isActiveForSession($this);
     }
 
-    public function mmmaLevel()
+    public function canRefreshMmma()
     {
-        // TODO: implement calc
-        return 0;
+        $cooldown = $this->settings->mmmaRefreshRoundCooldown;
+
+        $exists = GameMmmaActivation::query()
+            ->where('game_session_id', '=', $this->id)
+            ->where('round_id', '>', $this->currentRound->addRounds(-1 * $cooldown)->roundID)
+            ->exists();
+
+        return ! $exists;
     }
 
     public function netPromotorScore()

@@ -98,6 +98,11 @@ class GameRound implements Arrayable
         return new self($this->scenario, ($this->roundID + 1));
     }
 
+    public function addRounds(int $number)
+    {
+        return new self($this->scenario, ($this->roundID + $number));
+    }
+
     public function display()
     {
         $date = Date::createFromDate($this->displayYear(), $this->month(), 1);
