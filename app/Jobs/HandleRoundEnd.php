@@ -126,6 +126,8 @@ class HandleRoundEnd implements ShouldQueue
             ])
             ->get()
             ->each($this->updateProjectState(...))
+            // TODO: track up/downtime in project-history
+            // TODO: calc uptime
             // ->each($this->calcUptime(...))
             ->each($this->handleProjectLifetime(...));
     }
@@ -159,7 +161,7 @@ class HandleRoundEnd implements ShouldQueue
     private function handleProjectLifetime(Project $project)
     {
         if ($project->status->notIn([
-            ProjectStatus::DOWN,
+            ProjectStatus::ACTIVE,
             ProjectStatus::DOWN,
         ])) {
             return;
@@ -170,13 +172,13 @@ class HandleRoundEnd implements ShouldQueue
 
     private function processNpsDeltasForUptime()
     {
-        // calc uptimes for last quarter & distribute NPS deltas
+        // TODO: calc uptimes for last quarter & distribute NPS deltas
         return random_int(0, 10);
     }
 
     private function trackMarketShare()
     {
-        // nothing yet
+        // TODO: implement
         return random_int(0, 10);
     }
 
