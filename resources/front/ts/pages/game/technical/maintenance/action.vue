@@ -17,12 +17,8 @@
   </div>
 
   <div v-else-if="isPerformingExtraService">
-    <p>{{ $t('Please complete maze :mazeID.', { mazeID: String(mazeID) }) }}</p>
-
-    <div v-if="isExtraServiceCompleted" class="actions">
-      <button type="button" @click.prevent="registerExtraService">
-        {{ $t('done') }}
-      </button>
+    <div v-if="!isExtraServiceCompleted">
+      <Maze :level="mazeLevel" @ready="mazeCompleted" />
     </div>
   </div>
 
@@ -47,6 +43,7 @@
 import { Link } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
+import Maze from '/@front:components/games/Maze.vue'
 import GameLayout from '/@front:layouts/game-client-actions.vue'
 import { http } from '/@front:shared/http'
 import { error } from '/@front:shared/notifications'
@@ -59,7 +56,7 @@ defineOptions({
 const props = defineProps<{
   project: Project
   projectAction: any
-  mazeID: number
+  mazeLevel: number
   links: Record<string, string>
 }>()
 
@@ -73,9 +70,15 @@ const shouldShowHint = computed(() => isExtraServiceCompleted.value === true && 
 const initExtraService = () => {
   isPerformingExtraService.value = true
 
-  setTimeout(() => {
+  if (props.mazeLevel === 0) {
     isExtraServiceCompleted.value = true
-  }, 5_000)
+    return
+  }
+}
+
+const mazeCompleted = () => {
+  isExtraServiceCompleted.value = true
+  registerExtraService()
 }
 
 const registerExtraService = () => {

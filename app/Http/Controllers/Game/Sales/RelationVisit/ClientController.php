@@ -19,11 +19,9 @@ class ClientController
 
         $this->validateClientForParticipant($participant, $client);
 
-        $mazeID = $participant->session->flow->mazeIdForScore();
-
         return Inertia::render('game/sales/relation-visit/client', [
             'client' => $client,
-            'mazeID' => $mazeID,
+            'mazeLevel' => $participant->session->flow->mazeLevelForScore(),
             'links' => [
                 'back' => route('game.sales.view'),
             ],

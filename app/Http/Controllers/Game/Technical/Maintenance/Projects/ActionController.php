@@ -29,7 +29,7 @@ class ActionController
         return Inertia::render('game/technical/maintenance/action', [
             'project' => ProjectResource::make($project),
             'projectAction' => ProjectActionResource::make($action),
-            'mazeID' => $session->flow->mazeIdForScore(),
+            'mazeLevel' => $session->flow->mazeLevelForScore(),
             'links' => [
                 'back' => route('game.technical.view'),
                 'extraService' => route('game.technical.maintenance.projects.action.extra-service', [
