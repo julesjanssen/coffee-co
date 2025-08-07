@@ -92,7 +92,7 @@ Route::middleware([
         ->namespace('Installation')
         ->as('installation.')->group(function () {
             Route::get('/', 'ViewController@view')->name('view');
-
+            Route::post('{project}', 'Projects\UpdateController@store')->name('projects.update');
         });
 });
 

@@ -136,6 +136,8 @@ class ViewController
         $project->quote_round_id = $project->session->current_round_id;
         $project->save();
 
+        // TODO: write revenue (90%)
+
         return redirect()->route('game.backoffice.projects.view', [$project]);
     }
 

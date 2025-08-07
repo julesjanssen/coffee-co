@@ -10,6 +10,8 @@ enum ActionType: string
 {
     use EnumHelpers;
 
+    case INSTALLATION = 'installation';
+
     case MAINTENANCE = 'maintenance';
 
     case FIX = 'fix';
