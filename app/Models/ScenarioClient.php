@@ -70,8 +70,11 @@ class ScenarioClient extends Model
 
     public function netPromotorScoreForGameSession(GameSession $session)
     {
-        // TODO: implement calc
-        return 60;
+        $npsDelta = $session->npsScores
+            ->filter(fn($v) => $v->client_id === $this->id)
+            ->sum('value');
+
+        return max(0, min(100, $session->settings->clientNpsStart + $npsDelta));
     }
 
     public function hasMaxProjectsForCurrentYear(GameSession $session)

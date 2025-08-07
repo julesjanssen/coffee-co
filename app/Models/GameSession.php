@@ -100,6 +100,14 @@ class GameSession extends Model
         return $this->hasMany(Project::class)->chaperone('session');
     }
 
+    /**
+     * @return HasMany<GameNpsScore, $this>
+     */
+    public function npsScores(): HasMany
+    {
+        return $this->hasMany(GameNpsScore::class)->chaperone('session');
+    }
+
     /** @return Attribute<GameRound | null, never> */
     protected function currentRound(): Attribute
     {
@@ -144,6 +152,8 @@ class GameSession extends Model
 
     public function netPromotorScore()
     {
+        $this->load(['npsScores']);
+
         return $this->scenario->clients
             ->map(fn($client) => $client->netPromotorScoreForGameSession($this))
             ->avg();
