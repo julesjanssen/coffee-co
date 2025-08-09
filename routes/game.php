@@ -110,7 +110,6 @@ Route::middleware([
         ->as('campaign.')->group(function () {
             Route::post('/', 'ViewController@store');
             Route::get('/', 'ViewController@view')->name('view');
-            Route::get('{numbers}/{code}', 'CodeController@view')->name('codes.view');
         });
 
     Route::prefix('training/')

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Values\GameCampaignCodeDetails;
 use App\Values\GameRound;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +22,7 @@ class GameCampaignCode extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'details' => 'array',
+        'details' => GameCampaignCodeDetails::class,
     ];
 
     protected $attributes = [

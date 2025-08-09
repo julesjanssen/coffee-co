@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\Marketing\Campaign;
 
+use App\Enums\Scenario\CampaignCodeCategory;
 use App\Models\GameCampaignCode;
+use App\Models\GameSession;
 use App\Models\ScenarioCampaignCode;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -51,20 +53,68 @@ class ViewController
             ]);
         }
 
+        $hints = $this->getHintsForCode($session, $code);
+
         $gameCode = GameCampaignCode::create([
             'game_session_id' => $session->id,
             'participant_id' => $participant->id,
             'code_id' => $code->id,
             'round_id' => $session->currentRound->roundID,
+            'details' => [
+                'hints' => $hints,
+            ],
         ]);
 
         // TODO: track cost
         // TODO: track KPI score
         // TODO: track treshold score
 
-        return redirect()->route('game.marketing.campaign.codes.view', [
-            'numbers' => $code->code,
-            'code' => $gameCode,
-        ]);
+        return [
+            'hints' => $gameCode->details->hints,
+        ];
+    }
+
+    private function getHintsForCode(GameSession $session, ScenarioCampaignCode $code): array
+    {
+        if ($code->category->is(CampaignCodeCategory::EASY)) {
+            return $this->getHintsForEasyCode($session, $code);
+        }
+
+        return $this->getHintsForDifficultCode($session, $code);
+    }
+
+    private function getHintsForEasyCode(GameSession $session, ScenarioCampaignCode $code)
+    {
+        $codesUsed = GameCampaignCode::query()
+            ->where('game_session_id', '=', $session->id)
+            ->whereRelation('code', fn($q) => $q->where('category', '=', CampaignCodeCategory::EASY))
+            ->count();
+
+        $hints = $session->scenario->tips->pluck('content')->toArray();
+        $hints = $session->randomizer()->shuffleArray($hints);
+
+        $index = $codesUsed % count($hints);
+
+        return [$hints[$index]];
+    }
+
+    private function getHintsForDifficultCode(GameSession $session, ScenarioCampaignCode $code)
+    {
+        $chunks = 6;
+
+        $codesUsed = GameCampaignCode::query()
+            ->where('game_session_id', '=', $session->id)
+            ->whereRelation('code', fn($q) => $q->where('category', '=', CampaignCodeCategory::DIFFICULT))
+            ->count();
+
+        if ($codesUsed >= $chunks) {
+            return [];
+        }
+
+        $hints = $session->scenario->clients
+            ->map(fn($c) => $c->segment->getHintMessageForClient($c))
+            ->toArray();
+
+        return $session->randomizer()->splitItemsRandomly($hints, $chunks)[$codesUsed] ?? [];
     }
 }

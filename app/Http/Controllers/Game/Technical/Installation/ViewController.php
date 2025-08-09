@@ -27,12 +27,10 @@ class ViewController
             ])
             ->orderBy('quote_round_id', 'desc')
             ->get()
-            ->map(function ($project) {
-                return [
-                    ...ProjectResource::make($project)->resolve(),
-                    'href' => route('game.technical.installation.projects.update', [$project]),
-                ];
-            });
+            ->map(fn($project) => [
+                ...ProjectResource::make($project)->resolve(),
+                'href' => route('game.technical.installation.projects.update', [$project]),
+            ]);
 
         return Inertia::render('game/technical/installation/view', [
             'projects' => $projects,
