@@ -1,6 +1,6 @@
 <template>
   <div class="game code-puzzle">
-    <PinInputRoot id="otp" v-model="model" class="pin-input" placeholder="○" @complete="handleComplete">
+    <PinInputRoot v-model="model" type="number" class="pin-input" placeholder="○" @complete="handleComplete">
       <PinInputInput v-for="(id, index) in characters" :key="id" :index="index" inputmode="numeric" />
     </PinInputRoot>
   </div>
@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { PinInputInput, PinInputRoot } from 'reka-ui'
 
-const model = defineModel<string[]>()
+const model = defineModel<number[]>()
 
 withDefaults(
   defineProps<{
@@ -36,7 +36,7 @@ const handleComplete = () => {
   gap: 0.5em;
 }
 
-input[type='text'] {
+input {
   width: 2ch;
   font-size: 2rem;
   padding-block: 0.5em;

@@ -31,7 +31,7 @@ defineProps<{
 }>()
 
 const form = useForm<{
-  code: string[]
+  code: number[]
 }>({
   code: [],
 })
