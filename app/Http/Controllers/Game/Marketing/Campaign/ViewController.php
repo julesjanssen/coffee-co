@@ -101,6 +101,7 @@ class ViewController
     private function getHintsForDifficultCode(GameSession $session, ScenarioCampaignCode $code)
     {
         $chunks = 6;
+        $defaultHint = __('There is no new information, but you have increased your access in the market.');
 
         $codesUsed = GameCampaignCode::query()
             ->where('game_session_id', '=', $session->id)
@@ -108,13 +109,13 @@ class ViewController
             ->count();
 
         if ($codesUsed >= $chunks) {
-            return [];
+            return [$defaultHint];
         }
 
         $hints = $session->scenario->clients
             ->map(fn($c) => $c->segment->getHintMessageForClient($c))
             ->toArray();
 
-        return $session->randomizer()->splitItemsRandomly($hints, $chunks)[$codesUsed] ?? [];
+        return $session->randomizer()->splitItemsRandomly($hints, $chunks)[$codesUsed] ?? [$defaultHint];
     }
 }
