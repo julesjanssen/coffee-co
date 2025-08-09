@@ -12,11 +12,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('game_nps_scores', function (Blueprint $table) {
+        Schema::create('game_scores', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_session_id')->index();
             $table->unsignedBigInteger('participant_id')->index()->nullable();
             $table->unsignedBigInteger('client_id')->index();
+            $table->string('type', 50)->index();
             $table->string('trigger_type', 100);
             $table->unsignedBigInteger('trigger_id')->nullable();
             $table->string('event', 20)->index();

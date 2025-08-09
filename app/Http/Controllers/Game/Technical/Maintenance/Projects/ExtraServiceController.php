@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\Technical\Maintenance\Projects;
 
+use App\Enums\GameSession\ScoreType;
 use App\Http\Resources\Game\ProjectActionResource;
-use App\Models\GameNpsScore;
+use App\Models\GameScore;
 use App\Models\Project;
 use App\Models\ProjectAction;
 use Illuminate\Http\Request;
@@ -28,10 +29,11 @@ class ExtraServiceController
 
         $client = $project->client;
 
-        GameNpsScore::firstOrCreate([
+        GameScore::firstOrCreate([
             'game_session_id' => $session->id,
             'participant_id' => $participant->id,
             'client_id' => $client->id,
+            'type' => ScoreType::NPS,
             'trigger_type' => $action->getMorphClass(),
             'trigger_id' => $action->getKey(),
             'event' => 'extra-service',

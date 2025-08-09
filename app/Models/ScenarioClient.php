@@ -8,6 +8,7 @@ use App\Enums\Client\CarBrand;
 use App\Enums\Client\Market;
 use App\Enums\Client\Segment;
 use App\Enums\Client\YearsInBusiness;
+use App\Enums\GameSession\ScoreType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -70,7 +71,8 @@ class ScenarioClient extends Model
 
     public function netPromotorScoreForGameSession(GameSession $session)
     {
-        $npsDelta = $session->npsScores
+        $npsDelta = $session->scores
+            ->filter(fn($v) => $v->type->is(ScoreType::NPS))
             ->filter(fn($v) => $v->client_id === $this->id)
             ->sum('value');
 

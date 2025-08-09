@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Product\Color;
-use App\Enums\Product\Material;
-use App\Enums\Product\Type;
+use App\Enums\GameSession\ScoreType;
 use App\Values\GameRound;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -15,19 +13,17 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class GameNpsScore extends Model
+class GameScore extends Model
 {
     use HasSqids;
     use UsesTenantConnection;
 
-    protected $table = 'game_nps_scores';
+    protected $table = 'game_scores';
 
     protected $guarded = [];
 
     protected $casts = [
-        // 'type' => Type::class,
-        // 'material' => Material::class,
-        // 'color' => Color::class,
+        'type' => ScoreType::class,
         'value' => 'integer',
         'details' => 'array',
     ];
