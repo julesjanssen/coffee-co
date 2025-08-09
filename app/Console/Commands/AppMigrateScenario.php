@@ -13,8 +13,10 @@ use App\Enums\Product\Color;
 use App\Enums\Product\Material;
 use App\Enums\Product\Type;
 use App\Enums\Request\CompetitionLevel;
+use App\Enums\Scenario\CampaignCodeCategory;
 use App\Enums\Scenario\Status;
 use App\Models\Scenario;
+use App\Models\ScenarioCampaignCode;
 use App\Models\ScenarioClient;
 use App\Models\ScenarioProduct;
 use App\Models\ScenarioRequest;
@@ -76,6 +78,7 @@ class AppMigrateScenario extends Command
         $this->migrateProducts($scenario);
         $this->migrateRequests($scenario);
         $this->migrateSolutions($scenario);
+        $this->migrateCodes($scenario);
         $this->migrateTips($scenario);
     }
 
@@ -237,6 +240,23 @@ class AppMigrateScenario extends Command
             'product_ids' => $productIDs,
             'score' => $record->customerdecisionpoints,
             'is_optimal' => $isOptimal,
+        ]);
+    }
+
+    private function migrateCodes(Scenario $scenario)
+    {
+        $this->oldDB()
+            ->table('campaigncodes')
+            ->get()
+            ->each(fn($v) => $this->migrateCode($scenario, $v));
+    }
+
+    private function migrateCode(Scenario $scenario, object $record)
+    {
+        ScenarioCampaignCode::create([
+            'scenario_id' => $scenario->id,
+            'code' => $record->code,
+            'category' => CampaignCodeCategory::from($record->type),
         ]);
     }
 
