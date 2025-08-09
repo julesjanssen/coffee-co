@@ -9,6 +9,7 @@ use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
 use App\Events\GameSessionCreated;
 use App\Models\Traits\Reservable;
+use App\Support\Random\GameSessionRandomizer;
 use App\Values\GameRound;
 use App\Values\GameSessionSettings;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -130,6 +131,11 @@ class GameSession extends Model
         return Attribute::make(
             get: fn() => $this->settings->flow
         );
+    }
+
+    public function randomizer()
+    {
+        return GameSessionRandomizer::forGameSession($this);
     }
 
     public function pause()
