@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Game\Sales\RequestVisit;
 use App\Enums\Client\CarBrand;
 use App\Enums\Client\Market;
 use App\Enums\Client\YearsInBusiness;
+use App\Enums\GameSession\TransactionType;
 use App\Models\Project;
 use App\Models\ScenarioClient;
 use App\Traits\ListAndValidateClientForParticipant;
@@ -35,35 +36,50 @@ class QuizController
     public function store(Request $request, ScenarioClient $client)
     {
         $participant = $request->participant();
+        $session = $participant->session;
 
         $this->validateClientForParticipant($participant, $client);
 
         $quizScore = $this->calculateQuizScore($request, $client);
-        $includeLabConsulting = $participant->session->settings->flow->enableLabConsultingForScore($quizScore);
+        $includeLabConsulting = $session->settings->flow->enableLabConsultingForScore($quizScore);
 
-        $requests = $client->listAvailableRequestForGameSession($participant->session, $includeLabConsulting);
+        $requests = $client->listAvailableRequestForGameSession($session, $includeLabConsulting);
         if ($requests->isEmpty()) {
             return redirect()->route('game.sales.request-visit.no-requests', [$client]);
         }
 
         $projectRequest = $requests->first();
+        $projectRequest->load([
+            'client',
+        ]);
 
         $project = Project::fromRequest($projectRequest);
 
         $project->fill([
-            'game_session_id' => $participant->session->id,
-            'request_round_id' => $participant->session->currentRound->roundID,
+            'game_session_id' => $session->id,
+            'request_round_id' => $session->currentRound->roundID,
             'settings' => ProjectSettings::fromArray([
                 'labConsultingApplied' => true,
                 'labConsultingIncluded' => $includeLabConsulting,
             ]),
         ])->save();
 
+        $session->transactions()
+            ->create([
+                'participant_id' => $participant->id,
+                'client_id' => $client->id,
+                'project_id' => $project->id,
+                'type' => TransactionType::LAB_CONSULTING,
+                'round_id' => $session->currentRound->roundID,
+                'value' => -5,
+            ]);
+
         return redirect()->route('game.sales.projects.view', [$project]);
     }
 
     public function calculateQuizScore(Request $request, ScenarioClient $client)
     {
+        // TODO: calc score
         return random_int(0, 100);
     }
 

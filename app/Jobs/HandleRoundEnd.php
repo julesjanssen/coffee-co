@@ -149,11 +149,23 @@ class HandleRoundEnd implements ShouldQueue
                 break;
 
             case ProjectStatus::WON:
-                // TODO: check if project is delivered in time
+                $maxDeliveryRound = $project->quote_round_id + $this->session->settings->roundsToDeliverProject;
+                if ($maxDeliveryRound <= $this->session->currentRound->roundID) {
+                    // not delivered in time
+                    $project->update([
+                        'status' => ProjectStatus::LOST,
+                    ]);
+                }
                 break;
 
             case ProjectStatus::PENDING:
-                // TODO: check if offer is submitted in time
+                $maxQuoteRound = $project->request_round_id + $this->session->settings->roundsToSubmitOffer;
+                if ($maxQuoteRound <= $this->session->currentRound->roundID) {
+                    // not quoted in time
+                    $project->update([
+                        'status' => ProjectStatus::LOST,
+                    ]);
+                }
                 break;
         }
     }

@@ -21,4 +21,20 @@ enum TrainingType: string
             self::DEEP => 4,
         };
     }
+
+    public function transactionType()
+    {
+        return match ($this) {
+            self::BROAD => TransactionType::MARKETING_TRAINING_BROAD,
+            self::DEEP => TransactionType::MARKETING_TRAINING_DEEP,
+        };
+    }
+
+    public function cost()
+    {
+        return match ($this) {
+            self::BROAD => 40,
+            self::DEEP => 40,
+        };
+    }
 }

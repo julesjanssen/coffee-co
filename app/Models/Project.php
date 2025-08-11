@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Project\Location;
 use App\Enums\Project\Status;
+use App\Events\ProjectUpdated;
 use App\Values\GameRound;
 use App\Values\ProjectSettings;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -39,6 +40,10 @@ class Project extends Model
         'failure_chance' => 0,
         'downtime' => 0,
         'settings' => '[]',
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => ProjectUpdated::class,
     ];
 
     /**
@@ -79,6 +84,14 @@ class Project extends Model
     public function actions(): HasMany
     {
         return $this->hasMany(ProjectAction::class, 'project_id', 'id');
+    }
+
+    /**
+     * @return HasMany<ProjectHistoryItem, $this>
+     */
+    public function historyItems(): HasMany
+    {
+        return $this->hasMany(ProjectHistoryItem::class, 'project_id', 'id');
     }
 
     #[Scope]
@@ -143,6 +156,8 @@ class Project extends Model
 
     public static function fromRequest(ScenarioRequest $request)
     {
+        $request->loadMissing(['client']);
+
         return self::make([
             'request_id' => $request->id,
             'client_id' => $request->client->id,

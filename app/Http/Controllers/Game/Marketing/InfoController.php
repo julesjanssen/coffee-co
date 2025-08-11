@@ -20,9 +20,7 @@ class InfoController
             ->orderBy('round_id', 'desc')
             ->orderBy('id', 'desc')
             ->get()
-            ->flatMap(function ($result) {
-                return $result->details->hints;
-            });
+            ->flatMap(fn($result) => $result->details->hints);
 
         return Inertia::render('game/marketing/info', [
             'hints' => $hints,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\Marketing\Mmma;
 
+use App\Enums\GameSession\TransactionType;
 use App\Models\GameMmmaActivation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -40,6 +41,14 @@ class ViewController
             'details' => [],
             'round_id' => $session->currentRound->roundID,
         ]);
+
+        $session->transactions()
+            ->create([
+                'participant_id' => $participant->id,
+                'type' => TransactionType::MMMA,
+                'round_id' => $session->currentRound->roundID,
+                'value' => -75,
+            ]);
 
         $date = $session->currentRound->addRounds(6);
 

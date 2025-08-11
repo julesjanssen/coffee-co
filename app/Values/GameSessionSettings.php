@@ -21,7 +21,7 @@ final class GameSessionSettings extends CastableValueObject
 
     public int $roundsToDeliverProject = 6;
 
-    public int $costLabconsultingRequestVisit = 5;
+    public int $costLabconsultingRequest = 5;
 
     public int $costLabconsultingOffer = 25;
 

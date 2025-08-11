@@ -32,6 +32,14 @@ class ViewController
             'round_id' => $session->currentRound->roundID,
         ]);
 
+        $session->transactions()
+            ->create([
+                'participant_id' => $participant->id,
+                'type' => $type->transactionType(),
+                'round_id' => $session->currentRound->roundID,
+                'value' => $type->cost() * -1,
+            ]);
+
         $cardID = GameTraining::query()
             ->where('game_session_id', '=', $session->id)
             ->where('type', '=', $type)

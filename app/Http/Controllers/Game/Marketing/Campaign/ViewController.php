@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\Marketing\Campaign;
 
+use App\Enums\GameSession\TransactionType;
 use App\Enums\Scenario\CampaignCodeCategory;
 use App\Models\GameCampaignCode;
 use App\Models\GameSession;
@@ -65,7 +66,14 @@ class ViewController
             ],
         ]);
 
-        // TODO: track cost
+        $session->transactions()
+            ->create([
+                'participant_id' => $participant->id,
+                'type' => TransactionType::MARKETING_CAMPAIGN,
+                'round_id' => $session->currentRound->roundID,
+                'value' => $code->category->cost() * -1,
+            ]);
+
         // TODO: track KPI score
         // TODO: track treshold score
 

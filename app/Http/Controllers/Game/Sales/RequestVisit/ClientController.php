@@ -61,13 +61,14 @@ class ClientController
     private function createProjectAndRedirect(Request $request, ScenarioClient $client, Collection $requests)
     {
         $participant = $request->participant();
+        $session = $participant->session;
         $projectRequest = $requests->first();
 
         $project = Project::fromRequest($projectRequest);
 
         $project->fill([
-            'game_session_id' => $participant->session->id,
-            'request_round_id' => $participant->session->currentRound->roundID,
+            'game_session_id' => $session->id,
+            'request_round_id' => $session->currentRound->roundID,
             'settings' => ProjectSettings::fromArray([
                 'labConsultingApplied' => false,
                 'labConsultingIncluded' => false,

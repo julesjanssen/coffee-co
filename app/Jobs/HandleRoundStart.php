@@ -6,6 +6,7 @@ namespace App\Jobs;
 
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
+use App\Enums\GameSession\TransactionType;
 use App\Enums\Queue;
 use App\Events\GameSessionRoundStatusUpdated;
 use App\Models\GameSession;
@@ -15,6 +16,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 
 class HandleRoundStart implements ShouldQueue
 {
@@ -32,24 +34,24 @@ class HandleRoundStart implements ShouldQueue
 
     public function handle()
     {
-        // if ($this->session->current_round_id >= $this->round->roundID) {
-        //     return;
-        // }
+        if ($this->session->current_round_id >= $this->round->roundID) {
+            return;
+        }
 
-        // if ($this->session->status->isNot(Status::PENDING)) {
-        //     if ($this->session->round_status->notIn([
-        //         RoundStatus::PROCESSED,
-        //         RoundStatus::PAUSED,
-        //     ])) {
-        //         return;
-        //     }
-        // }
+        if ($this->session->status->isNot(Status::PENDING)) {
+            if ($this->session->round_status->notIn([
+                RoundStatus::PROCESSED,
+                RoundStatus::PAUSED,
+            ])) {
+                return;
+            }
+        }
 
-        // if (! $this->session->reserve($this->getReservationKey(), '+30 seconds')) {
-        //     $this->release(10);
+        if (! $this->session->reserve($this->getReservationKey(), '+30 seconds')) {
+            $this->release(10);
 
-        //     return;
-        // }
+            return;
+        }
 
         $this->process();
 
@@ -59,7 +61,7 @@ class HandleRoundStart implements ShouldQueue
     private function process()
     {
         if ($this->round->isFirstRoundOfYear()) {
-            // TODO: process operational cost per year on first month of year
+            $this->processOperationalCost();
         }
 
         if ($this->round->isLastRoundOfYear()) {
@@ -73,6 +75,20 @@ class HandleRoundStart implements ShouldQueue
         GameSessionRoundStatusUpdated::dispatch($this->session);
 
         HandleRoundEnd::dispatch($this->session, $this->round)->delay($this->session->settings->secondsPerRound);
+    }
+
+    private function processOperationalCost()
+    {
+        /** @var int[] $config */
+        $config = config('coffeeco.operational_cost_per_year', []);
+        $value = (int) (Arr::get($config, $this->round->year() - 1) ?? array_pop($config));
+
+        $this->session->transactions()
+            ->create([
+                'type' => TransactionType::OPERATIONAL_COST,
+                'round_id' => $this->round->roundID,
+                'value' => $value * -1,
+            ]);
     }
 
     private function getReservationKey()

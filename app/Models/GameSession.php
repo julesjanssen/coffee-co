@@ -102,6 +102,14 @@ class GameSession extends Model
     }
 
     /**
+     * @return HasMany<GameTransaction, $this>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(GameTransaction::class)->chaperone('session');
+    }
+
+    /**
      * @return HasMany<GameScore, $this>
      */
     public function scores(): HasMany
