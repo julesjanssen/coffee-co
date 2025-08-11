@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\Locale;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -94,7 +95,7 @@ class AppTranslationsFind extends Command
 
     private function selectLanguage()
     {
-        $languages = collect(config('translations.languages', ['en' => 'English']));
+        $languages = Locale::collect()->mapWithKeys(fn($v) => [$v->value => $v->description()]);
 
         if ($languages->isEmpty()) {
             throw new LogicException('Define language options.');
