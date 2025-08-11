@@ -12,7 +12,7 @@ use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionNamedType;
 
-class CastableValueObject implements Castable
+abstract class CastableValueObject implements Castable
 {
     // limit properties to explicitly defined set
     public function __set(string $name, mixed $value): void
