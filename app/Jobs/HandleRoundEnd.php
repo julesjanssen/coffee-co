@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Enums\GameSession\RoundStatus;
+use App\Enums\GameSession\ScoreType;
 use App\Enums\GameSession\Status;
+use App\Enums\GameSession\TransactionType;
 use App\Enums\Project\Status as ProjectStatus;
 use App\Enums\Queue;
 use App\Events\GameSessionRoundStatusUpdated;
 use App\Models\GameSession;
 use App\Models\Project;
+use App\Models\ProjectHistoryItem;
 use App\Values\GameRound;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -112,6 +115,9 @@ class HandleRoundEnd implements ShouldQueue
     private function updateProjectFailureChances()
     {
         $this->session->projects()
+            ->with([
+                'request',
+            ])
             ->where('status', '=', ProjectStatus::ACTIVE)
             ->increment('failure_chance', $this->session->settings->failChanceIncreasePerRound);
     }
@@ -126,8 +132,7 @@ class HandleRoundEnd implements ShouldQueue
             ])
             ->get()
             ->each($this->updateProjectState(...))
-            // TODO: track up/downtime in project-history
-            // TODO: calc uptime
+            ->each($this->trackProjectState(...))
             // ->each($this->calcUptime(...))
             ->each($this->handleProjectLifetime(...));
     }
@@ -170,6 +175,21 @@ class HandleRoundEnd implements ShouldQueue
         }
     }
 
+    private function trackProjectState(Project $project)
+    {
+        if ($project->status->notIn([
+            ProjectStatus::ACTIVE,
+            ProjectStatus::DOWN,
+        ])) {
+            return;
+        }
+
+        $project->historyItems()->create([
+            'round_id' => $project->session->currentRound->roundID,
+            'status' => $project->status,
+        ]);
+    }
+
     private function handleProjectLifetime(Project $project)
     {
         if ($project->status->notIn([
@@ -179,13 +199,88 @@ class HandleRoundEnd implements ShouldQueue
             return;
         }
 
-        // TODO: check lifetime, calc bonus & set to finished
+        $finishRound = $project->delivery_round_id + $project->request->duration;
+        if ($finishRound > $this->session->currentRound->roundID) {
+            return;
+        }
+
+        $project->update([
+            'status' => ProjectStatus::FINISHED,
+        ]);
+
+        $uptime = $project->uptimePercentage();
+        $bonus = 0;
+        if ($uptime > 80) {
+            $bonus = (int) ceil($project->price * .1);
+        } elseif ($uptime > 70) {
+            $bonus = (int) ceil($project->price * .05);
+        }
+
+        $project->session->transactions()
+            ->create([
+                'project_id' => $project->id,
+                'client_id' => $project->client_id,
+                'type' => TransactionType::PROJECT_UPTIME_BONUS,
+                'details' => [
+                    'uptime' => (int) round($uptime),
+                ],
+                'round_id' => $this->round->roundID,
+                'value' => $bonus,
+            ]);
     }
 
     private function processNpsDeltasForUptime()
     {
-        // TODO: calc uptimes for last quarter & distribute NPS deltas
-        return random_int(0, 10);
+        $quarterRange = range($this->round->roundID - 2, $this->round->roundID);
+        $avgUptime = vsprintf("AVG(CASE WHEN ph.status = '%s' THEN 100 WHEN ph.status = '%s' THEN 0 END) as avg_uptime", [
+            ProjectStatus::ACTIVE->value,
+            ProjectStatus::DOWN->value,
+        ]);
+
+        ProjectHistoryItem::query()
+            ->from('project_history as ph')
+            ->join('projects as p', function ($query) {
+                $query->on('p.id', '=', 'ph.project_id');
+            })
+            /** @phpstan-ignore argument.type */
+            ->where('p.game_session_id', '=', $this->session->id)
+            ->whereIn('ph.round_id', $quarterRange)
+            ->whereIn('ph.status', [
+                ProjectStatus::ACTIVE,
+                ProjectStatus::DOWN,
+            ])
+            ->select('p.client_id')
+            ->selectRaw($avgUptime)
+            ->groupBy('client_id')
+            ->toBase()
+            ->get()
+            ->each(function ($result) {
+                $uptime = (float) $result->avg_uptime;
+
+                $score = 0;
+                if ($uptime > 90) {
+                    $score = 1;
+                } elseif ($uptime < 60) {
+                    $score = -3;
+                } elseif ($uptime < 70) {
+                    $score = -2;
+                } elseif ($uptime < 80) {
+                    $score = -1;
+                }
+
+                $this->session->scores()
+                    ->create([
+                        'client_id' => $result->client_id,
+                        'type' => ScoreType::NPS,
+                        'trigger_type' => 'quarter-uptime',
+                        'event' => 'Q' . $this->round->quarter(),
+                        'round_id' => $this->round->roundID,
+                        'details' => [
+                            'uptime' => (int) round($uptime),
+                        ],
+                        'value' => $score,
+                    ]);
+            });
     }
 
     private function trackMarketShare()

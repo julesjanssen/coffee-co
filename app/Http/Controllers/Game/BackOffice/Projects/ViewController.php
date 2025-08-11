@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\BackOffice\Projects;
 
+use App\Enums\GameSession\TransactionType;
 use App\Enums\Project\Status;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -15,9 +16,9 @@ class ViewController
 {
     public function view(Request $request, Project $project)
     {
-        // if ($project->status->isNot(Status::PENDING)) {
-        //     return redirect()->route('game.base');
-        // }
+        if ($project->status->isNot(Status::PENDING)) {
+            return redirect()->route('game.base');
+        }
 
         $projectResource = [
             'title' => $project->title,
@@ -136,7 +137,16 @@ class ViewController
         $project->quote_round_id = $project->session->current_round_id;
         $project->save();
 
-        // TODO: write revenue (90%)
+        if ($status->is(Status::WON)) {
+            $project->session->transactions()
+                ->create([
+                    'project_id' => $project->id,
+                    'client_id' => $project->client_id,
+                    'type' => TransactionType::PROJECT_WON,
+                    'round_id' => $project->session->currentRound->roundID,
+                    'value' => (int) round($project->price * .9),
+                ]);
+        }
 
         return redirect()->route('game.backoffice.projects.view', [$project]);
     }

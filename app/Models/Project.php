@@ -145,6 +145,13 @@ class Project extends Model
         return new GameRound($this->session->scenario, ($requestedRoundID + $roundsToSubmitOffer));
     }
 
+    public function uptimePercentage()
+    {
+        $uptime = ($this->request->duration - $this->downtime);
+
+        return (($uptime / $this->request->duration) * 100);
+    }
+
     public function currentStateHash(string $salt = '')
     {
         return hash('xxh3', implode(':', [

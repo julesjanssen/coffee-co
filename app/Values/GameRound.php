@@ -80,6 +80,11 @@ class GameRound implements Arrayable
         return $startYear + $this->year() - 1;
     }
 
+    public function quarter()
+    {
+        return (int) ((($this->roundID - 1) % self::ROUNDS_PER_YEAR) / 3) + 1;
+    }
+
     public function previous()
     {
         if ($this->roundID <= 1) {

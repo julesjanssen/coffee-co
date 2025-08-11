@@ -9,12 +9,10 @@ use App\Values\GameRound;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class ProjectHistoryItem extends Model
 {
-    use HasSqids;
     use UsesTenantConnection;
 
     protected $table = 'project_history';
