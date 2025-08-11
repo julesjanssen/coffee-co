@@ -17,6 +17,9 @@ class ViewController
 
         return Inertia::render('game/marketing/mmma/view', [
             'mazeLevel' => $participant->session->flow->mazeLevelForScore(),
+            'links' => [
+                'back' => route('game.marketing.view'),
+            ],
         ]);
     }
 

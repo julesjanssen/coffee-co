@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Game;
 
 use App\Enums\Participant\Role;
-use App\Http\Resources\Game\GameAuthenticatableResource;
-use App\Jobs\HandleRoundStart;
 use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ViewController
 {
@@ -33,6 +31,12 @@ class ViewController
         }
 
         if ($participant->role->in([
+            Role::SALES_SCREEN,
+        ])) {
+            return redirect()->route('game.sales-screen.projects');
+        }
+
+        if ($participant->role->in([
             Role::TECHNICAL_1,
             Role::TECHNICAL_2,
         ])) {
@@ -51,15 +55,12 @@ class ViewController
             return redirect()->route('game.backoffice.view');
         }
 
-        $session = $participant->session;
-        // dd($session->settings);
+        if ($participant->role->in([
+            Role::MATERIALS_1,
+        ])) {
+            return redirect()->route('game.materials.projects');
+        }
 
-        // HandleRoundStart::dispatchSync($session, $session->currentRound);
-
-        // return $session;
-
-        return Inertia::render('game/view', [
-            'authenticatable' => GameAuthenticatableResource::make($user),
-        ]);
+        throw new BadRequestHttpException();
     }
 }

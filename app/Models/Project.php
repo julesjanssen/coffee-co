@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -90,6 +91,23 @@ class Project extends Model
     protected function whereClient(Builder $query, ScenarioClient $client)
     {
         $query->where('client_id', '=', $client->id);
+    }
+
+    #[Scope]
+    protected function filterAndOrderByStatus(Builder $query, Collection|array $statuses, string $direction = 'asc')
+    {
+        $statuses = collect($statuses)
+            ->map(fn($v) => Status::coerce($v))
+            ->map(fn($v) => $v->value);
+
+        $expr = vsprintf('FIELD(status, %s) %s', [
+            str_repeat('?,', $statuses->count() - 1) . '?',
+            $direction,
+        ]);
+
+        $query
+            ->whereIn('status', $statuses)
+            ->orderByRaw($expr, $statuses->toArray());
     }
 
     /** @return Attribute<string, never> */

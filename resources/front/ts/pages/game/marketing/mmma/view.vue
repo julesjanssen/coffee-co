@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 import Maze from '/@front:components/games/Maze.vue'
@@ -24,8 +25,9 @@ defineOptions({
   layout: [GameLayout],
 })
 
-defineProps<{
+const props = defineProps<{
   mazeLevel: number
+  links: Record<string, string>
 }>()
 
 const shouldShowHints = ref(false)
@@ -42,6 +44,7 @@ const mazeCompleted = () => {
       const status = err.response?.status
       if (status === 422) {
         error(err.response.data?.message || 'Unknown error')
+        router.visit(props.links.back)
         return
       }
 
