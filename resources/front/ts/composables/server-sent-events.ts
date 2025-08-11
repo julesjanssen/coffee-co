@@ -51,15 +51,25 @@ export function useServerSentEvents() {
     initialized.value = true
   }
 
+  const close = () => {
+    if (eventSource) {
+      eventSource.close()
+      eventSource = undefined
+    }
+
+    initialized.value = false
+  }
+
   // Prevent re-initialisation on HMR.
   if (!initialized.value) {
     init()
   }
 
   onUnmounted(() => {
-    if (eventSource) {
-      eventSource.close()
-      eventSource = undefined
-    }
+    close()
   })
+
+  return {
+    close,
+  }
 }
