@@ -28,6 +28,7 @@ export type GameSession = {
 }
 
 export type Project = {
+  sqid: string
   title: string
   client: ScenarioClient
   failureChance: number

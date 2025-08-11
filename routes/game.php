@@ -74,6 +74,15 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
+    ParticipantRole::roles([Role::SALES_SCREEN]),
+])->namespace('SalesScreen')->prefix('sales-screen/')->as('sales-screen.')->group(function () {
+    Route::get('/', 'ProjectsController@view')->name('projects');
+    Route::get('results', 'ResultsController@view')->name('results');
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
     ParticipantRole::roles([Role::TECHNICAL_1, Role::TECHNICAL_2]),
 ])->namespace('Technical')->prefix('technical/')->as('technical.')->group(function () {
     Route::get('/', 'ViewController@view')->name('view');
@@ -142,6 +151,14 @@ Route::middleware([
             Route::post('{project}', 'ViewController@store');
             Route::get('{project}', 'ViewController@view')->name('view');
         });
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
+    ParticipantRole::roles([Role::MATERIALS_1]),
+])->namespace('Materials')->prefix('materials/')->as('materials.')->group(function () {
+    Route::get('/', 'ProjectsController@view')->name('projects');
 });
 
 Route::middleware([
