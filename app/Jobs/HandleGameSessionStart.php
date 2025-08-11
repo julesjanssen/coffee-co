@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Enums\GameSession\Status;
+use App\Enums\GameSession\TransactionType;
 use App\Enums\Project\Status as ProjectStatus;
 use App\Enums\Queue;
 use App\Models\GameSession;
@@ -120,7 +121,21 @@ class HandleGameSessionStart implements ShouldQueue
 
         $project->save();
 
-        // TODO: write revenue (90%)
+        if ($status->in([
+            ProjectStatus::ACTIVE,
+            ProjectStatus::WON,
+            ProjectStatus::DOWN,
+            ProjectStatus::FINISHED,
+        ])) {
+            $this->session->transactions()
+                ->create([
+                    'project_id' => $project->id,
+                    'client_id' => $project->client_id,
+                    'type' => TransactionType::PROJECT_WON,
+                    'round_id' => 1,
+                    'value' => (int) round($project->price * .9),
+                ]);
+        }
     }
 
     private function getReservationKey()
