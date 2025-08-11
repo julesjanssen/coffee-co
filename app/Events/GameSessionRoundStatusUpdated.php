@@ -40,7 +40,6 @@ class GameSessionRoundStatusUpdated implements ShouldBroadcast
         return [
             'status' => $this->session->status,
             'roundStatus' => $this->roundStatus,
-            'isFirstRound' => $this->session->currentRound->isFirstRound(),
         ];
     }
 
