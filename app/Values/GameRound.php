@@ -103,18 +103,27 @@ class GameRound implements Arrayable
         return new self($this->scenario, ($this->roundID + $number));
     }
 
+    public function displayFull()
+    {
+        return $this->getDateObject()->isoFormat('MMMM YYYY');
+    }
+
     public function display()
     {
-        $date = Date::createFromDate($this->displayYear(), $this->month(), 1);
-
-        return $date->isoFormat('MMM YYYY');
+        return $this->getDateObject()->isoFormat('MMM YYYY');
     }
 
     public function toArray()
     {
         return [
             'display' => $this->display(),
+            'displayFull' => $this->display(),
             'isLastRoundOfYear' => $this->isLastRoundOfYear(),
         ];
+    }
+
+    private function getDateObject()
+    {
+        return Date::createFromDate($this->displayYear(), $this->month(), 1);
     }
 }

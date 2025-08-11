@@ -13,4 +13,12 @@ enum TrainingType: string
     case BROAD = 'broad';
 
     case DEEP = 'deep';
+
+    public function maxCampaigns()
+    {
+        return match ($this) {
+            self::BROAD => 8,
+            self::DEEP => 4,
+        };
+    }
 }

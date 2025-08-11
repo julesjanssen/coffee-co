@@ -115,21 +115,16 @@ Route::middleware([
     Route::prefix('training/')
         ->namespace('Training')
         ->as('training.')->group(function () {
-            Route::get('{training}', 'ViewController@view')->name('view');
+            Route::post('{type}', 'ViewController@store');
+            Route::get('{type}', 'ViewController@view')->name('view');
         });
 
     Route::prefix('mmma/')
         ->namespace('Mmma')
         ->as('mmma.')->group(function () {
+            Route::post('/', 'ViewController@store');
             Route::get('/', 'ViewController@view')->name('view');
         });
-
-    // Route::prefix('installation/')
-    //     ->namespace('Installation')
-    //     ->as('installation.')->group(function () {
-    //         Route::get('/', 'ViewController@view')->name('view');
-    //         Route::post('{project}', 'Projects\UpdateController@store')->name('projects.update');
-    //     });
 });
 
 Route::middleware([

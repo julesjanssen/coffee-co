@@ -17,22 +17,22 @@ class ViewController
 
         $actions = [
             [
-                'label' => __('navigation:marketing:campaign'),
+                'label' => __('actions:marketing:campaign'),
                 'href' => route('game.marketing.campaign.view'),
             ],
             [
-                'label' => __('navigation:marketing:training-broad'),
+                'label' => __('actions:marketing:training-broad'),
                 'href' => route('game.marketing.training.view', [TrainingType::BROAD]),
             ],
             [
-                'label' => __('navigation:marketing:training-deep'),
+                'label' => __('actions:marketing:training-deep'),
                 'href' => route('game.marketing.training.view', [TrainingType::DEEP]),
             ],
         ];
 
         if ($session->canRefreshMmma()) {
             $actions[] = [
-                'label' => __('navigation:marketing:mmma'),
+                'label' => __('actions:marketing:mmma'),
                 'href' => route('game.marketing.mmma.view'),
             ];
         }

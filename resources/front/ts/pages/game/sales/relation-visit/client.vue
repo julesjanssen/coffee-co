@@ -8,7 +8,7 @@
   </div>
 
   <div v-else>
-    <p>{{ tip }}</p>
+    <p>{{ hint }}</p>
 
     <div class="actions">
       <Link :href="links.back">next</Link>
@@ -36,12 +36,12 @@ defineProps<{
 }>()
 
 const canContinue = ref(false)
-const tip = ref('')
+const hint = ref('')
 
 const mazeCompleted = () => {
   http.post(location.pathname).then((response) => {
     canContinue.value = true
-    tip.value = response.data.tip
+    hint.value = response.data.tip
   })
 }
 </script>
