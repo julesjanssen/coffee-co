@@ -13,4 +13,6 @@ enum ScoreType: string
     case MARKETING = 'marketing';
 
     case NPS = 'nps';
+
+    case MARKETSHARE = 'marketshare';
 }

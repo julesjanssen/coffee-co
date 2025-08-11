@@ -22,8 +22,6 @@ return new class extends Migration {
             $table->json('details');
             $table->unsignedTinyInteger('round_id')->nullable();
             $table->integer('value');
-
-            $table->index(['trigger_type', 'trigger_id']);
         });
     }
 };

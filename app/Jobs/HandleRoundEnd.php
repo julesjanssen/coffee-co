@@ -285,8 +285,33 @@ class HandleRoundEnd implements ShouldQueue
 
     private function trackMarketShare()
     {
-        // TODO: implement
-        return random_int(0, 10);
+        $yearRange = GameRound::getRangeForYear($this->round->year());
+
+        $projectValue = $this->session->projects()
+            ->with(['request'])
+            ->whereIn('quote_round_id', $yearRange)
+            ->get()
+            ->sum(fn($v) => $v->request->settings->value);
+
+        $marketValue = $this->session->scenario->requests()
+            ->whereIn('delay', $yearRange)
+            ->get()
+            ->sum(fn($v) => $v->settings->value);
+
+        if ((int) $marketValue === 0) {
+            return;
+        }
+
+        $marketShare = (int) round(($projectValue / $marketValue) * 100);
+
+        $this->session->scores()
+            ->create([
+                'type' => ScoreType::MARKETSHARE,
+                'trigger_type' => 'year-end',
+                'event' => $this->round->year(),
+                'round_id' => $this->round->roundID,
+                'value' => $marketShare,
+            ]);
     }
 
     private function getReservationKey()

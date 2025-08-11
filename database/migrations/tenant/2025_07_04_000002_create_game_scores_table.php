@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('game_session_id')->index();
             $table->unsignedBigInteger('participant_id')->index()->nullable();
-            $table->unsignedBigInteger('client_id')->index();
+            $table->unsignedBigInteger('client_id')->index()->nullable();
             $table->string('type', 50)->index();
             $table->string('trigger_type', 100);
             $table->unsignedBigInteger('trigger_id')->nullable();
