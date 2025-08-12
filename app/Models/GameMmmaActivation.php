@@ -54,21 +54,19 @@ class GameMmmaActivation extends Model
         );
     }
 
-    public static function isActiveForSession(GameSession $session)
+    public static function getContinuouslyActiveRounds(GameSession $session)
     {
         /** @phpstan-ignore method.notFound */
         $result = self::query()
             ->withExpression('activation_periods', function ($query) use ($session) {
-                $currentRoundID = $session->currentRound->roundID;
                 $mmmaEnabledRoundCount = $session->settings->mmmaEnabledRoundCount;
-                $minRoundID = ($currentRoundID - $session->settings->mmmaEffectiveRoundCount - ($mmmaEnabledRoundCount - 1));
 
-                $query->from('game_mmma_activations')
+                $query
+                    ->from('game_mmma_activations')
                     ->select(['round_id'])
                     ->selectRaw('round_id + ? as end_round', [($mmmaEnabledRoundCount - 1)])
-                    ->selectRaw('LEAD(round_id) OVER (PARTITION BY game_session_id ORDER BY round_id) as next_activation')
                     ->where('game_session_id', '=', $session->id)
-                    ->where('round_id', '>=', $minRoundID);
+                    ->orderBy('round_id');
             })
             ->withExpression('gaps', function ($query) {
                 $query
@@ -77,23 +75,47 @@ class GameMmmaActivation extends Model
                         'round_id',
                         'end_round',
                     ])
+                    ->selectRaw('LAG(end_round) OVER (ORDER BY round_id) as prev_end_round')
                     ->selectRaw('CASE
-                      WHEN next_activation IS NOT NULL AND next_activation > end_round + 1
-                      THEN next_activation - end_round - 1
-                      ELSE 0
-                    END as gap_size');
+                        WHEN LAG(end_round) OVER (ORDER BY round_id) IS NULL
+                        OR round_id <= LAG(end_round) OVER (ORDER BY round_id) + 1
+                          THEN 0
+                          ELSE 1
+                        END as has_gap');
             })
-            ->selectRaw('MAX(gap_size) as max_gap_size')
-            ->selectRaw('MIN(round_id) as min_round_id')
-            ->selectRaw('MAX(end_round) as max_round_id')
-            ->from('gaps')
+            ->withExpression('sequence_groups', function ($query) {
+                $query
+                    ->from('gaps')
+                    ->select([
+                        'round_id',
+                        'end_round',
+                    ])
+                    ->selectRaw('SUM(has_gap) OVER (ORDER BY round_id) as sequence_group');
+            })
+            ->withExpression('sequences', function ($query) {
+                $query
+                    ->from('sequence_groups')
+                    ->select('sequence_group')
+                    ->selectRaw('MIN(round_id) as seq_start')
+                    ->selectRaw('MAX(end_round) as seq_end')
+                    ->groupBy('sequence_group');
+            })
+            ->from('sequences')
+            ->selectRaw('COALESCE(? - seq_start + 1, 0) as continuously_active_rounds', [
+                $session->currentRound->roundID,
+            ])
+            ->where('seq_end', '>=', $session->currentRound->roundID)
+            ->orderBy('seq_start', 'desc')
             ->toBase()
-            ->first();
+            ->value('continuously_active_rounds');
 
-        $gapSize = (int) $result->max_gap_size;
+        return (int) $result;
+    }
 
-        return $gapSize === 0
-            && $result->min_round_id <= ($session->currentRound->roundID - $session->settings->mmmaEffectiveRoundCount)
-            && $result->max_round_id >= ($session->currentRound->roundID);
+    public static function isActiveForSession(GameSession $session)
+    {
+        $activeRounds = self::getContinuouslyActiveRounds($session);
+
+        return $activeRounds >= $session->settings->mmmaEffectiveRoundCount;
     }
 }

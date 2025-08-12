@@ -42,12 +42,13 @@ class ViewController
             'round_id' => $session->currentRound->roundID,
         ]);
 
+        $cost = config('coffeeco.mmma_cost', 75);
         $session->transactions()
             ->create([
                 'participant_id' => $participant->id,
                 'type' => TransactionType::MMMA,
                 'round_id' => $session->currentRound->roundID,
-                'value' => -75,
+                'value' => $cost * -1,
             ]);
 
         $date = $session->currentRound->addRounds(6);

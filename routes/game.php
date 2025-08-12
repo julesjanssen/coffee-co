@@ -173,11 +173,15 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('facilitator'),
     GameSession::class,
-])->prefix('facilitator/')->as('facilitator.')->group(function () {
+])->namespace('Facilitator')->prefix('facilitator/')->as('facilitator.')->group(function () {
     Route::get('/', [StatusController::class, 'view'])->name('status');
     Route::post('/session/settings', [SettingsController::class, 'store'])->name('session-settings');
     Route::post('/session/status', [SessionStatusController::class, 'store'])->name('session-status');
     Route::post('/round/status', [FacilitatorRoundStatusController::class, 'store'])->name('round-status');
 
-    Route::get('/mmma', [StatusController::class, 'view'])->name('mmma');
+    Route::post('/mmma', 'MmmaController@store');
+    Route::get('/mmma', 'MmmaController@view')->name('mmma');
+
+    Route::get('/results', 'ResultsController@view')->name('results');
+    Route::get('/projects', 'ProjectsController@view')->name('projects');
 });

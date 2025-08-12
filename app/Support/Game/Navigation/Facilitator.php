@@ -15,9 +15,16 @@ class Facilitator extends Navigation
                 'href' => route('game.facilitator.status'),
             ],
             [
-                'disabled' => true,
                 'label' => __('navigation:facilitator:mmma'),
                 'href' => route('game.facilitator.mmma'),
+            ],
+            [
+                'label' => __('navigation:facilitator:results'),
+                'href' => route('game.facilitator.results'),
+            ],
+            [
+                'label' => __('navigation:facilitator:projects'),
+                'href' => route('game.facilitator.projects'),
             ],
         ];
     }
