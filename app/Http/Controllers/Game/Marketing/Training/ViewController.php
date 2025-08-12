@@ -28,6 +28,7 @@ class ViewController
 
         GameTraining::create([
             'game_session_id' => $session->id,
+            'participant_id' => $participant->id,
             'type' => $type,
             'round_id' => $session->currentRound->roundID,
         ]);

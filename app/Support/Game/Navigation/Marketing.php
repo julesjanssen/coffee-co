@@ -10,7 +10,7 @@ class Marketing extends Navigation
 {
     public function toArray(): array
     {
-        return array_filter([
+        return [
             [
                 'label' => __('navigation:marketing:results'),
                 'href' => route('game.marketing.results'),
@@ -19,11 +19,12 @@ class Marketing extends Navigation
                 'label' => __('navigation:marketing:actions'),
                 'href' => route('game.marketing.view'),
             ],
-            ($this->hasInfoAvailable() ? [
+            [
+                'disabled' => ! $this->hasInfoAvailable(),
                 'label' => __('navigation:marketing:info'),
                 'href' => route('game.marketing.info'),
-            ] : null),
-        ]);
+            ],
+        ];
     }
 
     private function hasInfoAvailable()

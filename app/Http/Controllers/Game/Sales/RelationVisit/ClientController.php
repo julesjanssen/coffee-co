@@ -39,6 +39,7 @@ class ClientController
         $session->scores()
             ->create([
                 'participant_id' => $participant->id,
+                'client_id' => $client->id,
                 'type' => ScoreType::NPS,
                 'trigger_type' => 'relation-visit',
                 'event' => 'relation-visit',
