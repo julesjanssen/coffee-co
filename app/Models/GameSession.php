@@ -160,6 +160,10 @@ class GameSession extends Model
 
     public function canRefreshHdma()
     {
+        if ($this->isPending()) {
+            return false;
+        }
+
         $cooldown = $this->settings->hdmaRefreshRoundCooldown;
 
         $exists = GameHdmaActivation::query()
@@ -181,7 +185,13 @@ class GameSession extends Model
 
     public function marketingTresholdScore()
     {
+        // TODO: implement
         return 10;
+    }
+
+    public function isPending()
+    {
+        return $this->status->is(Status::PENDING);
     }
 
     public function pickRelevantScenario(): ?Scenario

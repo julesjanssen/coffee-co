@@ -56,8 +56,7 @@ class GameHdmaActivation extends Model
 
     public static function getContinuouslyActiveRounds(GameSession $session)
     {
-        $currentRound = $session->currentRound;
-        if (is_null($currentRound)) {
+        if ($session->isPending()) {
             return 0;
         }
 
