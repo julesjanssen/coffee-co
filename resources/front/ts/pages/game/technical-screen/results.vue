@@ -27,8 +27,6 @@
 </template>
 
 <script setup lang="ts">
-// import { Link } from '@inertiajs/vue3'
-
 import MoneyDisplay from '/@front:components/MoneyDisplay.vue'
 import NumberDisplay from '/@front:components/NumberDisplay.vue'
 import GameLayout from '/@front:layouts/game.vue'

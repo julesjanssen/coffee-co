@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64fb07e6d21b818f2fd4019d5fc005ed",
+    "content-hash": "058a876b80395bf776bf94384215478d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -9764,6 +9764,68 @@
                 "source": "https://github.com/iamcal/SQLParser/tree/v0.6"
             },
             "time": "2025-03-17T16:59:46+00:00"
+        },
+        {
+            "name": "ivo/sync",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:julesjanssen/ivo-sync.git",
+                "reference": "2a0bf5b55e0deb5d39a0305eeb4c445cb19ea8a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://pakjes.vagebond.nl/dist/ivo/sync/ivo-sync-2a0bf5b55e0deb5d39a0305eeb4c445cb19ea8a5-zip-b1e22a.zip",
+                "reference": "2a0bf5b55e0deb5d39a0305eeb4c445cb19ea8a5",
+                "shasum": "4bfaed3d060ca5c62b4f854cb9ca9aa7f87bd70a"
+            },
+            "require": {
+                "illuminate/console": "^10.0|^11.0|^12.0",
+                "illuminate/http": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "laravel/prompts": "^0.3",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.24"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ivo\\Sync\\IvoSyncServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivo\\Sync\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Ivo\\Sync\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jules Janssen",
+                    "email": "jules@ivo.services"
+                }
+            ],
+            "description": "Laravel command for syncing translations with Ivo Translation Management",
+            "keywords": [
+                "ai-translation",
+                "i18n",
+                "ivo",
+                "laravel",
+                "sync",
+                "translation"
+            ],
+            "time": "2025-07-31T15:38:15+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
