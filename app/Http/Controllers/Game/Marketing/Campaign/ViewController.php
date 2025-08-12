@@ -11,6 +11,7 @@ use App\Models\GameCampaignCode;
 use App\Models\GameSession;
 use App\Models\ScenarioCampaignCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -31,18 +32,7 @@ class ViewController
             'code.*' => ['required', 'integer', 'min:0', 'max:9'],
         ]);
 
-        $code = $request->collect('code')->join('');
-
-        $code = ScenarioCampaignCode::query()
-            ->where('scenario_id', '=', $session->scenario_id)
-            ->where('code', '=', $code)
-            ->first();
-
-        if (empty($code)) {
-            throw ValidationException::withMessages([
-                'code' => [__('Unknown code.')],
-            ]);
-        }
+        $code = $this->findCampaignCode($request, $session);
 
         $used = GameCampaignCode::query()
             ->where('game_session_id', '=', $session->id)
@@ -150,5 +140,28 @@ class ViewController
             ->toArray();
 
         return $session->randomizer()->splitItemsRandomly($hints, $chunks)[$codesUsed] ?? [$defaultHint];
+    }
+
+    private function findCampaignCode(Request $request, GameSession $session)
+    {
+        $code = $request->collect('code')->join('');
+
+        if (! App::isProduction() && $code === '2222') {
+            return ScenarioCampaignCode::query()
+                ->where('scenario_id', '=', $session->scenario_id)
+                ->inRandomOrder()
+                ->first();
+        }
+
+        $code = ScenarioCampaignCode::query()
+            ->where('scenario_id', '=', $session->scenario_id)
+            ->where('code', '=', $code)
+            ->first();
+
+        if (empty($code)) {
+            throw ValidationException::withMessages([
+                'code' => [__('Unknown code.')],
+            ]);
+        }
     }
 }
