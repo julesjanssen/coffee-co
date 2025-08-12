@@ -10,7 +10,9 @@ enum ScoreType: string
 {
     use EnumHelpers;
 
-    case MARKETING = 'marketing';
+    case MARKETING_KPI = 'marketing-kpi';
+
+    case MARKETING_TRESHOLD = 'marketing-treshold';
 
     case NPS = 'nps';
 

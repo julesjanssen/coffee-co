@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\GameCampaignCode;
 use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
 use App\Models\GameSession;
@@ -59,12 +60,13 @@ class AppServiceProvider extends ServiceProvider
     private function configureEloquent()
     {
         Relation::enforceMorphMap([
-            'user' => User::class,
-            'game-participant' => GameParticipant::class,
+            'game-campaign-code' => GameCampaignCode::class,
             'game-facilitator' => GameFacilitator::class,
+            'game-participant' => GameParticipant::class,
             'game-session' => GameSession::class,
             'project' => Project::class,
             'project-action' => ProjectAction::class,
+            'user' => User::class,
         ]);
 
         Model::preventLazyLoading(! $this->app->isProduction());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\Marketing\Campaign;
 
+use App\Enums\GameSession\ScoreType;
 use App\Enums\GameSession\TransactionType;
 use App\Enums\Scenario\CampaignCodeCategory;
 use App\Models\GameCampaignCode;
@@ -74,8 +75,32 @@ class ViewController
                 'value' => $code->category->cost() * -1,
             ]);
 
-        // TODO: track KPI score
-        // TODO: track treshold score
+        $codeCategory = $code->category;
+        if ($codeCategory->kpiScore() > 0) {
+            $session->scores()
+                ->create([
+                    'participant_id' => $participant->id,
+                    'type' => ScoreType::MARKETING_KPI,
+                    'trigger_type' => $gameCode->getMorphClass(),
+                    'trigger_id' => $gameCode->getKey(),
+                    'event' => 'campaign',
+                    'round_id' => $session->currentRound->roundID,
+                    'value' => $codeCategory->kpiScore(),
+                ]);
+        }
+
+        if ($codeCategory->tresholdScore() > 0) {
+            $session->scores()
+                ->create([
+                    'participant_id' => $participant->id,
+                    'type' => ScoreType::MARKETING_TRESHOLD,
+                    'trigger_type' => $gameCode->getMorphClass(),
+                    'trigger_id' => $gameCode->getKey(),
+                    'event' => 'campaign',
+                    'round_id' => $session->currentRound->roundID,
+                    'value' => $codeCategory->tresholdScore(),
+                ]);
+        }
 
         return [
             'hints' => $gameCode->details->hints,
