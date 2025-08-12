@@ -79,8 +79,22 @@ class QuizController
 
     public function calculateQuizScore(Request $request, ScenarioClient $client)
     {
-        // TODO: calc score
-        return random_int(0, 100);
+        $questions = $this->listQuestions();
+
+        $correct = $questions
+            ->map(function ($v, $key) use ($request, $client) {
+                $givenAnswer = $request->input($key);
+                if (empty($givenAnswer)) {
+                    return 0;
+                }
+
+                $correctAnswer = $client->settings[$key];
+
+                return ($correctAnswer === $givenAnswer) ? 1 : 0;
+            })
+            ->sum();
+
+        return ($correct / $questions->count()) * 100;
     }
 
     private function listQuestions()
