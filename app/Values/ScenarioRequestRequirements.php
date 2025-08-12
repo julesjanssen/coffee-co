@@ -6,7 +6,7 @@ namespace App\Values;
 
 final class ScenarioRequestRequirements extends CastableValueObject
 {
-    public bool $mmma = false;
+    public bool $hdma = false;
 
     public bool $labconsulting = false;
 

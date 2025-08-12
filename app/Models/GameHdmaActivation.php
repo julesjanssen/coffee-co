@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class GameMmmaActivation extends Model
+class GameHdmaActivation extends Model
 {
     use HasSqids;
     use UsesTenantConnection;
 
-    protected $table = 'game_mmma_activations';
+    protected $table = 'game_hdma_activations';
 
     protected $guarded = [];
 
@@ -56,15 +56,20 @@ class GameMmmaActivation extends Model
 
     public static function getContinuouslyActiveRounds(GameSession $session)
     {
+        $currentRound = $session->currentRound;
+        if (is_null($currentRound)) {
+            return 0;
+        }
+
         /** @phpstan-ignore method.notFound */
         $result = self::query()
             ->withExpression('activation_periods', function ($query) use ($session) {
-                $mmmaEnabledRoundCount = $session->settings->mmmaEnabledRoundCount;
+                $hdmaEnabledRoundCount = $session->settings->hdmaEnabledRoundCount;
 
                 $query
-                    ->from('game_mmma_activations')
+                    ->from('game_hdma_activations')
                     ->select(['round_id'])
-                    ->selectRaw('round_id + ? as end_round', [($mmmaEnabledRoundCount - 1)])
+                    ->selectRaw('round_id + ? as end_round', [($hdmaEnabledRoundCount - 1)])
                     ->where('game_session_id', '=', $session->id)
                     ->orderBy('round_id');
             })
@@ -116,6 +121,6 @@ class GameMmmaActivation extends Model
     {
         $activeRounds = self::getContinuouslyActiveRounds($session);
 
-        return $activeRounds >= $session->settings->mmmaEffectiveRoundCount;
+        return $activeRounds >= $session->settings->hdmaEffectiveRoundCount;
     }
 }

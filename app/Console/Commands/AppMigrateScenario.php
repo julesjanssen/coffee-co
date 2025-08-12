@@ -188,6 +188,8 @@ class AppMigrateScenario extends Command
             ->mapWithKeys(fn($v, $k) => [Str::camel($k) => $v])
             ->toArray();
 
+        $requirements['hdma'] = Arr::pull($requirements, 'mmma', false);
+
         $labConsultingInformation = Arr::get($data, 'info.en.labconsulting');
         if ($labConsultingInformation === 'There is no information we can help you with. Try again later.') {
             $labConsultingInformation = null;

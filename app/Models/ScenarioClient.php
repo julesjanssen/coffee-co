@@ -103,7 +103,7 @@ class ScenarioClient extends Model
             return collect();
         }
 
-        $mmmaActive = $session->isMMMAActive();
+        $hdmaActive = $session->isHDMAActive();
         $nps = $session->netPromotorScore();
         $marketingTresholdScore = $session->marketingTresholdScore();
 
@@ -119,8 +119,8 @@ class ScenarioClient extends Model
             ->whereNotExists($projects)
             ->where('client_id', '=', $this->id)
             ->where('delay', '<=', $session->current_round_id)
-            ->when(! $mmmaActive, function ($q) {
-                $q->where('requirements->mmma', '=', false);
+            ->when(! $hdmaActive, function ($q) {
+                $q->where('requirements->hdma', '=', false);
             })
             ->when(! $includeLabConsulting, function ($q) {
                 $q->where('requirements->labconsulting', '=', false);

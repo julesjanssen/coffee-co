@@ -25,5 +25,17 @@ return [
         1100,
     ],
 
-    'mmma_cost' => 75,
+    /*
+    |--------------------------------------------------------------------------
+    | HDMA Cost
+    |--------------------------------------------------------------------------
+    |
+    | The cost associated with HDMA (Hot Drink Market Access)
+    | activities. This value is in million of currency units and represents
+    | the fixed cost participants must consider when implementing HDMA
+    | strategies during the game simulation.
+    |
+    */
+
+    'hdma_cost' => 75,
 ];

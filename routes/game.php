@@ -137,9 +137,9 @@ Route::middleware([
             Route::get('{type}', 'ViewController@view')->name('view');
         });
 
-    Route::prefix('mmma/')
-        ->namespace('Mmma')
-        ->as('mmma.')->group(function () {
+    Route::prefix('hdma/')
+        ->namespace('Hdma')
+        ->as('hdma.')->group(function () {
             Route::post('/', 'ViewController@store');
             Route::get('/', 'ViewController@view')->name('view');
         });
@@ -179,8 +179,8 @@ Route::middleware([
     Route::post('/session/status', [SessionStatusController::class, 'store'])->name('session-status');
     Route::post('/round/status', [FacilitatorRoundStatusController::class, 'store'])->name('round-status');
 
-    Route::post('/mmma', 'MmmaController@store');
-    Route::get('/mmma', 'MmmaController@view')->name('mmma');
+    Route::post('/hdma', 'HdmaController@store');
+    Route::get('/hdma', 'HdmaController@view')->name('hdma');
 
     Route::get('/results', 'ResultsController@view')->name('results');
     Route::get('/projects', 'ProjectsController@view')->name('projects');

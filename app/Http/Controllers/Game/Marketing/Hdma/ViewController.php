@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Game\Marketing\Mmma;
+namespace App\Http\Controllers\Game\Marketing\Hdma;
 
 use App\Enums\GameSession\TransactionType;
-use App\Models\GameMmmaActivation;
+use App\Models\GameHdmaActivation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -16,7 +16,7 @@ class ViewController
     {
         $participant = $request->participant();
 
-        return Inertia::render('game/marketing/mmma/view', [
+        return Inertia::render('game/marketing/hdma/view', [
             'mazeLevel' => $participant->session->flow->mazeLevelForScore(),
             'links' => [
                 'back' => route('game.marketing.view'),
@@ -29,24 +29,24 @@ class ViewController
         $participant = $request->participant();
         $session = $participant->session;
 
-        if (! $session->canRefreshMmma()) {
+        if (! $session->canRefreshHdma()) {
             throw ValidationException::withMessages([
-                'status' => __('It is not possible to refresh MMMA yet.'),
+                'status' => __('It is not possible to refresh HDMA yet.'),
             ]);
         }
 
-        GameMmmaActivation::create([
+        GameHdmaActivation::create([
             'game_session_id' => $session->id,
             'participant_id' => $participant->id,
             'details' => [],
             'round_id' => $session->currentRound->roundID,
         ]);
 
-        $cost = config('coffeeco.mmma_cost', 75);
+        $cost = config('coffeeco.hdma_cost', 75);
         $session->transactions()
             ->create([
                 'participant_id' => $participant->id,
-                'type' => TransactionType::MMMA,
+                'type' => TransactionType::HDMA,
                 'round_id' => $session->currentRound->roundID,
                 'value' => $cost * -1,
             ]);

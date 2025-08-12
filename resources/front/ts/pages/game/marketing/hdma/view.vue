@@ -1,5 +1,5 @@
 <template>
-  <main class="marketing mmma">
+  <main class="marketing hdma">
     <div v-if="shouldShowHints">
       <article>
         <p v-for="hint in hints" :key="hint">{{ hint }}</p>

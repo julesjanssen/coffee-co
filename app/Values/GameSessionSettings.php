@@ -25,11 +25,11 @@ final class GameSessionSettings extends CastableValueObject
 
     public int $costLabconsultingOffer = 25;
 
-    public int $mmmaRefreshRoundCooldown = 4;
+    public int $hdmaRefreshRoundCooldown = 4;
 
-    public int $mmmaEnabledRoundCount = 6;
+    public int $hdmaEnabledRoundCount = 6;
 
-    public int $mmmaEffectiveRoundCount = 12;
+    public int $hdmaEffectiveRoundCount = 12;
 
     public Flow $flow = Flow::MEDIUM;
 

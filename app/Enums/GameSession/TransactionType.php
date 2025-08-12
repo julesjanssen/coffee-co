@@ -20,7 +20,7 @@ enum TransactionType: string
 
     case MARKETING_TRAINING_DEEP = 'marketing-training-deep';
 
-    case MMMA = 'mmma';
+    case HDMA = 'hdma';
 
     case OPERATIONAL_COST = 'operational-cost';
 

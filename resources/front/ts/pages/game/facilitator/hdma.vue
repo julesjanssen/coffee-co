@@ -1,21 +1,21 @@
 <template>
-  <main class="facilitator mmma">
+  <main class="facilitator hdma">
     <template v-if="activeRounds > 0">
       <p>
-        {{ $t('MMMA has been active for :rounds rounds.', { rounds: String(activeRounds) }) }}<br />
-        <span v-if="isEffective">{{ $t('MMMA is in effect.') }}</span>
+        {{ $t('HDMA has been active for :rounds rounds.', { rounds: String(activeRounds) }) }}<br />
+        <span v-if="isEffective">{{ $t('HDMA is in effect.') }}</span>
         <span v-else>{{
-          $t('MMMA will be in effect after :rounds active rounds.', { rounds: String(effectiveRounds) })
+          $t('HDMA will be in effect after :rounds active rounds.', { rounds: String(effectiveRounds) })
         }}</span>
       </p>
     </template>
     <template v-else>
-      <p>{{ $t('MMMA is not active.') }}</p>
+      <p>{{ $t('HDMA is not active.') }}</p>
     </template>
 
     <div v-if="!isEffective" class="actions">
-      <button type="button" @click.prevent="makeMmmaEffective">
-        {{ $t('enable MMMA') }}
+      <button type="button" @click.prevent="makeHdmaEffective">
+        {{ $t('enable HDMA') }}
       </button>
     </div>
   </main>
@@ -40,12 +40,12 @@ const props = defineProps<{
 
 const isEffective = computed(() => props.activeRounds >= props.effectiveRounds)
 
-const makeMmmaEffective = () => {
+const makeHdmaEffective = () => {
   http
     .post(location.pathname, {})
     .then(() => router.reload())
     .catch(() => {
-      error('MMMA enabling failed.')
+      error('HDMA enabling failed.')
     })
 }
 </script>

@@ -30,10 +30,10 @@ class ViewController
             ],
         ];
 
-        if ($session->canRefreshMmma()) {
+        if ($session->canRefreshHdma()) {
             $actions[] = [
-                'label' => __('actions:marketing:mmma'),
-                'href' => route('game.marketing.mmma.view'),
+                'label' => __('actions:marketing:hdma'),
+                'href' => route('game.marketing.hdma.view'),
             ];
         }
 

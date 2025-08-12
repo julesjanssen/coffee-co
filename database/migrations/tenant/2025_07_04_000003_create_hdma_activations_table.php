@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('game_mmma_activations', function (Blueprint $table) {
+        Schema::create('game_hdma_activations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_session_id')->index();
             $table->unsignedBigInteger('participant_id')->index()->nullable();

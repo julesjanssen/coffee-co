@@ -153,16 +153,16 @@ class GameSession extends Model
         $this->save();
     }
 
-    public function isMMMAActive()
+    public function isHDMAActive()
     {
-        return GameMmmaActivation::isActiveForSession($this);
+        return GameHdmaActivation::isActiveForSession($this);
     }
 
-    public function canRefreshMmma()
+    public function canRefreshHdma()
     {
-        $cooldown = $this->settings->mmmaRefreshRoundCooldown;
+        $cooldown = $this->settings->hdmaRefreshRoundCooldown;
 
-        $exists = GameMmmaActivation::query()
+        $exists = GameHdmaActivation::query()
             ->where('game_session_id', '=', $this->id)
             ->where('round_id', '>', $this->currentRound->addRounds(-1 * $cooldown)->roundID)
             ->exists();
