@@ -122,7 +122,7 @@ class GameRound implements Arrayable
     {
         return [
             'display' => $this->display(),
-            'displayFull' => $this->display(),
+            'displayFull' => $this->displayFull(),
             'isLastRoundOfYear' => $this->isLastRoundOfYear(),
         ];
     }

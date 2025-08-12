@@ -137,6 +137,36 @@ class Project extends Model
         )->shouldCache();
     }
 
+    /** @return Attribute<GameRound | null, never> */
+    protected function requestRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->request_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->request_round_id),
+        );
+    }
+
+    /** @return Attribute<GameRound | null, never> */
+    protected function quoteRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->quote_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->quote_round_id),
+        );
+    }
+
+    /** @return Attribute<GameRound | null, never> */
+    protected function deliveryRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->delivery_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->delivery_round_id),
+        );
+    }
+
     public function shouldBeQuotedBy()
     {
         $requestedRoundID = $this->request_round_id;
