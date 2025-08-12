@@ -33,7 +33,7 @@ class HdmaController
 
         $offset = 0;
         while ($offset <= $session->settings->hdmaEffectiveRoundCount) {
-            $roundID = max(0, $currentRoundID - $offset);
+            $roundID = max(1, $currentRoundID - $offset);
 
             GameHdmaActivation::create([
                 'game_session_id' => $session->id,

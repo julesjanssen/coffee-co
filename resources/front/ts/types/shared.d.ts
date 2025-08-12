@@ -7,6 +7,13 @@ type EnumObject = {
   label: string
 }
 
+export type GameRound = {
+  id: number
+  display: string
+  displayFull: string
+  isLastRoundOfYear: boolean
+}
+
 export type GameSession = {
   title: string
   roundStatus: {
@@ -17,10 +24,7 @@ export type GameSession = {
     value: GameSessionStatusType
     label: string
   }
-  currentRound: {
-    display: string
-    isLastRoundOfYear: boolean
-  }
+  currentRound: Gameround
   pausesAfterRound: boolean
   sse: {
     topic: string

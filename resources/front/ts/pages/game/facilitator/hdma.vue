@@ -13,7 +13,7 @@
       <p>{{ $t('HDMA is not active.') }}</p>
     </template>
 
-    <div v-if="!isEffective" class="actions">
+    <div v-if="!isEffective && currentRound.id >= effectiveRounds" class="actions">
       <button type="button" @click.prevent="makeHdmaEffective">
         {{ $t('enable HDMA') }}
       </button>
@@ -25,6 +25,7 @@
 import { router } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
+import { useGameSession } from '/@front:composables/game-session'
 import GameLayout from '/@front:layouts/game.vue'
 import { http } from '/@front:shared/http'
 import { error } from '/@front:shared/notifications'
@@ -37,6 +38,8 @@ const props = defineProps<{
   activeRounds: number
   effectiveRounds: number
 }>()
+
+const { currentRound } = useGameSession()
 
 const isEffective = computed(() => props.activeRounds >= props.effectiveRounds)
 

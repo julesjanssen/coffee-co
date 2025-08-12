@@ -121,6 +121,7 @@ class GameRound implements Arrayable
     public function toArray()
     {
         return [
+            'id' => $this->roundID,
             'display' => $this->display(),
             'displayFull' => $this->displayFull(),
             'isLastRoundOfYear' => $this->isLastRoundOfYear(),
