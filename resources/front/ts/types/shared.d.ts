@@ -41,6 +41,7 @@ export type Project = {
 }
 
 export type ScenarioClient = {
+  sqid: string
   href: string
   title: string
 }

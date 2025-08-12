@@ -47,7 +47,6 @@
       </div>
 
       <slot v-else />
-      <!-- <pre>{{ auth }}</pre> -->
     </div>
   </div>
 

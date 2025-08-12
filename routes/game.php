@@ -108,6 +108,15 @@ Route::middleware([
 Route::middleware([
     Authenticate::using('participant'),
     GameSession::class,
+    ParticipantRole::roles([Role::TECHNICAL_SCREEN]),
+])->namespace('TechnicalScreen')->prefix('technical-screen/')->as('technical-screen.')->group(function () {
+    Route::get('/', 'ProjectsController@view')->name('projects');
+    Route::get('results', 'ResultsController@view')->name('results');
+});
+
+Route::middleware([
+    Authenticate::using('participant'),
+    GameSession::class,
     ParticipantRole::roles([Role::MARKETING_1]),
 ])->namespace('Marketing')->prefix('marketing/')->as('marketing.')->group(function () {
     Route::get('/', 'ViewController@view')->name('view');

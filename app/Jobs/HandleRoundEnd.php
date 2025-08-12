@@ -133,7 +133,6 @@ class HandleRoundEnd implements ShouldQueue
             ->get()
             ->each($this->updateProjectState(...))
             ->each($this->trackProjectState(...))
-            // ->each($this->calcUptime(...))
             ->each($this->handleProjectLifetime(...));
     }
 
@@ -232,25 +231,20 @@ class HandleRoundEnd implements ShouldQueue
     private function processNpsDeltasForUptime()
     {
         $quarterRange = range($this->round->roundID - 2, $this->round->roundID);
-        $avgUptime = vsprintf("AVG(CASE WHEN ph.status = '%s' THEN 100 WHEN ph.status = '%s' THEN 0 END) as avg_uptime", [
-            ProjectStatus::ACTIVE->value,
-            ProjectStatus::DOWN->value,
-        ]);
 
         ProjectHistoryItem::query()
-            ->from('project_history as ph')
             ->join('projects as p', function ($query) {
-                $query->on('p.id', '=', 'ph.project_id');
+                $query->on('p.id', '=', 'project_history.project_id');
             })
             /** @phpstan-ignore argument.type */
             ->where('p.game_session_id', '=', $this->session->id)
-            ->whereIn('ph.round_id', $quarterRange)
-            ->whereIn('ph.status', [
+            ->whereIn('project_history.round_id', $quarterRange)
+            ->whereIn('project_history.status', [
                 ProjectStatus::ACTIVE,
                 ProjectStatus::DOWN,
             ])
             ->select('p.client_id')
-            ->selectRaw($avgUptime)
+            ->selectAverageUptime()
             ->groupBy('client_id')
             ->toBase()
             ->get()

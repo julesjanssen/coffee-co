@@ -35,6 +35,9 @@ abstract class Navigation implements Arrayable
             case Role::SALES_SCREEN:
                 return new SalesScreen($request, $auth);
 
+            case Role::TECHNICAL_SCREEN:
+                return new TechnicalScreen($request, $auth);
+
             case Role::MARKETING_1:
                 return new Marketing($request, $auth);
 

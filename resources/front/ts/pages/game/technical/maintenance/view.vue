@@ -9,6 +9,7 @@
             @click.prevent="maintainProject(project)"
           >
             {{ project.title }} ({{ project.client.title }}) / {{ project.failureChance }}
+            <strong>{{ project.status.label }}</strong>
           </button>
           <span v-else>{{ project.title }}</span>
         </li>

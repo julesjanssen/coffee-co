@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Enums\Project\Status;
 use App\Values\GameRound;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,5 +43,20 @@ class ProjectHistoryItem extends Model
         return Attribute::make(
             get: fn() => new GameRound($this->project->session->scenario, $this->round_id)
         );
+    }
+
+    #[Scope]
+    protected function selectAverageUptime(Builder $query)
+    {
+        $grammar = $query->getQuery()->getGrammar();
+
+        $avgUptime = vsprintf('AVG(CASE WHEN %s = %s THEN 100 WHEN %s = %s THEN 0 END) as avg_uptime', [
+            $grammar->wrap($this->getTable() . '.status'),
+            $grammar->quoteString(Status::ACTIVE->value),
+            $grammar->wrap($this->getTable() . '.status'),
+            $grammar->quoteString(Status::DOWN->value),
+        ]);
+
+        $query->selectRaw($avgUptime);
     }
 }
