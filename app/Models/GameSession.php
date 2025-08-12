@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\GameSession\Flow;
 use App\Enums\GameSession\RoundStatus;
+use App\Enums\GameSession\ScoreType;
 use App\Enums\GameSession\Status;
 use App\Events\GameSessionCreated;
 use App\Models\Traits\Reservable;
@@ -185,8 +186,16 @@ class GameSession extends Model
 
     public function marketingTresholdScore()
     {
-        // TODO: implement
-        return 10;
+        return $this->scores()
+            ->where('type', '=', ScoreType::MARKETING_TRESHOLD)
+            ->sum('value');
+    }
+
+    public function marketingKpiScore()
+    {
+        return $this->scores()
+            ->where('type', '=', ScoreType::MARKETING_KPI)
+            ->sum('value');
     }
 
     public function isPending()

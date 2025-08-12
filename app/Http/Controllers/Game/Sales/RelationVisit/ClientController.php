@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Game\Sales\RelationVisit;
 
+use App\Enums\GameSession\ScoreType;
 use App\Models\ScenarioClient;
 use App\Traits\ListAndValidateClientForParticipant;
 use Illuminate\Http\Request;
@@ -31,11 +32,20 @@ class ClientController
     public function store(Request $request, ScenarioClient $client)
     {
         $participant = $request->participant();
+        $session = $participant->session;
 
         $this->validateClientForParticipant($participant, $client);
 
-        // TODO: store NPS score update
-        // TODO: keep track of used tips
+        $session->scores()
+            ->create([
+                'participant_id' => $participant->id,
+                'type' => ScoreType::NPS,
+                'trigger_type' => 'relation-visit',
+                'event' => 'relation-visit',
+                'round_id' => $session->currentRound->roundID,
+                'value' => 3,
+            ]);
+
         $tip = $participant->session->scenario->tips()
             ->inRandomOrder()
             ->first();
