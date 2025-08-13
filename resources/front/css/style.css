@@ -1,21 +1,46 @@
 @layer reset, theme, global, components, layout, utilities;
 
-/* @import url('reset.css') layer(reset); */
+ @import url('reset.css') layer(reset);
 
 @import url('fonts.css') layer(theme);
 
-/* @import url('theme.css') layer(theme); */
+ @import url('theme.css') layer(theme);
 
 /* @import url('global.css') layer(global); */
 
 /* @import url('layout.css') layer(layout); */
 
+@import url('components/button.css') layer(components);
+@import url('components/dropdown.css') layer(components);
+
 /* @import url('transitions.css') layer(utilities); */
 
 /* @import url('utilities.css') layer(utilities); */
 
-::view-transition-group(root) {
-  animation-duration: 0.0001s;
+::view-transition-group(container) {
+  animation-duration: .5s;
+}
+
+::view-transition-group(main-wrapper) {
+  animation-duration: .25s;
+}
+
+ul.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75em;
+
+ /* & li {
+    & :is(a, button) {
+      background: var(--green-800);
+      color: var(--white);
+      padding: .75em 1.5em;
+      border-radius: 3em;
+      min-width: 20ch;
+      text-shadow: 0 1px 2px var(--green-900);
+    }
+  }*/
 }
 
 html {
@@ -33,4 +58,132 @@ button {
 .v-icon {
   width: 1em;
   height: 1em;
+}
+
+.layout-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+
+  & .backdrop {
+    position: fixed;
+    inset: 0;
+    background: url(/@front:img/background.webp) center no-repeat;
+    background-size: cover;
+
+    &:after {
+      --color: #3E2723;
+      /*--color: #000;*/
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgb(from var(--color) r g b / 0.5) 60%, rgb(from var(--color) r g b / .1) 100%);
+    }
+  }
+
+  & .container-wrapper {
+    position: relative;
+    padding: 10px;
+    margin-block: 3rem;
+    backdrop-filter: blur(3px);
+    background: rgb(from var(--white) r g b /.3);
+    border-radius: .85em;
+    padding: .5rem;
+    border: 1px solid rgb(from var(--white) r g b / .08);
+    border-width: 0 1px 1px;
+
+    & .container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: .5em;
+      width: min(1100px, 90vw);
+      min-height: 50dvh;
+      box-shadow: 0 .25rem .5rem -.1rem oklch(from var(--gray-800) l c h / .8);
+      view-transition-name: container;
+    }
+  }
+
+  &.client-actions {
+    & .container-wrapper {
+      & .container {
+        max-width: 600px;
+      }
+    }
+  }
+
+  & header.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+    padding-block-end: 1.5rem;
+    margin-block-end: 1.5rem;
+    border-bottom: 1px solid var(--gray-200);
+
+    & .logo {
+      flex: 0 0 11rem;
+      width: 11rem;
+      height: 3.5rem;
+
+      & h1 {
+        background: url(/@front:img/coffeeco.svg) 0 50% no-repeat;
+        background-size: contain;
+        height: 100%;
+        translate: 0 -6px;
+      }
+
+      & a {
+        display: block;
+        height: 100%;
+
+        & span {
+          font-size: 0;
+          opacity: 0;
+        }
+      }
+    }
+
+    & div.navigation {
+      flex: 1;
+
+      & nav ul {
+        display: flex;
+
+        & li {
+          padding: .5em 1em;
+        }
+      }
+    }
+
+    & .status {
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+    }
+
+    & .auth {
+      & button {
+        font-size: .875rem;
+        background: var(--white);
+        translate: 1em 0;
+        transition: all .25s ease;
+
+        &:hover,
+        &:focus {
+          background: var(--gray-100);
+        }
+      }
+    }
+  }
+
+  & .main-wrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+  }
 }

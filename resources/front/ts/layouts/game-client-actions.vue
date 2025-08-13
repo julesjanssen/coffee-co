@@ -2,39 +2,53 @@
   <Head :title="session.title" />
 
   <div class="layout-game client-actions">
-    <header class="main">
-      <h1>{{ appTitle }}</h1>
+    <div class="backdrop"></div>
 
-      <div class="round">
-        <span v-if="session.roundStatus.value === 'paused'">
-          {{ session.roundStatus.label }}
-        </span>
-        {{ session.currentRound?.display }}
+    <div class="container-wrapper">
+      <div class="container">
+        <header class="main">
+          <div class="logo">
+            <h1>
+              <Link href="/game">
+                <span>{{ appTitle }}</span>
+              </Link>
+            </h1>
+          </div>
+
+          <div class="status">
+            <div class="round">
+              <span v-if="session.roundStatus.value === 'paused'">
+                {{ session.roundStatus.label }}
+              </span>
+              {{ session.currentRound?.display }}
+            </div>
+
+            <div class="auth">
+              <Dropdown :label="authLabel">
+                <ul role="menu" aria-hidden="true">
+                  <li role="menuitem">
+                    <button type="button" @click.prevent="logout">
+                      {{ $t('log out') }}
+                    </button>
+                  </li>
+                </ul>
+              </Dropdown>
+            </div>
+          </div>
+        </header>
+
+        <div class="main-wrapper">
+          <div v-if="session.roundStatus.value === 'paused'">paused</div>
+          <slot v-else />
+        </div>
       </div>
-
-      <div class="auth">
-        <Dropdown :label="authLabel">
-          <ul role="menu" aria-hidden="true">
-            <li role="menuitem">
-              <button type="button" @click.prevent="logout">
-                {{ $t('log out') }}
-              </button>
-            </li>
-          </ul>
-        </Dropdown>
-      </div>
-    </header>
-
-    <div class="main-wrapper">
-      <div v-if="session.roundStatus.value === 'paused'">paused</div>
-      <slot v-else />
     </div>
   </div>
 
   <Toaster :expand="true" />
 </template>
 <script setup lang="ts">
-import { Head, router, usePage } from '@inertiajs/vue3'
+import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { computed, onUnmounted } from 'vue'
 import { Toaster } from 'vue-sonner'
 

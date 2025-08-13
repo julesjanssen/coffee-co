@@ -2,7 +2,7 @@
   <div>
     <ul class="actions">
       <li v-for="action in actions" :key="action.href">
-        <Link :href="action.href">
+        <Link :href="action.href" class="button">
           {{ action.label }}
         </Link>
       </li>
