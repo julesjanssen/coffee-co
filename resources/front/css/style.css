@@ -165,9 +165,14 @@ button {
       flex-direction: column;
     }
 
+    & .round {
+      font-size: .875rem;
+    }
+
     & .auth {
       & button {
         font-size: .875rem;
+        font-weight: 400;
         background: var(--white);
         translate: 1em 0;
         transition: all .25s ease;
