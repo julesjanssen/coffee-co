@@ -76,7 +76,12 @@ const isFacilitator = computed(() => auth.value.type === 'facilitator')
 const isPausedNotFacilitator = computed(() => isPaused.value && !isFacilitator.value)
 
 if (document.startViewTransition) {
-  function handleInertiaStart() {
+  function handleInertiaStart(e: CustomEvent) {
+    const targetUrl = e.detail.visit?.url.href
+    if (targetUrl && targetUrl === location.href) {
+      return
+    }
+
     document.startViewTransition(async (): Promise<void> => {
       return new Promise((resolve) => {
         document.addEventListener(
