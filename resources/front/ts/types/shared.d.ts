@@ -55,6 +55,7 @@ export type NavigationItem = {
   href: string
   disabled?: boolean
   icon?: string
+  isActive: boolean
 }
 
 export type PageProps = {

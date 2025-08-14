@@ -78,7 +78,7 @@ Route::middleware([
     GameSession::class,
     ParticipantRole::roles([Role::SALES_SCREEN]),
 ])->namespace('SalesScreen')->prefix('sales-screen/')->as('sales-screen.')->group(function () {
-    Route::get('/', 'ProjectsController@view')->name('projects');
+    Route::get('projects', 'ProjectsController@view')->name('projects');
     Route::get('results', 'ResultsController@view')->name('results');
 });
 
@@ -112,7 +112,7 @@ Route::middleware([
     GameSession::class,
     ParticipantRole::roles([Role::TECHNICAL_SCREEN]),
 ])->namespace('TechnicalScreen')->prefix('technical-screen/')->as('technical-screen.')->group(function () {
-    Route::get('/', 'ProjectsController@view')->name('projects');
+    Route::get('projects', 'ProjectsController@view')->name('projects');
     Route::get('results', 'ResultsController@view')->name('results');
 });
 
@@ -121,7 +121,7 @@ Route::middleware([
     GameSession::class,
     ParticipantRole::roles([Role::MARKETING_1]),
 ])->namespace('Marketing')->prefix('marketing/')->as('marketing.')->group(function () {
-    Route::get('/', 'ViewController@view')->name('view');
+    Route::get('actions', 'ViewController@view')->name('view');
     Route::get('results', 'ResultsController@view')->name('results');
     Route::get('info', 'InfoController@view')->name('info');
 
@@ -176,7 +176,7 @@ Route::middleware([
     Authenticate::using('facilitator'),
     GameSession::class,
 ])->namespace('Facilitator')->prefix('facilitator/')->as('facilitator.')->group(function () {
-    Route::get('/', [StatusController::class, 'view'])->name('status');
+    Route::get('/status', [StatusController::class, 'view'])->name('status');
     Route::post('/session/settings', [SettingsController::class, 'store'])->name('session-settings');
     Route::post('/session/status', [SessionStatusController::class, 'store'])->name('session-status');
     Route::post('/round/status', [FacilitatorRoundStatusController::class, 'store'])->name('round-status');

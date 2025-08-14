@@ -2,7 +2,7 @@
   <div class="game maze">
     <p>{{ $t('Please complete a level :mazeID maze.', { mazeID: String(level) }) }}</p>
 
-    <div v-if="showReadyButton" class="actions">
+    <div class="actions" :class="{ enabled: showReadyButton }">
       <button type="button" @click.prevent="emitReady">
         {{ $t('done') }}
       </button>
@@ -39,3 +39,18 @@ onMounted(() => {
   start()
 })
 </script>
+
+<style scoped>
+.actions {
+  & button {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &.enabled {
+    & button {
+      opacity: 1;
+    }
+  }
+}
+</style>

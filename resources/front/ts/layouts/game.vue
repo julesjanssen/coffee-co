@@ -5,7 +5,7 @@
     <div class="backdrop"></div>
 
     <div class="container-wrapper">
-      <div class="container">
+      <div class="container" :class="`role-${auth.role?.value}`">
         <header class="main">
           <div class="logo">
             <h1>

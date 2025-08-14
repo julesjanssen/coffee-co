@@ -1,10 +1,8 @@
 @layer reset, theme, global, components, layout, utilities;
 
- @import url('reset.css') layer(reset);
-
+@import url('reset.css') layer(reset);
 @import url('fonts.css') layer(theme);
-
- @import url('theme.css') layer(theme);
+@import url('theme.css') layer(theme);
 
 /* @import url('global.css') layer(global); */
 
@@ -12,26 +10,60 @@
 
 @import url('components/button.css') layer(components);
 @import url('components/dropdown.css') layer(components);
+@import url('components/table.css') layer(components);
 
 /* @import url('transitions.css') layer(utilities); */
 
-/* @import url('utilities.css') layer(utilities); */
+@import url('utilities.css') layer(utilities);
 
-::view-transition-group(container) {
-  animation-duration: .5s;
+:root {
+  --tr-duration: 0.4s;
+}
+
+::view-transition-group(containerwrapper) {
+  animation-duration: var(--tr-duration);
 }
 
 ::view-transition-group(main-wrapper) {
-  animation-duration: .25s;
+  animation-duration: var(--tr-duration);
+  animation-timing-function: ease-out;
+}
+
+::view-transition-old(main-wrapper),
+::view-transition-new(main-wrapper) {
+  /* And hide parts of the image that go out of bounds */
+  overflow: clip;
+
+  /* Break aspect ratio at an element level */
+  height: 100%;
+
+  /* But maintain it within the image itself */
+  object-fit: none;
+  object-position: bottom;
+}
+
+::view-transition-new(main-wrapper) {
+  animation-delay: calc(var(--tr-duration) / 2);
+}
+
+@layer global {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    & th {
+      text-align: left;
+    }
+  }
 }
 
 ul.actions {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .75em;
+  gap: 0.75em;
 
- /* & li {
+  /* & li {
     & :is(a, button) {
       background: var(--green-800);
       color: var(--white);
@@ -40,19 +72,7 @@ ul.actions {
       min-width: 20ch;
       text-shadow: 0 1px 2px var(--green-900);
     }
-  }*/
-}
-
-html {
-  font-family: 'Departure Mono', system-ui;
-}
-
-form,
-input,
-select,
-textarea,
-button {
-  font-family: 'Departure Mono', system-ui;
+  } */
 }
 
 .v-icon {
@@ -62,54 +82,64 @@ button {
 
 .layout-game {
   display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
 
   & .backdrop {
     position: fixed;
-    inset: 0;
-    background: url(/@front:img/background.webp) center no-repeat;
+    background: url("/@front:img/background.webp") center no-repeat;
     background-size: cover;
+    inset: 0;
 
-    &:after {
-      --color: #3E2723;
-      /*--color: #000;*/
-      content: '';
+    &::after {
+      --color: #3e2723;
+
       position: absolute;
+      background: radial-gradient(
+        circle,
+        rgb(from var(--color) r g b / 50%) 60%,
+        rgb(from var(--color) r g b / 10%) 100%
+      );
+
+      /* --color: #000; */
+      content: '';
       inset: 0;
-      background: radial-gradient(circle, rgb(from var(--color) r g b / 0.5) 60%, rgb(from var(--color) r g b / .1) 100%);
     }
   }
 
   & .container-wrapper {
     position: relative;
+    height: fit-content;
     padding: 10px;
-    margin-block: 3rem;
-    backdrop-filter: blur(3px);
-    background: rgb(from var(--white) r g b /.3);
-    border-radius: .85em;
-    padding: .5rem;
-    border: 1px solid rgb(from var(--white) r g b / .08);
+    padding: 0.5rem;
+    border: 1px solid rgb(from var(--white) r g b / 8%);
     border-width: 0 1px 1px;
+    border-radius: 0.85em;
+    backdrop-filter: blur(3px);
+    background: rgb(from var(--white) r g b / 30%);
+    margin-block: 3rem;
+    view-transition-name: containerwrapper;
 
     & .container {
-      display: flex;
-      flex-direction: column;
       position: relative;
-      background: var(--white);
-      padding: 1.5rem;
-      border-radius: .5em;
+      display: flex;
       width: min(1100px, 90vw);
+      height: fit-content;
       min-height: 50dvh;
-      box-shadow: 0 .25rem .5rem -.1rem oklch(from var(--gray-800) l c h / .8);
-      view-transition-name: container;
-    }
-  }
+      flex-direction: column;
+      padding: 1.5rem;
+      border-radius: 0.5em;
+      background: var(--white);
+      box-shadow: 0 0.25rem 0.5rem -0.1rem oklch(from var(--gray-800) l c h / 80%);
 
-  &.client-actions {
-    & .container-wrapper {
-      & .container {
+      /* view-transition-name: container; */
+
+      &.role-sales-1,
+      &.role-sales-2,
+      &.role-sales-3,
+      &.role-technical-1,
+      &.role-technical-2 {
         max-width: 600px;
       }
     }
@@ -117,22 +147,22 @@ button {
 
   & header.main {
     display: flex;
-    justify-content: space-between;
     align-items: flex-end;
-    gap: 1.5rem;
-    padding-block-end: 1.5rem;
-    margin-block-end: 1.5rem;
+    justify-content: space-between;
     border-bottom: 1px solid var(--gray-200);
+    gap: 1.5rem;
+    margin-block-end: 1.5rem;
+    padding-block-end: 1.5rem;
 
     & .logo {
-      flex: 0 0 11rem;
       width: 11rem;
       height: 3.5rem;
+      flex: 0 0 11rem;
 
       & h1 {
-        background: url(/@front:img/coffeeco.svg) 0 50% no-repeat;
-        background-size: contain;
         height: 100%;
+        background: url("/@front:img/coffeeco.svg") 0 50% no-repeat;
+        background-size: contain;
         translate: 0 -6px;
       }
 
@@ -154,32 +184,72 @@ button {
         display: flex;
 
         & li {
-          padding: .5em 1em;
+          display: block;
+
+          & > a,
+          & > span {
+            display: block;
+            padding: 0.5em 1em;
+            border-radius: 2em;
+            transition: background 0.25s ease;
+          }
+
+          & > span {
+            color: var(--gray-400);
+          }
+
+          & > a {
+            &:hover,
+            &:focus {
+              background: var(--gray-50);
+            }
+
+            &.active {
+              background: var(--gray-100);
+
+              /* color: var(--white); */
+            }
+          }
         }
       }
     }
 
     & .status {
       display: flex;
-      align-items: flex-end;
       flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5em;
     }
 
     & .round {
-      font-size: .875rem;
+      display: flex;
+      align-items: center;
+      color: var(--gray-500);
+      font-size: 0.75rem;
+      font-weight: 500;
+      gap: 0.5em;
+
+      & .v-icon {
+        font-size: 0.8rem;
+      }
     }
 
     & .auth {
       & button {
-        font-size: .875rem;
+        background: var(--gray-100);
+        font-size: 0.75rem;
         font-weight: 400;
-        background: var(--white);
-        translate: 1em 0;
-        transition: all .25s ease;
+
+        /* translate: 1em 0; */
+        transition: all 0.25s ease;
+
+        & .v-icon {
+          display: none;
+        }
 
         &:hover,
         &:focus {
-          background: var(--gray-100);
+          background: var(--gray-200);
         }
       }
     }
@@ -189,6 +259,25 @@ button {
     display: flex;
     flex: 1;
     flex-direction: column;
-    justify-content: center;
+    view-transition-name: main-wrapper;
+
+    &:has(> .center) {
+      justify-content: center;
+    }
+
+    & header.client,
+    & header.project {
+      margin-block-end: 1em;
+
+      & h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+    }
+
+    & .actions {
+      margin-block-start: 1.5em;
+    }
   }
 }

@@ -19,9 +19,9 @@
           <td class="align-right">
             <MoneyDisplay :value="project.price" />
           </td>
-          <td>{{ project.requestRound?.display ?? '-' }}</td>
-          <td>{{ project.quoteRound?.display ?? '-' }}</td>
-          <td>{{ project.deliveryRound?.display ?? '-' }}</td>
+          <td class="align-right">{{ project.requestRound?.display ?? '-' }}</td>
+          <td class="align-right">{{ project.quoteRound?.display ?? '-' }}</td>
+          <td class="align-right">{{ project.deliveryRound?.display ?? '-' }}</td>
         </tr>
       </tbody>
     </table>

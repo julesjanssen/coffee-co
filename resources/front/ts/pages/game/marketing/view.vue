@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="center">
     <ul class="actions">
       <li v-for="action in actions" :key="action.href">
         <Link :href="action.href" class="button">

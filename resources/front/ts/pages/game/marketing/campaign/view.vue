@@ -1,5 +1,5 @@
 <template>
-  <main class="marketing campaign">
+  <main class="marketing campaign center">
     <div v-if="shouldShowHints">
       <article>
         <p v-for="hint in hints" :key="hint">{{ hint }}</p>
