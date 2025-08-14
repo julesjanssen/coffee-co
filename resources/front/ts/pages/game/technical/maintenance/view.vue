@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 
-import GameLayout from '/@front:layouts/game-client-actions.vue'
+import GameLayout from '/@front:layouts/game.vue'
 import { error } from '/@front:shared/notifications'
 import type { Project } from '/@front:types/shared'
 

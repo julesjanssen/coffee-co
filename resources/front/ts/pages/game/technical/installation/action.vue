@@ -47,7 +47,7 @@
 import { Link } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
-import GameLayout from '/@front:layouts/game-client-actions.vue'
+import GameLayout from '/@front:layouts/game.vue'
 import { http } from '/@front:shared/http'
 import { error } from '/@front:shared/notifications'
 import type { Project } from '/@front:types/shared'

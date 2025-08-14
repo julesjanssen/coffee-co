@@ -1,8 +1,8 @@
 <template>
-  <div class="select-client">
-    <ul>
+  <div class="select-client center">
+    <ul class="actions">
       <li v-for="client in clients" :key="client.href">
-        <Link :href="client.href">
+        <Link :href="client.href" class="button action">
           {{ client.title }}
         </Link>
       </li>
@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 
-import GameLayout from '/@front:layouts/game-client-actions.vue'
+import GameLayout from '/@front:layouts/game.vue'
 import type { ScenarioClient } from '/@front:types/shared'
 
 defineOptions({

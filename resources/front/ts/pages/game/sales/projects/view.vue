@@ -30,7 +30,7 @@
 import { Link } from '@inertiajs/vue3'
 
 import MoneyDisplay from '/@front:components/MoneyDisplay.vue'
-import GameLayout from '/@front:layouts/game-client-actions.vue'
+import GameLayout from '/@front:layouts/game.vue'
 import type { Project, ScenarioClient } from '/@front:types/shared'
 
 defineOptions({

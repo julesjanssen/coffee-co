@@ -29,7 +29,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { computed, ref, watchEffect } from 'vue'
 
-import GameLayout from '/@front:layouts/game-client-actions.vue'
+import GameLayout from '/@front:layouts/game.vue'
 import { $t } from '/@front:shared/i18n'
 import type { ScenarioClient } from '/@front:types/shared'
 
