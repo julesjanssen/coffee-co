@@ -172,33 +172,4 @@ function formatStackTrace(trace: string[]): string {
 }
 </script>
 
-<style scoped>
-& .badge {
-  border-color: transparent;
-  font-size: 0.75rem;
-}
-
-.badge.level-emergency,
-.badge.level-alert,
-.badge.level-critical,
-.badge.level-error {
-  background-color: var(--red-200);
-  color: var(--red-800);
-}
-
-.badge.level-warning {
-  background-color: var(--yellow-200);
-  color: var(--yellow-800);
-}
-
-.badge.level-notice,
-.badge.level-info {
-  background-color: var(--blue-200);
-  color: var(--blue-800);
-}
-
-.badge.level-debug {
-  background-color: var(--gray-200);
-  color: var(--gray-800);
-}
-</style>
+<style src="/@admin:css/views/system.logs.css"></style>

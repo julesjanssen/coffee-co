@@ -71,3 +71,5 @@ defineProps<{
   logFiles: LogFile[]
 }>()
 </script>
+
+<style src="/@admin:css/views/system.logs.css"></style>
