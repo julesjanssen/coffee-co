@@ -60,7 +60,41 @@ abstract class Navigation implements Arrayable
      *     icon?: string
      * }>
      */
-    abstract public function toArray(): array;
+    abstract public function listItems(): array;
+
+    /**
+     * @return array<array-key, array{
+     *     label: string,
+     *     href: string,
+     *     disabled?: bool,
+     *     icon?: string,
+     *     isActive: bool
+     * }>
+     */
+    public function toArray(): array
+    {
+        $currentRoute = $this->request->route();
+        $currentUrl = $currentRoute ? $currentRoute->uri() : '';
+
+        return collect($this->listItems())->map(function (array $item) use ($currentUrl) {
+            $item['isActive'] = $this->isActiveRoute($item['href'], $currentUrl);
+
+            return $item;
+        })->toArray();
+    }
+
+    protected function isActiveRoute(string $href, string $currentUrl): bool
+    {
+        // Extract the path from the href (remove domain/protocol if present)
+        $itemPath = parse_url($href, PHP_URL_PATH) ?? $href;
+
+        // Remove leading slash for comparison
+        $itemPath = ltrim($itemPath, '/');
+        $currentUrl = ltrim($currentUrl, '/');
+
+        // Exact match or current route starts with item path
+        return $currentUrl === $itemPath || str_starts_with($currentUrl, $itemPath . '/');
+    }
 
     protected function session()
     {

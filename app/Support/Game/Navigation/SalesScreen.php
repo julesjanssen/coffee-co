@@ -6,7 +6,7 @@ namespace App\Support\Game\Navigation;
 
 class SalesScreen extends Navigation
 {
-    public function toArray(): array
+    public function listItems(): array
     {
         return [
             [

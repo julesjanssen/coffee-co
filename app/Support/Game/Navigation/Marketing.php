@@ -8,7 +8,7 @@ use App\Models\GameCampaignCode;
 
 class Marketing extends Navigation
 {
-    public function toArray(): array
+    public function listItems(): array
     {
         return [
             [

@@ -6,7 +6,7 @@ namespace App\Support\Game\Navigation;
 
 class EmptyNav extends Navigation
 {
-    public function toArray(): array
+    public function listItems(): array
     {
         return [];
     }

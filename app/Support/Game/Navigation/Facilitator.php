@@ -8,7 +8,7 @@ use App\Enums\GameSession\Status;
 
 class Facilitator extends Navigation
 {
-    public function toArray(): array
+    public function listItems(): array
     {
         $sessionIsPending = $this->session()->status->is(Status::PENDING);
 
