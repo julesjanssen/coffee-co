@@ -22,7 +22,7 @@
                   <span v-if="item.disabled">
                     {{ item.label }}
                   </span>
-                  <Link v-else :href="item.href">
+                  <Link v-else :href="item.href" :class="{ active: item.isActive }">
                     {{ item.label }}
                   </Link>
                 </li>
@@ -31,24 +31,8 @@
           </div>
 
           <div class="status">
-            <div class="round">
-              <span v-if="isPaused">
-                {{ session.roundStatus.label }}
-              </span>
-              {{ session.currentRound?.display }}
-            </div>
-
-            <div class="auth">
-              <Dropdown :label="authLabel">
-                <ul role="menu" aria-hidden="true">
-                  <li role="menuitem">
-                    <button type="button" @click.prevent="logout">
-                      {{ $t('log out') }}
-                    </button>
-                  </li>
-                </ul>
-              </Dropdown>
-            </div>
+            <HeaderRound />
+            <HeaderAuth />
           </div>
         </header>
 
@@ -67,15 +51,16 @@
   <Toaster :expand="true" />
 </template>
 <script setup lang="ts">
-import { Head, Link, router, usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { Head, Link, usePage } from '@inertiajs/vue3'
+import { computed, onUnmounted } from 'vue'
 import { Toaster } from 'vue-sonner'
 
-import Dropdown from '/@front:components/Dropdown.vue'
 import PauseMessage from '/@front:components/PauseMessage.vue'
 import { useServerSentEvents } from '/@front:composables/server-sent-events'
-import { $t } from '/@front:shared/i18n'
 import type { PageProps } from '/@front:types/shared'
+
+import HeaderAuth from './partials/HeaderAuth.vue'
+import HeaderRound from './partials/HeaderRound.vue'
 
 useServerSentEvents()
 
@@ -90,15 +75,24 @@ const isPaused = computed(() => session.value.roundStatus.value === 'paused')
 const isFacilitator = computed(() => auth.value.type === 'facilitator')
 const isPausedNotFacilitator = computed(() => isPaused.value && !isFacilitator.value)
 
-const authLabel = computed(() => {
-  if (auth.value.type === 'facilitator') {
-    return $t('facilitator')
+if (document.startViewTransition) {
+  function handleInertiaStart() {
+    document.startViewTransition(async (): Promise<void> => {
+      return new Promise((resolve) => {
+        document.addEventListener(
+          'inertia:finish',
+          () => {
+            resolve()
+          },
+          { once: true },
+        )
+      })
+    })
   }
 
-  return auth.value.role?.label
-})
-
-const logout = () => {
-  router.post('/game/logout')
+  document.addEventListener('inertia:start', handleInertiaStart)
+  onUnmounted(() => {
+    document.removeEventListener('inertia:start', handleInertiaStart)
+  })
 }
 </script>
