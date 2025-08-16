@@ -57,4 +57,4 @@ Route::namespace('\App\Http\Controllers\Admin\Auth')
         });
     });
 
-Route::get('/', fn() => ['success' => true]);
+Route::redirect('/', '/game');
