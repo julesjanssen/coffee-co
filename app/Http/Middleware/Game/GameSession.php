@@ -9,6 +9,7 @@ use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 
 class GameSession
@@ -26,6 +27,13 @@ class GameSession
         if (! $user) {
             return $next($request);
         }
+
+        $scenario = $user->session->scenario;
+        if (empty($scenario)) {
+            $scenario = $user->session->pickRelevantScenario();
+        }
+
+        App::setLocale($scenario->locale->value);
 
         Inertia::share([
             'session' => GameSessionResource::make($user->session),
