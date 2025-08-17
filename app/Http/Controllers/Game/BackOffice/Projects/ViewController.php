@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Game\BackOffice\Projects;
 
 use App\Enums\GameSession\TransactionType;
 use App\Enums\Project\Status;
+use App\Http\Resources\Game\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -16,20 +17,15 @@ class ViewController
 {
     public function view(Request $request, Project $project)
     {
-        if ($project->status->isNot(Status::PENDING)) {
-            return redirect()->route('game.base');
-        }
+        $project->load(['client']);
 
-        $projectResource = [
-            'title' => $project->title,
-            'price' => $project->price,
-            'client' => [
-                'title' => $project->client->title,
-            ],
-        ];
+        $view = $project->status->is(Status::PENDING)
+            ? 'game/backoffice/projects/quote'
+            : 'game/backoffice/projects/view';
 
-        return Inertia::render('game/backoffice/projects/view', [
-            'project' => $projectResource,
+        return Inertia::render($view, [
+            'project' => ProjectResource::make($project),
+            'wonLostReasons' => $project->settings->wonLostReasons,
             'solutions' => $this->listSolutions($project),
             'links' => [
                 'products.view' => route('game.products.view', ['XXX']),

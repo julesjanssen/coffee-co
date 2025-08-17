@@ -41,8 +41,9 @@ const installProject = (project: any) => {
     {
       onSuccess: () => {
         success(
-          $t('Successfully installed ":project".', {
+          $t('Successfully installed ":project" at ":client".', {
             project: project.title,
+            client: project.client.title,
           }),
         )
       },

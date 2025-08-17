@@ -12,7 +12,7 @@
       <p>{{ hint }}</p>
 
       <div class="actions">
-        <Link :href="links.back">next</Link>
+        <Link :href="links.back" class="button">next</Link>
       </div>
     </div>
   </div>
