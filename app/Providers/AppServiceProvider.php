@@ -13,6 +13,7 @@ use App\Models\ProjectAction;
 use App\Models\User;
 use App\Support\Multitenancy\DatabaseSessionManager;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -21,6 +22,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
 use RuntimeException;
 
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDate();
         $this->configureEloquent();
+        $this->configureAuthenticationRedirects();
         $this->configureSessionHandler();
         $this->configureJsonResources();
         $this->configureEnvPath();
@@ -71,6 +74,17 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventAccessingMissingAttributes();
+    }
+
+    private function configureAuthenticationRedirects()
+    {
+        Authenticate::redirectUsing(function (Request $request) {
+            if (Str::startsWith($request->uri()->path(), 'game')) {
+                return '/game/sessions';
+            }
+
+            return '/auth/login';
+        });
     }
 
     private function configureSessionHandler()
