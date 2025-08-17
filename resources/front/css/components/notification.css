@@ -1,0 +1,67 @@
+.v-notification {
+  display: flex;
+  width: var(--width);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1em;
+  border: 1px solid var(--gray-800);
+  border-radius: 0.5em;
+  border-top-color: var(--gray-700);
+  border-bottom-color: var(--gray-800);
+  background: var(--gray-900);
+  box-shadow: 0 2px 8px -2px oklch(from var(--gray-950) l c h / 80%);
+  color: var(--gray-50);
+  font-size: 0.875rem;
+  gap: 1em;
+
+  &::before {
+    --size: 1.2em;
+
+    width: var(--size);
+    height: var(--size);
+    flex: 0 0 var(--size);
+    background: var(--green-400);
+    content: '';
+    mask: url('/@front:icons/check-circle.svg') center no-repeat;
+    mask-size: contain;
+  }
+
+  &.error::before {
+    background: var(--red-400);
+    mask-image: url('/@front:icons/warning.svg');
+  }
+
+  & .message {
+    flex: 1;
+    padding: 0.5em 0;
+
+    & .description {
+      color: var(--gray-400);
+      font-size: 0.84em;
+    }
+  }
+
+  & .actions {
+    &:empty {
+      display: none;
+    }
+  }
+
+  & button.dismiss {
+    position: relative;
+    flex: 0 0 1em;
+    border: none;
+    color: var(--gray-500);
+
+    &::after {
+      position: absolute;
+      content: '';
+      inset: -0.75em;
+    }
+
+    &:hover,
+    &:focus {
+      color: var(--gray-200);
+    }
+  }
+}

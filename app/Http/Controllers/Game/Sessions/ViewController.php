@@ -48,10 +48,11 @@ class ViewController
     private function handleFacilitatorLogin(Request $request, GameSession $session)
     {
         $request->validate([
-            'code' => ['required', 'string', 'min:4', 'max:100'],
+            'code' => ['required', 'array', 'size:4'],
+            'code.*' => ['required', 'integer', 'min:0', 'max:9'],
         ]);
 
-        $code = strtolower((string) $request->input('code'));
+        $code = $request->collect('code')->join('');
         if ($session->facilitator->code !== $code) {
             throw ValidationException::withMessages([
                 'code' => [__('Invalid facilitator code.')],

@@ -28,18 +28,3 @@ const handleComplete = () => {
   emit('complete')
 }
 </script>
-
-<style scoped>
-.pin-input {
-  display: flex;
-  justify-content: center;
-  gap: 0.5em;
-}
-
-input {
-  width: 2ch;
-  font-size: 2rem;
-  padding-block: 0.5em;
-  text-align: center;
-}
-</style>

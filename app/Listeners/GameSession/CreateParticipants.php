@@ -9,7 +9,6 @@ use App\Events\GameSessionCreated;
 use App\Models\GameFacilitator;
 use App\Models\GameParticipant;
 use App\Models\GameSession;
-use Illuminate\Support\Str;
 
 class CreateParticipants
 {
@@ -21,7 +20,7 @@ class CreateParticipants
 
         GameFacilitator::create([
             'game_session_id' => $session->id,
-            'code' => Str::lower(Str::random(6)),
+            'code' => random_int(1000, 9999),
         ]);
     }
 

@@ -19,7 +19,7 @@ export const success = async (
   props: Omit<NotificationProps, 'type' | 'title'> = {},
   options: NotificationOptions = {},
 ) => {
-  return add({ ...props, title, type: 'success' }, options)
+  return await add({ ...props, title, type: 'success' }, options)
 }
 
 export const error = async (
@@ -27,5 +27,5 @@ export const error = async (
   props: Omit<NotificationProps, 'type' | 'title'> = {},
   options: NotificationOptions = {},
 ) => {
-  return add({ ...props, title, type: 'error' }, options)
+  return await add({ ...props, title, type: 'error' }, options)
 }

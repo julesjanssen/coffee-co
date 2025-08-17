@@ -3,6 +3,11 @@
     <Dropdown :label="authLabel">
       <ul role="menu" aria-hidden="true">
         <li role="menuitem">
+          <button type="button" @click.prevent="refresh">
+            {{ $t('refresh') }}
+          </button>
+        </li>
+        <li role="menuitem">
           <button type="button" @click.prevent="logout">
             {{ $t('log out') }}
           </button>
@@ -29,6 +34,10 @@ const authLabel = computed(() => {
 
   return auth.value.role?.label
 })
+
+const refresh = () => {
+  location.reload()
+}
 
 const logout = () => {
   router.post('/game/logout')

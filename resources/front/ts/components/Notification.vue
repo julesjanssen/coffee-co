@@ -1,8 +1,8 @@
 <template>
   <aside class="v-notification" :class="[type]" role="alert" aria-live="assertive">
-    <div>
-      <header>{{ title }}</header>
-      <p v-if="description">{{ description }}</p>
+    <div class="message">
+      <p>{{ title }}</p>
+      <p v-if="description" class="description">{{ description }}</p>
     </div>
 
     <div class="actions">
