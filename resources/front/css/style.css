@@ -10,6 +10,7 @@
 
 @import url('components/button.css') layer(components);
 @import url('components/dropdown.css') layer(components);
+@import url('components/modal.css') layer(components);
 @import url('components/notification.css') layer(components);
 @import url('components/table.css') layer(components);
 

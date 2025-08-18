@@ -19,7 +19,11 @@
           aria-label="Modal window"
           tabindex="-1"
         >
-          <slot />
+          <div class="modal-container">
+            <div class="modal-main">
+              <slot />
+            </div>
+          </div>
         </div>
       </transition>
     </div>
