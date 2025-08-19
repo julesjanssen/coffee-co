@@ -16,6 +16,11 @@ return [
     |
     */
 
+    'teable' => [
+        'api_endpoint' => env('TEABLE_API_ENDPOINT'),
+        'api_token' => env('TEABLE_API_TOKEN'),
+    ],
+
     'ipinfo' => [
         'key' => env('IPINFO_KEY'),
     ],
