@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('game_sessions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('scenario_group_id')->index();
+            $table->string('scenario_group_id', 50)->index();
             $table->unsignedBigInteger('scenario_id')->nullable();
             $table->string('public_id', 20)->index();
             $table->string('title');

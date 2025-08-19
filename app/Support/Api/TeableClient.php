@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Support\Api;
 
+use Generator;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\LazyCollection;
 use InvalidArgumentException;
 
 class TeableClient
@@ -55,7 +57,7 @@ class TeableClient
             ->get("/base/{$baseId}/table")
             ->throw();
 
-        $tables = collect($response->json('tables', []));
+        $tables = collect($response->json());
 
         return $tables
             ->whereIn('name', $tableNames)
@@ -63,41 +65,50 @@ class TeableClient
             ->collect();
     }
 
-    public function getAllRecords(string $baseId, string $tableId): Collection
+    public function getAllRecords(string $tableId): LazyCollection
     {
-        if (empty($baseId)) {
-            throw new InvalidArgumentException('Base ID is required');
-        }
-
         if (empty($tableId)) {
             throw new InvalidArgumentException('Table ID is required');
         }
 
-        $allRecords = collect();
-        $offset = null;
-
-        do {
-            $response = $this->getRecordsPage($baseId, $tableId, $offset);
-            $data = $response->json();
-
-            $records = collect($data['records'] ?? []);
-            $allRecords = $allRecords->merge($records);
-
-            $offset = $data['nextCursor'] ?? null;
-        } while ($offset !== null);
-
-        return $allRecords;
+        return LazyCollection::make(function () use ($tableId): Generator {
+            yield from $this->recordsGenerator($tableId);
+        });
     }
 
-    private function getRecordsPage(string $baseId, string $tableId, ?string $offset = null): Response
+    public function getAllRecordsEager(string $tableId): Collection
     {
-        $query = [];
-        if ($offset) {
-            $query['offset'] = $offset;
-        }
+        return $this->getAllRecords($tableId)->collect();
+    }
+
+    private function recordsGenerator(string $tableId): Generator
+    {
+        $skip = 0;
+        $take = 100;
+
+        do {
+            $response = $this->getRecordsPage($tableId, $skip, $take);
+            $data = $response->json();
+
+            $records = $data['records'] ?? [];
+
+            foreach ($records as $record) {
+                yield $record;
+            }
+
+            $skip += $take;
+        } while (count($records) === $take);
+    }
+
+    private function getRecordsPage(string $tableId, int $skip = 0, int $take = 100): Response
+    {
+        $query = [
+            'take' => $take,
+            'skip' => $skip,
+        ];
 
         return $this->client()
-            ->get("/base/{$baseId}/table/{$tableId}/record", $query)
+            ->get("/table/{$tableId}/record", $query)
             ->throw();
     }
 }
