@@ -13,4 +13,6 @@ enum AttachmentType: string
     case Avatar = 'avatar';
 
     case Generic = 'generic';
+
+    case ScenarioClientImage = 'scenario-client-image';
 }

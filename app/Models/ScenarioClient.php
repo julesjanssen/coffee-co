@@ -15,9 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Vagebond\Bijlagen\Models\Traits\HasAttachments;
 
 class ScenarioClient extends Model
 {
+    use HasAttachments;
     use HasSqids;
     use UsesTenantConnection;
 

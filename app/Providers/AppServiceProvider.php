@@ -10,6 +10,7 @@ use App\Models\GameParticipant;
 use App\Models\GameSession;
 use App\Models\Project;
 use App\Models\ProjectAction;
+use App\Models\ScenarioClient;
 use App\Models\User;
 use App\Support\Multitenancy\DatabaseSessionManager;
 use Carbon\CarbonImmutable;
@@ -69,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
             'game-session' => GameSession::class,
             'project' => Project::class,
             'project-action' => ProjectAction::class,
+            'scenario-client' => ScenarioClient::class,
             'user' => User::class,
         ]);
 
