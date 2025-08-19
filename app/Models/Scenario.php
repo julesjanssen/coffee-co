@@ -26,7 +26,6 @@ class Scenario extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'group_id' => 'integer',
         'locale' => Locale::class,
         'settings' => ScenarioSettings::class,
         'status' => Status::class,
@@ -37,15 +36,6 @@ class Scenario extends Model
         'settings' => '[]',
         'status' => Status::DRAFT,
     ];
-
-    public static function booted()
-    {
-        self::creating(function ($model) {
-            if (empty($model->group_id)) {
-                $model->group_id = self::getNextGroupID();
-            }
-        });
-    }
 
     /**
      * @return HasMany<ScenarioClient, $this>
@@ -92,11 +82,6 @@ class Scenario extends Model
             })
             ->from('scenario_groups')
             ->where('g', '=', 1);
-    }
-
-    public static function getNextGroupID()
-    {
-        return self::max('group_id') + 1;
     }
 
     #[Scope]

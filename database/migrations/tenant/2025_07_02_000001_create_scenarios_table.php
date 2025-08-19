@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('scenarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('group_id')->index();
+            $table->string('group_id', 50)->index();
             $table->string('title');
             $table->string('locale', 2)->index();
             $table->json('settings');
