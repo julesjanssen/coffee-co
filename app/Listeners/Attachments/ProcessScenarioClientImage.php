@@ -31,8 +31,8 @@ class ProcessScenarioClientImage
         }
 
         $factory
-            ->setVisibility(Attachment::VISIBILITY_PRIVATE)
-            // ->setDisk(Disk::SCENARIO)
+            ->setVisibility(Attachment::VISIBILITY_PUBLIC)
+            ->setDisk(Disk::PUBLIC)
             ->setDirnamePrefix('clients');
     }
 
