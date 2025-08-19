@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Enums\Locale;
+
 return [
 
     /*
@@ -38,4 +40,24 @@ return [
     */
 
     'hdma_cost' => 75,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scenario Groups
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for scenario groups that define different game scenarios.
+    | Each group contains a base_id for identification, locale for language
+    | support, and a human-readable title. These groups are used to organize
+    | and categorize different gameplay scenarios within the application.
+    |
+    */
+
+    'scenario_groups' => [
+        [
+            'base_id' => 'bseK5sxtSbMryjormsw',
+            'locale' => Locale::EN->value,
+            'title' => 'Original',
+        ],
+    ],
 ];
