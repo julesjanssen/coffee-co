@@ -121,10 +121,11 @@ class SystemTask extends Model
             'startedAt' => $this->started_at,
             'finishedAt' => $this->finished_at,
             'expiresAt' => $this->expires_at,
-            'links' => [
+            'links' => array_filter([
                 'view' => route('admin.system.tasks.view', [$this]),
                 'download' => route('admin.system.tasks.download', [$this]),
-            ],
+                'result' => $this->result['url'] ?? null,
+            ]),
         ];
     }
 }

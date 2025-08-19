@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/vue3'
 import { hideAllPoppers } from 'floating-vue'
 import { ref } from 'vue'
 
@@ -82,6 +83,10 @@ export function useTask() {
     document.body.removeChild(link)
   }
 
+  const routeToTaskResult = (task: SystemTask) => {
+    router.visit(task.links.result)
+  }
+
   const executeAndDownloadTask = (
     endpoint: string,
     payload?: Record<string, any>,
@@ -100,10 +105,29 @@ export function useTask() {
     })
   }
 
+  const executeAndRouteTask = (
+    endpoint: string,
+    payload?: Record<string, any>,
+    options: SystemTaskOptions = {},
+  ): Promise<SystemTask> => {
+    return startTask(async () => {
+      const response = await http.post(endpoint, payload)
+      return response.data
+    }, options).then((task) => {
+      if (task.links?.download) {
+        hideAllPoppers()
+        routeToTaskResult(task)
+      }
+
+      return task
+    })
+  }
+
   return {
     isRunning,
     downloadTaskResult,
     startTask,
     executeAndDownloadTask,
+    executeAndRouteTask,
   }
 }
