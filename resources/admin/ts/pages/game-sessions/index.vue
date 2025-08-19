@@ -22,6 +22,7 @@
             <thead>
               <tr>
                 <th>name</th>
+                <th>scenario</th>
                 <th>status</th>
                 <th class="align-right">current round</th>
               </tr>
@@ -30,6 +31,10 @@
               <tr v-for="(result, index) in results.data" :key="index" :class="{ trashed: result.trashed }">
                 <td>
                   <Link :href="result.links.view">{{ result.title }}</Link>
+                </td>
+                <td class="scenario">
+                  {{ result.scenario.title }}
+                  <small>({{ result.scenario.locale.label }})</small>
                 </td>
                 <td>
                   <span class="badge" :class="`status-${result.status.value}`">
@@ -73,4 +78,10 @@ defineProps<{
 }>()
 </script>
 
-<!-- <style src="/@admin:css/views/game-sessions.index.css"></style> -->
+<style scoped>
+td.scenario {
+  & small {
+    color: var(--gray-500);
+  }
+}
+</style>

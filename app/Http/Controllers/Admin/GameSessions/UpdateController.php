@@ -62,7 +62,7 @@ class UpdateController
             ->map(fn($v) => (object) [
                 'sqid' => $v->sqid,
                 'groupID' => $v->group_id,
-                'title' => $v->title,
+                'title' => $v->title . ' (' . $v->locale->description() . ')',
             ]);
     }
 }

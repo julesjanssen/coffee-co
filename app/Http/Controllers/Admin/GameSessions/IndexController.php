@@ -30,6 +30,7 @@ class IndexController
             })
             ->select('game_sessions.*')
             ->selectRaw('CASE WHEN game_sessions.scenario_id IS NULL THEN sg.title ELSE s.title END AS scenario_title')
+            ->selectRaw('CASE WHEN game_sessions.scenario_id IS NULL THEN sg.locale ELSE s.locale END AS scenario_locale')
             ->leftJoin('scenarios as s', fn($q) => $q->on('s.id', '=', 'game_sessions.scenario_id'))
             ->leftJoin('scenario_groups as sg', function ($query) {
                 $query

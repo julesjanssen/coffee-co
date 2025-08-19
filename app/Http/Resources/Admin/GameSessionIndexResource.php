@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin;
 
+use App\Enums\Locale;
 use App\Models\GameSession;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
@@ -24,6 +25,12 @@ class GameSessionIndexResource extends JsonResource
         return [
             'sqid' => $this->sqid,
             'title' => $this->title,
+            'scenario' => [
+                /** @phpstan-ignore property.notFound */
+                'title' => $this->scenario_title,
+                /** @phpstan-ignore property.notFound */
+                'locale' => Locale::from($this->scenario_locale)->toArray(),
+            ],
             'status' => $this->status->toArray(),
             'currentRound' => $this->currentRound?->toArray(),
             'trashed' => $this->trashed(),
