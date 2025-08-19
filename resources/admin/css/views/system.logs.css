@@ -15,7 +15,9 @@ main.system.logs {
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       line-clamp: 2;
+      overflow-wrap: anywhere;
       text-overflow: ellipsis;
+      word-break: normal;
     }
   }
 
