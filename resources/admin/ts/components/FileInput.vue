@@ -32,13 +32,12 @@ type FileValue = {
   id: string
 }
 
-const emits = defineEmits(['update:modelValue'])
-
 const files = ref<Ref<FileObject>[]>([])
+
+const model = defineModel<FileValue[]>()
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: FileValue[]
     accept?: string
     multiple?: boolean
   }>(),
@@ -89,11 +88,11 @@ const icon = computed(() => {
 })
 
 const label = computed(() => {
-  if (props.modelValue) {
-    if (props.modelValue.length > 1) {
-      return $t(':num files', { num: String(props.modelValue.length) })
-    } else if (props.modelValue.length === 1) {
-      return props.modelValue[0].name
+  if (model.value) {
+    if (model.value.length > 1) {
+      return $t(':num files', { num: String(model.value.length) })
+    } else if (model.value.length === 1) {
+      return model.value[0].name
     }
   }
 
@@ -132,9 +131,19 @@ watch(
       }
     })
 
-    emits('update:modelValue', fileValues)
+    model.value = fileValues
   },
   { deep: true },
+)
+
+// Clear internal files when model value is cleared externally
+watch(
+  () => model.value,
+  (newValue, oldValue) => {
+    if ((!newValue || newValue.length === 0) && oldValue && oldValue.length > 0) {
+      files.value = []
+    }
+  },
 )
 </script>
 
