@@ -14,7 +14,7 @@ class Facilitator extends Navigation
 
         return [
             [
-                'label' => __('navigation:facilitator:status'),
+                'label' => __('navigation:facilitator:status-settings'),
                 'href' => route('game.facilitator.status'),
             ],
             [
