@@ -58,10 +58,22 @@ const isLastseenUptodate = (latestUpdate: string) => {
   return changelogLastseen.value === latestUpdate
 }
 
+const diffInDays = (date: string) => {
+  const diffInMs = new Date().getTime() - new Date(date).getTime()
+  const days = diffInMs / 1000 / 3600 / 24
+
+  return Math.round(days)
+}
+
 const checkLatestRelease = (release: any) => {
   if (!isLastseenUptodate(release.hash)) {
     latestRelease.value = release
     changelogLastseen.value = release.hash
+
+    if (diffInDays(release.releasedAt) > 30) {
+      return
+    }
+
     showModal()
   }
 }
