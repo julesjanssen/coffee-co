@@ -32,6 +32,11 @@ class GameFacilitator extends Authenticatable
         return $this->belongsTo(GameSession::class, 'game_session_id', 'id');
     }
 
+    public function loginHash(): string
+    {
+        return hash('sha256', $this->sqid . config('app.key'));
+    }
+
     public function getRememberToken(): ?string
     {
         return null;

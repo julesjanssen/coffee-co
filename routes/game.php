@@ -8,6 +8,7 @@ use App\Http\Controllers\Game\Facilitator\Session\SettingsController;
 use App\Http\Controllers\Game\Facilitator\Session\StatusController as SessionStatusController;
 use App\Http\Controllers\Game\Facilitator\StatusController;
 use App\Http\Controllers\Game\LogoutController;
+use App\Http\Controllers\Game\Sessions\FacilitatorController;
 use App\Http\Controllers\Game\Sessions\IndexController;
 use App\Http\Controllers\Game\Sessions\ViewController;
 use App\Http\Controllers\Game\ViewController as GameViewController;
@@ -23,6 +24,7 @@ Route::middleware([
 Route::get('sessions', [IndexController::class, 'index'])->name('sessions.index');
 Route::get('sessions/{session}', [ViewController::class, 'view'])->name('sessions.view');
 Route::post('sessions/{session}', [ViewController::class, 'store']);
+Route::get('sessions/{session}/f/{hash}', [FacilitatorController::class, 'login'])->name('facilitator.login');
 
 Route::middleware([
     Authenticate::using('participant,facilitator'),

@@ -21,8 +21,6 @@
       </button>
       <button v-else type="button" @click="pauseAfterRound">pause after current month</button>
     </div>
-    <!-- <pre>{{ session }}</pre> -->
-    <!-- <pre>{{ links }}</pre> -->
   </main>
 </template>
 

@@ -12,8 +12,21 @@
 
       <dl>
         <div>
+          <dt>scenario</dt>
+          <dd>
+            {{ session.scenario.title }}
+            <small>({{ session.scenario.locale.label }})</small>
+          </dd>
+        </div>
+
+        <div>
           <dt>facilitator code</dt>
-          <dd>{{ session.facilitator.code }}</dd>
+          <dd class="facilitator">
+            <code>{{ session.facilitator.code }}</code>
+            <a class="button small" target="_blank" rel="noopener noreferrer" :href="session.links.facilitatorLogin"
+              >log in</a
+            >
+          </dd>
         </div>
       </dl>
     </section>
@@ -36,3 +49,16 @@ defineProps<{
   session: GameSession
 }>()
 </script>
+
+<style scoped>
+dd.facilitator {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  & code {
+    font-size: 1.1em;
+    letter-spacing: 0.2em;
+  }
+}
+</style>
