@@ -17,7 +17,7 @@ const prefixWithHerd = (command) => {
 }
 
 const buildPhpLintCommand = () => prefixWithHerd('./vendor/bin/phplint ./app --no-interaction --no-cache')
-const buildPintCommand = () => prefixWithHerd('./vendor/bin/pint')
+const buildPintCommand = () => prefixWithHerd('./vendor/bin/pint --parallel')
 const buildPhpStanCommand = () => prefixWithHerd('./vendor/bin/phpstan analyse --memory-limit=2G')
 const buildComposerDepAnalyserCommand = () => prefixWithHerd('./vendor/bin/composer-dependency-analyser')
 const buildComposerCommand = () => 'composer validate --no-check-publish --strict'
