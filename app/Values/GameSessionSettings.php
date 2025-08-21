@@ -15,7 +15,7 @@ final class GameSessionSettings extends CastableValueObject
 
     public int $maxProjectsPerClientPerYear = 2;
 
-    public int $secondsPerRound = 10;
+    public int $secondsPerRound = 60;
 
     public int $roundsToSubmitOffer = 10;
 
