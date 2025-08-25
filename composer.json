@@ -60,6 +60,7 @@
     "overtrue/phplint": "^9.6.2",
     "pestphp/pest": "^4.0.0",
     "pestphp/pest-plugin-arch": "^4.0.0",
+    "pestphp/pest-plugin-browser": "^4.0",
     "pestphp/pest-plugin-laravel": "^4.0.0",
     "rector/rector": "^2.1.2",
     "shipmonk/composer-dependency-analyser": "^1.8.3"
@@ -81,8 +82,7 @@
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover --ansi",
       "@php artisan app:licenses:list",
-      "@php artisan app:js:export",
-      "@php artisan boost:install --silent"
+      "@php artisan app:js:export"
     ],
     "post-update-cmd": [
       "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
