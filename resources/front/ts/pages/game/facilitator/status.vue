@@ -15,14 +15,14 @@
             </div>
           </div>
 
-          <div class="field">
+          <div v-if="isSessionPending" class="field">
             <label>seconds per round</label>
             <div>
               <input type="text" inputmode="numeric" name="secondsPerRound" :value="settings.secondsPerRound" />
             </div>
           </div>
 
-          <div class="field">
+          <div v-if="isSessionPending" class="field">
             <label>HDMA will be effective after active for x rounds</label>
             <div>
               <input
@@ -36,7 +36,10 @@
         </fieldset>
 
         <fieldset class="actions">
-          <button type="submit">update settings</button>
+          <button type="submit">
+            <span v-if="isSessionPending">save settings</span>
+            <span v-else>update settings</span>
+          </button>
         </fieldset>
       </Form>
     </section>
@@ -45,6 +48,7 @@
 
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3'
+import { computed } from 'vue'
 
 import GameLayout from '/@front:layouts/game.vue'
 import { GameSessionFlow } from '/@front:shared/constants'
@@ -57,11 +61,13 @@ defineOptions({
   layout: [GameLayout],
 })
 
-defineProps<{
+const props = defineProps<{
   settings: Record<string, number | boolean | string>
   session: GameSession
   links: Record<string, string>
 }>()
+
+const isSessionPending = computed(() => props.session.status.value === 'pending')
 
 const finishForm = () => {
   success('Settings saved.')
