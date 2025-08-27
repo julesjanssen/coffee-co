@@ -27,4 +27,9 @@ enum TransactionType: string
     case PROJECT_UPTIME_BONUS = 'project-uptime-bonus';
 
     case PROJECT_WON = 'project-won';
+
+    public function dbAlias()
+    {
+        return hash('xxh3', $this->value);
+    }
 }
