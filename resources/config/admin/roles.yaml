@@ -4,6 +4,7 @@
   permissions:
     - admin.tenants.view
     - admin.tenants.update
+    - admin.tenants.switch
 
 - name: tech-admin
   title: 'Tech admin'
@@ -31,7 +32,6 @@
     - admin.accounts.invite
     - admin.system.changelog.view
     - admin.send-feedback
-    - admin.tenants.switch
 
 - name: moderator
   title: 'Moderator'
