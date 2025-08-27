@@ -69,11 +69,6 @@ const shouldShowHint = computed(() => isExtraServiceCompleted.value === true && 
 
 const initExtraService = () => {
   isPerformingExtraService.value = true
-
-  if (props.mazeLevel === 0) {
-    isExtraServiceCompleted.value = true
-    return
-  }
 }
 
 const mazeCompleted = () => {
