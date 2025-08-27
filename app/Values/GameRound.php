@@ -110,12 +110,12 @@ class GameRound implements Arrayable
 
     public function displayFull()
     {
-        return $this->getDateObject()->isoFormat('MMMM YYYY');
+        return $this->getDateObject()->isoFormat('MMMM YY');
     }
 
     public function display()
     {
-        return $this->getDateObject()->isoFormat('MMM YYYY');
+        return $this->getDateObject()->isoFormat('MMM YY');
     }
 
     public function toArray()
