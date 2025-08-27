@@ -36,6 +36,11 @@ const emitReady = () => {
 }
 
 onMounted(() => {
+  if (props.level === 0) {
+    emitReady()
+    return
+  }
+
   start()
 })
 </script>
