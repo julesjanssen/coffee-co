@@ -3,6 +3,12 @@
     <h2>{{ $t('projects') }}</h2>
   </header>
 
+  <div v-if="projects.length === 0" class="empty">
+    <article>
+      <p>{{ $t('No active projects at this moment.') }}</p>
+    </article>
+  </div>
+
   <div>
     <ul class="projects">
       <li v-for="project in projects" :key="project.sqid">
