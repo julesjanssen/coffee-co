@@ -83,7 +83,7 @@ class QuizController
 
         $correct = $questions
             ->map(function ($v, $key) use ($request, $client) {
-                $givenAnswer = $request->input($key);
+                $givenAnswer = $request->input('answers.' . $key);
                 if (empty($givenAnswer)) {
                     return 0;
                 }
