@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-if="projects.length === 0" class="empty">
+      <article>
+        <p>{{ $t('No pending projects at this moment.') }}</p>
+      </article>
+    </div>
+
     <ul class="projects">
       <li v-for="project in projects" :key="project.href">
         <Link :href="project.href">
