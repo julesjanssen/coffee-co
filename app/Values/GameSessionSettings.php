@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Values;
 
 use App\Enums\GameSession\Flow;
-use InvalidArgumentException;
 
 final class GameSessionSettings extends CastableValueObject
 {
@@ -15,7 +14,7 @@ final class GameSessionSettings extends CastableValueObject
 
     public int $maxProjectsPerClientPerYear = 2;
 
-    public int $secondsPerRound = 60;
+    public int $secondsPerRound = 120;
 
     public int $roundsToSubmitOffer = 10;
 
@@ -29,21 +28,13 @@ final class GameSessionSettings extends CastableValueObject
 
     public int $hdmaEnabledRoundCount = 6;
 
-    public int $hdmaEffectiveRoundCount = 12;
+    public int $hdmaEffectiveRoundCount = 6;
 
     public Flow $flow = Flow::MEDIUM;
 
     public int $clientNpsStart {
-        set(?int $clientNpsStart) {
-            if (is_null($clientNpsStart)) {
-                $clientNpsStart = 60;
-            }
-
-            if ($clientNpsStart < 0 || $clientNpsStart > 100) {
-                throw new InvalidArgumentException('Client NPS start should be between 0 & 100');
-            }
-
-            $this->clientNpsStart = $clientNpsStart;
+        set(int $clientNpsStart) {
+            $this->clientNpsStart = min(100, max(0, (int) $clientNpsStart));
         }
 
         get => $this->clientNpsStart ?? 60;
