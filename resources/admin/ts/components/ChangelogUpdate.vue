@@ -105,4 +105,4 @@ onMounted(() => {
 })
 </script>
 
-<style src="/@admin:css/views/styleguide.css"></style>
+<style src="/@admin:css/views/system.changelog.css"></style>
