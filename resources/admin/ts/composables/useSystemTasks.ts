@@ -1,20 +1,22 @@
+import { router } from '@inertiajs/vue3'
 import { hideAllPoppers } from 'floating-vue'
 import { ref } from 'vue'
 
-import type { SystemTaskStatus } from '../shared/constants'
+import type { SystemTaskStatusType } from '../shared/constants'
 import { http } from '../shared/http'
+
+interface SystemTask {
+  id: string
+  status: SystemTaskStatusType
+  startedAt?: string
+  completedAt?: string
+  links: Record<string, string>
+}
 
 interface SystemTaskOptions {
   pollInterval?: number
   maxTries?: number
-}
-
-interface SystemTask {
-  id: string
-  status: keyof typeof SystemTaskStatus
-  startedAt?: string
-  completedAt?: string
-  links: Record<string, string>
+  onProgress?: (task: SystemTask) => void
 }
 
 export function useTask() {
@@ -25,6 +27,7 @@ export function useTask() {
     options: SystemTaskOptions = {},
   ): Promise<SystemTask> => {
     const { pollInterval = 3_000, maxTries = 30 } = options
+    const onProgress = options.onProgress || (() => {})
     const { promise, resolve, reject } = Promise.withResolvers<SystemTask>()
 
     isRunning.value = true
@@ -40,6 +43,8 @@ export function useTask() {
         try {
           const response = await http.get(initialTask.links.view)
           const task: SystemTask = response.data
+
+          onProgress(task)
 
           if (task.status === 'completed') {
             isRunning.value = false
@@ -82,6 +87,10 @@ export function useTask() {
     document.body.removeChild(link)
   }
 
+  const routeToTaskResult = (task: SystemTask) => {
+    router.visit(task.links.result)
+  }
+
   const executeAndDownloadTask = (
     endpoint: string,
     payload?: Record<string, any>,
@@ -100,10 +109,29 @@ export function useTask() {
     })
   }
 
+  const executeAndRouteTask = (
+    endpoint: string,
+    payload?: Record<string, any>,
+    options: SystemTaskOptions = {},
+  ): Promise<SystemTask> => {
+    return startTask(async () => {
+      const response = await http.post(endpoint, payload)
+      return response.data
+    }, options).then((task) => {
+      if (task.links?.download) {
+        hideAllPoppers()
+        routeToTaskResult(task)
+      }
+
+      return task
+    })
+  }
+
   return {
     isRunning,
     downloadTaskResult,
     startTask,
     executeAndDownloadTask,
+    executeAndRouteTask,
   }
 }
