@@ -56,8 +56,13 @@ return [
     'scenario_groups' => [
         [
             'base_id' => 'bseK5sxtSbMryjormsw',
-            'locale' => Locale::EN->value,
+            'locale' => Locale::EN,
             'title' => 'Original',
         ],
+        // [
+        //     'base_id' => 'bseZRsQNk6sfpLW2WCn',
+        //     'locale' => Locale::IT,
+        //     'title' => 'Original',
+        // ],
     ],
 ];
