@@ -7,6 +7,10 @@
       permission: admin.game-sessions.view
       title: Sessions
       icon: nav-sessions
+    - route: admin.scenarios.index
+      permission: admin.scenarios.view
+      title: Scenarios
+      icon: nav-scenarios
     - route: admin.accounts.index
       permission: admin.accounts.view
       title: Accounts

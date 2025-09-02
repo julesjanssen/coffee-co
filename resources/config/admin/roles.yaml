@@ -30,6 +30,8 @@
     - admin.accounts.update
     - admin.accounts.delete
     - admin.accounts.invite
+    - admin.scenarios.view
+    - admin.scenarios.update
     - admin.system.changelog.view
     - admin.send-feedback
 

@@ -1,0 +1,74 @@
+/* sync modal */
+.v-modal.scenario-sync {
+  & .body {
+    padding: 1rem;
+
+    & ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75em;
+
+      & li {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+
+      & .status {
+        display: flex;
+        flex: 0 0 18px;
+        align-items: center;
+        justify-content: flex-end;
+
+        & .progress {
+          display: none;
+          color: var(--gray-400);
+        }
+
+        & .indicator {
+          --size: 10px;
+
+          display: block;
+          width: var(--size);
+          height: var(--size);
+          flex: 0 0 var(--size);
+          border-radius: 50%;
+          background: var(--gray-300);
+        }
+      }
+
+      & .title {
+        flex: 1;
+      }
+
+      & .locale {
+        color: var(--gray-400);
+      }
+
+      & li.processing {
+        & .status {
+          & .progress {
+            display: block;
+          }
+
+          & .indicator {
+            display: none;
+          }
+        }
+      }
+
+      & li.completed {
+        & .status {
+          & .progress {
+            display: none;
+          }
+
+          & .indicator {
+            display: block;
+            background: var(--green-400);
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,7 +9,6 @@ use App\Enums\Client\CarBrand;
 use App\Enums\Client\Market;
 use App\Enums\Client\Segment;
 use App\Enums\Client\YearsInBusiness;
-use App\Enums\Locale;
 use App\Enums\Product\Color;
 use App\Enums\Product\Material;
 use App\Enums\Product\Type;
@@ -85,7 +84,7 @@ class ImportScenario implements SystemTaskRunner
         return Scenario::create([
             'group_id' => hash('xxh3', $config['base_id']),
             'title' => $config['title'],
-            'locale' => Locale::from($config['locale']),
+            'locale' => $config['locale'],
             'settings' => ScenarioSettings::fromArray([]),
             'status' => Status::PROCESSING,
         ]);

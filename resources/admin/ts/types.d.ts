@@ -1,5 +1,10 @@
 import type { ErrorBag, Errors } from '@inertiajs/core'
 
+export type EnumObject = {
+  value: string
+  label: string
+}
+
 export type PageProps = {
   app: {
     env: string
@@ -91,7 +96,7 @@ export type Login = {
     countryFlagImage?: string
     organization?: string
     geoLocation?: Geolocation
-    timezone?: Geolocation
+    timezone?: string
   }
   userAgent: {
     value: string

@@ -26,6 +26,7 @@ class ScenarioResource extends JsonResource
             'title' => $this->title,
             'locale' => $this->locale->toArray(),
             'status' => $this->status->toArray(),
+            'createdAt' => $this->created_at,
         ];
     }
 }

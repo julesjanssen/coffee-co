@@ -20,6 +20,14 @@ Route::namespace('Dashboard')->prefix('/')->as('dashboard.')->group(function () 
 });
 
 //
+// scenarios
+//
+Route::namespace('Scenarios')->prefix('scenarios/')->as('scenarios.')->group(function () {
+    Route::post('{group}/sync', 'SyncController@store')->name('sync');
+    Route::get('/', 'IndexController@index')->name('index');
+});
+
+//
 // game-sessions
 //
 Route::namespace('GameSessions')->prefix('game-sessions/')->as('game-sessions.')->group(function () {
