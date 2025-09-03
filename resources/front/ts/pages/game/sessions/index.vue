@@ -6,7 +6,7 @@
       <p>No active sessions available.</p>
     </div>
 
-    <div>
+    <div v-else>
       <p>Select your session:</p>
 
       <ul class="actions">
