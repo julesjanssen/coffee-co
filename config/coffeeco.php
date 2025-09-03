@@ -59,6 +59,11 @@ return [
             'locale' => Locale::EN,
             'title' => 'Original',
         ],
+        [
+            'base_id' => 'bsemwezwcZwck2STu1y',
+            'locale' => Locale::NL,
+            'title' => 'Original',
+        ],
         // [
         //     'base_id' => 'bseZRsQNk6sfpLW2WCn',
         //     'locale' => Locale::IT,
