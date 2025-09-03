@@ -11,6 +11,7 @@
   "devDependencies": {
     "@github/relative-time-element": "^4.4.3",
     "@inertiajs/vue3": "^2.0.0",
+    "@prettier/plugin-oxc": "^0.0.4",
     "@simplewebauthn/browser": "^13.1.0",
     "@types/node": "^22.5.5",
     "@vitejs/plugin-vue": "^5.2.0",
@@ -34,7 +35,7 @@
     "lint-staged": "^15.2.10",
     "playwright": "^1.55.0",
     "postcss-html": "^1.7.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.6.2",
     "reka-ui": "^2.3.0",
     "stylelint": "^16.9.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
