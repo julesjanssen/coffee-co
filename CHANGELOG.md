@@ -7,20 +7,19 @@ and this project adheres to [Calendar Versioning](https://calver.org/#scheme).
 
 ## [Unreleased]
 
-## [2025-06-01] - 2025-06-01
+## [2025-09-03] - 2025-09-03
 
 ### Added
-- System tasks functionality with backend implementation
-- JsExportable attribute for data export capabilities
-- Frontend example for SystemTask management
-- Passkey authentication support with security page
-- Passkey usage tracking on login
-- Enhanced login failure handling for passkeys
+- Implement base front-end design.
+- Facilitator settings & update defaults.
+- Configure NL scenario.
+- Implement scenario import from `tafels` service.
+
 
 ### Changed
-- Updated to use rolldown-vite for build tooling
-- Improved SystemTaskStatus type implementation
-- Enhanced passkeys configuration
+- Start year at 01.
+
 
 ### Fixed
-- Passkey login failure handling improvements
+- Skip maze when in 'high' flow.
+- Fix score calculation after client quiz.
