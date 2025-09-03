@@ -1,5 +1,11 @@
 /* sync modal */
 .v-modal.scenario-sync {
+  & header {
+    & p {
+      color: var(--gray-400);
+    }
+  }
+
   & .body {
     padding: 1rem;
 
@@ -11,14 +17,13 @@
       & li {
         display: flex;
         align-items: center;
-        gap: 0.5em;
       }
 
       & .status {
         display: flex;
-        flex: 0 0 18px;
+        flex: 0 0 20px;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
 
         & .progress {
           display: none;
@@ -34,6 +39,7 @@
           flex: 0 0 var(--size);
           border-radius: 50%;
           background: var(--gray-300);
+          margin-inline-start: 2px;
         }
       }
 

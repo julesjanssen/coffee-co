@@ -56,7 +56,8 @@
       <section>
         <header>
           <div>
-            <h2>Sync scenarios</h2>
+            <h1>Sync scenarios</h1>
+            <p>Please wait. This may take a few minutes.</p>
           </div>
         </header>
 
@@ -143,8 +144,10 @@ const initScenarioSync = async () => {
   }
 
   setTimeout(() => {
+    toast.success('Scenario sync completed.')
+
     hideModal()
-  }, 1000)
+  }, 1500)
   router.reload()
 }
 
