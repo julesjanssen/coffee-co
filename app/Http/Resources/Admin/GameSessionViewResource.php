@@ -31,7 +31,9 @@ class GameSessionViewResource extends JsonResource
             'facilitator' => $this->whenLoaded('facilitator', fn() => GameFacilitatorResource::make($this->facilitator)),
             'status' => $this->status->toArray(),
             'currentRound' => $this->currentRound?->toArray(),
+            'roundStatus' => $this->round_status->toArray(),
             'trashed' => $this->trashed(),
+            'createdAt' => $this->created_at,
             'links' => $this->when($this->resource->exists, fn() => [
                 'view' => route('admin.game-sessions.view', $this->resource),
                 'update' => route('admin.game-sessions.view', $this->resource),
