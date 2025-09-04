@@ -18,7 +18,7 @@ enum Flow: string
 
     case HIGH = 'high';
 
-    public function enableLabConsultingForScore(int $score)
+    public function enableLabConsultingForScore(int|float $score)
     {
         return match ($this) {
             self::LOW => ($score >= 100),
@@ -27,7 +27,7 @@ enum Flow: string
         };
     }
 
-    public function mazeLevelForScore(int $score = 100)
+    public function mazeLevelForScore(int|float $score = 100)
     {
         return match ($this) {
             self::LOW => 2,
