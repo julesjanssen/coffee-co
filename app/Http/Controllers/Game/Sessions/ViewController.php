@@ -8,6 +8,7 @@ use App\Enums\Participant\Role;
 use App\Http\Resources\Game\GameParticipantResource;
 use App\Models\GameSession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
@@ -28,6 +29,9 @@ class ViewController
         if (! empty($facilitator)) {
             return redirect()->route('game.facilitator.status');
         }
+
+        $scenario = $session->scenario ?? $session->pickRelevantScenario();
+        App::setLocale($scenario->locale->value);
 
         return Inertia::render('game/sessions/view', [
             'participants' => GameParticipantResource::collection($session->participants),
