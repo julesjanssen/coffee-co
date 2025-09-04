@@ -34,6 +34,12 @@ class ViewController
 
         $code = $this->findCampaignCode($request, $session);
 
+        if (empty($code)) {
+            throw ValidationException::withMessages([
+                'code' => [__('Unknown code.')],
+            ]);
+        }
+
         $used = GameCampaignCode::query()
             ->where('game_session_id', '=', $session->id)
             ->where('code_id', '=', $code->id)
@@ -153,15 +159,9 @@ class ViewController
                 ->first();
         }
 
-        $code = ScenarioCampaignCode::query()
+        return ScenarioCampaignCode::query()
             ->where('scenario_id', '=', $session->scenario_id)
             ->where('code', '=', $code)
             ->first();
-
-        if (empty($code)) {
-            throw ValidationException::withMessages([
-                'code' => [__('Unknown code.')],
-            ]);
-        }
     }
 }
