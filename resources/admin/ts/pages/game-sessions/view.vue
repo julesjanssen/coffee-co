@@ -8,6 +8,13 @@
           <h2>{{ $t('Game sessions') }}</h2>
           <h1>{{ session.title }}</h1>
         </div>
+
+        <div class="actions">
+          <button v-if="can.update && (isPending || isPlaying)" type="button" @click.prevent="closeSession">
+            <Icon name="x" />
+            close session
+          </button>
+        </div>
       </header>
 
       <dl>
@@ -26,6 +33,13 @@
           </dd>
         </div>
 
+        <template v-if="isClosed">
+          <div>
+            <dt>status</dt>
+            <dd>closed</dd>
+          </div>
+        </template>
+
         <template v-if="isPlaying">
           <div>
             <dt>current round</dt>
@@ -33,7 +47,7 @@
           </div>
         </template>
 
-        <div class="facilitator-code">
+        <div v-if="isPending || isPlaying" class="facilitator-code">
           <dt>facilitator code</dt>
           <dd>
             <code>{{ session.facilitator.code }}</code>
@@ -48,12 +62,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
 import DateTime from '/@admin:components/DateTime.vue'
+import Icon from '/@admin:components/Icon.vue'
 import AuthLayout from '/@admin:layouts/Auth.vue'
 import type { GameSessionStatusType } from '/@admin:shared/constants'
+import { http } from '/@admin:shared/http'
 import { $t } from '/@admin:shared/i18n'
 
 type GameSession = any
@@ -64,11 +80,25 @@ defineOptions({
 
 const props = defineProps<{
   session: GameSession
+  can: Record<string, string>
+  links: Record<string, string>
 }>()
 
 const sessionStatus = computed<GameSessionStatusType>(() => props.session.status.value)
+const isPending = computed(() => sessionStatus.value === 'pending')
 const isPlaying = computed(() => sessionStatus.value === 'playing')
+const isClosed = computed(() => sessionStatus.value === 'closed')
 const isPaused = computed(() => props.session.roundStatus.value === 'paused')
+
+const closeSession = () => {
+  http
+    .post(props.links['status-update'], {
+      status: 'closed',
+    })
+    .then(() => {
+      router.reload()
+    })
+}
 </script>
 
 <style scoped>

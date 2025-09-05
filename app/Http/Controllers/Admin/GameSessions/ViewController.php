@@ -24,8 +24,12 @@ class ViewController
 
         return Inertia::render('game-sessions/view', [
             'session' => GameSessionViewResource::make($session),
+            'can' => [
+                'update' => $request->user()->can(GameSessionPolicy::UPDATE, $session),
+            ],
             'links' => [
                 'index' => route('admin.game-sessions.index'),
+                'status-update' => route('admin.game-sessions.status.update', [$session]),
             ],
         ]);
     }

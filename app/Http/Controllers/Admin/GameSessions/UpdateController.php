@@ -19,6 +19,10 @@ class UpdateController
     {
         Gate::authorize(GameSessionPolicy::UPDATE, $session);
 
+        if ($session->exists) {
+            return redirect()->route('admin.game-sessions.view', $session);
+        }
+
         return Inertia::render('game-sessions/update', [
             'session' => fn() => GameSessionUpdateResource::make($session),
             'scenarios' => $this->listScenarios($request, $session),

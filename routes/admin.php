@@ -33,6 +33,7 @@ Route::namespace('Scenarios')->prefix('scenarios/')->as('scenarios.')->group(fun
 Route::namespace('GameSessions')->prefix('game-sessions/')->as('game-sessions.')->group(function () {
     Route::get('create', 'UpdateController@update')->name('create');
     Route::post('create', 'UpdateController@store');
+    Route::post('{session}/status/update', 'StatusController@store')->name('status.update');
     Route::get('{session}/update', 'UpdateController@update')->name('update');
     Route::post('{session}/update', 'UpdateController@store');
     Route::get('{session}', 'ViewController@view')->name('view');
