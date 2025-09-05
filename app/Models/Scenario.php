@@ -62,6 +62,14 @@ class Scenario extends Model
     }
 
     /**
+     * @return HasMany<ScenarioCampaignCode, $this>
+     */
+    public function campaignCodes(): HasMany
+    {
+        return $this->hasMany(ScenarioCampaignCode::class, 'scenario_id', 'id');
+    }
+
+    /**
      * @return HasMany<ScenarioTip, $this>
      */
     public function tips(): HasMany
