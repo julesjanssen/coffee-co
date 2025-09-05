@@ -4,10 +4,13 @@
   </header>
 
   <div>
-    <ul class="projects">
-      <li v-for="project in projects" :key="project.sqid">
-        <p>{{ project.title }} ({{ project.client.title }})</p>
-        <strong>{{ project.status.label }}</strong>
+    <ul class="projects-list">
+      <li v-for="project in projects" :key="project.sqid" class="project">
+        <span class="title">{{ project.title }}</span>
+        <span class="client">{{ project.client.title }}</span>
+        <span class="status">
+          <strong :class="project.status.value">{{ project.status.label }}</strong>
+        </span>
       </li>
     </ul>
   </div>

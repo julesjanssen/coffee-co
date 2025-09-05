@@ -1,0 +1,326 @@
+fieldset {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: none;
+  margin: 0 0 3rem;
+  gap: 1.5rem;
+
+  &.actions {
+    flex-flow: row wrap;
+    gap: 0.75rem;
+  }
+
+  &.footer {
+    margin-bottom: 0;
+    background: var(--gray-100);
+  }
+
+  & legend {
+    margin: 0 0 1em;
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+
+  & label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+  }
+
+  & .field {
+    max-inline-size: 42rem;
+
+    & .help {
+      margin: 0.3875rem 0 0;
+      color: var(--gray-500);
+      font-size: 84%;
+      line-height: 1.25;
+    }
+  }
+
+  & .field-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-inline-size: 42rem;
+
+    & .field {
+      min-width: 0;
+      flex: 1;
+    }
+
+    @media (width < 640px) {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+}
+
+.input-addon,
+[data-prefix]:has(input),
+[data-suffix]:has(input) {
+  position: relative;
+  display: flex;
+  flex-grow: 0;
+  align-items: center;
+  border: 1px solid var(--gray-100);
+  border-radius: 4px;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+
+  & select,
+  & input {
+    flex-shrink: 1;
+    border: none;
+    box-shadow: none;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  & input {
+    background: transparent;
+  }
+
+  & .prefix,
+  & .suffix {
+    flex-basis: 12rem;
+  }
+
+  &::before,
+  &::after {
+    display: block;
+    color: var(--gray-500);
+    font-size: 0.9em;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+
+  &:focus-within {
+    &::after,
+    &::before {
+      color: var(--accent-color);
+    }
+  }
+}
+
+[data-prefix]:has(input) {
+  &::before {
+    padding: 0 0 0 1em;
+    content: attr(data-prefix);
+  }
+
+  & input {
+    padding-left: 0.7em;
+  }
+}
+
+[data-suffix]:has(input) {
+  &::after {
+    padding: 0 1em 0 0;
+    content: attr(data-suffix);
+  }
+
+  & input {
+    padding-right: 0.7em;
+  }
+}
+
+.field .input-addon {
+  & select,
+  & input {
+    border-left: 1px solid var(--gray-200);
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+
+    &:first-child {
+      border-left: 0;
+    }
+  }
+}
+
+label.radio,
+label.checkbox {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.1875rem 0;
+  font-weight: 400;
+  gap: 0.75rem;
+  line-height: revert;
+
+  &:where(:not(:has(input[disabled]))) {
+    cursor: pointer;
+  }
+
+  & input:where([type='checkbox'], [type='radio']) {
+    margin-top: 0.15lh;
+  }
+
+  & .label {
+    & .help {
+      margin: 0 0 0.3875rem;
+    }
+  }
+
+  &:has(input[disabled]) {
+    & .label {
+      color: var(--gray-400);
+    }
+  }
+}
+
+input[type],
+select,
+textarea,
+.input-addon,
+[data-prefix]:has(input),
+[data-suffix]:has(input) {
+  &:hover {
+    border-color: var(--gray-400);
+  }
+
+  &:focus,
+  &:focus-within {
+    border-color: var(--gray-400);
+    outline: 3px solid oklch(from var(--green-700) l c h / 20%);
+  }
+
+  &:user-invalid,
+  &:has(input:user-invalid) {
+    border-color: var(--red-500);
+
+    &:focus,
+    &:focus-within {
+      outline: 3px solid oklch(from var(--red-500) l c h / 30%);
+    }
+  }
+}
+
+input[type='text'],
+input[type='date'],
+input[type='time'],
+input[type='number'],
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='password'],
+select,
+textarea,
+.input-display {
+  display: block;
+  width: 100%;
+  padding: 0.5em 0.75rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 4px;
+  background-clip: padding-box;
+  color: inherit;
+  font: inherit;
+  line-height: 1.25rem;
+
+  &[readonly] {
+    border-color: var(--gray-100);
+    background-color: var(--gray-100);
+    box-shadow: none;
+  }
+
+  &[disabled] {
+    background-color: var(--gray-50);
+    box-shadow: none;
+    color: var(--gray-400);
+    cursor: default;
+  }
+}
+
+input[type='password'] {
+  font-family: Verdana, sans-serif;
+  letter-spacing: 0.125em;
+}
+
+input[type='date'] {
+  appearance: none;
+  background: transparent;
+}
+
+select {
+  padding-right: 2.5rem;
+  appearance: none;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 8px top 50%;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+textarea {
+  min-height: calc(4lh + 1em);
+  resize: vertical;
+
+  @supports (field-sizing: content) {
+    &.autosize {
+      field-sizing: content;
+      resize: none;
+    }
+  }
+}
+
+input:where([type='checkbox'], [type='radio']) {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--gray-400);
+  border-radius: 0.25rem;
+  appearance: none;
+  background-color: var(--white);
+  background-origin: border-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  box-shadow: none;
+  transition: background 0.25s ease;
+  user-select: none;
+  vertical-align: middle;
+
+  &[type='radio'] {
+    border-radius: 100%;
+  }
+
+  &:checked {
+    border-color: transparent;
+    background-color: var(--accent-color);
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  }
+
+  &[disabled] {
+    border-color: var(--gray-200);
+    background-color: var(--gray-100);
+
+    &:hover {
+      border-color: var(--gray-200);
+    }
+
+    &:checked {
+      background-color: var(--gray-300);
+    }
+  }
+}
+
+.v-form-error {
+  display: flex;
+  color: var(--red-500);
+}
+
+input:-webkit-autofill {
+  box-shadow: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}

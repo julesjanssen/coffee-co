@@ -1,16 +1,16 @@
 :root {
   /* tailwind neutral */
-  --gray-50: oklch(98.5% 0 0);
-  --gray-100: oklch(97% 0 0);
-  --gray-200: oklch(92.2% 0 0);
-  --gray-300: oklch(87% 0 0);
-  --gray-400: oklch(70.8% 0 0);
-  --gray-500: oklch(55.6% 0 0);
-  --gray-600: oklch(43.9% 0 0);
-  --gray-700: oklch(37.1% 0 0);
-  --gray-800: oklch(26.9% 0 0);
-  --gray-900: oklch(20.5% 0 0);
-  --gray-950: oklch(14.5% 0 0);
+  --gray-50: oklch(98.5% 0 0deg);
+  --gray-100: oklch(97% 0 0deg);
+  --gray-200: oklch(92.2% 0 0deg);
+  --gray-300: oklch(87% 0 0deg);
+  --gray-400: oklch(70.8% 0 0deg);
+  --gray-500: oklch(55.6% 0 0deg);
+  --gray-600: oklch(43.9% 0 0deg);
+  --gray-700: oklch(37.1% 0 0deg);
+  --gray-800: oklch(26.9% 0 0deg);
+  --gray-900: oklch(20.5% 0 0deg);
+  --gray-950: oklch(14.5% 0 0deg);
   --blue-50: #ebf5ff;
   --blue-100: #dbeafe;
   --blue-200: #c3ddfd;
@@ -58,8 +58,7 @@
   --input-border-color: #d4d4d8;
 
   /* accent color */
-  --accent-color: #2563eb;
-
+  --accent-color: var(--green-700);
   --font-family: 'Noto Sans', system-ui;
 }
 
@@ -67,6 +66,7 @@ html {
   accent-color: var(--accent-color);
   color-scheme: light;
   font-family: var(--font-family);
-  /*font-feature-settings: 'calt', 'cv02', 'cv03', 'cv04', 'cv05', 'kern';*/
+
+  /* font-feature-settings: 'calt', 'cv02', 'cv03', 'cv04', 'cv05', 'kern'; */
   font-optical-sizing: auto;
 }

@@ -1,0 +1,110 @@
+ul.projects-list {
+  display: flex;
+  max-width: 80ch;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-inline: auto;
+
+  & .project {
+    display: grid;
+    width: 100%;
+    padding: 1em;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--white);
+    font-size: 0.875rem;
+    font-weight: 400;
+    gap: 0 3rem;
+    grid-template-areas:
+      'title status-price'
+      'client status-price'
+      'details status-price';
+    grid-template-columns: 1fr auto;
+    text-align: left;
+    transition: all 0.25s ease;
+
+    & .title {
+      font-size: 1rem;
+      font-weight: 550;
+      grid-area: title;
+    }
+
+    & .client {
+      color: var(--gray-500);
+      grid-area: client;
+    }
+
+    & .deadline,
+    & .failure-chance {
+      color: var(--gray-500);
+      font-size: 0.84em;
+      grid-area: details;
+      margin-block-start: 1.5em;
+    }
+
+    & .status,
+    & .price {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      grid-area: status-price;
+    }
+
+    & .price {
+      font-size: 1.2em;
+
+      & .money-display {
+        padding: 0.5em 1em;
+        border-radius: 2em;
+        background: var(--green-700);
+        color: var(--white);
+        font-weight: 550;
+      }
+    }
+
+    & .status {
+      font-size: 0.75rem;
+
+      & strong {
+        padding: 0.5em 1em;
+        border-radius: 2em;
+        background: var(--gray-200);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+
+        &.active {
+          background: var(--green-700);
+          color: var(--white);
+        }
+
+        &.pending {
+          background: #ce9f69;
+          color: var(--white);
+        }
+
+        &.won {
+          background: var(--green-600);
+          color: var(--white);
+        }
+
+        &.lost {
+          background: var(--gray-600);
+          color: var(--white);
+        }
+
+        &.down {
+          background: var(--red-800);
+          color: var(--white);
+        }
+      }
+    }
+
+    &:is(a, button) {
+      &:hover,
+      &:focus {
+        border-color: var(--gray-300);
+        background: var(--gray-100);
+      }
+    }
+  }
+}

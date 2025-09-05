@@ -31,7 +31,7 @@
     <fieldset>
       <div class="field">
         <label>{{ $t('price') }}</label>
-        <div><input v-model="form.price" type="numeric" min="1" /> M</div>
+        <div><input v-model="form.price" type="text" inputmode="numeric" /> M</div>
       </div>
     </fieldset>
 

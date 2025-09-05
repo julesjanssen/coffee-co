@@ -46,10 +46,10 @@ const startSession = () => {
       status: 'playing',
     })
     .then(() => {
-      success('yea!')
+      success('Session is starting…')
     })
     .catch(() => {
-      error('Failed to start session')
+      error('Failed to start session.')
     })
     .finally(() => {
       router.reload()

@@ -1,20 +1,25 @@
 <template>
-  <div>
-    <div class="select-project">
-      <ul>
-        <li v-for="project in projects" :key="project.href">
-          <button
-            v-if="canMaintenanceBeAppliedToProject(project)"
-            type="button"
-            @click.prevent="maintainProject(project)"
-          >
-            {{ project.title }} ({{ project.client.title }}) / {{ project.failureChance }}
-            <strong>{{ project.status.label }}</strong>
-          </button>
-          <span v-else>{{ project.title }}</span>
-        </li>
-      </ul>
-    </div>
+  <div class="select-project">
+    <ul class="projects-list">
+      <li v-for="project in projects" :key="project.href">
+        <component
+          :is="canMaintenanceBeAppliedToProject(project) ? 'button' : 'div'"
+          type="button"
+          class="project"
+          @click.prevent="maintainProject(project)"
+        >
+          <span class="title">{{ project.title }}</span>
+          <span class="client">{{ project.client.title }}</span>
+          <span class="status">
+            <strong :class="project.status.value">{{ project.status.label }}</strong>
+          </span>
+          <span class="failure-chance">
+            {{ $t('chance of failure') }}
+            {{ project.failureChance }}%
+          </span>
+        </component>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -42,6 +47,10 @@ const canMaintenanceBeAppliedToProject = (project: Project) => {
 }
 
 const maintainProject = (project: any) => {
+  if (!canMaintenanceBeAppliedToProject(project)) {
+    return
+  }
+
   router.post(
     project.href,
     {},

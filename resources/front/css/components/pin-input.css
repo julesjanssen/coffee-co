@@ -1,0 +1,13 @@
+.pin-input {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+
+  input {
+    width: 3ch;
+    padding: 0.5em 0.25em;
+    border-radius: 0.25em;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+}

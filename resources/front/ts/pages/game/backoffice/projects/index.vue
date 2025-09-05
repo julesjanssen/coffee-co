@@ -6,16 +6,18 @@
       </article>
     </div>
 
-    <ul class="projects">
+    <ul class="projects-list">
       <li v-for="project in projects" :key="project.href">
-        <Link :href="project.href">
+        <Link :href="project.href" class="project">
           <span class="title">{{ project.title }}</span>
           <span class="client">{{ project.client.title }}</span>
           <span class="deadline">{{
-            $t('submit no later than :date', { date: project.shouldBeQuotedBy.display })
+            $t('submit no later than :date', { date: project.shouldBeQuotedBy.displayFull })
           }}</span>
 
-          <MoneyDisplay :value="project.price" />
+          <span class="price">
+            <MoneyDisplay :value="project.price" />
+          </span>
         </Link>
       </li>
     </ul>

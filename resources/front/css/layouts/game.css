@@ -1,0 +1,207 @@
+.layout-game {
+  display: flex;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+
+  & .backdrop {
+    position: fixed;
+    background: url('/@front:img/background.webp') center no-repeat;
+    background-size: cover;
+    inset: 0;
+
+    &::after {
+      --color: #3e2723;
+
+      position: absolute;
+      background: radial-gradient(
+        circle,
+        rgb(from var(--color) r g b / 50%) 60%,
+        rgb(from var(--color) r g b / 10%) 100%
+      );
+      content: '';
+      inset: 0;
+    }
+  }
+
+  & .container-wrapper {
+    position: relative;
+    height: fit-content;
+    padding: 0.5rem;
+    border: 1px solid rgb(from var(--white) r g b / 8%);
+    border-width: 0 1px 1px;
+    border-radius: 0.85em;
+    backdrop-filter: blur(3px);
+    background: rgb(from var(--white) r g b / 30%);
+    margin-block: 3rem;
+    view-transition-name: containerwrapper;
+
+    & .container {
+      position: relative;
+      display: flex;
+      width: min(1100px, 90vw);
+      height: fit-content;
+      min-height: 50dvh;
+      flex-direction: column;
+      padding: 1.5rem;
+      border-radius: 0.5em;
+      background: var(--white);
+      box-shadow: 0 0.25rem 0.5rem -0.1rem oklch(from var(--gray-800) l c h / 80%);
+
+      &.role-sales-1,
+      &.role-sales-2,
+      &.role-sales-3,
+      &.role-technical-1,
+      &.role-technical-2 {
+        max-width: 600px;
+      }
+    }
+  }
+
+  & header.main {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray-200);
+    gap: 1.5rem;
+    margin-block-end: 1.5rem;
+    padding-block-end: 1.5rem;
+
+    & .logo {
+      width: 11rem;
+      height: 3.5rem;
+      flex: 0 0 11rem;
+
+      & h1 {
+        height: 100%;
+        background: url('/@front:img/coffeeco.svg') 0 50% no-repeat;
+        background-size: contain;
+        translate: 0 -6px;
+      }
+
+      & a {
+        display: block;
+        height: 100%;
+
+        & span {
+          font-size: 0;
+          opacity: 0;
+        }
+      }
+    }
+
+    & div.navigation {
+      flex: 1;
+
+      & nav ul {
+        display: flex;
+
+        & li {
+          display: block;
+
+          & > a,
+          & > span {
+            display: block;
+            padding: 0.5em 1em;
+            border-radius: 2em;
+            transition: background 0.25s ease;
+          }
+
+          & > span {
+            color: var(--gray-400);
+          }
+
+          & > a {
+            &:hover,
+            &:focus {
+              background: var(--gray-50);
+            }
+
+            &.active {
+              background: var(--gray-100);
+
+              /* color: var(--white); */
+            }
+          }
+        }
+      }
+    }
+
+    & .status {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5em;
+    }
+
+    & .round {
+      display: flex;
+      align-items: center;
+      color: var(--gray-500);
+      font-size: 0.75rem;
+      font-weight: 500;
+      gap: 0.5em;
+
+      & .v-icon {
+        font-size: 0.8rem;
+      }
+    }
+
+    & .auth {
+      & button {
+        background: var(--gray-100);
+        font-size: 0.75rem;
+        font-weight: 400;
+
+        /* translate: 1em 0; */
+        transition: all 0.25s ease;
+
+        & .v-icon {
+          display: none;
+        }
+
+        &:hover,
+        &:focus {
+          background: var(--gray-200);
+        }
+      }
+    }
+  }
+
+  & .main-wrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    view-transition-name: main-wrapper;
+
+    &:has(> .center) {
+      justify-content: center;
+    }
+
+    & header.client,
+    & header.project {
+      margin-block-end: 1em;
+
+      & h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+    }
+
+    & .actions {
+      margin-block-start: 1.5em;
+    }
+
+    & .empty {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+
+      & article {
+        color: var(--gray-400);
+      }
+    }
+  }
+}
