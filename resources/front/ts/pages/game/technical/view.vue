@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <ul class="actions">
-      <li v-for="action in actions" :key="action.href">
-        <Link :href="action.href">
-          {{ action.label }}
-        </Link>
-      </li>
-    </ul>
-  </div>
+  <ul class="actions-list center">
+    <li v-for="action in actions" :key="action.href">
+      <Link :href="action.href" class="primary big">
+        {{ action.label }}
+      </Link>
+    </li>
+  </ul>
 </template>
 
 <script setup lang="ts">

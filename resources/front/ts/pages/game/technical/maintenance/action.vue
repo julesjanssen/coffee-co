@@ -1,41 +1,48 @@
 <template>
-  <header class="project">
-    <h2>{{ project.title }}</h2>
-  </header>
+  <div class="technical maintenance project">
+    <header class="project-display">
+      <div class="project">
+        <span class="title">{{ project.title }}</span>
+        <span class="client">{{ project.client.title }}</span>
+      </div>
+    </header>
 
-  <article>
-    <p v-if="appliedFix">{{ $t('Project :title was fixed.', { title: project.title }) }}</p>
-    <p v-else>{{ $t('Project :title was successfully serviced.', { title: project.title }) }}</p>
-  </article>
+    <article>
+      <p v-if="appliedFix">{{ $t('Project :title was fixed.', { title: project.title }) }}</p>
+      <p v-else>{{ $t('":title" was successfully serviced.', { title: project.title }) }}</p>
+    </article>
 
-  <div v-if="shouldShowHint" class="hint">
-    <p>{{ hint }}</p>
+    <div v-if="shouldShowHint" class="hint">
+      <p>{{ hint }}</p>
 
-    <div v-if="isExtraServiceCompleted" class="actions">
-      <Link :href="links.back">{{ $t('done') }}</Link>
+      <ul v-if="isExtraServiceCompleted" class="actions">
+        <li>
+          <Link :href="links.back">{{ $t('done') }}</Link>
+        </li>
+      </ul>
     </div>
-  </div>
 
-  <div v-else-if="isPerformingExtraService">
-    <div v-if="!isExtraServiceCompleted">
-      <Maze :level="mazeLevel" @ready="mazeCompleted" />
+    <div v-else-if="isPerformingExtraService" class="extra-service">
+      <div v-if="!isExtraServiceCompleted">
+        <Maze :level="mazeLevel" @ready="mazeCompleted" />
+      </div>
     </div>
-  </div>
 
-  <div v-else class="client-question">
-    <blockquote>
-      <cite>{{ $t('Client :name asks', { name: project.client.title }) }}</cite>
-      <p>{{ $t('Would you like to stay for a cup of coffee?') }}</p>
-    </blockquote>
+    <div v-else class="client-question">
+      <blockquote>
+        <cite>{{ $t(':name asks', { name: project.client.title }) }}:</cite>
+        <p>{{ $t('Would you like to stay for a cup of coffee?') }}</p>
+      </blockquote>
 
-    <ul class="actions">
-      <li>
-        <Link :href="links.back">{{ $t('no, thanks') }}</Link>
-      </li>
-      <li>
-        <button type="button" @click.prevent="initExtraService">{{ $t('yes, please') }}</button>
-      </li>
-    </ul>
+      <ul class="actions">
+        <li>
+          <Link :href="links.back" class="action">{{ $t('no, thanks') }}</Link>
+        </li>
+        <li>
+          <button type="button" class="primary" @click.prevent="initExtraService">{{ $t('yes, please') }}</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -88,3 +95,5 @@ const registerExtraService = () => {
     })
 }
 </script>
+
+<style src="/@front:css/views/technical.css"></style>

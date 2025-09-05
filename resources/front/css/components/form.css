@@ -25,8 +25,9 @@ fieldset {
   & label {
     display: block;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 550;
     line-height: 1.5rem;
+    padding-block-end: 0.25em;
   }
 
   & .field {
@@ -65,7 +66,7 @@ fieldset {
   display: flex;
   flex-grow: 0;
   align-items: center;
-  border: 1px solid var(--gray-100);
+  border: 1px solid var(--gray-300);
   border-radius: 4px;
   transition:
     color 0.3s ease,
@@ -79,6 +80,7 @@ fieldset {
 
     &:focus {
       box-shadow: none;
+      outline: none;
     }
   }
 

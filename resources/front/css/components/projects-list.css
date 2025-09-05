@@ -1,18 +1,14 @@
-ul.projects-list {
+:is(.project-display, ul.projects-list) {
   display: flex;
+  width: 100%;
   max-width: 80ch;
   flex-direction: column;
   gap: 0.5em;
-  margin-block: 3rem;
   margin-inline: auto;
 
   & .project {
     display: grid;
     width: 100%;
-    padding: 1em;
-    border: 2px solid var(--gray-200);
-    border-radius: 8px;
-    background: var(--white);
     font-size: 0.875rem;
     font-weight: 400;
     gap: 0 3rem;
@@ -106,6 +102,31 @@ ul.projects-list {
         border-color: var(--gray-300);
         background: var(--gray-100);
       }
+    }
+  }
+}
+
+:is(ul.projects-list) {
+  margin-block: 3rem;
+
+  & .project {
+    padding: 1em;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--white);
+  }
+}
+
+.project-display {
+  border-bottom: 2px solid var(--gray-200);
+  margin-block-end: 3rem;
+  padding-block-end: 1.5rem;
+}
+
+header.project-display {
+  & .project {
+    & .title {
+      font-size: 1.1rem;
     }
   }
 }

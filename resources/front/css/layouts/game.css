@@ -190,7 +190,7 @@
     }
 
     & .actions {
-      margin-block-start: 1.5em;
+      margin-block: 1.5em;
     }
 
     & .empty {
@@ -200,7 +200,7 @@
       justify-content: center;
 
       & article {
-        color: var(--gray-400);
+        color: var(--gray-500);
       }
     }
   }

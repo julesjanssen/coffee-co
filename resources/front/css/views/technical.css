@@ -1,0 +1,19 @@
+.technical.maintenance {
+  width: 100%;
+  max-width: 80ch;
+  margin-inline: auto;
+
+  &.project {
+    & .hint,
+    & .extra-service,
+    & .client-question {
+      margin-block: 1em;
+
+      & blockquote {
+        & cite {
+          font-weight: 550;
+        }
+      }
+    }
+  }
+}

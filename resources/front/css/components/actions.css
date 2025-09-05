@@ -1,7 +1,27 @@
-.container {
-  a.button,
-  button {
-    position: relative;
+ul.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  &.wrap {
+    flex-flow: row wrap;
+  }
+}
+
+ul.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+
+  &.center {
+    align-items: center;
+  }
+}
+
+ul.actions,
+ul.actions-list {
+  & a,
+  & button {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
@@ -28,6 +48,23 @@
       background: var(--gray-100);
       color: var(--gray-600);
       cursor: initial;
+    }
+
+    &.primary {
+      background: var(--green-700);
+      color: var(--white);
+      text-shadow: 0 1px 2px var(--green-900);
+
+      &:hover,
+      &:focus {
+        background: var(--green-800);
+      }
+    }
+
+    &.big {
+      min-width: 20ch;
+      padding: 0.75em 1.5em;
+      font-size: 1rem;
     }
   }
 }

@@ -1,0 +1,56 @@
+.backoffice.project {
+  width: 100%;
+  max-width: 80ch;
+  margin-inline: auto;
+}
+
+.backoffice.project.quote {
+  & form {
+    & fieldset {
+      gap: 1rem;
+      margin-block-end: 1rem;
+    }
+
+    & .field.product {
+      display: grid;
+      gap: 0 3rem;
+      grid-template-areas:
+        'label .'
+        'input add-product'
+        'product-name .';
+      grid-template-columns: 1fr auto;
+
+      & > label {
+        grid-area: label;
+      }
+
+      & > div {
+        grid-area: input;
+      }
+
+      & .product-name {
+        min-height: 1lh;
+        color: var(--gray-500);
+        font-size: 0.875rem;
+        grid-area: product-name;
+        margin-block-start: 0.25em;
+      }
+
+      & .add-product {
+        display: flex;
+        width: 5rem;
+        align-items: center;
+        justify-content: flex-end;
+        grid-area: add-product;
+      }
+    }
+  }
+}
+
+.backoffice.project.view {
+  & ul.reasons {
+    & li + li {
+      margin-block-start: 0.75em;
+    }
+  }
+}

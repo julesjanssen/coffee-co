@@ -74,7 +74,13 @@
     view-transition-name: main-wrapper;
 
     & .sessions.index {
-      text-align: center;
+      & p {
+        margin-inline: 1rem;
+      }
+
+      & .actions-list {
+        margin-block: 1.5rem;
+      }
     }
 
     & .sessions.view {
@@ -91,10 +97,6 @@
       & footer {
         margin-block-start: 3rem;
       }
-    }
-
-    & ul.actions {
-      margin-block-start: 1.5rem;
     }
 
     & ul.roles {
@@ -125,6 +127,11 @@
           text-shadow: 0 1px 2px var(--green-900);
         }
       }
+    }
+
+    & .v-form-error {
+      font-size: 0.84em;
+      margin-block-start: 0.5em;
     }
   }
 }

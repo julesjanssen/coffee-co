@@ -1,50 +1,56 @@
 <template>
-  <header class="project">
-    <h2>{{ project.title }}</h2>
-    <h3>{{ project.client.title }}</h3>
-  </header>
+  <div class="backoffice project quote">
+    <header class="project-display">
+      <div class="project">
+        <span class="title">{{ project.title }}</span>
+        <span class="client">{{ project.client.title }}</span>
+      </div>
+    </header>
 
-  <form @submit.prevent="submitOffer">
-    <fieldset>
-      <button v-if="canAddProduct" type="button" class="add-product" @click.prevent="addProduct">
-        <Icon name="plus" />
-      </button>
-
-      <div v-for="(p, index) in form.products" :key="index" class="field product">
-        <label>{{ $t('product :number', { number: String(index + 1) }) }}</label>
-        <div>
-          <input
-            v-model="form.products[index]"
-            type="text"
-            inputmode="numeric"
-            maxlength="3"
-            @change="productLookup(index)"
-          />
-          <span class="name">
+    <form @submit.prevent="submitOffer">
+      <fieldset>
+        <div v-for="(p, index) in form.products" :key="index" class="field product">
+          <label>{{ $t('product :number', { number: String(index + 1) }) }}</label>
+          <div>
+            <input
+              v-model="form.products[index]"
+              type="text"
+              inputmode="numeric"
+              maxlength="3"
+              @change="productLookup(index)"
+            />
+          </div>
+          <span class="product-name">
             {{ productNames[index] }}
           </span>
+
+          <div class="add-product">
+            <button v-if="canAddProduct && index === 0" type="button" @click.prevent="addProduct">
+              <Icon name="plus" />
+            </button>
+          </div>
         </div>
+        <FormError :error="form.errors.products" />
+      </fieldset>
+
+      <fieldset>
+        <div class="field price">
+          <label>{{ $t('price') }}</label>
+          <div data-suffix="in millions"><input v-model="form.price" type="text" inputmode="numeric" /></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="actions">
+        <button type="submit" :disabled="form.processing || !canSubmit">{{ $t('submit offer') }}</button>
+      </fieldset>
+    </form>
+
+    <template v-if="solutions && solutions.length">
+      <div v-for="solution in solutions" :key="solution.products">
+        {{ solution.products }}
       </div>
-      <FormError :error="form.errors.products" />
-    </fieldset>
-
-    <fieldset>
-      <div class="field">
-        <label>{{ $t('price') }}</label>
-        <div><input v-model="form.price" type="text" inputmode="numeric" /> M</div>
-      </div>
-    </fieldset>
-
-    <fieldset class="actions">
-      <button type="submit">{{ $t('submit offer') }}</button>
-    </fieldset>
-  </form>
-
-  <template v-if="solutions && solutions.length">
-    <div v-for="solution in solutions" :key="solution.products">
-      {{ solution.products }}
-    </div>
-  </template>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -76,7 +82,21 @@ const form = useForm<{
 })
 
 const productNames = ref<Record<number, string>>({})
+const productIDs = ref<Record<number, string>>({})
+
 const canAddProduct = computed(() => form.products.length < 3)
+const canSubmit = computed(() => {
+  const productIDsJoin = Object.values(productIDs.value).join('')
+  if (productIDsJoin.length === 0) {
+    return false
+  }
+
+  if (form.price === 0) {
+    return false
+  }
+
+  return true
+})
 
 const addProduct = () => {
   form.products.push('')
@@ -85,6 +105,7 @@ const addProduct = () => {
 const productLookup = (index: number) => {
   const value = form.products[index]?.trim() ?? ''
   productNames.value[index] = ''
+  productIDs.value[index] = ''
 
   if (value.length > 0) {
     const url = props.links['products.view'].replace('XXX', value)
@@ -94,6 +115,7 @@ const productLookup = (index: number) => {
         const data = response.data
         if (data && data.title) {
           productNames.value[index] = `${data.title} (${data.id})`
+          productIDs.value[index] = data.id
         } else {
           productNames.value[index] = $t('Unknown product')
         }
@@ -114,3 +136,5 @@ watchEffect(() => {
   }
 })
 </script>
+
+<style src="/@front:css/views/backoffice.project.css"></style>

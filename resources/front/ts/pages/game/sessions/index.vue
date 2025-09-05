@@ -9,9 +9,9 @@
     <div v-else>
       <p>Select your session:</p>
 
-      <ul class="actions">
+      <ul class="actions-list">
         <li v-for="session in sessions" :key="session.sqid">
-          <Link :href="session.links.view" class="button action">
+          <Link :href="session.links.view" class="primary big">
             {{ session.title }}
           </Link>
         </li>

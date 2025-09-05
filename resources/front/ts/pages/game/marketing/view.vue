@@ -1,8 +1,8 @@
 <template>
-  <div class="center">
-    <ul class="actions">
+  <div class="marketing actions">
+    <ul class="actions-list center">
       <li v-for="action in actions" :key="action.href">
-        <Link :href="action.href" class="button">
+        <Link :href="action.href" class="primary big">
           {{ action.label }}
         </Link>
       </li>
@@ -23,3 +23,5 @@ defineProps<{
   actions: any[]
 }>()
 </script>
+
+<style src="/@front:css/views/marketing.css"></style>

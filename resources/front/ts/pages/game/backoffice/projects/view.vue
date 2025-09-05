@@ -1,20 +1,23 @@
 <template>
-  <header class="project">
-    <h2>{{ project.title }}</h2>
-    <h3>{{ project.client.title }}</h3>
-  </header>
+  <div class="backoffice project view">
+    <header class="project-display">
+      <div class="project">
+        <span class="title">{{ project.title }}</span>
+        <span class="client">{{ project.client.title }}</span>
+        <span class="status">
+          <strong :class="project.status.value">{{ project.status.label }}</strong>
+        </span>
+      </div>
+    </header>
 
-  <article>
-    <p>
-      {{ $t('status') }}: <strong>{{ project.status.label }}</strong>
-    </p>
-
-    <ul class="reasons">
-      <li v-for="reason in wonLostReasons" :key="reason">
-        {{ reason }}
-      </li>
-    </ul>
-  </article>
+    <article>
+      <ul class="reasons">
+        <li v-for="reason in wonLostReasons" :key="reason">
+          {{ reason }}
+        </li>
+      </ul>
+    </article>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -31,3 +34,5 @@ defineProps<{
   solutions?: any[]
 }>()
 </script>
+
+<style src="/@front:css/views/backoffice.project.css"></style>

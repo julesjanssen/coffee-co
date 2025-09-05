@@ -5,7 +5,7 @@
     <p>{{ $t('Select your role') }}:</p>
 
     <form @submit.prevent="submitForm">
-      <ul class="actions roles">
+      <ul class="actions wrap roles">
         <li v-for="participant in participants" :key="participant.sqid">
           <label class="radio">
             <input v-model="form.role" type="radio" :value="participant.role.value" class="visually-hidden" />

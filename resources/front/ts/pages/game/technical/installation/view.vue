@@ -1,14 +1,17 @@
 <template>
   <div v-if="projects.length">
-    <div class="select-project">
-      <ul>
-        <li v-for="project in projects" :key="project.href">
-          <button type="button" @click.prevent="installProject(project)">
-            {{ project.title }} ({{ project.client.title }})
-          </button>
-        </li>
-      </ul>
-    </div>
+    <ul class="projects-list">
+      <li v-for="project in projects" :key="project.href">
+        <button type="button" class="project" @click.prevent="installProject(project)">
+          <span class="title">{{ project.title }}</span>
+          <span class="client">{{ project.client.title }}</span>
+
+          <span class="status">
+            <strong :class="project.status.value">{{ project.status.label }}</strong>
+          </span>
+        </button>
+      </li>
+    </ul>
   </div>
 
   <div v-else class="empty">

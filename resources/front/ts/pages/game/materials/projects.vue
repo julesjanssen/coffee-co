@@ -1,24 +1,22 @@
 <template>
-  <header>
-    <h2>{{ $t('projects') }}</h2>
-  </header>
+  <div class="materials projects">
+    <div v-if="projects.length === 0" class="empty">
+      <article>
+        <p>{{ $t('No active projects at this moment.') }}</p>
+      </article>
+    </div>
 
-  <div v-if="projects.length === 0" class="empty">
-    <article>
-      <p>{{ $t('No active projects at this moment.') }}</p>
-    </article>
-  </div>
-
-  <div>
-    <ul class="projects-list">
-      <li v-for="project in projects" :key="project.sqid" class="project">
-        <span class="title">{{ project.title }}</span>
-        <span class="client">{{ project.client.title }}</span>
-        <span class="status">
-          <strong :class="project.status.value">{{ project.status.label }}</strong>
-        </span>
-      </li>
-    </ul>
+    <div>
+      <ul class="projects-list">
+        <li v-for="project in projects" :key="project.sqid" class="project">
+          <span class="title">{{ project.title }}</span>
+          <span class="client">{{ project.client.title }}</span>
+          <span class="status">
+            <strong :class="project.status.value">{{ project.status.label }}</strong>
+          </span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 

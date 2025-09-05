@@ -13,7 +13,7 @@
           <span class="status">
             <strong :class="project.status.value">{{ project.status.label }}</strong>
           </span>
-          <span class="failure-chance">
+          <span v-if="project.status.value !== 'down'" class="failure-chance">
             <ProjectFailureChance :value="project.failureChance" />
           </span>
         </component>
