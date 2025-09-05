@@ -3,6 +3,7 @@ ul.projects-list {
   max-width: 80ch;
   flex-direction: column;
   gap: 0.5em;
+  margin-block: 3rem;
   margin-inline: auto;
 
   & .project {

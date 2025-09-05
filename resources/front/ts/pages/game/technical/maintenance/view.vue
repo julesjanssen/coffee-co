@@ -14,8 +14,7 @@
             <strong :class="project.status.value">{{ project.status.label }}</strong>
           </span>
           <span class="failure-chance">
-            {{ $t('chance of failure') }}
-            {{ project.failureChance }}%
+            <ProjectFailureChance :value="project.failureChance" />
           </span>
         </component>
       </li>
@@ -26,6 +25,7 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 
+import ProjectFailureChance from '/@front:components/ProjectFailureChance.vue'
 import GameLayout from '/@front:layouts/game.vue'
 import { error } from '/@front:shared/notifications'
 import type { Project } from '/@front:types/shared'
