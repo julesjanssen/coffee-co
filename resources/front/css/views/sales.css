@@ -1,0 +1,12 @@
+.sales {
+  width: 100%;
+  max-width: 80ch;
+  margin-inline: auto;
+
+  &.actions {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

@@ -6,7 +6,7 @@
       </article>
     </div>
 
-    <div v-else>
+    <div v-else class="game jigsaw">
       <article>
         <p>
           {{
@@ -17,13 +17,26 @@
         </p>
       </article>
 
-      <CodePuzzle v-model="code" @complete="handleComplete" />
-      <FormError :error="codeError" />
+      <form @submit.prevent="submitForm">
+        <fieldset>
+          <div class="field">
+            <div>
+              <CodePuzzle v-model="form.code" />
+              <FormError :error="form.errors.code" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="actions">
+          <button type="submit" :disabled="!canSubmit">{{ $t('submit') }}</button>
+        </fieldset>
+      </form>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
+import { useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 import FormError from '/@front:components/FormError.vue'
@@ -40,20 +53,25 @@ defineProps<{
   actions: any[]
 }>()
 
-const code = ref<number[]>([])
-const codeError = ref<string | undefined>()
+const form = useForm<{
+  code: number[]
+}>({
+  code: [],
+})
+
 const hints = ref<string[]>([])
 
 const codeWasAccepted = ref(false)
+const canSubmit = computed(() => form.code.join('').length >= 4)
 const shouldShowHints = computed(() => codeWasAccepted.value)
 
-function handleComplete() {
-  codeError.value = undefined
+const submitForm = () => {
+  if (!canSubmit.value) {
+    return
+  }
 
   http
-    .post(location.pathname, {
-      code: code.value,
-    })
+    .post(location.pathname, form.data())
     .then((response) => {
       const data = response.data
 
@@ -63,7 +81,7 @@ function handleComplete() {
     .catch((err) => {
       const status = err.response?.status
       if (status === 422) {
-        codeError.value = err.response.data?.message || 'Invalid code'
+        form.setError('code', err.response.data?.message || 'Invalid code')
         return
       }
 

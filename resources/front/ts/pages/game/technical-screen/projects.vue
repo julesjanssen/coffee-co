@@ -1,9 +1,5 @@
 <template>
-  <header>
-    <h2>{{ $t('projects') }}</h2>
-  </header>
-
-  <div>
+  <div class="technical-screen projects">
     <ul class="projects-list">
       <li v-for="project in projects" :key="project.sqid" class="project">
         <span class="title">{{ project.title }}</span>

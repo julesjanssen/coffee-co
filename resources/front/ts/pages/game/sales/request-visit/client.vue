@@ -1,15 +1,19 @@
 <template>
-  <div class="center">
+  <div class="sales request-visit client">
     <header class="client">
       <h2>{{ client.title }}</h2>
     </header>
 
     <p>{{ $t('Do you want to apply lab-consulting?') }}</p>
 
-    <div class="actions">
-      <button type="button" @click.prevent="labConsulting(true)">{{ $t('apply') }}</button>
-      <button type="button" @click.prevent="labConsulting(false)">{{ $t('do not apply') }}</button>
-    </div>
+    <ul class="actions">
+      <li>
+        <button type="button" class="primary" @click.prevent="labConsulting(true)">{{ $t('apply') }}</button>
+      </li>
+      <li>
+        <button type="button" @click.prevent="labConsulting(false)">{{ $t('do not apply') }}</button>
+      </li>
+    </ul>
   </div>
 </template>
 

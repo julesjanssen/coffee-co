@@ -1,8 +1,8 @@
 <template>
-  <div class="select-client">
-    <ul class="actions">
+  <div class="sales actions select-client">
+    <ul class="actions-list center">
       <li v-for="client in clients" :key="client.href">
-        <Link :href="client.href" class="button action">
+        <Link :href="client.href" class="primary big">
           {{ client.title }}
         </Link>
       </li>
