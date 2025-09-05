@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Jobs\CloseStaleGameSessions;
+use App\Jobs\PruneGameSessions;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schedule;
 
@@ -12,3 +14,6 @@ Schedule::call(function () {
 Schedule::command('app:backup')->dailyAt('04:00');
 Schedule::command('app:backup:clean')->dailyAt('04:30');
 Schedule::command('app:cleanup')->dailyAt('05:00');
+
+Schedule::job(CloseStaleGameSessions::class)->dailyAt('08:00');
+Schedule::job(PruneGameSessions::class)->dailyAt('08:00');

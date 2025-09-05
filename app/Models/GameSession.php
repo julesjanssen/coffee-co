@@ -203,6 +203,13 @@ class GameSession extends Model
         return $this->status->is(Status::PENDING);
     }
 
+    public function close()
+    {
+        $this->update([
+            'status' => Status::CLOSED,
+        ]);
+    }
+
     public function pickRelevantScenario(): ?Scenario
     {
         if (! empty($this->scenario_id)) {
