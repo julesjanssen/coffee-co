@@ -47,6 +47,56 @@ enum Role: string
         };
     }
 
+    public function mainRoute(): ?string
+    {
+        if ($this->in([
+            Role::SALES_1,
+            Role::SALES_2,
+            Role::SALES_3,
+        ])) {
+            return route('game.sales.view');
+        }
+
+        if ($this->in([
+            Role::SALES_SCREEN,
+        ])) {
+            return route('game.sales-screen.projects');
+        }
+
+        if ($this->in([
+            Role::TECHNICAL_1,
+            Role::TECHNICAL_2,
+        ])) {
+            return route('game.technical.view');
+        }
+
+        if ($this->in([
+            Role::TECHNICAL_SCREEN,
+        ])) {
+            return route('game.technical-screen.projects');
+        }
+
+        if ($this->in([
+            Role::MARKETING_1,
+        ])) {
+            return route('game.marketing.view');
+        }
+
+        if ($this->in([
+            Role::BACKOFFICE_1,
+        ])) {
+            return route('game.backoffice.view');
+        }
+
+        if ($this->in([
+            Role::MATERIALS_1,
+        ])) {
+            return route('game.materials.projects');
+        }
+
+        return null;
+    }
+
     public function playerID(): int
     {
         return (int) Str::afterLast($this->value, '-') ?: 1;
@@ -61,5 +111,14 @@ enum Role: string
             self::BACKOFFICE_1,
             self::MATERIALS_1,
         ]);
+    }
+
+    public function toArray(): mixed
+    {
+        return [
+            'value' => $this->value,
+            'label' => $this->description(),
+            'mainRoute' => $this->mainRoute(),
+        ];
     }
 }
