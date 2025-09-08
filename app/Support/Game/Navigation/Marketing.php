@@ -16,6 +16,7 @@ class Marketing extends Navigation
                 'href' => route('game.marketing.results'),
             ],
             [
+                'disabled' => $this->session()->isPaused(),
                 'label' => __('navigation:marketing:actions'),
                 'href' => route('game.marketing.view'),
             ],

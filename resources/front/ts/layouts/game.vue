@@ -15,7 +15,7 @@
             </h1>
           </div>
 
-          <div v-if="!isPausedNotFacilitator" class="navigation">
+          <div class="navigation">
             <nav>
               <ul>
                 <li v-for="item in navigation" :key="`nav-${item.href}`">
@@ -73,7 +73,6 @@ const session = computed(() => page.props.session)
 const isPaused = computed(() => session.value.roundStatus.value === 'paused')
 const isFacilitator = computed(() => auth.value.type === 'facilitator')
 const isActiveDuringBreak = computed(() => auth.value.activeDuringBreak)
-const isPausedNotFacilitator = computed(() => isPaused.value && !isFacilitator.value)
 
 if (document.startViewTransition) {
   function handleInertiaStart(e: CustomEvent) {

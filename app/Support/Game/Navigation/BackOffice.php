@@ -14,6 +14,7 @@ class BackOffice extends Navigation
                 'href' => route('game.backoffice.results'),
             ],
             [
+                'disabled' => $this->session()->isPaused(),
                 'label' => __('navigation:backoffice:projects'),
                 'href' => route('game.backoffice.projects.index'),
             ],

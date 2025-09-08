@@ -28,14 +28,14 @@ class GameSession
             return $next($request);
         }
 
-        // during pause, automatically redirect to a fixed route
+        // during pause, automatically redirect to a allowed route
         if ($user instanceof GameParticipant && $user->session->isPaused()) {
-            $role = $user->role;
-            if ($role->isActiveDuringBreak()) {
-                $pauseRoute = $role->pauseRoute();
-                if (! empty($pauseRoute)) {
-                    if ($request->url() !== $pauseRoute) {
-                        return redirect($pauseRoute);
+            if ($user->role->isActiveDuringBreak()) {
+                $pauseRoutes = $user->role->pauseRoutes();
+                // dd($pauseRoutes);
+                if (! empty($pauseRoutes)) {
+                    if (! in_array($request->url(), $pauseRoutes)) {
+                        return redirect($pauseRoutes[0]);
                     }
                 }
             }
