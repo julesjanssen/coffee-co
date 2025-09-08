@@ -22,7 +22,7 @@ const valueClass = computed(() => {
     return 'danger'
   }
 
-  if (props.value > 10) {
+  if (props.value > 40) {
     return 'warning'
   }
 
@@ -49,7 +49,7 @@ const valueClass = computed(() => {
   }
 
   & :deep(.indicator) {
-    background: var(--green-700);
+    background: var(--green-600);
   }
 
   &.warning :deep(.indicator) {
