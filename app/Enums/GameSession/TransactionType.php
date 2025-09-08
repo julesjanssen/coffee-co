@@ -28,6 +28,20 @@ enum TransactionType: string
 
     case PROJECT_WON = 'project-won';
 
+    public function description(): string
+    {
+        return match ($this) {
+            self::LAB_CONSULTING => __('transaction-type:lab-consulting'),
+            self::MARKETING_CAMPAIGN => __('transaction-type:marketing-campaign'),
+            self::MARKETING_TRAINING_BROAD => __('transaction-type:marketing-training-broad'),
+            self::MARKETING_TRAINING_DEEP => __('transaction-type:marketing-training-deep'),
+            self::HDMA => __('transaction-type:hdma'),
+            self::OPERATIONAL_COST => __('transaction-type:operational-cost'),
+            self::PROJECT_UPTIME_BONUS => __('transaction-type:project-uptime-bonus'),
+            self::PROJECT_WON => __('transaction-type:project-won'),
+        };
+    }
+
     public function dbAlias()
     {
         return hash('xxh3', $this->value);

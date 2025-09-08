@@ -1,39 +1,44 @@
 <template>
-  <header>
-    <h2>{{ $t('results') }}</h2>
-  </header>
+  <div class="sales-screen results">
+    <section class="summary">
+      <dl class="panels">
+        <div>
+          <dt>{{ $t('requests picked up') }}</dt>
+          <dd>
+            <span class="value">{{ projectsPickedup }}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>{{ $t('deals won') }}</dt>
+          <dd>
+            <span class="value">{{ projectsWon }}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>{{ $t('investment costs') }}</dt>
+          <dd>
+            <span class="value"><MoneyDisplay :value="investmentCost" /></span>
+          </dd>
+        </div>
+      </dl>
+    </section>
 
-  <dl>
-    <div>
-      <dt>{{ $t('requests picked up') }}</dt>
-      <dd>{{ projectsPickedup }}</dd>
-    </div>
-    <div>
-      <dt>{{ $t('deals won') }}</dt>
-      <dd>{{ projectsWon }}</dd>
-    </div>
-    <div>
-      <dt>{{ $t('investment costs') }}</dt>
-      <dd><MoneyDisplay :value="investmentCost" /></dd>
-    </div>
-  </dl>
+    <section class="clients-nps">
+      <header>
+        <h2>{{ $t('Net promoter score') }}</h2>
+      </header>
 
-  <div>
-    <ul class="clients-nps">
-      <li v-for="client in clients" :key="client.sqid">
-        <p>{{ client.title }}</p>
-        <strong>{{ client.nps }}</strong>
-      </li>
-    </ul>
+      <ul>
+        <ClientNps v-for="client in clients" :key="client.sqid" :client="client" />
+      </ul>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { Link } from '@inertiajs/vue3'
-
 import MoneyDisplay from '/@front:components/MoneyDisplay.vue'
+import ClientNps from '/@front:components/results/ClientNps.vue'
 import GameLayout from '/@front:layouts/game.vue'
-// import type { Project } from '/@front:types/shared'
 
 type Client = {
   sqid: string

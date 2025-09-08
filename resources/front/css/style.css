@@ -5,6 +5,7 @@
 @import url('theme.css') layer(theme);
 @import url('layouts/guest.css') layer(layout);
 @import url('layouts/game.css') layer(layout);
+@import url('views/results.css') layer(layout);
 @import url('components/actions.css') layer(components);
 @import url('components/button.css') layer(components);
 @import url('components/dropdown.css') layer(components);

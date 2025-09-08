@@ -8,6 +8,7 @@ use App\Enums\GameSession\Flow;
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\ScoreType;
 use App\Enums\GameSession\Status;
+use App\Enums\Project\Status as ProjectStatus;
 use App\Events\GameSessionCreated;
 use App\Models\Traits\Reservable;
 use App\Support\Random\GameSessionRandomizer;
@@ -178,6 +179,25 @@ class GameSession extends Model
             ->exists();
 
         return ! $exists;
+    }
+
+    public function averageUptime()
+    {
+        $result = ProjectHistoryItem::query()
+            ->join('projects as p', function ($query) {
+                $query->on('p.id', '=', 'project_history.project_id');
+            })
+            /** @phpstan-ignore argument.type */
+            ->where('p.game_session_id', '=', $this->id)
+            ->whereIn('project_history.status', [
+                ProjectStatus::ACTIVE,
+                ProjectStatus::DOWN,
+            ])
+            ->selectAverageUptime()
+            ->toBase()
+            ->first();
+
+        return (float) $result->avg_uptime;
     }
 
     public function netPromotorScore()

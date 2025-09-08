@@ -28,21 +28,7 @@ class ResultsController
 
     private function getUptime(GameSession $session)
     {
-        $result = ProjectHistoryItem::query()
-            ->join('projects as p', function ($query) {
-                $query->on('p.id', '=', 'project_history.project_id');
-            })
-            /** @phpstan-ignore argument.type */
-            ->where('p.game_session_id', '=', $session->id)
-            ->whereIn('project_history.status', [
-                Status::ACTIVE,
-                Status::DOWN,
-            ])
-            ->selectAverageUptime()
-            ->toBase()
-            ->first();
-
-        return (float) $result->avg_uptime;
+        return $session->averageUptime();
     }
 
     private function getUptimeBonus(GameSession $session)

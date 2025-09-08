@@ -43,7 +43,7 @@ class ResultsController
         return Inertia::render('game/sales-screen/results', [
             'projectsPickedup' => $projectsPickedup,
             'projectsWon' => $projectsWon,
-            'investmentCost' => $investmentCost,
+            'investmentCost' => $investmentCost * -1,
             'clients' => $clients,
         ]);
     }

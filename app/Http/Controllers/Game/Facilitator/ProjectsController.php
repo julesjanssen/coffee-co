@@ -22,8 +22,6 @@ class ProjectsController
 
     private function listProjects(GameSession $session)
     {
-        $scenario = $session->scenario;
-
         return $session->projects()
             ->with([
                 'request',
