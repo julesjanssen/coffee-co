@@ -23,10 +23,11 @@ class ProjectsController
                 'solution',
             ])
             ->filterAndOrderByStatus([
-                Status::ACTIVE,
-                Status::WON,
                 Status::DOWN,
-            ], 'desc')
+                Status::WON,
+                Status::ACTIVE,
+                Status::FINISHED,
+            ])
             ->orderBy('failure_chance', 'desc')
             ->orderBy('id', 'desc')
             ->get();
