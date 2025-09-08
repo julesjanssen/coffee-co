@@ -97,6 +97,35 @@ enum Role: string
         return null;
     }
 
+    public function pauseRoute(): ?string
+    {
+        if ($this->in([
+            Role::SALES_SCREEN,
+        ])) {
+            return route('game.sales-screen.results');
+        }
+
+        if ($this->in([
+            Role::TECHNICAL_SCREEN,
+        ])) {
+            return route('game.technical-screen.results');
+        }
+
+        if ($this->in([
+            Role::MARKETING_1,
+        ])) {
+            return route('game.marketing.results');
+        }
+
+        if ($this->in([
+            Role::BACKOFFICE_1,
+        ])) {
+            return route('game.backoffice.results');
+        }
+
+        return null;
+    }
+
     public function playerID(): int
     {
         return (int) Str::afterLast($this->value, '-') ?: 1;

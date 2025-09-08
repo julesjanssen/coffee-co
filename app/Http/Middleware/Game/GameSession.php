@@ -28,6 +28,19 @@ class GameSession
             return $next($request);
         }
 
+        // during pause, automatically redirect to a fixed route
+        if ($user instanceof GameParticipant && $user->session->isPaused()) {
+            $role = $user->role;
+            if ($role->isActiveDuringBreak()) {
+                $pauseRoute = $role->pauseRoute();
+                if (! empty($pauseRoute)) {
+                    if ($request->url() !== $pauseRoute) {
+                        return redirect($pauseRoute);
+                    }
+                }
+            }
+        }
+
         $scenario = $user->session->scenario;
         if (empty($scenario)) {
             $scenario = $user->session->pickRelevantScenario();

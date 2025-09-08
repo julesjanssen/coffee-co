@@ -154,6 +154,11 @@ class GameSession extends Model
         $this->save();
     }
 
+    public function isPaused()
+    {
+        return $this->round_status->is(RoundStatus::PAUSED);
+    }
+
     public function isHDMAActive()
     {
         return GameHdmaActivation::isActiveForSession($this);
