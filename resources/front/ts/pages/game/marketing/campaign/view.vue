@@ -1,9 +1,15 @@
 <template>
   <main class="marketing campaign center">
-    <div v-if="shouldShowHints">
+    <div v-if="shouldShowHints" class="hints">
       <article>
         <p v-for="hint in hints" :key="hint">{{ hint }}</p>
       </article>
+
+      <ul class="actions center">
+        <li>
+          <Link :href="mainRoute">{{ $t('done') }}</Link>
+        </li>
+      </ul>
     </div>
 
     <div v-else class="game jigsaw">
@@ -36,11 +42,12 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 import FormError from '/@front:components/FormError.vue'
 import CodePuzzle from '/@front:components/games/CodePuzzle.vue'
+import { useGameSession } from '/@front:composables/game-session'
 import GameLayout from '/@front:layouts/game.vue'
 import { http } from '/@front:shared/http'
 import { error } from '/@front:shared/notifications'
@@ -58,6 +65,8 @@ const form = useForm<{
 }>({
   code: [],
 })
+
+const { mainRoute } = useGameSession()
 
 const hints = ref<string[]>([])
 

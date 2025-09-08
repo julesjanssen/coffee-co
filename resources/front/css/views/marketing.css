@@ -1,6 +1,7 @@
 .marketing {
   width: 100%;
   max-width: 80ch;
+  flex: 1;
   margin-inline: auto;
 
   &.actions {
@@ -8,5 +9,47 @@
     flex: 1;
     flex-direction: column;
     justify-content: center;
+  }
+
+  &.hdma,
+  &.training,
+  &.campaign.center {
+    display: flex;
+    max-width: 40ch;
+    flex-direction: column;
+    justify-content: center;
+
+    &:has(.hints) {
+      max-width: 50ch;
+      text-align: center;
+    }
+  }
+
+  & .game.jigsaw {
+    & form {
+      margin-block-start: 3rem;
+    }
+
+    & .v-form-error {
+      justify-content: center;
+      margin-block-start: 0.25em;
+    }
+
+    & fieldset.actions {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  & .game.maze {
+    text-align: center;
+  }
+
+  & .hints {
+    & article {
+      & p + p {
+        margin-block-start: 0.75em;
+      }
+    }
   }
 }

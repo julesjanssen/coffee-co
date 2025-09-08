@@ -6,6 +6,10 @@ ul.actions {
   &.wrap {
     flex-flow: row wrap;
   }
+
+  &.center {
+    justify-content: center;
+  }
 }
 
 ul.actions-list {

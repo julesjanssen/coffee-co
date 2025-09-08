@@ -1,9 +1,15 @@
 <template>
   <main class="marketing hdma">
-    <div v-if="shouldShowHints">
+    <div v-if="shouldShowHints" class="hints">
       <article>
         <p v-for="hint in hints" :key="hint">{{ hint }}</p>
       </article>
+
+      <ul class="actions center">
+        <li>
+          <Link :href="mainRoute">{{ $t('done') }}</Link>
+        </li>
+      </ul>
     </div>
 
     <div v-else>
@@ -13,10 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 import Maze from '/@front:components/games/Maze.vue'
+import { useGameSession } from '/@front:composables/game-session'
 import GameLayout from '/@front:layouts/game.vue'
 import { http } from '/@front:shared/http'
 import { error } from '/@front:shared/notifications'
@@ -29,6 +36,8 @@ const props = defineProps<{
   mazeLevel: number
   links: Record<string, string>
 }>()
+
+const { mainRoute } = useGameSession()
 
 const shouldShowHints = ref(false)
 const hints = ref<string[]>([])
