@@ -76,6 +76,7 @@ export type PageProps = {
       role: EnumObject & {
         mainRoute: string
       }
+      activeDuringBreak: boolean
     }
     navigation: NavigationItem[]
   }

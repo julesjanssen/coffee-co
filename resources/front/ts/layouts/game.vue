@@ -1,7 +1,7 @@
 <template>
   <Head :title="session.title" />
 
-  <div class="layout-game">
+  <div class="layout-game" :class="{ paused: isPaused }">
     <div class="backdrop"></div>
 
     <div class="container-wrapper">
@@ -37,10 +37,10 @@
         </header>
 
         <div class="main-wrapper">
-          <div v-if="isPausedNotFacilitator">
-            <strong>PAUSED</strong>
+          <!-- <pre>{{ auth }}</pre> -->
+          <template v-if="!isActiveDuringBreak">
             <PauseMessage />
-          </div>
+          </template>
 
           <slot v-else />
         </div>
@@ -73,6 +73,7 @@ const session = computed(() => page.props.session)
 
 const isPaused = computed(() => session.value.roundStatus.value === 'paused')
 const isFacilitator = computed(() => auth.value.type === 'facilitator')
+const isActiveDuringBreak = computed(() => auth.value.activeDuringBreak)
 const isPausedNotFacilitator = computed(() => isPaused.value && !isFacilitator.value)
 
 if (document.startViewTransition) {

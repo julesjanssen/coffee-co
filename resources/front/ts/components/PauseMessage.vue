@@ -1,8 +1,12 @@
 <template>
   <div class="pause-message">
-    <Transition mode="out-in" name="pause-message">
-      <p :key="messageID">{{ message }}</p>
-    </Transition>
+    <p class="label">{{ $t('paused') }}</p>
+
+    <div class="message">
+      <Transition mode="out-in" name="pause-message">
+        <p :key="messageID">{{ message }}</p>
+      </Transition>
+    </div>
   </div>
 </template>
 
@@ -34,6 +38,24 @@ useIntervalFn(() => {
 </script>
 
 <style scoped>
+.pause-message {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25em;
+  text-align: center;
+
+  & .label {
+    font-weight: 550;
+    text-transform: uppercase;
+  }
+
+  & .message {
+    color: var(--gray-500);
+  }
+}
+
 .pause-message-enter-active,
 .pause-message-leave-active {
   transition: all 0.5s ease;
