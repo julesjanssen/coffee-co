@@ -37,8 +37,7 @@
         </header>
 
         <div class="main-wrapper">
-          <!-- <pre>{{ auth }}</pre> -->
-          <template v-if="!isActiveDuringBreak">
+          <template v-if="!isActiveDuringBreak && !isFacilitator">
             <PauseMessage />
           </template>
 
