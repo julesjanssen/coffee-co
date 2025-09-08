@@ -44,6 +44,8 @@ export type Project = {
   status: Omit<EnumObject, 'value'> & {
     value: ProjectStatusType
   }
+  requestRound?: GameRound
+  quoteBeforeRound?: GameRound
   quoteRound?: GameRound
   deliverBeforeRound?: GameRound
   downRound?: GameRound

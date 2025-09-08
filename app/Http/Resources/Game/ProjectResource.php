@@ -32,6 +32,8 @@ class ProjectResource extends JsonResource
             'failureChance' => $this->failure_chance,
             'uptimePercentage' => $this->uptimePercentage(),
             'uptimeBonus' => $this->settings->uptimeBonus,
+            'requestRound' => $this->requestRound?->toArray(),
+            'quoteBeforeRound' => $this->quoteBeforeRound?->toArray(),
             'quoteRound' => $this->quoteRound?->toArray(),
             'deliverBeforeRound' => $this->deliverBeforeRound?->toArray(),
             'downRound' => $this->downRound?->toArray(),

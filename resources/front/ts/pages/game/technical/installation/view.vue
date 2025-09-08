@@ -17,13 +17,20 @@
   <div v-else class="empty">
     <article>
       <p>{{ $t('Currently, there are no projects to install.') }}</p>
+
+      <ul class="actions center">
+        <li>
+          <Link :href="mainRoute">{{ $t('back') }}</Link>
+        </li>
+      </ul>
     </article>
   </div>
 </template>
 
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 
+import { useGameSession } from '/@front:composables/game-session'
 import GameLayout from '/@front:layouts/game.vue'
 import { $t } from '/@front:shared/i18n'
 import { error, success } from '/@front:shared/notifications'
@@ -36,6 +43,8 @@ defineOptions({
 defineProps<{
   projects: (Project & { href: string })[]
 }>()
+
+const { mainRoute } = useGameSession()
 
 const installProject = (project: any) => {
   router.post(

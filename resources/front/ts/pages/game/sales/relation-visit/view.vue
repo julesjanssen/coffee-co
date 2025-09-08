@@ -1,13 +1,11 @@
 <template>
-  <div class="select-client center">
-    <ul class="actions">
-      <li v-for="client in clients" :key="client.href">
-        <Link :href="client.href" class="button action">
-          {{ client.title }}
-        </Link>
-      </li>
-    </ul>
-  </div>
+  <ul class="actions-list center">
+    <li v-for="client in clients" :key="client.href">
+      <Link :href="client.href" class="primary big">
+        {{ client.title }}
+      </Link>
+    </li>
+  </ul>
 </template>
 
 <script setup lang="ts">

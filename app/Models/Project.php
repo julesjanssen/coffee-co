@@ -148,6 +148,16 @@ class Project extends Model
     }
 
     /** @return Attribute<GameRound | null, never> */
+    protected function quoteBeforeRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->request_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->request_round_id + $this->session->settings->roundsToSubmitOffer),
+        );
+    }
+
+    /** @return Attribute<GameRound | null, never> */
     protected function quoteRound(): Attribute
     {
         return Attribute::make(

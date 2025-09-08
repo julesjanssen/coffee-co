@@ -7,6 +7,23 @@
         <span class="status">
           <strong :class="project.status.value">{{ project.status.label }}</strong>
         </span>
+
+        <span class="deadline">
+          <template v-if="project.status.value === 'pending'">
+            <p>{{ $t('submit quote before :round', { round: project.quoteBeforeRound!.displayFull }) }}</p>
+          </template>
+
+          <template v-if="project.status.value === 'won'">
+            <p>
+              {{
+                $t('won in :round — deliver before :deliverRound', {
+                  round: project.quoteRound!.displayFull,
+                  deliverRound: project.deliverBeforeRound!.displayFull,
+                })
+              }}
+            </p>
+          </template>
+        </span>
       </li>
     </ul>
   </div>
