@@ -203,10 +203,6 @@ class HandleRoundEnd implements ShouldQueue
             return;
         }
 
-        $project->update([
-            'status' => ProjectStatus::FINISHED,
-        ]);
-
         $uptime = $project->uptimePercentage();
         $bonus = 0;
         if ($uptime > 80) {
@@ -226,6 +222,12 @@ class HandleRoundEnd implements ShouldQueue
                 'round_id' => $this->round->roundID,
                 'value' => $bonus,
             ]);
+
+        $project->settings->uptimeBonus = $bonus;
+
+        $project->update([
+            'status' => ProjectStatus::FINISHED,
+        ]);
     }
 
     private function processNpsDeltasForUptime()
