@@ -30,6 +30,12 @@ class ProjectResource extends JsonResource
             'labConsultingIncluded' => $this->settings->labConsultingIncluded,
             'status' => $this->status->toArray(),
             'failureChance' => $this->failure_chance,
+            'uptimePercentage' => $this->uptimePercentage(),
+            'uptimeBonus' => $this->settings->uptimeBonus,
+            'quoteRound' => $this->quoteRound?->toArray(),
+            'deliverBeforeRound' => $this->deliverBeforeRound?->toArray(),
+            'downRound' => $this->downRound?->toArray(),
+            'endOfContractRound' => $this->endOfContractRound?->toArray(),
             'location' => $this->location->toArray(),
         ];
     }

@@ -36,12 +36,18 @@ export type Project = {
   title: string
   client: ScenarioClient
   failureChance: number
+  uptimePercentage: number
+  uptimeBonus: number
   price: number
   labConsultingApplied: boolean
   labConsultingIncluded: boolean
   status: Omit<EnumObject, 'value'> & {
     value: ProjectStatusType
   }
+  quoteRound?: GameRound
+  deliverBeforeRound?: GameRound
+  downRound?: GameRound
+  endOfContractRound?: GameRound
 }
 
 export type ScenarioClient = {
@@ -65,7 +71,9 @@ export type PageProps = {
     auth: {
       type: 'facilitator' | 'participant'
       sqid: string
-      role?: EnumObject
+      role: EnumObject & {
+        mainRoute: string
+      }
     }
     navigation: NavigationItem[]
   }

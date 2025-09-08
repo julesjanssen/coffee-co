@@ -158,12 +158,42 @@ class Project extends Model
     }
 
     /** @return Attribute<GameRound | null, never> */
+    protected function deliverBeforeRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->quote_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->quote_round_id + $this->session->settings->roundsToDeliverProject),
+        );
+    }
+
+    /** @return Attribute<GameRound | null, never> */
     protected function deliveryRound(): Attribute
     {
         return Attribute::make(
             get: fn() => empty($this->delivery_round_id)
                 ? null
                 : new GameRound($this->session->scenario, $this->delivery_round_id),
+        );
+    }
+
+    /** @return Attribute<GameRound | null, never> */
+    protected function downRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->down_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->down_round_id),
+        );
+    }
+
+    /** @return Attribute<GameRound | null, never> */
+    protected function endOfContractRound(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => empty($this->delivery_round_id)
+                ? null
+                : new GameRound($this->session->scenario, $this->delivery_round_id + $this->request->duration),
         );
     }
 
