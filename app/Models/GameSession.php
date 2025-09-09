@@ -200,13 +200,45 @@ class GameSession extends Model
         return (float) $result->avg_uptime;
     }
 
-    public function netPromotorScore()
+    public function netPromotorScoreForClient(ScenarioClient $client)
     {
-        $this->load(['scores']);
+        $npsDelta = $this->scores()
+            ->where('client_id', '=', $client->id)
+            ->where('type', '=', ScoreType::NPS)
+            ->avg('value');
 
-        return $this->scenario->clients
-            ->map(fn($client) => $client->netPromotorScoreForGameSession($this))
-            ->avg();
+        return max(0, min(100, $this->settings->clientNpsStart + $npsDelta));
+    }
+
+    public function netPromotorScorePerClient()
+    {
+        return $this->scenario->clients()
+            ->leftJoin('game_scores as gs', function($q) {
+                $q->on('gs.client_id', '=', 'scenario_clients.id');
+            })
+            ->where(function($q) {
+                $q
+                    /** @phpstan-ignore argument.type */
+                    ->where('gs.type', '=', ScoreType::NPS)
+                    ->orWhereNull('gs.type');
+            })
+            ->select([
+                'scenario_clients.id',
+                'scenario_clients.title',
+            ])
+            ->selectRaw('SUM(gs.value) as nps_delta')
+            ->groupBy(['scenario_clients.id', 'scenario_clients.title'])
+            ->get()
+            ->map(function($client) {
+                /** @phpstan-ignore property.notFound */
+                $value = max(0, min(100, $this->settings->clientNpsStart + $client->nps_delta));
+
+                return [
+                    'sqid' => $client->sqid,
+                    'title' => $client->title,
+                    'nps' => $value,
+                ];
+            });
     }
 
     public function marketingTresholdScore()

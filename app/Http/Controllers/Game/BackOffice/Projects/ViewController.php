@@ -64,7 +64,7 @@ class ViewController
             ]);
         }
 
-        $nps = $session->netPromotorScore();
+        $nps = $session->netPromotorScoreForClient($project->client);
         if ($nps < $project->request->requirements->tresholdNps) {
             return $this->updateProjectStatus($project, Status::LOST, __('The client is unsatisfied by your performance.'));
         }

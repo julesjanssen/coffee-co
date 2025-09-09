@@ -73,12 +73,7 @@ class ScenarioClient extends Model
 
     public function netPromotorScoreForGameSession(GameSession $session)
     {
-        $npsDelta = $session->scores
-            ->filter(fn($v) => $v->type->is(ScoreType::NPS))
-            ->filter(fn($v) => $v->client_id === $this->id)
-            ->sum('value');
-
-        return max(0, min(100, $session->settings->clientNpsStart + $npsDelta));
+        return $session->netPromotorScoreForClient($this);
     }
 
     public function hasMaxProjectsForCurrentYear(GameSession $session)
@@ -106,7 +101,7 @@ class ScenarioClient extends Model
         }
 
         $hdmaActive = $session->isHDMAActive();
-        $nps = $session->netPromotorScore();
+        $nps = $session->netPromotorScoreForClient($this);
         $marketingTresholdScore = $session->marketingTresholdScore();
 
         if ($nps < 70) {
