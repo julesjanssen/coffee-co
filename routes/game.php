@@ -10,6 +10,7 @@ use App\Http\Controllers\Game\Facilitator\StatusController;
 use App\Http\Controllers\Game\LogoutController;
 use App\Http\Controllers\Game\Sessions\FacilitatorController;
 use App\Http\Controllers\Game\Sessions\IndexController;
+use App\Http\Controllers\Game\Sessions\PendingController;
 use App\Http\Controllers\Game\Sessions\ViewController;
 use App\Http\Controllers\Game\ViewController as GameViewController;
 use App\Http\Middleware\Game\GameSession;
@@ -25,6 +26,12 @@ Route::get('sessions', [IndexController::class, 'index'])->name('sessions.index'
 Route::get('sessions/{session}', [ViewController::class, 'view'])->name('sessions.view');
 Route::post('sessions/{session}', [ViewController::class, 'store']);
 Route::get('sessions/{session}/f/{hash}', [FacilitatorController::class, 'login'])->name('facilitator.login');
+
+Route::middleware([
+    Authenticate::using('participant'),
+])->group(function () {
+    Route::get('pending', [PendingController::class, 'view'])->name('pending');
+});
 
 Route::middleware([
     Authenticate::using('participant,facilitator'),
