@@ -15,7 +15,9 @@
       <tbody>
         <tr v-for="project in projects" :key="project.sqid">
           <td>{{ project.title }}</td>
-          <td>{{ project.status.label }}</td>
+          <td class="status">
+            <strong :class="project.status.value">{{ project.status.label }}</strong>
+          </td>
           <td class="align-right">
             <MoneyDisplay :value="project.price" />
           </td>
