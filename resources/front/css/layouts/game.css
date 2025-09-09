@@ -137,6 +137,8 @@
     & .round {
       display: flex;
       align-items: center;
+      padding: 0.35em 1em;
+      border-radius: 1em;
       color: var(--gray-500);
       font-size: 0.75rem;
       font-weight: 500;
@@ -144,6 +146,11 @@
 
       & .v-icon {
         font-size: 0.8rem;
+      }
+
+      .paused & {
+        background: var(--yellow-100);
+        color: var(--yellow-600);
       }
     }
 
