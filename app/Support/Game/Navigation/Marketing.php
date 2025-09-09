@@ -12,6 +12,7 @@ class Marketing extends Navigation
     {
         return [
             [
+                'disabled' => ! $this->session()->canDisplayResults(),
                 'label' => __('navigation:marketing:results'),
                 'href' => route('game.marketing.results'),
             ],

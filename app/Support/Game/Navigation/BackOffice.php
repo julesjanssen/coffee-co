@@ -10,6 +10,7 @@ class BackOffice extends Navigation
     {
         return [
             [
+                'disabled' => ! $this->session()->canDisplayResults(),
                 'label' => __('navigation:backoffice:results'),
                 'href' => route('game.backoffice.results'),
             ],

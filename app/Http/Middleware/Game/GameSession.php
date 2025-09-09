@@ -28,18 +28,7 @@ class GameSession
             return $next($request);
         }
 
-        // during pause, automatically redirect to a allowed route
-        if ($user instanceof GameParticipant && $user->session->isPaused()) {
-            if ($user->role->isActiveDuringBreak()) {
-                $pauseRoutes = $user->role->pauseRoutes();
-                // dd($pauseRoutes);
-                if (! empty($pauseRoutes)) {
-                    if (! in_array($request->url(), $pauseRoutes)) {
-                        return redirect($pauseRoutes[0]);
-                    }
-                }
-            }
-        }
+        $this->ensureRouteIsAccessible($request, $user);
 
         $scenario = $user->session->scenario;
         if (empty($scenario)) {
@@ -53,5 +42,28 @@ class GameSession
         ]);
 
         return $next($request);
+    }
+
+    private function ensureRouteIsAccessible(Request $request, GameParticipant|GameFacilitator $user)
+    {
+        if ($user instanceof GameFacilitator) {
+            return;
+        }
+
+        if ($user->session->isPending()) {
+            abort(redirect()->route('game.pending'));
+        }
+
+        // during pause, automatically redirect to a allowed route
+        if ($user->session->isPaused()) {
+            if ($user->role->isActiveDuringBreak()) {
+                $pauseRoutes = $user->role->pauseRoutes();
+                if (! empty($pauseRoutes)) {
+                    if (! in_array($request->url(), $pauseRoutes)) {
+                        abort(redirect($pauseRoutes[0]));
+                    }
+                }
+            }
+        }
     }
 }

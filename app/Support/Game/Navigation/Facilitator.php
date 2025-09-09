@@ -23,7 +23,7 @@ class Facilitator extends Navigation
                 'href' => route('game.facilitator.hdma'),
             ],
             [
-                'disabled' => $sessionIsPending,
+                'disabled' => ! $this->session()->canDisplayResults(),
                 'label' => __('navigation:facilitator:results'),
                 'href' => route('game.facilitator.results'),
             ],

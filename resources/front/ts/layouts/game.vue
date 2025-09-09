@@ -37,7 +37,7 @@
         </header>
 
         <div class="main-wrapper">
-          <template v-if="!isActiveDuringBreak && !isFacilitator">
+          <template v-if="isPaused && !isActiveDuringBreak && !isFacilitator">
             <PauseMessage />
           </template>
 

@@ -148,18 +148,6 @@ class GameSession extends Model
         return GameSessionRandomizer::forGameSession($this);
     }
 
-    public function pause()
-    {
-        $this->settings->shouldPauseAfterCurrentRound = false;
-        $this->round_status = RoundStatus::PAUSED;
-        $this->save();
-    }
-
-    public function isPaused()
-    {
-        return $this->round_status->is(RoundStatus::PAUSED);
-    }
-
     public function isHDMAActive()
     {
         return GameHdmaActivation::isActiveForSession($this);
@@ -266,6 +254,18 @@ class GameSession extends Model
         }
 
         return true;
+    }
+
+    public function pause()
+    {
+        $this->settings->shouldPauseAfterCurrentRound = false;
+        $this->round_status = RoundStatus::PAUSED;
+        $this->save();
+    }
+
+    public function isPaused()
+    {
+        return $this->round_status->is(RoundStatus::PAUSED);
     }
 
     public function isPending()
