@@ -20,7 +20,7 @@
 
 /* view transitions */
 :root {
-  --tr-duration: 0.4s;
+  --tr-duration: 0.25s;
 }
 
 ::view-transition-group(containerwrapper) {
