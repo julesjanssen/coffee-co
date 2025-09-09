@@ -5,7 +5,10 @@
         <Icon v-if="isPaused" name="calendar-slash" />
         <Icon v-else name="calendar-blank" />
 
-        <span class="label">{{ session.currentRound?.display }}</span>
+        <span class="label">
+          {{ session.currentRound?.display }}
+          <span v-if="isPaused">&mdash; {{ $t('paused') }}</span>
+        </span>
       </div>
     </Transition>
   </template>
