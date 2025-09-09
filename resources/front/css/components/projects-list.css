@@ -6,6 +6,10 @@
   gap: 0.5em;
   margin-inline: auto;
 
+  &:empty {
+    display: none;
+  }
+
   & .project {
     display: grid;
     width: 100%;
