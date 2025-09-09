@@ -10,6 +10,7 @@ class TechnicalScreen extends Navigation
     {
         return [
             [
+                'disabled' => ! $this->session()->canDisplayResults(),
                 'label' => __('navigation:technical-screen:results'),
                 'href' => route('game.technical-screen.results'),
             ],

@@ -94,4 +94,19 @@
       }
     }
   }
+
+  & section.investment-costs {
+    & ul {
+      display: flex;
+      flex-direction: column;
+
+      & li {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--gray-100);
+        gap: 1em;
+        padding-block: 0.5em;
+      }
+    }
+  }
 }

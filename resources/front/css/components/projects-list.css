@@ -58,50 +58,13 @@
         font-weight: 550;
       }
     }
+  }
 
-    & .status {
-      font-size: 0.75rem;
-
-      & strong {
-        padding: 0.5em 1em;
-        border-radius: 2em;
-        background: var(--gray-200);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-
-        &.active {
-          background: var(--green-700);
-          color: var(--white);
-        }
-
-        &.pending {
-          background: #ce9f69;
-          color: var(--white);
-        }
-
-        &.won {
-          background: var(--green-600);
-          color: var(--white);
-        }
-
-        &.lost {
-          background: var(--gray-600);
-          color: var(--white);
-        }
-
-        &.down {
-          background: var(--red-800);
-          color: var(--white);
-        }
-      }
-    }
-
-    &:is(a, button) {
-      &:hover,
-      &:focus {
-        border-color: var(--gray-300);
-        background: var(--gray-100);
-      }
+  &:is(a, button) {
+    &:hover,
+    &:focus {
+      border-color: var(--gray-300);
+      background: var(--gray-100);
     }
   }
 }
@@ -127,6 +90,45 @@ header.project-display {
   & .project {
     & .title {
       font-size: 1.1rem;
+    }
+  }
+}
+
+:is(.project-display, ul.projects-list, table.projects) {
+  & .status {
+    font-size: 0.75rem;
+
+    & strong {
+      padding: 0.5em 1em;
+      border-radius: 2em;
+      background: var(--gray-200);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+
+      &.active {
+        background: var(--green-700);
+        color: var(--white);
+      }
+
+      &.pending {
+        background: #ce9f69;
+        color: var(--white);
+      }
+
+      &.won {
+        background: var(--green-600);
+        color: var(--white);
+      }
+
+      &.lost {
+        background: var(--gray-600);
+        color: var(--white);
+      }
+
+      &.down {
+        background: var(--red-800);
+        color: var(--white);
+      }
     }
   }
 }

@@ -19,6 +19,10 @@ class ResultsController
         $participant = $request->participant();
         $session = $participant->session;
 
+        if (! $session->canDisplayResults()) {
+            return redirect('/');
+        }
+
         return Inertia::render('game/technical-screen/results', [
             'uptime' => $this->getUptime($session),
             'uptimeBonus' => $this->getUptimeBonus($session),
@@ -33,9 +37,11 @@ class ResultsController
 
     private function getUptimeBonus(GameSession $session)
     {
-        return $session->transactions()
+        $result = $session->transactions()
             ->where('type', '=', TransactionType::PROJECT_UPTIME_BONUS)
             ->sum('value');
+
+        return (int) $result;
     }
 
     private function listUptimePerClient(GameSession $session)

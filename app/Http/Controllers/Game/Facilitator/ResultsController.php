@@ -20,6 +20,10 @@ class ResultsController
         $facilitator = $request->facilitator();
         $session = $facilitator->session;
 
+        if (! $session->canDisplayResults()) {
+            return redirect('/');
+        }
+
         $session
             ->load([
                 'scenario',
@@ -28,7 +32,7 @@ class ResultsController
             ]);
 
         return Inertia::render('game/facilitator/results', [
-            'clients' => $this->listClients($session),
+            'clientsWithNps' => $this->listClients($session),
             'hdmaActive' => $session->isHDMAActive(),
             'marketing' => $this->marketingScores($session),
             'profitLoss' => $this->profitLoss($session),
@@ -38,12 +42,7 @@ class ResultsController
 
     private function listClients(GameSession $session)
     {
-        return $session->scenario->clients
-            ->map(fn($client) => [
-                'sqid' => $client->sqid,
-                'title' => $client->title,
-                'nps' => $client->netPromotorScoreForGameSession($session),
-            ]);
+        return $session->netPromotorScorePerClient();
     }
 
     private function marketingScores(GameSession $session)

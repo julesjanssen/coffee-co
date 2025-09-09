@@ -10,6 +10,7 @@ class SalesScreen extends Navigation
     {
         return [
             [
+                'disabled' => ! $this->session()->canDisplayResults(),
                 'label' => __('navigation:sales-screen:results'),
                 'href' => route('game.sales-screen.results'),
             ],

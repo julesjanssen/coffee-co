@@ -14,6 +14,10 @@ class ResultsController
         $participant = $request->participant();
         $session = $participant->session;
 
+        if (! $session->canDisplayResults()) {
+            return redirect('/');
+        }
+
         return Inertia::render('game/marketing/results', [
         ]);
     }

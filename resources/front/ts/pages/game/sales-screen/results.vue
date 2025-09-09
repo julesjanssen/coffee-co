@@ -29,7 +29,7 @@
       </header>
 
       <ul>
-        <ClientNps v-for="client in clients" :key="client.sqid" :client="client" />
+        <ClientNps v-for="client in clientsWithNps" :key="client.sqid" :client="client" />
       </ul>
     </section>
   </div>
@@ -39,12 +39,7 @@
 import MoneyDisplay from '/@front:components/MoneyDisplay.vue'
 import ClientNps from '/@front:components/results/ClientNps.vue'
 import GameLayout from '/@front:layouts/game.vue'
-
-type Client = {
-  sqid: string
-  title: string
-  nps: number
-}
+import type { ScenarioClientWithNPS } from '/@front:types/shared'
 
 defineOptions({
   layout: [GameLayout],
@@ -54,6 +49,6 @@ defineProps<{
   projectsPickedup: number
   projectsWon: number
   investmentCost: number
-  clients: Client[]
+  clientsWithNps: ScenarioClientWithNPS[]
 }>()
 </script>

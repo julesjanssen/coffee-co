@@ -213,10 +213,10 @@ class GameSession extends Model
     public function netPromotorScorePerClient()
     {
         return $this->scenario->clients()
-            ->leftJoin('game_scores as gs', function($q) {
+            ->leftJoin('game_scores as gs', function ($q) {
                 $q->on('gs.client_id', '=', 'scenario_clients.id');
             })
-            ->where(function($q) {
+            ->where(function ($q) {
                 $q
                     /** @phpstan-ignore argument.type */
                     ->where('gs.type', '=', ScoreType::NPS)
@@ -229,7 +229,7 @@ class GameSession extends Model
             ->selectRaw('SUM(gs.value) as nps_delta')
             ->groupBy(['scenario_clients.id', 'scenario_clients.title'])
             ->get()
-            ->map(function($client) {
+            ->map(function ($client) {
                 /** @phpstan-ignore property.notFound */
                 $value = max(0, min(100, $this->settings->clientNpsStart + $client->nps_delta));
 
@@ -253,6 +253,19 @@ class GameSession extends Model
         return $this->scores()
             ->where('type', '=', ScoreType::MARKETING_KPI)
             ->sum('value');
+    }
+
+    public function canDisplayResults()
+    {
+        if ($this->isPending()) {
+            return false;
+        }
+
+        if ($this->currentRound->isFirstRound()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function isPending()

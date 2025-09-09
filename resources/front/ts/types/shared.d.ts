@@ -52,6 +52,12 @@ export type Project = {
   endOfContractRound?: GameRound
 }
 
+export type ScenarioClientWithNPS = {
+  sqid: string
+  title: string
+  nps: number
+}
+
 export type ScenarioClient = {
   sqid: string
   href: string

@@ -51,7 +51,6 @@ const props = defineProps<{
 }>()
 
 const chartRef = useTemplateRef<HTMLCanvasElement>('chart-canvas')
-// let chart: ChartType | undefined = undefined
 
 const numberFormatter = new Intl.NumberFormat(document.documentElement.lang, {
   maximumFractionDigits: 1,
@@ -68,6 +67,8 @@ const dataLabelFormatter = (value: number | null) => {
 const initChart = () => {
   const element = chartRef.value as HTMLCanvasElement
 
+  element.style.height = `${props.uptimePerClient.length * 60}px`
+
   new Chart(element, {
     type: 'bar',
     data: {
@@ -77,7 +78,7 @@ const initChart = () => {
           data: props.uptimePerClient.map((v) => v.uptime),
           backgroundColor: '#00663a',
           borderWidth: 0,
-          borderRadius: 6,
+          borderRadius: 4,
         },
       ],
     },
@@ -87,13 +88,14 @@ const initChart = () => {
       layout: {
         padding: {
           left: 20,
-          right: 40,
+          right: 60,
           top: 20,
         },
       },
       datasets: {
         bar: {
-          barPercentage: 0.6,
+          barPercentage: 0.2,
+          categoryPercentage: 1.6,
         },
       },
       scales: {
@@ -127,8 +129,6 @@ const initChart = () => {
           align: 'end',
           formatter: dataLabelFormatter,
           font: {
-            family: "'Noto Sans', system-ui",
-            size: 12,
             lineHeight: 1.2,
           },
         },

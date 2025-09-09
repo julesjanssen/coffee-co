@@ -1,93 +1,139 @@
 <template>
-  <main class="facilitator results">
-    <section class="clients">
-      <h3>NPS</h3>
+  <div class="facilitator results">
+    <section class="clients-nps">
+      <header>
+        <h2>{{ $t('Net promoter score') }}</h2>
+      </header>
 
-      <ul class="clients-nps">
-        <li v-for="client in clients" :key="client.sqid">
-          <p>{{ client.title }}</p>
-          <strong>{{ client.nps }}</strong>
-        </li>
+      <ul>
+        <ClientNps v-for="client in clientsWithNps" :key="client.sqid" :client="client" />
       </ul>
     </section>
 
     <section class="hdma">
-      <h3>HDMA</h3>
+      <header>
+        <h2>HDMA</h2>
+      </header>
 
-      <p v-if="hdmaActive">HDMA is active</p>
-      <p v-else>HDMA is not active</p>
+      <p v-if="hdmaActive" class="active">HDMA is active</p>
+      <p v-else class="inactive">HDMA is not active</p>
     </section>
 
     <section class="marketing">
-      <h3>Marketing</h3>
+      <header>
+        <h2>Marketing</h2>
+      </header>
 
-      <dl>
+      <dl class="panels">
         <div>
           <dt>KPI</dt>
-          <dd>{{ marketing.kpi }}</dd>
+          <dd>
+            <span class="value">{{ marketing.kpi }}</span>
+          </dd>
         </div>
 
         <div>
           <dt>treshold</dt>
-          <dd>{{ marketing.treshold }}</dd>
+          <dd>
+            <span class="value">{{ marketing.treshold }}</span>
+          </dd>
         </div>
       </dl>
     </section>
 
     <section class="profit-loss">
-      <h3>Profit &amp; loss</h3>
+      <header>
+        <h2>Profit &amp; loss</h2>
+      </header>
 
-      <dl>
+      <dl class="panels">
         <div>
           <dt>revenue</dt>
           <dd>
-            <MoneyDisplay :value="profitLoss.revenue" />
+            <span class="value">
+              <MoneyDisplay :value="profitLoss.revenue" />
+            </span>
           </dd>
         </div>
         <div>
           <dt>costs</dt>
           <dd>
-            <MoneyDisplay :value="profitLoss.costs" />
+            <span class="value">
+              <MoneyDisplay :value="profitLoss.costs" />
+            </span>
           </dd>
         </div>
 
         <div>
           <dt>profit</dt>
           <dd>
-            <strong><MoneyDisplay :value="profitLoss.profit" /></strong>
+            <strong class="value">
+              <MoneyDisplay :value="profitLoss.profit" />
+            </strong>
           </dd>
         </div>
       </dl>
     </section>
 
     <section class="investment-costs">
-      <h3>Investment costs</h3>
+      <header>
+        <h2>Investment costs</h2>
+      </header>
 
-      <dl>
+      <dl class="panels">
         <div>
           <dt>total</dt>
           <dd>
-            <MoneyDisplay :value="investmentCosts.total" />
+            <span class="value">
+              <MoneyDisplay :value="investmentCosts.total" />
+            </span>
           </dd>
         </div>
       </dl>
     </section>
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">
 import MoneyDisplay from '/@front:components/MoneyDisplay.vue'
+import ClientNps from '/@front:components/results/ClientNps.vue'
 import GameLayout from '/@front:layouts/game.vue'
+import type { ScenarioClientWithNPS } from '/@front:types/shared'
 
 defineOptions({
   layout: [GameLayout],
 })
 
 defineProps<{
-  clients: any[]
+  clientsWithNps: ScenarioClientWithNPS[]
   hdmaActive: boolean
   marketing: Record<string, number>
   profitLoss: Record<string, number>
   investmentCosts: Record<string, number>
 }>()
 </script>
+
+<style scoped>
+section.hdma {
+  & p {
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+
+    &::before {
+      --size: 0.8em;
+
+      width: var(--size);
+      height: var(--size);
+      flex: 0 0 var(--size);
+      border-radius: 50%;
+      background: var(--green-600);
+      content: '';
+    }
+
+    &.inactive::before {
+      background: var(--red-500);
+    }
+  }
+}
+</style>
