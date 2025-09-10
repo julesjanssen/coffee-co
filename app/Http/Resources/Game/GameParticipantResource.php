@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Game;
 
+use App\Models\GameHdmaActivation;
 use App\Models\GameParticipant;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
@@ -26,12 +27,25 @@ class GameParticipantResource extends JsonResource
             'sqid' => $this->sqid,
             'type' => 'participant',
             'role' => $this->role->toArray(),
-            'hdmaActive' => $this->when(
-                $this->role->isMarketing(),
-                fn() => $this->session->isHDMAActive(),
-                fn() => new MissingValue(),
-            ),
+            'hdma' => $this->hdma(),
             'activeDuringBreak' => $this->role->isActiveDuringBreak(),
+        ];
+    }
+
+    private function hdma()
+    {
+        if (! $this->role->isMarketing()) {
+            return new MissingValue();
+        }
+
+        $this->loadMissing(['session']);
+
+        $activeRounds = GameHdmaActivation::getContinuouslyActiveRounds($this->session);
+        $effective = $activeRounds >= $this->session->settings->hdmaEffectiveRoundCount;
+
+        return [
+            'enabled' => $activeRounds > 0,
+            'effective' => $effective,
         ];
     }
 }

@@ -1,7 +1,8 @@
 <template>
   <div class="auth">
     <span v-if="isMarketingRole" class="hdma">
-      <span v-if="auth.hdmaActive" class="active">{{ $t('HDMA is active') }}</span>
+      <span v-if="auth.hdma.effective" class="active">{{ $t('HDMA is effective') }}</span>
+      <span v-else-if="auth.hdma.enabled" class="active">{{ $t('HDMA is enabled') }}</span>
       <span v-else class="inactive">{{ $t('HDMA is inactive') }}</span>
     </span>
 
