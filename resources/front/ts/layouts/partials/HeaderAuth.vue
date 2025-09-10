@@ -1,5 +1,10 @@
 <template>
   <div class="auth">
+    <span v-if="isMarketingRole" class="hdma">
+      <span v-if="auth.hdmaActive" class="active">{{ $t('HDMA is active') }}</span>
+      <span v-else class="inactive">{{ $t('HDMA is inactive') }}</span>
+    </span>
+
     <Dropdown :label="authLabel">
       <ul role="menu" aria-hidden="true">
         <li role="menuitem">
@@ -34,6 +39,8 @@ const authLabel = computed(() => {
 
   return auth.value.role?.label
 })
+
+const isMarketingRole = computed(() => auth.value.role?.value.includes('marketing'))
 
 const refresh = () => {
   location.reload()

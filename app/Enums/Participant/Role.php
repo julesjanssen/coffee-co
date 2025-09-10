@@ -133,11 +133,17 @@ enum Role: string
         ]);
     }
 
+    public function isMarketing()
+    {
+        return $this->is(self::MARKETING_1);
+    }
+
     public function toArray(): mixed
     {
         return [
             'value' => $this->value,
             'label' => $this->description(),
+            'isMarketing' => $this->isMarketing(),
             'mainRoute' => $this->mainRoute(),
         ];
     }

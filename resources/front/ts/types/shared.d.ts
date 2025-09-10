@@ -82,6 +82,7 @@ export type PageProps = {
       role: EnumObject & {
         mainRoute: string
       }
+      hdmaActive: boolean
       activeDuringBreak: boolean
     }
     navigation: NavigationItem[]

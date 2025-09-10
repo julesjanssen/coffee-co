@@ -32,11 +32,16 @@ const start = () => {
 }
 
 const emitReady = () => {
+  if (!showReadyButton.value) {
+    return
+  }
+
   emit('ready')
 }
 
 onMounted(() => {
   if (props.level === 0) {
+    showReadyButton.value = true
     emitReady()
     return
   }

@@ -8,6 +8,7 @@ use App\Models\GameParticipant;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 use JsonSerializable;
 
 /** @mixin GameParticipant */
@@ -25,6 +26,11 @@ class GameParticipantResource extends JsonResource
             'sqid' => $this->sqid,
             'type' => 'participant',
             'role' => $this->role->toArray(),
+            'hdmaActive' => $this->when(
+                $this->role->isMarketing(),
+                fn() => $this->session->isHDMAActive(),
+                fn() => new MissingValue(),
+            ),
             'activeDuringBreak' => $this->role->isActiveDuringBreak(),
         ];
     }
