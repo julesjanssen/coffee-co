@@ -48,6 +48,8 @@ const refresh = () => {
 }
 
 const logout = () => {
+  localStorage.removeItem('reports-seen')
+
   router.post('/game/logout')
 }
 </script>
