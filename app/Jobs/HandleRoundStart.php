@@ -81,7 +81,7 @@ class HandleRoundStart implements ShouldQueue
     {
         /** @var int[] $config */
         $config = config('coffeeco.operational_cost_per_year', []);
-        $value = (int) (Arr::get($config, $this->round->year() - 1) ?? array_pop($config));
+        $value = (int) (Arr::get($config, $this->round->yearID() - 1) ?? array_pop($config));
 
         $this->session->transactions()
             ->create([

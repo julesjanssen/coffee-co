@@ -17,7 +17,7 @@ class YearReportController
         $session = $participant->session;
 
         $round = $session->currentRound;
-        if ($round->year() <= 1) {
+        if ($round->yearID() <= 1) {
             return response()->noContent();
         }
 

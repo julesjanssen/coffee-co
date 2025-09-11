@@ -281,7 +281,7 @@ class HandleRoundEnd implements ShouldQueue
 
     private function trackMarketShare()
     {
-        $yearRange = GameRound::getRangeForYear($this->round->year());
+        $yearRange = $this->round->year()->roundIDs();
 
         $projectValue = $this->session->projects()
             ->with(['request'])

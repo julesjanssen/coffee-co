@@ -8,6 +8,7 @@ use App\Enums\Project\Location;
 use App\Enums\Project\Status;
 use App\Events\ProjectUpdated;
 use App\Values\GameRound;
+use App\Values\GameYear;
 use App\Values\ProjectSettings;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -97,7 +98,9 @@ class Project extends Model
     #[Scope]
     protected function whereRequestedInYear(Builder $query, int $year)
     {
-        $query->whereIn('request_round_id', GameRound::getRangeForYear($year));
+        $year = new GameYear($this->session->scenario, $year);
+
+        $query->whereIn('request_round_id', $year->roundIDs());
     }
 
     #[Scope]
