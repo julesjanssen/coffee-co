@@ -8,6 +8,10 @@
     "front:build": "vite build --config ./vite.config.front.ts",
     "prepare": "husky"
   },
+  "engines": {
+    "npm": ">=10.8.2",
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@github/relative-time-element": "^4.4.3",
     "@inertiajs/vue3": "^2.0.0",
