@@ -50,9 +50,13 @@ watchEffect(() => {
       report.value = response.data
 
       showModal()
-      // reportsSeen.value.push(key)
+      reportsSeen.value.push(key)
     })
-    .catch(() => {
+    .catch((err) => {
+      if (err.response?.status === 401) {
+        return
+      }
+
       error('Could not load year report')
     })
 })
