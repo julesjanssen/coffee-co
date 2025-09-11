@@ -33,6 +33,7 @@ class ResultsController
     {
         return GameHdmaActivation::getContinuouslyActiveRounds($session);
     }
+
     private function campaignStats(GameSession $session)
     {
         $result = GameCampaignCode::query()

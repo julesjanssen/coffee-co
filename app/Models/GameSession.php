@@ -230,6 +230,13 @@ class GameSession extends Model
             });
     }
 
+    public function profit()
+    {
+        $profit = $this->transactions()->sum('value');
+
+        return (int) $profit;
+    }
+
     public function listInvestmentCosts()
     {
         $types = collect([

@@ -47,6 +47,7 @@
     </div>
   </div>
 
+  <YearReport :year="session.currentRound.displayYear" />
   <Toaster :expand="true" />
 </template>
 <script setup lang="ts">
@@ -55,6 +56,7 @@ import { computed, onUnmounted } from 'vue'
 import { Toaster } from 'vue-sonner'
 
 import PauseMessage from '/@front:components/PauseMessage.vue'
+import YearReport from '/@front:components/YearReport.vue'
 import { useServerSentEvents } from '/@front:composables/server-sent-events'
 import type { PageProps } from '/@front:types/shared'
 

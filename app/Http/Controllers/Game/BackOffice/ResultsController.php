@@ -66,9 +66,7 @@ class ResultsController
 
     private function profit(GameSession $session)
     {
-        $profit = $session->transactions()->sum('value');
-
-        return (int) $profit;
+        return $session->profit();
     }
 
     private function listInvestmentCosts(GameSession $session)

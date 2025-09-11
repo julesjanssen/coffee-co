@@ -10,6 +10,7 @@ type EnumObject = {
 export type GameRound = {
   id: number
   display: string
+  displayYear: string
   displayFull: string
   isLastRoundOfYear: boolean
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\Game\Sessions\IndexController;
 use App\Http\Controllers\Game\Sessions\PendingController;
 use App\Http\Controllers\Game\Sessions\ViewController;
 use App\Http\Controllers\Game\ViewController as GameViewController;
+use App\Http\Controllers\Game\YearReportController;
 use App\Http\Middleware\Game\GameSession;
 use App\Http\Middleware\Game\ParticipantRole;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -31,6 +32,7 @@ Route::middleware([
     Authenticate::using('participant'),
 ])->group(function () {
     Route::get('pending', [PendingController::class, 'view'])->name('pending');
+    Route::get('year-report', [YearReportController::class, 'view'])->name('year-report');
 });
 
 Route::middleware([

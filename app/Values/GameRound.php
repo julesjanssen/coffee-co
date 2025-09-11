@@ -73,13 +73,6 @@ class GameRound implements Arrayable
         return (int) ceil($this->roundID / self::ROUNDS_PER_YEAR);
     }
 
-    public function displayYear()
-    {
-        $startYear = $this->scenario->settings->startYear ;
-
-        return $startYear + $this->year() - 1;
-    }
-
     public function quarter()
     {
         return (int) ((($this->roundID - 1) % self::ROUNDS_PER_YEAR) / 3) + 1;
@@ -113,6 +106,11 @@ class GameRound implements Arrayable
         return $this->getDateObject()->isoFormat('MMMM YY');
     }
 
+    public function displayYear()
+    {
+        return $this->getDateObject()->isoFormat('YY');
+    }
+
     public function display()
     {
         return $this->getDateObject()->isoFormat('MMM YY');
@@ -123,6 +121,7 @@ class GameRound implements Arrayable
         return [
             'id' => $this->roundID,
             'display' => $this->display(),
+            'displayYear' => $this->displayYear(),
             'displayFull' => $this->displayFull(),
             'isLastRoundOfYear' => $this->isLastRoundOfYear(),
         ];
@@ -130,6 +129,9 @@ class GameRound implements Arrayable
 
     private function getDateObject()
     {
-        return Date::createFromDate($this->displayYear(), $this->month(), 1);
+        $startYear = $this->scenario->settings->startYear;
+        $year = $startYear + $this->year() - 1;
+
+        return Date::createFromDate($year, $this->month(), 1);
     }
 }
