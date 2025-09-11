@@ -7,6 +7,22 @@ and this project adheres to [Calendar Versioning](https://calver.org/#scheme).
 
 ## [Unreleased]
 
+## [2025-09-11] - 2025-09-11
+
+### Added
+- Result screens styling.
+- Marketing: display HDMA status.
+
+### Changed
+- Improved front-end styling.
+- Emphasize paused state.
+- Admin: add ability to close session.
+- Auto close stale sessions.
+
+### Fixed
+- Fix participant screens in 'pending' state.
+- Fix pause detection for sales / technical roles.
+
 ## [2025-09-03] - 2025-09-03
 
 ### Added
