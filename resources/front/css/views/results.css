@@ -57,6 +57,12 @@
           & + * {
             margin-block-start: 0.5rem;
           }
+
+          & small {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            font-weight: normal;
+          }
         }
       }
     }

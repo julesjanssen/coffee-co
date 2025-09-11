@@ -8,6 +8,7 @@ use App\Enums\GameSession\Flow;
 use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\ScoreType;
 use App\Enums\GameSession\Status;
+use App\Enums\GameSession\TransactionType;
 use App\Enums\Project\Status as ProjectStatus;
 use App\Events\GameSessionCreated;
 use App\Models\Traits\Reservable;
@@ -227,6 +228,40 @@ class GameSession extends Model
                     'nps' => $value,
                 ];
             });
+    }
+
+    public function listInvestmentCosts()
+    {
+        $types = collect([
+            TransactionType::HDMA,
+            TransactionType::MARKETING_TRAINING_BROAD,
+            TransactionType::MARKETING_TRAINING_DEEP,
+            TransactionType::MARKETING_CAMPAIGN,
+            TransactionType::LAB_CONSULTING,
+        ]);
+
+        return $this->transactions()
+            ->whereIn('type', $types)
+            ->select('type')
+            ->selectRaw('SUM(value) as value_sum')
+            ->groupBy('type')
+            ->toBase()
+            ->get()
+            ->map(function ($record) {
+                $type = TransactionType::from($record->type);
+                $value = $record->value_sum * -1;
+
+                return (object) [
+                    'type' => $type,
+                    'value' => $value,
+                ];
+            })
+            ->sortBy(fn($v) => $types->search($v->type))
+            ->values()
+            ->map(fn($v) => [
+                'type' => $v->type->toArray(),
+                'value' => $v->value,
+            ]);
     }
 
     public function marketingTresholdScore()

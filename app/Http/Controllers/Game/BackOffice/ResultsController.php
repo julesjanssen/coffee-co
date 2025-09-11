@@ -73,35 +73,6 @@ class ResultsController
 
     private function listInvestmentCosts(GameSession $session)
     {
-        $types = collect([
-            TransactionType::HDMA,
-            TransactionType::MARKETING_TRAINING_BROAD,
-            TransactionType::MARKETING_TRAINING_DEEP,
-            TransactionType::MARKETING_CAMPAIGN,
-            TransactionType::LAB_CONSULTING,
-        ]);
-
-        return $session->transactions()
-            ->whereIn('type', $types)
-            ->select('type')
-            ->selectRaw('SUM(value) as value_sum')
-            ->groupBy('type')
-            ->toBase()
-            ->get()
-            ->map(function ($record) {
-                $type = TransactionType::from($record->type);
-                $value = $record->value_sum * -1;
-
-                return (object) [
-                    'type' => $type,
-                    'value' => $value,
-                ];
-            })
-            ->sortBy(fn($v) => $types->search($v->type))
-            ->values()
-            ->map(fn($v) => [
-                'type' => $v->type->toArray(),
-                'value' => $v->value,
-            ]);
+        return $session->listInvestmentCosts();
     }
 }
