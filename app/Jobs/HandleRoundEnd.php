@@ -304,7 +304,7 @@ class HandleRoundEnd implements ShouldQueue
             ->create([
                 'type' => ScoreType::MARKETSHARE,
                 'trigger_type' => 'year-end',
-                'event' => $this->round->year(),
+                'event' => $this->round->yearID(),
                 'round_id' => $this->round->roundID,
                 'value' => $marketShare,
             ]);

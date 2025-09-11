@@ -96,10 +96,8 @@ class Project extends Model
     }
 
     #[Scope]
-    protected function whereRequestedInYear(Builder $query, int $year)
+    protected function whereRequestedInYear(Builder $query, GameYear $year)
     {
-        $year = new GameYear($this->session->scenario, $year);
-
         $query->whereIn('request_round_id', $year->roundIDs());
     }
 

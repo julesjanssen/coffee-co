@@ -15,6 +15,7 @@ use App\Models\Traits\Reservable;
 use App\Support\Random\GameSessionRandomizer;
 use App\Values\GameRound;
 use App\Values\GameSessionSettings;
+use App\Values\GameYear;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -128,7 +129,7 @@ class GameSession extends Model
         );
     }
 
-    /** @return Attribute<int | null, never> */
+    /** @return Attribute<GameYear | null, never> */
     protected function currentYear(): Attribute
     {
         return Attribute::make(
