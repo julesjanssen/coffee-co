@@ -42,14 +42,22 @@ class GameYear
         return new self($this->scenario, ($this->yearID + 1));
     }
 
+    public function minRoundID()
+    {
+        return ($this->yearID - 1) * GameRound::ROUNDS_PER_YEAR + 1;
+    }
+
+    public function maxRoundID()
+    {
+        return $this->minRoundID() + (GameRound::ROUNDS_PER_YEAR - 1);
+    }
+
     /**
      * @return array<array-key, int>
      */
     public function roundIDs()
     {
-        $min = ($this->yearID - 1) * GameRound::ROUNDS_PER_YEAR + 1;
-
-        return range($min, $min + (GameRound::ROUNDS_PER_YEAR - 1));
+        return range($this->minRoundID(), $this->maxRoundID());
     }
 
     /**
