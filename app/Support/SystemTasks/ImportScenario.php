@@ -82,7 +82,7 @@ class ImportScenario implements SystemTaskRunner
     private function createScenario(array $config)
     {
         return Scenario::create([
-            'group_id' => hash('xxh3', $config['base_id']),
+            'group_id' => hash('xxh3', (string) $config['base_id']),
             'title' => $config['title'],
             'locale' => $config['locale'],
             'settings' => ScenarioSettings::fromArray([]),
@@ -121,7 +121,7 @@ class ImportScenario implements SystemTaskRunner
         $segment = Segment::from($segment);
 
         $market = Market::from(Str::slug($record['fields']['market']));
-        $carBrand = CarBrand::from(strtolower($record['fields']['car']));
+        $carBrand = CarBrand::from(strtolower((string) $record['fields']['car']));
         $years = YearsInBusiness::fromInteger((int) $record['fields']['years in business']);
 
         $client = ScenarioClient::create([
@@ -144,7 +144,7 @@ class ImportScenario implements SystemTaskRunner
         }
 
         $logo = current($record['fields']['logo']);
-        $parts = parse_url($logo['presignedUrl']);
+        $parts = parse_url((string) $logo['presignedUrl']);
         parse_str($parts['query'] ?? '', $query);
 
         $url = Uri::of(config('services.teable.api_endpoint'))
@@ -218,7 +218,7 @@ class ImportScenario implements SystemTaskRunner
         $request = ScenarioRequest::create([
             'scenario_id' => $scenario->id,
             'client_id' => $clientID,
-            'description' => trim($fields['description']),
+            'description' => trim((string) $fields['description']),
             'delay' => (int) $fields['delay'],
             'duration' => (int) $fields['duration'],
             'requirements' => $requirements,
@@ -239,7 +239,7 @@ class ImportScenario implements SystemTaskRunner
         $fields = $record['fields'];
 
         $requestID = $this->requestMap[$fields['requestID']['id']];
-        $productsIDs = collect(explode(',', $fields['productIDs']))
+        $productsIDs = collect(explode(',', (string) $fields['productIDs']))
             ->map(fn($v) => $this->productMap[strtoupper($v)]);
 
         ScenarioRequestSolution::create([
