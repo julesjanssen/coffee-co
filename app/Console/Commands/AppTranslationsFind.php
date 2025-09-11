@@ -266,7 +266,7 @@ class AppTranslationsFind extends Command
             ->map(fn($function) => preg_quote((string) $function))
             ->implode('|');
 
-        $pattern = '/([FUNCTIONS])\([\'"`](.+)[\'"`][\),]/U';
+        $pattern = '/([FUNCTIONS])\(\s*[\'"`](.+)[\'"`][\),]/Us';
         $pattern = str_replace('[FUNCTIONS]', $replace, $pattern);
 
         return $pattern;
