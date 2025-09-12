@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\GameSession\TransactionType;
 use App\Values\GameRound;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RedExplosion\Sqids\Concerns\HasSqids;
@@ -14,6 +15,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class GameTransaction extends Model
 {
+    use HasFactory;
     use HasSqids;
     use UsesTenantConnection;
 

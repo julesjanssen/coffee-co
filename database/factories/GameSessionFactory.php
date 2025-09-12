@@ -8,6 +8,7 @@ use App\Enums\GameSession\RoundStatus;
 use App\Enums\GameSession\Status;
 use App\Models\GameSession;
 use App\Models\Scenario;
+use App\Values\GameSessionSettings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,13 +24,13 @@ class GameSessionFactory extends Factory
     public function definition(): array
     {
         return [
+            'scenario_group_id' => fake()->bothify('##??'),
             'scenario_id' => Scenario::factory(),
-            'name' => fake()->sentence(2),
-            'code' => fake()->bothify('????####'),
-            'status' => Status::ACTIVE,
+            'title' => fake()->sentence(2),
+            'status' => Status::PENDING,
             'current_round_id' => 0,
             'round_status' => RoundStatus::PAUSED,
-            'settings' => '{}',
+            'settings' => new GameSessionSettings(),
         ];
     }
 }

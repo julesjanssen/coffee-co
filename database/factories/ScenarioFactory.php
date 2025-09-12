@@ -21,8 +21,9 @@ class ScenarioFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->sentence(3),
-            'slug' => fake()->slug(),
+            'group_id' => fake()->bothify('##??'),
+            'title' => fake()->sentence(3),
+            'locale' => 'en',
             'status' => Status::ACTIVE,
             'settings' => '{}',
         ];

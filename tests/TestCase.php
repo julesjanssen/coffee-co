@@ -29,11 +29,17 @@ abstract class TestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-        parent::setup();
+        parent::setUp();
 
         // Create a test tenant with a consistent name
         $tenant = Tenant::create(['name' => 'bluetest']);
         $tenant->makeCurrent();
+        
+        // Run tenant migrations
+        $this->artisan('tenants:artisan', [
+            'artisanCommand' => 'migrate',
+            '--tenant' => $tenant->id,
+        ]);
 
         // Ensure we clean up after the test
         $this->beforeApplicationDestroyed(function () use ($tenant) {
