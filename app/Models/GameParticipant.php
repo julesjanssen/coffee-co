@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Participant\Role;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,6 +14,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class GameParticipant extends Authenticatable
 {
+    use HasFactory;
     use HasSqids;
     use Notifiable;
     use UsesTenantConnection;

@@ -23,9 +23,7 @@ class GameFacilitatorFactory extends Factory
     {
         return [
             'game_session_id' => GameSession::factory(),
-            'name' => fake()->name(),
-            'hash' => fake()->bothify('facilitator###'),
-            'password' => Hash::make('password'),
+            'code' => fake()->bothify('####'),
         ];
     }
 }

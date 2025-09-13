@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +13,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class GameFacilitator extends Authenticatable
 {
+    use HasFactory;
     use HasSqids;
     use Notifiable;
     use UsesTenantConnection;

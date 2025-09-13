@@ -25,7 +25,6 @@ class ScenarioFactory extends Factory
             'title' => fake()->sentence(3),
             'locale' => 'en',
             'status' => Status::ACTIVE,
-            'settings' => '{}',
         ];
     }
 }

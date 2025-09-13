@@ -24,10 +24,7 @@ class GameParticipantFactory extends Factory
     {
         return [
             'game_session_id' => GameSession::factory(),
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
             'role' => Role::SALES_1,
-            'password' => Hash::make('password'),
         ];
     }
 }
