@@ -95,7 +95,7 @@ test('GameSession calculates NPS for client correctly', function () {
     $session = GameSession::factory()->create([
         'settings' => new GameSessionSettings(['clientNpsStart' => 50]),
     ]);
-    
+
     $client = ScenarioClient::factory()->create([
         'scenario_id' => $session->scenario_id,
     ]);
@@ -136,7 +136,7 @@ test('GameSession caps NPS between 0 and 100', function () {
     $session = GameSession::factory()->create([
         'settings' => new GameSessionSettings(['clientNpsStart' => 80]),
     ]);
-    
+
     $client = ScenarioClient::factory()->create([
         'scenario_id' => $session->scenario_id,
     ]);
@@ -162,7 +162,7 @@ test('GameSession returns starting NPS when no scores exist', function () {
     $session = GameSession::factory()->create([
         'settings' => new GameSessionSettings(['clientNpsStart' => 75]),
     ]);
-    
+
     $client = ScenarioClient::factory()->create([
         'scenario_id' => $session->scenario_id,
     ]);

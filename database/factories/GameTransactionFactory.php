@@ -30,12 +30,12 @@ class GameTransactionFactory extends Factory
             TransactionType::LAB_CONSULTING,
             TransactionType::OPERATIONAL_COST,
         ]);
-        
+
         return [
             'game_session_id' => GameSession::factory(),
             'type' => $type,
-            'value' => $isExpense 
-                ? fake()->numberBetween(-2000, -50) 
+            'value' => $isExpense
+                ? fake()->numberBetween(-2000, -50)
                 : fake()->numberBetween(50, 5000),
             'round_id' => fake()->numberBetween(1, 20),
         ];

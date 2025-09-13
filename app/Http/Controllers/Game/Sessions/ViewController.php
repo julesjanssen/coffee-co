@@ -44,7 +44,7 @@ class ViewController
         $session = $this->getSessionFromPublicID($session);
 
         if ($session->isClosed()) {
-            throw new BadRequestHttpException;
+            throw new BadRequestHttpException();
         }
 
         if ($request->input('role') === 'facilitator') {

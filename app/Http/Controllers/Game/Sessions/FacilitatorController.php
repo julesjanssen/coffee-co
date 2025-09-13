@@ -16,7 +16,7 @@ class FacilitatorController
         $facilitator = $session->facilitator;
 
         if (! hash_equals($facilitator->loginHash(), $hash)) {
-            return redirect()->route('game.sessions.view', [$session]);
+            return redirect()->route('game.sessions.view', [$session->public_id]);
         }
 
         Auth::guard('facilitator')->login($facilitator);

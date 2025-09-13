@@ -54,6 +54,10 @@ class GameSession
             abort(redirect()->route('game.pending'));
         }
 
+        if ($user->session->isClosed()) {
+            abort(redirect()->route('game.sessions.index'));
+        }
+
         // during pause, automatically redirect to a allowed route
         if ($user->session->isPaused()) {
             if ($user->role->isActiveDuringBreak()) {

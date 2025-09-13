@@ -34,7 +34,7 @@ abstract class TestCase extends BaseTestCase
         // Create a test tenant with a consistent name
         $tenant = Tenant::create(['name' => 'bluetest']);
         $tenant->makeCurrent();
-        
+
         // Run tenant migrations
         $this->artisan('tenants:artisan', [
             'artisanCommand' => 'migrate',
