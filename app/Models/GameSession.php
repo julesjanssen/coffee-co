@@ -318,6 +318,11 @@ class GameSession extends Model
         return $this->status->is(Status::PENDING);
     }
 
+    public function isClosed()
+    {
+        return $this->status->is(Status::CLOSED);
+    }
+
     public function close()
     {
         $this->update([

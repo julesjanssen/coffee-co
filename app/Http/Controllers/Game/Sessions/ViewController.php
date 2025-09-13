@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ViewController
 {
@@ -41,6 +42,10 @@ class ViewController
     public function store(Request $request, string $session)
     {
         $session = $this->getSessionFromPublicID($session);
+
+        if ($session->isClosed()) {
+            throw new BadRequestHttpException;
+        }
 
         if ($request->input('role') === 'facilitator') {
             return $this->handleFacilitatorLogin($request, $session);
